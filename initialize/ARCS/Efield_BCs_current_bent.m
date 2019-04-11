@@ -104,8 +104,8 @@ Jpk=20e-6;
 mlonsig=5;
 %mlatsig=0.15;
 mlatsig=0.15/2;
-displace=3*mlatsig;
-mlatctr=mlatmean+displace*tanh((MLON-mlonmean)/(mlonsig/10));
+displace=mlatsig;
+mlatctr=mlatmean+displace*tanh((MLON-mlonmean)/(mlonsig/5));
 for it=1:lt
     %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
     Vminx1it(:,:,it)=zeros(llon,llat);

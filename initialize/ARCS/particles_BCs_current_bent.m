@@ -100,8 +100,8 @@ mlonsig=5;
 %mlatsig=0.15;
 mlatsig=0.15/2;
 
-displace=3*mlatsig;
-mlatctr=mlatmean+displace*tanh((MLON-mlonmean)/(mlonsig/10));
+displace=mlatsig;
+mlatctr=mlatmean+displace*tanh((MLON-mlonmean)/(mlonsig/5));
 
 Qpk=25;
 E0pk=2e3;
