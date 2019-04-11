@@ -27,6 +27,6 @@ if (~exist('xg'))
 end
 
 
-eqdir='/Volumes/SDHCcard/Perkins_eq/';
+eqdir=[geminiscripts_root,filesep,'../simulations/Perkins_eq/'];
 simID='Perkins';
 [nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);

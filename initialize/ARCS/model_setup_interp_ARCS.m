@@ -9,7 +9,7 @@ addpath([gemini_root, filesep, 'vis'])
 xdist=2000e3;    %eastward distance
 %ydist=500e3;    %northward distance
 ydist=250e3;
-lxp=128;
+lxp=256;
 lyp=288;
 glat=67.11;
 glon=212.95;

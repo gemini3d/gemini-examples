@@ -104,7 +104,7 @@ Jpk=20e-6;
 mlonsig=5;
 %mlatsig=0.15;
 mlatsig=0.15/2;
-displace=mlatsig;
+displace=mlatsig/2;
 mlatctr=mlatmean+displace*tanh((MLON-mlonmean)/(mlonsig/5));
 for it=1:lt
     %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
