@@ -4,11 +4,11 @@ addpath([gemini_root, filesep, 'script_utils'])
 
 %REFERENCE GRID TO USE
 direcconfig='./'
-direcgrid=['/Volumes/SDHCcard/input/Perkins/']
+direcgrid=[gemini_root,filesep,'../simulations/input/Perkins/']
 
 
 %OUTPUT FILE LOCATION
-outdir=['/Volumes/SDHCcard/input/Perkins_fields/']
+outdir=[gemini_root,filesep,'../simulations/input/Perkins_fields/']
 mkdir(outdir);
 
 
@@ -94,7 +94,7 @@ t=datenum(expdate);
 E2it=zeros(llon,llat,lt);
 E3it=zeros(llon,llat,lt);
 for it=1:lt
-  E2it(:,:,it)=10e-3*ones(llon,llat);   %V/m, in the x2 direction
+  E2it(:,:,it)=0*ones(llon,llat);   %V/m, in the x2 direction
   E3it(:,:,it)=10e-3*ones(llon,llat);   %x3 direction
 end
 
