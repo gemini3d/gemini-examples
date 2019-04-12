@@ -8,7 +8,7 @@ direcgrid=['/Volumes/SDHCcard/input/Perkins/']
 
 
 %OUTPUT FILE LOCATION
-outdir=['/Volumes/SDHCcard/input/Perkins_fields/';]
+outdir=['/Volumes/SDHCcard/input/Perkins_fields/']
 mkdir(outdir);
 
 
@@ -24,6 +24,7 @@ if (~exist('xg','var'))
   %WE ALSO NEED TO LOAD THE GRID FILE
   xg=readgrid([direcgrid,'/']);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
+  x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
   fprintf('Grid loaded.\n');
 end
 
@@ -31,22 +32,24 @@ end
 %CREATE A 'DATASET' OF ELECTRIC FIELD INFO
 llon=100;
 llat=100;
-%if (xg.lx(2)==1)    %this is cartesian-specific code
-%    llon=1;
-%elseif (xg.lx(3)==1)
-%    llat=1;
-%end
-if (xg.lx(2)==1)    %this is cartesian-specific code
+if (xg.lx(2)==1)    %this is curvilinear-specific code
     llat=1;
 elseif (xg.lx(3)==1)
     llon=1;
 end
-thetamin=min(xg.theta(:));
-thetamax=max(xg.theta(:));
+
+
+%FIND THE LX1 VALUE OF THE F-REGION IN THE MIDDLE OF THE GRID
+ix2=floor(lx2/2); ix3=floor(lx3/2);
+[~,ix1]=min(abs(xg.alt(:,ix2,ix3)-300e3));
+altlev=squeeze(xg.alt(ix1,:,ix3));
+
+thetamin=min(min(squeeze(xg.theta(ix1,:,:))));
+thetamax=max(max(squeeze(xg.theta(ix1,:,:))));
 mlatmin=90-thetamax*180/pi;
 mlatmax=90-thetamin*180/pi;
-mlonmin=min(xg.phi(:))*180/pi;
-mlonmax=max(xg.phi(:))*180/pi;
+mlonmin=min(min(squeeze(xg.phi(ix1,:,:))))*180/pi;
+mlonmax=max(max(squeeze(xg.phi(ix1,:,:))))*180/pi;
 latbuf=1/100*(mlatmax-mlatmin);
 lonbuf=1/100*(mlonmax-mlonmin);
 mlat=linspace(mlatmin-latbuf,mlatmax+latbuf,llat);
@@ -71,15 +74,18 @@ mlatmean=mean(mlat);
 %TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
 tmin=0;
 tmax=tdur;
-lt=tdur+1;
-time=linspace(tmin,tmax,lt)';
+%lt=60;
+%time=linspace(tmin,tmax,lt)';
+dtfield=60;
+time=tmin:dtfield:tmax;
+lt=numel(time);
 
 
 %SET UP TIME VARIABLES
 ymd=ymd0;
 UTsec=UTsec0+time;     %time given in file is the seconds from beginning of hour
 UThrs=UTsec/3600;
-expdate=cat(2,repmat(ymd,[lt,1]),UThrs,zeros(lt,1),zeros(lt,1));
+expdate=cat(2,repmat(ymd,[lt,1]),UThrs(:),zeros(lt,1),zeros(lt,1));
 t=datenum(expdate);
 
 
@@ -148,5 +154,5 @@ end
 
 
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
-save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');
+save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','E2it','E3it','Vminx*','Vmax*','expdate');
 
