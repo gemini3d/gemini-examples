@@ -28,8 +28,8 @@ end
 
 
 %CREATE A 'DATASET' OF ELECTRIC FIELD INFO
-llon=100;
-llat=100;
+llon=256;
+llat=256;
 if (xg.lx(2)==1)    %this is cartesian-specific code
     llon=1;
 elseif (xg.lx(3)==1)

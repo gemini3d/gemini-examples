@@ -28,8 +28,8 @@ end
 
 
 %CREATE A 'DATASET' OF ELECTRIC FIELD INFO
-llon=100;
-llat=100;
+llon=256;
+llat=256;
 if (xg.lx(2)==1)    %this is cartesian-specific code
     llon=1;
 elseif (xg.lx(3)==1)
@@ -104,8 +104,8 @@ Jpk=20e-6;
 mlonsig=5;
 %mlatsig=0.15;
 mlatsig=0.15/2;
-displace=2*mlatsig;
-mlatctr=mlatmean+displace*tanh((MLON-mlonmean)/(mlonsig*5));
+displace=10*mlatsig;
+mlatctr=mlatmean+displace*tanh((MLON-mlonmean)/(mlonsig));
 for it=1:lt
     %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
     Vminx1it(:,:,it)=zeros(llon,llat);
