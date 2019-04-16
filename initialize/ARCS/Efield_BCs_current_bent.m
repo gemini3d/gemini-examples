@@ -82,8 +82,8 @@ Exit=zeros(llon,llat,lt);
 Eyit=zeros(llon,llat,lt);
 for it=1:lt
   Exit(:,:,it)=zeros(llon,llat);   %V/m
-  Eyit(:,:,it)=zeros(llon,llat);
-%  Eyit(:,:,it)=25e-3*ones(llon,llat);
+%  Eyit(:,:,it)=zeros(llon,llat);
+  Eyit(:,:,it)=25e-3*ones(llon,llat);
 end
 
 
@@ -99,7 +99,7 @@ Vmaxx3ist=zeros(llon,lt);
 
 
 %ARCS example
-Jpk=20e-6;
+Jpk=30e-6;
 %mlonsig=10;
 mlonsig=5;
 %mlatsig=0.15;

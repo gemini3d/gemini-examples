@@ -20,7 +20,8 @@ addpath ~/articles/ISINGLASS/AGU2017/restore_idl/;
 
 
 %MINIMUM ALLOWABLE CHARACTERISTIC ENERGY
-minE0=3;    %keV
+minE0=2;    %keV
+maxE0=15;   
 
 
 %CREATE SOME SPACE FOR OUTPUT FILES
@@ -35,7 +36,7 @@ if (~exist('Qdat','var'))
     datapath='~/articles/clayton/';
     %fname='isinglass_eflux_asi_highres.sav';
     %fname='isinglass_eflux_asi_full.sav';
-    fname='isinglass_eflux_MB.sav';
+    fname='isinglass_eflux_MB-2.sav';
     outargs=restore_idl([datapath,fname]);
     time=double(outargs.NEW_TIME);
 %    time = [0:3598.8/11922:3598.8]';    %Rob's fix for the time variable...
@@ -52,12 +53,13 @@ if (~exist('Qdat','var'))
 
     %floor E0 at 1keV
     E0dat=max(E0dat,minE0);
+    E0dat=min(E0dat,maxE0);
 
     firstrun=1; 
     datadate=[2017*ones(lt,1),03*ones(lt,1),02*ones(lt,1),time(:)/3600,zeros(lt,1),zeros(lt,1)];     %define a date structure for the input data
  
-%    load('isinglass_clayton_grid.mat')
-%    clear glon glat
+    load([datapath,'isinglass_clayton_grid.mat']);
+    clear glon glat
     
     %GEOGRAPHIC AND POSITIONS OF DATA - SORT ACCORDING TO LONGITUDE, ETC.
 %    glat=lat;
@@ -83,11 +85,6 @@ if (~exist('Qdat','var'))
             phidat(ilon,ilat)=phitmp;
         end
     end
-
-
-    %COMPUTE MAGNETIC LATITUDE AND LONGITUDE OF DATA
-    mlat=90-thetadat*180/pi;
-    mlon=phidat*180/pi;
 end
 
 
@@ -532,5 +529,4 @@ save('-v7.3',[outdir,'particles.mat'],'glon','glat','mlon','mlat','Qit','E0it','
 
 
 %RESTORE PATH
-rmpath(['./restore_idl']);
 rmpath ./script_utils;

@@ -82,8 +82,8 @@ Exit=zeros(llon,llat,lt);
 Eyit=zeros(llon,llat,lt);
 for it=1:lt
   Exit(:,:,it)=zeros(llon,llat);   %V/m
-  Eyit(:,:,it)=zeros(llon,llat);
-%  Eyit(:,:,it)=25e-3*ones(llon,llat);
+%  Eyit(:,:,it)=zeros(llon,llat);
+  Eyit(:,:,it)=25e-3*ones(llon,llat);
 end
 
 
@@ -103,7 +103,7 @@ Vmaxx3ist=zeros(llon,lt);
 %pk=Etarg*sigx2.*xg.h2(lx1,floor(lx2/2),1).*sqrt(pi)./2;
 %x2ctr=1/2*(xg.x2(lx2)+xg.x2(1));
 %Jpk=20e-6;
-Jpk=15e-6;
+Jpk=30e-6;
 %mlonsig=10;
 mlonsig=5;
 %mlatsig=0.15;
