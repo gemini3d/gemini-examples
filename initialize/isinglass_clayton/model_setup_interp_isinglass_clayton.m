@@ -16,8 +16,8 @@ xdist=260e3;    %eastward distance
 %xdist=280e3;
 ydist=145e3;    %northward distance
 %ydist=155e3;
-lxp=256;
-lyp=256;
+lxp=128;
+lyp=128;
 [glat,glon]=geomag2geog(thetactr,phictr)
 %glat=67.11;
 %glon=212.95;
@@ -52,7 +52,8 @@ direc=ID;
 
 
 %% LOAD THE FRAME
-[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend,UTsec0,ymd0, mloc,xgin);
+%[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend,UTsec0,ymd0, mloc,xgin);
+[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(direc,ymdend,UTsecend,ymd0,UTsec0,tdur,dtout,flagoutput,mloc,xgin);
 lsp=size(ns,4);
 
 
@@ -93,7 +94,7 @@ end
 
 
 %WRITE OUT THE GRID
-outdir='~/zettergmdata/simulations/input/isinglass_clayton/'
+outdir='~/zettergmdata/simulations/input/isinglass_clayton_lowres/'
 writegrid(xg,outdir);
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
