@@ -6,6 +6,8 @@ addpath([gemini_root, filesep, 'vis'])
 %READ IN THE SIMULATION INFORMATION
 ID=[gemini_root,'/../simulations/input/KHI_Andres/'];
 xg=readgrid(ID);
+x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
+lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
@@ -85,6 +87,20 @@ for isp=1:lsp
                           amplitude.*ns(:,ix2,:,isp);     %add some noise to seed instability
   end
 end
+
+
+%NOW WE NEED TO WIPE OUT THE E-REGION TO GET RID OF DAMPING
+x1ref=150e3;     %where to start tapering down the density
+dx1=10e3;
+taper=1/2+1/2*tanh((x1-x1ref)/dx1);
+for isp=1:lsp
+   for ix3=1:lx3
+       for ix2=1:lx2
+           nsperturb(:,ix2,ix3,isp)=1e6+nsperturb(:,ix2,ix3,isp).*taper;
+       end
+   end
+end
+nsperturb(:,:,:,lsp)=sum(nsperturb,4);
 
 
 %WRITE OUT THE RESULTS TO A NEW FILE

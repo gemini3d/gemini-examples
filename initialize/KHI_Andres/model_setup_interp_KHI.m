@@ -7,10 +7,10 @@ addpath([gemini_root, filesep, 'vis'])
 
 
 %RISR PERIODIC KHI RUN
-xdist=170e3;
-ydist=85e3;
-lxp=512;
-lyp=384;
+xdist=239.0625e3;
+ydist=159.375e3;
+lxp=720;
+lyp=720;
 glat=75.6975;
 glon=360.0-94.8322;
 gridflag=0;
