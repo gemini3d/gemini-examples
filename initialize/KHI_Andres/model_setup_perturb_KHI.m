@@ -69,8 +69,11 @@ end
 %voffset=100d0;
 
 %Game the variables to get us a correct density value...
-v0=350;
-vn=350;
+%v0=350;
+%vn=350;
+%voffset=100;
+v0=500;
+vn=500;
 voffset=100;
 
 sigx2=1000e0;
@@ -100,7 +103,7 @@ for isp=1:lsp
        end
    end
 end
-nsperturb(:,:,:,lsp)=sum(nsperturb,4);
+nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);
 
 
 %WRITE OUT THE RESULTS TO A NEW FILE
