@@ -82,8 +82,8 @@ Exit=zeros(llon,llat,lt);
 Eyit=zeros(llon,llat,lt);
 for it=1:lt
   Exit(:,:,it)=zeros(llon,llat);   %V/m
-%  Eyit(:,:,it)=zeros(llon,llat);
-  Eyit(:,:,it)=25e-3*ones(llon,llat);
+  Eyit(:,:,it)=zeros(llon,llat);
+%  Eyit(:,:,it)=25e-3*ones(llon,llat);
 end
 
 

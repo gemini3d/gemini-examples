@@ -27,7 +27,7 @@ if (~exist('xg'))
   xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 %}
-eqdir=['~/SDHCcard/Perkins_bridge/'];
+eqdir=[gemini_root,'/../simulations/Perkins_bridge/'];
 if (~exist('xg'))
     xg=readgrid([eqdir,'inputs/']);
 end
@@ -41,4 +41,15 @@ simID='Perkins';
 
 
 %NOW ADD SOME NOISE TO SEED PERKINS INSTABILITY
+nsi=nsi+0.05*nsi.*randn(size(nsi));
+nsi=max(nsi,1e8);
 
+
+%WRITE OUT THE RESULTS TO A NEW FILE
+outdir=[gemini_root,'/../simulations/input/Perkins'];
+writegrid(xg,outdir);
+%dmy=[simdate(3),simdate(2),simdate(1)];
+dmy=[2,2,2002];     %isn't used by GEMINI anyway...
+%UTsec=simdate(4)*3600;
+UTsec=1;
+writedata(dmy,UTsec,nsi,vs1i,Tsi,outdir,[simID,'_perturb']);
