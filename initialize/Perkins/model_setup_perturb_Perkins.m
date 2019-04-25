@@ -40,8 +40,19 @@ simID='Perkins';
 [nsi,vs1i,Tsi,xg,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
 
 
+%FORCE A LONGITUDINAL CONSTANCY TO THE PARAMETERS (SINCE USING PERIODIC DOMAIN)
+nsislice=nsi(:,:,floor(xg.lx(3)/2),:);
+Tsislice=Tsi(:,:,floor(xg.lx(3)/2),:);
+vs1islice=vs1i(:,:,floor(xg.lx(3)/2),:);
+for ix3=1:xg.lx(3)
+  nsi(:,:,ix3,:)=nsislice;
+  Tsi(:,:,ix3,:)=Tsislice;
+  vs1i(:,:,ix3,:)=vs1islice;
+end
+
+
 %NOW ADD SOME NOISE TO SEED PERKINS INSTABILITY
-nsi=nsi+0.05*nsi.*randn(size(nsi));
+nsi=nsi+0.1*nsi.*randn(size(nsi));
 nsi=max(nsi,1e8);
 
 
