@@ -1,6 +1,6 @@
 cwd = fileparts(mfilename('fullpath'));
 gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
+addpath([gemini_root, filesep, 'script_utils']);
 
 %REFERENCE GRID TO USE
 direcconfig='./'
