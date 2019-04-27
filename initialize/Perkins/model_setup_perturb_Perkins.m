@@ -39,6 +39,7 @@ end
 %eqdir=[geminiscripts_root,filesep,'../simulations/Perkins_bridge/'];
 simID='Perkins';
 [nsi,vs1i,Tsi,xg,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
+lsp=size(nsi,4);
 
 
 %FORCE A LONGITUDINAL CONSTANCY TO THE PARAMETERS (SINCE USING PERIODIC DOMAIN)
@@ -58,13 +59,14 @@ end
 
 %%NOISE; ADD AS AN ADJUSTMENT TO DENSITY PROFILE
 for isp=1:lsp
+  noise=randn(1);
   for ix3=1:lx3
     for ix2=1:lx2
-      ns(:,ix2,ix3,isp)=nsi(:,ix2,ix3,isp)+0.1*nsi(:,ix2,ix3,isp).*randn(1);
-      nsi=max(nsi,1e8);
+      ns(:,ix2,ix3,isp)=nsi(:,ix2,ix3,isp)+0.1*nsi(:,ix2,ix3,isp).*noise;
     end
   end
 end
+nsi=max(nsi,1e8);
 nsi(:,:,:,7)=sum(nsi(:,:,:,1:6),4);
 
 
