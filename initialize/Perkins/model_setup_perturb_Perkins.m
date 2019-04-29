@@ -58,14 +58,14 @@ end
 %nsi=max(nsi,1e8);
 
 %%NOISE; ADD AS AN ADJUSTMENT TO DENSITY PROFILE
-for isp=1:lsp
-  noise=randn(1);
   for ix3=1:lx3
     for ix2=1:lx2
-      ns(:,ix2,ix3,isp)=nsi(:,ix2,ix3,isp)+0.1*nsi(:,ix2,ix3,isp).*noise;
+      noise=randn(1);
+      for isp=1:lsp
+        nsi(:,ix2,ix3,isp)=nsi(:,ix2,ix3,isp)+0.1*nsi(:,ix2,ix3,isp).*noise;
+      end
     end
   end
-end
 nsi=max(nsi,1e8);
 nsi(:,:,:,7)=sum(nsi(:,:,:,1:6),4);
 
