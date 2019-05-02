@@ -10,10 +10,12 @@ addpath([geminiscripts_root,filesep,'setup/gridgen']);
 
 %MOORE, OK GRID (FULL)
 dtheta=20;
-dphi=27.5;
+dphi=10;
 lp=350;
-lq=384;
-lphi=192;
+%lq=384;
+lq=256;
+%lphi=192;
+lphi=96;
 altmin=80e3;
 glat=39;
 glon=262.51;
@@ -21,24 +23,26 @@ gridflag=0;
 
 
 %MATLAB GRID GENERATION
-%{
+
 if (~exist('xg'))
   %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
   xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
-%}
-eqdir=[gemini_root,'/../simulations/Perkins_bridge/'];
+
+eqdir=[gemini_root,'/../simulations/Perkins_bridge_vn/'];
+%{
 if (~exist('xg'))
     xg=readgrid([eqdir,'inputs/']);
-    lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 end
+%}
 
+lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %INTERPOLATE ONTO THE NEW GRID
 %eqdir=[geminiscripts_root,filesep,'../simulations/Perkins_bridge/'];
 simID='Perkins';
-[nsi,vs1i,Tsi,xg,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
 lsp=size(nsi,4);
 
 
@@ -58,15 +62,18 @@ end
 %nsi=max(nsi,1e8);
 
 %%NOISE; ADD AS AN ADJUSTMENT TO DENSITY PROFILE
+
+%{
   for ix3=1:lx3
-    for ix2=1:lx2
+    for ix2=5:lx2
       noise=randn(1);
       for isp=1:lsp
-        nsi(:,ix2,ix3,isp)=nsi(:,ix2,ix3,isp)+0.1*nsi(:,ix2,ix3,isp).*noise;
+        nsi(:,ix2,ix3,isp)=nsi(:,ix2,ix3,isp)+0.001*nsi(:,ix2,ix3,isp).*noise;
       end
     end
   end
-nsi=max(nsi,1e8);
+%}
+nsi=max(nsi,1e7);
 nsi(:,:,:,7)=sum(nsi(:,:,:,1:6),4);
 
 
