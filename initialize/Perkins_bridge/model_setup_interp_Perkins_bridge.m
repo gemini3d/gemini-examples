@@ -10,10 +10,10 @@ addpath([geminiscripts_root,filesep,'setup/gridgen']);
 
 %MOORE, OK GRID (FULL)
 dtheta=20;
-dphi=27.5;
-lp=350;
-lq=384;
-lphi=192;
+dphi=10;
+lp=512;
+lq=256;
+lphi=96;
 altmin=80e3;
 glat=39;
 glon=262.51;
@@ -28,5 +28,6 @@ end
 
 
 eqdir=[geminiscripts_root,filesep,'../simulations/Perkins_eq/'];
-simID='Perkins';
+simID='Perkins_bridge';
 [nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
+

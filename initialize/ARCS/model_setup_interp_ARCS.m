@@ -8,11 +8,12 @@ addpath([gemini_root, filesep, 'vis'])
 %PFISR-CENTERED GRID (CARTESIAN)
 xdist=2000e3;    %eastward distance
 %ydist=500e3;    %northward distance
-ydist=250e3;
+%ydist=250e3;
+ydist=400e3;
 lxp=256;
 lyp=288;
-glat=67.11;
-glon=212.95;
+glat=65.8;
+glon=207.7;
 gridflag=0;
 I=90;
 
