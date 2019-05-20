@@ -8,10 +8,10 @@ addpath([gemini_root, filesep, 'setup'])
 %EXAMPLE FOR KRISTINA MIDEX MISSION
 %xdist=750e3;    %eastward distance
 %ydist=200e3;    %northward distance
-xdist=3000e3;
+xdist=4000e3;
 ydist=1000e3;
-lxp=20;
-lyp=20;
+lxp=25;
+lyp=25;
 glat=67.11;
 glon=212.95;
 gridflag=0;
