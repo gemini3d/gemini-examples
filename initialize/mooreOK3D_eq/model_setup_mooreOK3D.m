@@ -6,21 +6,23 @@ addpath([gemini_root, filesep, 'setup'])
 addpath([cwd,filesep,'../../setup/gridgen']);
 
 
-%MOORE, OK GRID (FULL)
+%MOORE, OK GRID (FULL), INTERHEMISPHERIC
 dtheta=25;
 dphi=35;
 lp=125;
-lq=200;
+lq=425;
 lphi=40;
 altmin=80e3;
 glat=39;
 glon=262.51;
-gridflag=0;
+%gridflag=0;
+gridflag=1;
 
 
 %MATLAB GRID GENERATION
 %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+%xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+xg=makegrid_tilteddipole_varx2_oneside_3D_eq(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
