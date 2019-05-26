@@ -101,7 +101,7 @@ Vmaxx3ist=zeros(llon,lt);
 %ARCS example
 Jpk=30e-6;
 %mlonsig=10;
-mlonsig=5;
+mlonsig=10;
 %mlatsig=0.15;
 mlatsig=0.15/2;
 displace=mlatsig/2;

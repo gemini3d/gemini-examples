@@ -95,8 +95,8 @@ t=datenum(expdate);
 Qit=zeros(llon,llat,lt);
 E0it=zeros(llon,llat,lt);
 
-%mlonsig=10;
-mlonsig=5;
+mlonsig=10;
+%mlonsig=5;
 %mlatsig=0.15;
 mlatsig=0.15/2;
 
