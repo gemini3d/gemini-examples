@@ -2,6 +2,7 @@ cwd = fileparts(mfilename('fullpath'));
 gemini_root = [cwd, filesep, '../../../GEMINI'];
 addpath([gemini_root, filesep, 'script_utils'])
 addpath([gemini_root, filesep, 'setup/gridgen'])
+addpath([gemini_root, filesep, '../GEMINI-scripts/setup/gridgen'])
 addpath([gemini_root, filesep, 'setup'])
 addpath([cwd,filesep,'../../setup/gridgen']);
 
@@ -11,7 +12,7 @@ dtheta=25;
 dphi=35;
 lp=125;
 lq=425;
-lphi=40;
+lphi=48;
 altmin=80e3;
 glat=39;
 glon=262.51;
@@ -21,8 +22,8 @@ gridflag=1;
 
 %MATLAB GRID GENERATION
 %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-%xg=makegrid_tilteddipole_varx2_oneside_3D_eq(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+%xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+xg=makegrid_tilteddipole_varx2_3D_eq(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
@@ -38,8 +39,8 @@ nme=2e11;
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS
-outdir = [gemini_root, filesep, '../simulations/input/mooreOK3D_eq/'];
-simlabel='mooreOK3D_eq';
+outdir = [gemini_root, filesep, '../simulations/input/mooreOK3D_hemis_eq/'];
+simlabel='mooreOK3D_hemis_eq';
 writegrid(xg,outdir);
 time=UT*3600;   %doesn't matter for input files
 writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);

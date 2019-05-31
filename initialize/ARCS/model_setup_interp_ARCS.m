@@ -31,7 +31,7 @@ simid='ARCS'
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
-ID=[gemini_root,'/../simulations/ARCS_large_eq/'];
+ID=[gemini_root,'/../simulations/ARCS_eq/'];
 
 
 %READ IN THE SIMULATION INFORMATION

@@ -16,7 +16,7 @@ dphi=27.5;
 %lphi=288;
 lp=256;
 lq=256;
-lphi=96;
+lphi=192;
 altmin=80e3;
 glat=39;
 glon=262.51;
@@ -44,7 +44,7 @@ ha=plotgrid(xg,flagsource,sourcelat,sourcelong,neugridtype,zmin,zmax,rhomax);
 
 
 %SAVE THE GRID DATA
-eqdir='../../../simulations/mooreOK3D_eq/';
-simID='mooreOK3D_medres';
+eqdir='../../../simulations/mooreOK3D_hemis_eq/';
+simID='mooreOK3D_hemis_medres';
 [nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
 
