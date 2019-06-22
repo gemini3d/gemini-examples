@@ -82,7 +82,7 @@ t=datenum(expdate);
 Exit=zeros(llon,llat,lt);
 Eyit=zeros(llon,llat,lt);
 for it=1:lt
-  Exit(:,:,it)=-25e-3*ones(llon,llat);   %V/m
+  Exit(:,:,it)=50e-3*ones(llon,llat);   %V/m
   Eyit(:,:,it)=zeros(llon,llat);
 end
 
