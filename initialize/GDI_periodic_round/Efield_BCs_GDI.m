@@ -4,11 +4,11 @@ addpath([gemini_root, filesep, 'script_utils'])
 
 %REFERENCE GRID TO USE
 direcconfig='./'
-direcgrid=[gemini_root,'/../simulations/input/GDI_periodic_medres_fileinput/']
+direcgrid=[gemini_root,'/../simulations/input/GDI_periodic_round/']
 
 
 %OUTPUT FILE LOCATION
-outdir=[gemini_root,'/../simulations/input/GDI_medres_fields/';]
+outdir=[gemini_root,'/../simulations/input/GDI_medres_round_fields/';]
 mkdir(outdir);
 
 
@@ -82,8 +82,8 @@ t=datenum(expdate);
 Exit=zeros(llon,llat,lt);
 Eyit=zeros(llon,llat,lt);
 for it=1:lt
-  Exit(:,:,it)=zeros(llon,llat);   %V/m
-  Eyit(:,:,it)=-25e-3*ones(llon,llat);
+  Exit(:,:,it)=-25e-3*ones(llon,llat);   %V/m
+  Eyit(:,:,it)=zeros(llon,llat);
 end
 
 

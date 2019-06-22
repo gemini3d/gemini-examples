@@ -9,8 +9,8 @@ addpath([gemini_root, filesep, 'vis'])
 %RISR PERIODIC GDI RUN (HIGHRES)
 xdist=200e3;
 ydist=200e3;
-lxp=576;
-lyp=576;
+lxp=128;
+lyp=128;
 glat=75.6975;
 glon=360.0-94.8322;
 gridflag=0;
@@ -27,7 +27,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='GDI_periodic_medres_fileinput'
+simid='GDI_periodic_round'
 
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
@@ -87,7 +87,7 @@ end
 
 
 %WRITE OUT THE GRID
-outdir=[gemini_root,'/../simulations/input/GDI_periodic_medres_fileinput/']
+outdir=[gemini_root,'/../simulations/input/GDI_periodic_round/']
 writegrid(xg,outdir);    %just put it in pwd for now
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
