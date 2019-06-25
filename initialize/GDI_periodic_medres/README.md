@@ -1,6 +1,6 @@
 # The GDI_periodic_medres example
 
-This example shows an application of the GEMINI model to simulate gradient-drift instability in the 3D box.  The y-direction (x3) is take to be periodic so as to accommodate a density patch that is elongated in that direction.  
+This example shows an application of the GEMINI model to simulate gradient-drift instability in the 3D box.  The y-direction (x3) is taken to be periodic so as to accommodate a density patch that is elongated in that direction.  
 
 ## Running this example
 
@@ -23,8 +23,17 @@ The model_setup_perturb.m script show an example of how to complete this step, w
 
 ### 4)  Create boundary conditions
 
-GEMINI also requires boundary conditions on the electric field and particle precipitation.  In this simulation we are attempting to describe the polar cap and we do not specify the precipitation input at all in the config.ini, in which case the model will set it to some very small value (possibly zero).  A background electric field is required for GDI to grow and this is set in the "Efield_BCs.m" script.  The background field x and y components are set in the script as well as the potential boundary condition, which is taken to be zero current in order to allow the instability to not short through the magnetosphere.  
+GEMINI also requires boundary conditions on the electric field and particle precipitation.  In this simulation we are attempting to describe the polar cap and we do not specify the precipitation input at all in the config.ini, in which case the model will set it to some very small value (possibly zero - see source code for details).  A background electric field is required for GDI to grow and this is set in the "Efield_BCs.m" script.  The background field x and y components are set in the script as well as the potential boundary condition, which is taken to be zero current in order to allow the instability to not short through the magnetosphere.  
 
 ### 5)  Update the config.ini to work with your filesystem
 
-The config.ini file must contain the full path to your simulation grid and your initial conditions.  
+The config.ini file must contain the full path to your simulation grid and your initial conditions.  It must also contain the path (directory) where the electric field input files are kept (and the precipitation files too, which aren't used here. 
+
+### 6) Run the simulation
+
+Our HPC uses the pbs queuing system; this particular run works reasonably well with 256 cores.  The basic mpirun command is:  
+
+mpirun -np 256 ./gemini.bin <path>/GDI_periodic_medres/config.ini <path>/<outputdirectory>/ 16 16 
+
+The latter two command line inputs are the size of the process grid, e.g. in this case the the 256 cores are divided into a set of 16x16 subdomains.  These are optional and you can leave them out if you want to code to try to decide on a process grid.  The algorithm for doing this is quite simple and may fail so it is always best to specify the process grid manually.  
+ 
