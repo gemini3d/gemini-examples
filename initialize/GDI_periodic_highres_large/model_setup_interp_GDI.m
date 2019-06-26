@@ -9,8 +9,8 @@ addpath([gemini_root, filesep, 'vis'])
 %RISR PERIODIC GDI RUN (HIGHRES)
 xdist=307.2e3;
 ydist=200e3;
-lxp=1536;
-lyp=1056;
+lxp=1540;      %divides 20 ways
+lyp=1062;      %divides 18 ways
 glat=75.6975;
 glon=360.0-94.8322;
 gridflag=0;
@@ -46,7 +46,8 @@ direc=ID;
 
 
 %LOAD THE FRAME
-[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend,UTsec0,ymd0, mloc,xgin);
+%[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend,UTsec0,ymd0, mloc,xgin);
+[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(direc,ymdend,UTsecend,ymd0,UTsec0,tdur,dtout,flagoutput,mloc,xgin);
 lsp=size(ns,4);
 rmpath ../vis/
 
