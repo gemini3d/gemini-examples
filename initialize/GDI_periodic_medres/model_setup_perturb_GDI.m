@@ -20,38 +20,41 @@ lsp=size(ns,4);
 
 
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
-scalefact=2.5;
+scalefact=2.75;
+nsscale=zeros(size(ns));
 for isp=1:lsp-1
-    ns(:,:,:,isp)=scalefact*ns(:,:,:,isp);
+    nsscale(:,:,:,isp)=scalefact*ns(:,:,:,isp);
 end %for
-ns(:,:,:,lsp)=sum(ns,4);   %enforce quasineutrality
+nsscale(:,:,:,lsp)=sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
 
 %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
 ell=1e3;          %a gradient scale length for patch/blob
-x21=-80e3;         %location on one of the patch edges
-x22=-40e3;           %other patch edge
-nepatchfact=6;     %density increase factor over background
+x21=-50e3;         %location on one of the patch edges
+x22=10e3;           %other patch edge
+nepatchfact=10;     %density increase factor over background
 
-for isp=1:lsp
+nsperturb=zeros(size(ns));
+for isp=1:lsp-1
   for ix2=1:xg.lx(2)
     amplitude=randn(xg.lx(1),1,xg.lx(3));     %AWGN - note that can result in subtractive effects on density!!!
     amplitude=0.01*amplitude;                  %amplitude standard dev. is scaled to be 1% of reference profile
     
-    nsperturb(:,ix2,:,isp)=ns(:,ix2,:,isp)+...                                             %original data
-                nepatchfact/2*ns(:,ix2,:,isp)*(1/2*tanh((x2(ix2)-x21)/ell)-1/2*tanh((x2(ix2)-x22)/ell));    %patch, note offset in the x2 index!!!!
+    nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp)+...                                             %original data
+                nepatchfact*nsscale(:,ix2,:,isp)*(1/2*tanh((x2(ix2)-x21)/ell)-1/2*tanh((x2(ix2)-x22)/ell));    %patch, note offset in the x2 index!!!!
 
     if (ix2>10 & ix2<xg.lx(2)-10)         %do not apply noise near the edge (corrupts boundary conditions)
-      nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*ns(:,ix2,:,isp);
+      nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);
     end %if
     
   end %for
 end %for
 nsperturb=max(nsperturb,1e4);             %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
+nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% KILL OFF THE E-REGION WHICH WILL DAMP THE INSTABILITY (AND USUALLY ISN'T PRESENT IN PATCHES)
-x1ref=150e3;     %where to start tapering down the density
+x1ref=150e3;     %where to start tapering down the density in altitude
 dx1=10e3;
 taper=1/2+1/2*tanh((x1-x1ref)/dx1);
 for isp=1:lsp-1
@@ -61,7 +64,7 @@ for isp=1:lsp-1
        end %for
    end %for
 end %for
-nsperturb(:,:,:,lsp)=sum(nsperturb,4);    %enforce quasineutrality
+nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
