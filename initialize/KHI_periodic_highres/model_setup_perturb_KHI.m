@@ -3,64 +3,19 @@ gemini_root = [cwd, filesep, '../../../GEMINI'];
 addpath([gemini_root, filesep, 'script_utils'])
 addpath([gemini_root, filesep, 'vis'])
 
-%READ IN THE SIMULATION INFORMATION
+%% READ IN THE SIMULATION INFORMATION
 ID='~/zettergmdata/simulations/input/KHI_periodic_highres_fileinput/';
 xg=readgrid(ID);
 
 
-%LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
+%% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 direc=ID;
 filebase='KHI_periodic_highres_fileinput';
 filename=[filebase,'_ICs.dat'];
-%[ne,v1,Ti,Te,ns,vs1,Ts,simdate]=loadframe3Dcurvnoelec(direc,filename);
 [ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
 lsp=size(ns,4);
 
-
-%DEFINE A PERTURBATION AND CHANGE THE INITIAL CONDITIONS
-%{
-%%GDI nonperiodic
-sigx2=30e3;
-meanx3=0e3;
-sigx3=30e3;
-meanx2=-30e3;
-
-for isp=1:lsp
-  for ix3=1:xg.lx(3)
-    for ix2=1:xg.lx(2)
-      amplitude=rand(xg.lx(1),1);
-      amplitude=0.1*amplitude;
-      nsperturb(:,ix2,ix3,isp)=ns(:,ix2,ix3,isp)+ ...                                           %original data
-                amplitude.*ns(:,ix2,ix3,isp)+ ...                                    %noise
-                7.5d0*ns(:,ix2,ix3,isp).*exp(-1d0*(xg.x2(2+ix2)-meanx2).^18/2d0/sigx2.^18).* ...
-                exp(-1d0*(xg.x3(2+ix3)-meanx3).^18/2d0/sigx3.^18);    %patch, note offset in the x2 index!!!!
-    end
-  end
-end
-%}
-
-
-%%GDI EXAMPLE (PERIODIC)
-%{
-sigx2=20e3;
-meanx3=0e3;
-sigx3=20e3;
-meanx2=-50e3;
-
-for isp=1:lsp
-  for ix2=1:xg.lx(2)
-    amplitude=rand(xg.lx(1),1,xg.lx(3));
-    amplitude=0.1*amplitude;
-    nsperturb(:,ix2,:,isp)=ns(:,ix2,:,isp)+...                                           %original data
-                4d0*ns(:,ix2,:,isp).*exp(-1d0*(xg.x2(2+ix2)-meanx2).^18/2d0/sigx2.^18)+...    %patch, note offset in the x2 index!!!!
-                amplitude.*ns(:,ix2,:,isp);                                    %noise
-  end
-end
-%nsperturb=max(nsperturb,1e4);
-%}
-
-%%KHI EXAMPLE
-
+%% KHI EXAMPLE PARAMETERS
 v0=500d0;
 vn=500d0;
 voffset=100d0;
@@ -70,6 +25,8 @@ meanx3=0e3;
 sigx3=20e3;
 meanx2=0e0;
 
+
+%% CREATE THE DENSITY PERTURBATIONS
 for isp=1:lsp
   for ix2=1:xg.lx(2)
     amplitude=rand(xg.lx(1),1,xg.lx(3));
@@ -80,7 +37,7 @@ for isp=1:lsp
 end
 
 
-%WRITE OUT THE RESULTS TO A NEW FILE
+%% WRITE OUT THE RESULTS TO A NEW INPUT FILE
 outdir=ID;
 dmy=[simdate(3),simdate(2),simdate(1)];
 UTsec=simdate(4)*3600;
