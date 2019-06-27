@@ -29,8 +29,8 @@ ns(:,:,:,lsp)=sum(ns,4);   %enforce quasineutrality
 
 %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
 ell=1e3;          %a gradient scale length for patch/blob
-x21=-50e3;         %location on one of the patch edges
-x22=0e3;           %other patch edge
+x21=-80e3;         %location on one of the patch edges
+x22=-40e3;           %other patch edge
 nepatchfact=6;     %density increase factor over background
 
 for isp=1:lsp
