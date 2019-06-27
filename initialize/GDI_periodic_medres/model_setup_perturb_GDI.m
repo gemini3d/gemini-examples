@@ -1,93 +1,70 @@
 cwd = fileparts(mfilename('fullpath'));
 gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'vis'])
+addpath([gemini_root, filesep, 'script_utils']);
+addpath([gemini_root, filesep, 'vis']);
 
 
-%READ IN THE SIMULATION INFORMATION
-ID=[gemini_root,'/../simulations/input/GDI_periodic_medres_fileinput/']
-xg=readgrid(ID);
+%% READ IN THE SIMULATION INFORMATION
+ID=[gemini_root,'/../simulations/input/GDI_periodic_medres/'];
+xg=readgrid([ID,'/inputs/']);
+x1=xg.x1(3:end-2);    %trim ghost cells
+x2=xg.x2(3:end-2);
 
 
-%LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
+%% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 direc=ID;
-filebase='GDI_periodic_medres_fileinput';
+filebase='GDI_periodic_medres';
 filename=[filebase,'_ICs.dat'];
-%[ne,v1,Ti,Te,ns,vs1,Ts,simdate]=loadframe3Dcurvnoelec(direc,filename);
 [ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
 lsp=size(ns,4);
 
 
-%DEFINE A PERTURBATION AND CHANGE THE INITIAL CONDITIONS
-%{
-%%GDI nonperiodic
-sigx2=30e3;
-meanx3=0e3;
-sigx3=30e3;
-meanx2=-30e3;
-
-for isp=1:lsp
-  for ix3=1:xg.lx(3)
-    for ix2=1:xg.lx(2)
-      amplitude=rand(xg.lx(1),1);
-      amplitude=0.1*amplitude;
-      nsperturb(:,ix2,ix3,isp)=ns(:,ix2,ix3,isp)+ ...                                           %original data
-                amplitude.*ns(:,ix2,ix3,isp)+ ...                                    %noise
-                7.5d0*ns(:,ix2,ix3,isp).*exp(-1d0*(xg.x2(2+ix2)-meanx2).^18/2d0/sigx2.^18).* ...
-                exp(-1d0*(xg.x3(2+ix3)-meanx3).^18/2d0/sigx3.^18);    %patch, note offset in the x2 index!!!!
-    end
-  end
-end
-%}
+%% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
+scalefact=2.5;
+for isp=1:lsp-1
+    ns(:,:,:,isp)=scalefact*ns(:,:,:,isp);
+end %for
+ns(:,:,:,lsp)=sum(ns,4);   %enforce quasineutrality
 
 
-%%GDI EXAMPLE (PERIODIC)
-
-sigx2=20e3;
-meanx3=0e3;
-sigx3=20e3;
-meanx2=-50e3;
-
-scalefact=5;
+%% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
+ell=1e3;          %a gradient scale length for patch/blob
+x21=-50e3;         %location on one of the patch edges
+x22=0e3;           %other patch edge
+nepatchfact=6;     %density increase factor over background
 
 for isp=1:lsp
   for ix2=1:xg.lx(2)
-    amplitude=rand(xg.lx(1),1,xg.lx(3));
-    amplitude=0.1*amplitude;
-    nsperturb(:,ix2,:,isp)=ns(:,ix2,:,isp)+...                                           %original data
-                8d0*ns(:,ix2,:,isp).*exp(-1d0*(xg.x2(2+ix2)-meanx2).^18/2d0/sigx2.^18);    %patch, note offset in the x2 index!!!!
-    if (ix2>10 & ix2<xg.lx(2)-10)
+    amplitude=randn(xg.lx(1),1,xg.lx(3));     %AWGN - note that can result in subtractive effects on density!!!
+    amplitude=0.01*amplitude;                  %amplitude standard dev. is scaled to be 1% of reference profile
+    
+    nsperturb(:,ix2,:,isp)=ns(:,ix2,:,isp)+...                                             %original data
+                nepatchfact/2*ns(:,ix2,:,isp)*(1/2*tanh((x2(ix2)-x21)/ell)-1/2*tanh((x2(ix2)-x22)/ell));    %patch, note offset in the x2 index!!!!
+
+    if (ix2>10 & ix2<xg.lx(2)-10)         %do not apply noise near the edge (corrupts boundary conditions)
       nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*ns(:,ix2,:,isp);
-    end                                    %noise
-    nsperturb(:,ix2,:,isp)=scalefact*nsperturb(:,ix2,:,isp);
-  end
-end
-%nsperturb=max(nsperturb,1e4);
+    end %if
+    
+  end %for
+end %for
+nsperturb=max(nsperturb,1e4);             %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
 
 
-%%KHI EXAMPLE
-%{
-v0=500d0;
-vn=500d0;
-voffset=100d0;
-
-sigx2=770e0;      %from Keskinen, 1988 growth rate formulas
-meanx3=0e3;
-sigx3=20e3;
-meanx2=0e0;
-
-for isp=1:lsp
-  for ix2=1:xg.lx(2)
-    amplitude=rand(xg.lx(1),1,xg.lx(3));
-    amplitude=0.025*amplitude;
-    nsperturb(:,ix2,:,isp)=ns(:,ix2,:,isp).*(v0+vn+voffset)./(-v0*tanh((xg.x2(2+ix2))/sigx2)+vn+voffset)+ ...
-                          amplitude.*10e0.*ns(:,ix2,:,isp);
-  end
-end
-%}
+%% KILL OFF THE E-REGION WHICH WILL DAMP THE INSTABILITY (AND USUALLY ISN'T PRESENT IN PATCHES)
+x1ref=150e3;     %where to start tapering down the density
+dx1=10e3;
+taper=1/2+1/2*tanh((x1-x1ref)/dx1);
+for isp=1:lsp-1
+   for ix3=1:xg.lx(3)
+       for ix2=1:xg.lx(2)
+           nsperturb(:,ix2,ix3,isp)=1e6+nsperturb(:,ix2,ix3,isp).*taper;
+       end %for
+   end %for
+end %for
+nsperturb(:,:,:,lsp)=sum(nsperturb,4);    %enforce quasineutrality
 
 
-%WRITE OUT THE RESULTS TO A NEW FILE
+%% WRITE OUT THE RESULTS TO A NEW FILE
 outdir=ID;
 dmy=[simdate(3),simdate(2),simdate(1)];
 UTsec=simdate(4)*3600;

@@ -3,13 +3,15 @@ gemini_root = [cwd, filesep, '../../../GEMINI'];
 addpath([gemini_root, filesep, 'script_utils'])
 
 %REFERENCE GRID TO USE
-direcconfig='./'
-direcgrid=[gemini_root,'/../simulations/input/GDI_periodic_medres/inputs/']
+%direcconfig='../initialize/KHI_periodic_highres_fileinput/'
+direcconfig='./';
+direcgrid=[gemini_root,'/../simulations/input/KHI_Andres/']
 
 
 %OUTPUT FILE LOCATION
-outdir=[gemini_root,'/../simulations/input/GDI_medres_fields/';]
+outdir=[gemini_root,'/../simulations/input/KHI_Andres_fields/'];
 mkdir(outdir);
+delete([outdir,'*'])
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
@@ -22,7 +24,7 @@ end
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
   %WE ALSO NEED TO LOAD THE GRID FILE
-  xg=readgrid([direcgrid,'/']);
+  xg=readgrid([direcgrid]);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   fprintf('Grid loaded.\n');
 end
@@ -83,7 +85,7 @@ Exit=zeros(llon,llat,lt);
 Eyit=zeros(llon,llat,lt);
 for it=1:lt
   Exit(:,:,it)=zeros(llon,llat);   %V/m
-  Eyit(:,:,it)=-25e-3*ones(llon,llat);
+  Eyit(:,:,it)=zeros(llon,llat);
 end
 
 
@@ -96,14 +98,38 @@ Vminx2ist=zeros(llat,lt);
 Vmaxx2ist=zeros(llat,lt);
 Vminx3ist=zeros(llon,lt);
 Vmaxx3ist=zeros(llon,lt);
+
+v0=1000e0;
+vn=1000e0;
+voffset=100e0;
+B1val=-50000e-9;
+sigx2=1e3;
 for it=1:lt
     %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
     Vminx1it(:,:,it)=zeros(llon,llat);
     Vmaxx1it(:,:,it)=zeros(llon,llat);
     Vminx3ist(:,it)=zeros(llon,1);
     Vmaxx3ist(:,it)=zeros(llon,1);
-    Vmaxx2ist(:,it)=zeros(llat,1);
-    Vminx2ist(:,it)=zeros(llat,1);
+
+
+    %COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
+    vel3=zeros(llon,llat);
+    for ilat=1:llat
+        vel3(:,ilat)=-v0*tanh(x2./sigx2)+vn+voffset;
+    end
+
+
+    %CONVERT TO ELECTRIC FIELD
+    E2slab=vel3*B1val;
+
+
+    %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID
+    DX2=diff(x2,1);
+    DX2=[DX2,DX2(end)];
+    DX2=repmat(DX2(:),[1,llat]);
+    Phislab=cumsum(E2slab.*DX2,1);    %use a forward difference
+    Vmaxx2ist(:,it)=squeeze(Phislab(llon,:));
+    Vminx2ist(:,it)=squeeze(Phislab(1,:));
 end
 
 
@@ -144,4 +170,5 @@ end
 
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
 save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');
+
 

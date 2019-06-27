@@ -6,11 +6,11 @@ addpath([gemini_root, filesep, 'setup'])
 addpath([gemini_root, filesep, 'vis'])
 
 
-%RISR PERIODIC GDI RUN (HIGHRES)
+%% RISR PERIODIC GDI RUN (HIGHRES)
 xdist=200e3;
 ydist=200e3;
-lxp=576;
-lyp=576;
+lxp=256;
+lyp=256;
 glat=75.6975;
 glon=360.0-94.8322;
 gridflag=0;
@@ -19,38 +19,38 @@ I=90;
 
 
 
-%RUN THE GRID GENERATION CODE
+%% RUN THE GRID GENERATION CODE
 if (~exist('xg'))
   xg=makegrid_cart_3D_lowresx1(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
-%IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
+%% IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
 simid='GDI_periodic_medres'
 
 
-%ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
+%% ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
 ID=[gemini_root,'/../simulations/RISR_eq/'];
 
 
-%READ IN THE SIMULATION INFORMATION
+%% READ IN THE SIMULATION INFORMATION
 [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs/config.ini']);
 xgin=readgrid([ID,'/inputs/']);
 direc=ID;
 
 
-%FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
+%% FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
 [ymdend,UTsecend]=dateinc(tdur,ymd0,UTsec0);
 
 
-%LOAD THE FRAME
+%% LOAD THE FRAME
 [ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts]=loadframe(direc,ymdend,UTsecend,ymd0,UTsec0,tdur,dtout,flagoutput,mloc,xgin);
 lsp=size(ns,4);
 
 
-%DO THE INTERPOLATION
+%% DO THE INTERPOLATION
 if (lx3~=1)
   fprintf('Starting interp3''s...\n');
   [X2,X1,X3]=meshgrid(xgin.x2(3:end-2),xgin.x1(3:end-2),xgin.x3(3:end-2));
@@ -86,9 +86,9 @@ else
 end
 
 
-%WRITE OUT THE GRID
+%% WRITE OUT THE GRID AND INITIAL CONDITIONS
 outdir=[gemini_root,'/../simulations/input/GDI_periodic_medres/']
-writegrid(xg,outdir);    %just put it in pwd for now
+writegrid(xg,[outdir,'/inputs/']);    %just put it in pwd for now
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
 
