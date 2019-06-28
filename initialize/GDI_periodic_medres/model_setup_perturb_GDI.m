@@ -29,10 +29,10 @@ nsscale(:,:,:,lsp)=sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
 
 %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
-ell=1e3;          %a gradient scale length for patch/blob
+ell=1e3;           %a gradient scale length for patch/blob
 x21=-80e3;         %location on one of the patch edges
-x22=-40e3;           %other patch edge
-nepatchfact=10;     %density increase factor over background
+x22=-40e3;         %other patch edge
+nepatchfact=10;    %density increase factor over background
 
 nsperturb=zeros(size(ns));
 for isp=1:lsp-1
@@ -49,7 +49,7 @@ for isp=1:lsp-1
     
   end %for
 end %for
-nsperturb=max(nsperturb,1e4);             %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
+nsperturb=max(nsperturb,1e4);                        %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
