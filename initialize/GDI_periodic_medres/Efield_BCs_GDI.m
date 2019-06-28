@@ -8,7 +8,7 @@ direcgrid=[gemini_root,'/../simulations/input/GDI_periodic_medres/inputs/']
 
 
 %OUTPUT FILE LOCATION
-outdir=[gemini_root,'/../simulations/input/GDI_medres_fields/';]
+outdir=[gemini_root,'/../simulations/input/GDI_periodic_medres_fields/';]
 mkdir(outdir);
 
 

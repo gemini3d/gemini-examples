@@ -9,7 +9,7 @@ direcgrid=[gemini_root,'/../simulations/input/KHI_periodic_medres/']
 
 
 %% OUTPUT FILE LOCATION
-outdir=[gemini_root,'/../simulations/input/KHI_Andres_fields/'];
+outdir=[gemini_root,'/../simulations/input/KHI_periodic_medres_fields/'];
 mkdir(outdir);
 delete([outdir,'*'])
 
