@@ -100,7 +100,7 @@ Vminx3ist=zeros(llon,lt);
 Vmaxx3ist=zeros(llon,lt);
 
 densfact=10;
-v0=500e0;
+v0=250e0;
 voffset=2*v0/densfact;
 
 B1val=-50000e-9;
