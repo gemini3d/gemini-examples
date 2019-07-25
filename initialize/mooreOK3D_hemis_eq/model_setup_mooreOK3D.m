@@ -26,6 +26,17 @@ gridflag=1;
 xg=makegrid_tilteddipole_varx2_3D_eq(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 
 
+%PLOT THE GRID IF DESIRED
+flagsource=1;
+sourcelat=35.3;
+sourcelong=360-97.7;
+neugridtype=0;            %1 = Cartesian neutral grid, anything else - axisymmetric
+zmin=0;
+zmax=660;
+rhomax=1800;
+ha=plotgrid(xg,flagsource,sourcelat,sourcelong,neugridtype,zmin,zmax,rhomax);
+
+
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
 UT=19.75;
 dmy=[18,5,2013];

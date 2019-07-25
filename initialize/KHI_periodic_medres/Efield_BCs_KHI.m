@@ -2,33 +2,35 @@ cwd = fileparts(mfilename('fullpath'));
 gemini_root = [cwd, filesep, '../../../GEMINI'];
 addpath([gemini_root, filesep, 'script_utils'])
 
-%REFERENCE GRID TO USE
-direcconfig='./'
-direcgrid='../../../simulations/input/2DSTEVE/'
+
+%% REFERENCE GRID TO USE
+direcconfig='./';
+direcgrid=[gemini_root,'/../simulations/input/KHI_periodic_medres/']
 
 
-%OUTPUT FILE LOCATION
-outdir='../../../simulations/input/2DSTEVE/2DSTEVE_fields/';
-mkdir([outdir]);
+%% OUTPUT FILE LOCATION
+outdir=[gemini_root,'/../simulations/input/KHI_periodic_medres_fields/'];
+mkdir(outdir);
+delete([outdir,'*'])
 
 
-%READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
+%% READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
 if (~exist('ymd0','var'))
   [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([direcconfig,'/config.ini']);
   fprintf('Input config.dat file loaded.\n');
 end
 
 
-%CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
+%% CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
   %WE ALSO NEED TO LOAD THE GRID FILE
-  xg=readgrid([direcgrid,'/']);
+  xg=readgrid([direcgrid,'/inputs/']);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   fprintf('Grid loaded.\n');
 end
 
 
-%CREATE A 'DATASET' OF ELECTRIC FIELD INFO
+%% CREATE A 'DATASET' OF ELECTRIC FIELD INFO
 llon=100;
 llat=100;
 if (xg.lx(2)==1)    %this is cartesian-specific code
@@ -51,24 +53,26 @@ mlonmean=mean(mlon);
 mlatmean=mean(mlat);
 
 
-
-%WIDTH OF THE DISTURBANCE
-%fracwidth=1/7;
-mlonsig=0.5;                             %based on Bill Archer's notes
-fracwidth=mlonsig/(mlonmax-mlonmin);
-%mlonsig=fracwidth*(mlonmax-mlonmin);
-mlatsig=fracwidth*(mlatmax-mlatmin);
-sigx2=fracwidth*(max(xg.x2)-min(xg.x2));
+%% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
+xgmlon=squeeze(xg.phi(1,:,1)*180/pi);
+x2=interp1(xgmlon,xg.x2(3:lx2+2),mlon,'linear','extrap');
 
 
-%TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
+% %WIDTH OF THE DISTURBANCE
+% fracwidth=1/7;
+% mlatsig=fracwidth*(mlatmax-mlatmin);
+% mlonsig=fracwidth*(mlonmax-mlonmin);
+% sigx2=fracwidth*(max(xg.x2)-min(xg.x2));
+
+
+%% TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
 tmin=0;
-tmax=300;
-lt=301;
+tmax=tdur;
+lt=tdur+1;
 time=linspace(tmin,tmax,lt)';
 
 
-%SET UP TIME VARIABLES
+%% SET UP TIME VARIABLES
 ymd=ymd0;
 UTsec=UTsec0+time;     %time given in file is the seconds from beginning of hour
 UThrs=UTsec/3600;
@@ -76,7 +80,7 @@ expdate=cat(2,repmat(ymd,[lt,1]),UThrs,zeros(lt,1),zeros(lt,1));
 t=datenum(expdate);
 
 
-%CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
+%% CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
 Exit=zeros(llon,llat,lt);
 Eyit=zeros(llon,llat,lt);
 for it=1:lt
@@ -85,28 +89,52 @@ for it=1:lt
 end
 
 
-%CREATE DATA FOR BOUNDARY CONDITIONS FOR POTENTIAL SOLUTION
-flagdirich=1;   %if 0 data is interpreted as FAC, else we interpret it as potential
+
+%% CREATE DATA FOR BOUNDARY CONDITIONS FOR POTENTIAL SOLUTION
+flagdirich=0;   %if 0 data is interpreted as FAC, else we interpret it as potential
 Vminx1it=zeros(llon,llat,lt);
 Vmaxx1it=zeros(llon,llat,lt);
 Vminx2ist=zeros(llat,lt);
 Vmaxx2ist=zeros(llat,lt);
 Vminx3ist=zeros(llon,lt);
 Vmaxx3ist=zeros(llon,lt);
-Etarg=190e-3;            % target E value in V/m
-pk=Etarg*sigx2.*xg.h2(lx1,floor(lx2/2),1).*sqrt(pi)./2;
-x2ctr=1/2*(xg.x2(lx2)+xg.x2(1));
+
+densfact=10;
+v0=250e0;
+voffset=2*v0/densfact;
+
+B1val=-50000e-9;
+ell=1e3;
 for it=1:lt
+    %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
     Vminx1it(:,:,it)=zeros(llon,llat);
-    Vmaxx1it(:,:,it)=pk.*erf((MLON-mlonmean)/mlonsig);%.*erf((MLAT-mlatmean)/mlatsig);
-    Vminx2ist(:,it)=zeros(llat,1);     %these are just slices
-    Vmaxx2ist(:,it)=zeros(llat,1);
+    Vmaxx1it(:,:,it)=zeros(llon,llat);
     Vminx3ist(:,it)=zeros(llon,1);
     Vmaxx3ist(:,it)=zeros(llon,1);
+
+
+    %COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
+    vel3=zeros(llon,llat);
+    for ilat=1:llat
+        vel3(:,ilat)=-v0*tanh(x2./ell)+v0+voffset;
+    end
+
+
+    %CONVERT TO ELECTRIC FIELD
+    E2slab=vel3*B1val;
+
+
+    %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID
+    DX2=diff(x2,1);
+    DX2=[DX2,DX2(end)];
+    DX2=repmat(DX2(:),[1,llat]);
+    Phislab=cumsum(E2slab.*DX2,1);    %use a forward difference
+    Vmaxx2ist(:,it)=squeeze(Phislab(llon,:));
+    Vminx2ist(:,it)=squeeze(Phislab(1,:));
 end
 
 
-%SAVE THESE DATA TO APPROPRIATE FILES - LEAVE THE SPATIAL AND TEMPORAL INTERPOLATION TO THE
+%% SAVE THESE DATA TO APPROPRIATE FILES - LEAVE THE SPATIAL AND TEMPORAL INTERPOLATION TO THE
 %FORTRAN CODE IN CASE DIFFERENT GRIDS NEED TO BE TRIED.  THE EFIELD DATA DO
 %NOT TYPICALLY NEED TO BE SMOOTHED.
 filename=[outdir,'simsize.dat'];
@@ -141,7 +169,7 @@ for it=1:lt
 end
 
 
-%ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
+%% ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
 save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');
 
 

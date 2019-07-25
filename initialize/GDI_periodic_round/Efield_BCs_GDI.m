@@ -4,12 +4,12 @@ addpath([gemini_root, filesep, 'script_utils'])
 
 %REFERENCE GRID TO USE
 direcconfig='./'
-direcgrid='../../../simulations/input/2DSTEVE/'
+direcgrid=[gemini_root,'/../simulations/input/GDI_periodic_round/']
 
 
 %OUTPUT FILE LOCATION
-outdir='../../../simulations/input/2DSTEVE/2DSTEVE_fields/';
-mkdir([outdir]);
+outdir=[gemini_root,'/../simulations/input/GDI_medres_round_fields/';]
+mkdir(outdir);
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
@@ -51,20 +51,22 @@ mlonmean=mean(mlon);
 mlatmean=mean(mlat);
 
 
+%INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
+xgmlon=squeeze(xg.phi(1,:,1)*180/pi);
+x2=interp1(xgmlon,xg.x2(3:lx2+2),mlon,'linear','extrap');
 
-%WIDTH OF THE DISTURBANCE
-%fracwidth=1/7;
-mlonsig=0.5;                             %based on Bill Archer's notes
-fracwidth=mlonsig/(mlonmax-mlonmin);
-%mlonsig=fracwidth*(mlonmax-mlonmin);
-mlatsig=fracwidth*(mlatmax-mlatmin);
-sigx2=fracwidth*(max(xg.x2)-min(xg.x2));
+
+% %WIDTH OF THE DISTURBANCE
+% fracwidth=1/7;
+% mlatsig=fracwidth*(mlatmax-mlatmin);
+% mlonsig=fracwidth*(mlonmax-mlonmin);
+% sigx2=fracwidth*(max(xg.x2)-min(xg.x2));
 
 
 %TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
 tmin=0;
-tmax=300;
-lt=301;
+tmax=tdur;
+lt=tdur+1;
 time=linspace(tmin,tmax,lt)';
 
 
@@ -80,29 +82,28 @@ t=datenum(expdate);
 Exit=zeros(llon,llat,lt);
 Eyit=zeros(llon,llat,lt);
 for it=1:lt
-  Exit(:,:,it)=zeros(llon,llat);   %V/m
+  Exit(:,:,it)=50e-3*ones(llon,llat);   %V/m
   Eyit(:,:,it)=zeros(llon,llat);
 end
 
 
+
 %CREATE DATA FOR BOUNDARY CONDITIONS FOR POTENTIAL SOLUTION
-flagdirich=1;   %if 0 data is interpreted as FAC, else we interpret it as potential
+flagdirich=0;   %if 0 data is interpreted as FAC, else we interpret it as potential
 Vminx1it=zeros(llon,llat,lt);
 Vmaxx1it=zeros(llon,llat,lt);
 Vminx2ist=zeros(llat,lt);
 Vmaxx2ist=zeros(llat,lt);
 Vminx3ist=zeros(llon,lt);
 Vmaxx3ist=zeros(llon,lt);
-Etarg=190e-3;            % target E value in V/m
-pk=Etarg*sigx2.*xg.h2(lx1,floor(lx2/2),1).*sqrt(pi)./2;
-x2ctr=1/2*(xg.x2(lx2)+xg.x2(1));
 for it=1:lt
+    %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
     Vminx1it(:,:,it)=zeros(llon,llat);
-    Vmaxx1it(:,:,it)=pk.*erf((MLON-mlonmean)/mlonsig);%.*erf((MLAT-mlatmean)/mlatsig);
-    Vminx2ist(:,it)=zeros(llat,1);     %these are just slices
-    Vmaxx2ist(:,it)=zeros(llat,1);
+    Vmaxx1it(:,:,it)=zeros(llon,llat);
     Vminx3ist(:,it)=zeros(llon,1);
     Vmaxx3ist(:,it)=zeros(llon,1);
+    Vmaxx2ist(:,it)=zeros(llat,1);
+    Vminx2ist(:,it)=zeros(llat,1);
 end
 
 
@@ -143,5 +144,4 @@ end
 
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
 save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');
-
 

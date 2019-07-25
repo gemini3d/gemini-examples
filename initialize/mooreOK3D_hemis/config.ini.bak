@@ -5,7 +5,7 @@
 124.6,138.5,6.1              !activ:  f107a,f107,Ap
 0.9                           !tcfl:  target cfl number
 1500.0                        !Teinf:  exospheric electron temperature
-0                             !potsolve:  are we solving potential?
+1                             !potsolve:  are we solving potential?
 0
 2
 0
@@ -17,7 +17,7 @@
 44.9397d0,328.7981d0
 6d0
 2d3,2d3
-../simulations/input/mooreOKx2_neutrals/
+../simulations/input/mooreOK_neutrals/
 0
 0
 0
