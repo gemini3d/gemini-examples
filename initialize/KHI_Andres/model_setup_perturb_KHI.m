@@ -72,8 +72,8 @@ end
 %v0=350;
 %vn=350;
 %voffset=100;
-v0=500;
-vn=500;
+v0=650;
+vn=650;
 voffset=100;
 
 sigx2=1000e0;
@@ -99,7 +99,7 @@ taper=1/2+1/2*tanh((x1-x1ref)/dx1);
 for isp=1:lsp
    for ix3=1:lx3
        for ix2=1:lx2
-           nsperturb(:,ix2,ix3,isp)=1e6+nsperturb(:,ix2,ix3,isp).*taper;
+           nsperturb(:,ix2,ix3,isp)=1e8+nsperturb(:,ix2,ix3,isp).*taper;
        end
    end
 end

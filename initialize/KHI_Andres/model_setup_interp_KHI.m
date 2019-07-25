@@ -7,10 +7,14 @@ addpath([gemini_root, filesep, 'vis'])
 
 
 %RISR PERIODIC KHI RUN
-xdist=239.0625e3;
-ydist=159.375e3;
-lxp=720;
-lyp=720;
+%xdist=239.0625e3;
+%ydist=159.375e3;
+%lxp=720;
+%lyp=720;
+xdist=300e3
+ydist=216e3;
+lxp=1440;    %Andres example with 1km transition width
+lyp=1080;    %Andres examples with 1km transition
 glat=75.6975;
 glon=360.0-94.8322;
 gridflag=0;
