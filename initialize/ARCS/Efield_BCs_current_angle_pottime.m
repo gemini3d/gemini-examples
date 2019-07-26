@@ -34,10 +34,13 @@ t=0;
 dtfile=10;    %can hard-code instead of using the simulation dtout
 UTsec=UTsec0;
 ymd=ymd0;
-while(t<tdur)
+it=1;
+while(t<=tdur)
   [ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop]=loadframe(direc,ymd,UTsec,ymd0,UTsec0,tdur,dtout,flagoutput,mloc,xg);
   refpotential(:,:,it)=Phitop;    %this is the FAC off of which we base our new inputs files
   [ymd,UTsec]=dateinc(dtfile,ymd,UTsec);
+  it=it+1;
+  t=t+dtfile;
 end %while
 
 
