@@ -5,10 +5,8 @@ addpath([gemini_root, filesep, 'vis']);
 
 
 direcconfig='./'
-%direcgrid=[gemini_root,filesep,'../simulations/input/ARCS/'];
+direcgrid=[gemini_root,filesep,'../simulations/input/ARCS/'];
 direc='~/zettergmdata/simulations/ARCS_angle/'
-ymd=[2017,03,02];
-UTsec=27300;
 
 
 %OUTPUT FILE LOCATION
@@ -24,34 +22,26 @@ end
 
 
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
-%if (~exist('xg','var'))
-%  xg=readgrid([direcgrid,'/']);
-%  lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
-%  fprintf('Grid loaded.\n');
-%end
+if (~exist('xg','var'))
+ xg=readgrid([direcgrid,'/']);
+ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
+ fprintf('Grid loaded.\n');
+end
 
 
 %LOAD A REFERENCE POTENTIAL FROM AN EXISTING SIMULATION THAT USED NEUMANN BOUNDARY CONDITIONS
-[ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop] = loadframe(direc,ymd,UTsec);
-refpotential=Phitop;    %this is the potential off of which we base our new inputs files
+t=0;
+dtfile=10;    %can hard-code instead of using the simulation dtout
+UTsec=UTsec0;
+ymd=ymd0;
+while(t<tdur)
+  [ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop]=loadframe(direc,ymd,UTsec,ymd0,UTsec0,tdur,dtout,flagoutput,mloc,xg);
+  refFAC(:,:,it)=squeeze(J1(end,:,:));    %this is the FAC off of which we base our new inputs files
+  [ymd,UTsec]=dateinc(dtfile,ymd,UTsec);
+end %while
 
 
 %INTERPOLATION IS DONE IN MLON AND MLAT
-
-%thetamin=min(xg.theta(:));
-%thetamax=max(xg.theta(:));
-%mlatmin=90-thetamax*180/pi;
-%mlatmax=90-thetamin*180/pi;
-%mlonmin=min(xg.phi(:))*180/pi;
-%mlonmax=max(xg.phi(:))*180/pi;
-%latbuf=1/500*(mlatmax-mlatmin);
-%lonbuf=1/500*(mlonmax-mlonmin);
-%llon=xg.lx(2);
-%llat=xg.lx(3);
-%mlat=linspace(mlatmin-latbuf,mlatmax+latbuf,llat);
-%mlon=linspace(mlonmin-lonbuf,mlonmax+lonbuf,llon);
-%[MLON,MLAT]=ndgrid(mlon,mlat);
-%
 MLAT=90-squeeze(xg.theta(1,:,:))*180/pi;
 MLON=squeeze(xg.phi(1,:,:))*180/pi;
 llon=xg.lx(2);
@@ -60,40 +50,10 @@ mlon=MLON(:,1);    %the only downside here is that it clips off the end of the B
 mlat=MLAT(1,:);
 
 
-%CREATE A 'DATASET' OF ELECTRIC FIELD INFO
-
-%llon=256;
-%llat=256;
-%if (xg.lx(2)==1)    %this is cartesian-specific code
-%    llon=1;
-%elseif (xg.lx(3)==1)
-%    llat=1;
-%end
-%thetamin=min(xg.theta(:));
-%thetamax=max(xg.theta(:));
-%mlatmin=90-thetamax*180/pi;
-%mlatmax=90-thetamin*180/pi;
-%mlonmin=min(xg.phi(:))*180/pi;
-%mlonmax=max(xg.phi(:))*180/pi;
-%latbuf=1/100*(mlatmax-mlatmin);
-%lonbuf=1/100*(mlonmax-mlonmin);
-%mlat=linspace(mlatmin-latbuf,mlatmax+latbuf,llat);
-%mlon=linspace(mlonmin-lonbuf,mlonmax+lonbuf,llon);
-%[MLON,MLAT]=ndgrid(mlon,mlat);
-%mlonmean=mean(mlon);
-%mlatmean=mean(mlat);
-
-
-
-%%INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
-%xgmlon=squeeze(xg.phi(1,:,1)*180/pi);
-%x2=interp1(xgmlon,xg.x2(3:lx2+2),mlon,'linear','extrap');
-
-
 %TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
 tmin=0;
 tmax=tdur;
-time=tmin:10:tmax;
+time=tmin:dtfile:tmax;     %needs to be at the same cadence as the data that we are reading in
 lt=numel(time);
 
 
