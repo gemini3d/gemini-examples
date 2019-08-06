@@ -102,13 +102,17 @@ mlatsig=0.15/2;
 
 Qpk=25;
 E0pk=2e3;
-QBG=2;
+%QBG=2;
+QBG=0.05;
 for it=1:lt
   shapefn=exp(-(MLON-mlonmean).^2/2/mlonsig^2).*exp(-(MLAT-mlatmean-1.5*mlatsig).^2/2/mlatsig^2);
   Qittmp=Qpk.*shapefn;
   E0it(:,:,it)=E0pk;%*ones(llon,llat);     %eV
-  inds=find(Qittmp<2);    %define a background flux (enforces a floor for production rates)
-  Qittmp(inds)=2;
+  inds=find(Qittmp<QBG);    %define a background flux (enforces a floor for production rates)
+  Qittmp(inds)=QBG;
+
+  Qittmp=QBG;
+
   Qit(:,:,it)=Qittmp;
 end
 

@@ -31,8 +31,10 @@ end
 
 
 %CREATE A 'DATASET' OF ELECTRIC FIELD INFO
-llon=100;
-llat=100;
+%llon=100;
+%llat=100;
+llon=1024;
+llat=1024;
 if (xg.lx(2)==1)    %this is cartesian-specific code
     llon=1;
 elseif (xg.lx(3)==1)
@@ -104,6 +106,7 @@ vn=1000e0;
 voffset=100e0;
 B1val=-50000e-9;
 sigx2=1e3;
+%sigx2=5e3;
 for it=1:lt
     %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
     Vminx1it(:,:,it)=zeros(llon,llat);
@@ -115,7 +118,8 @@ for it=1:lt
     %COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
     vel3=zeros(llon,llat);
     for ilat=1:llat
-        vel3(:,ilat)=-v0*tanh(x2./sigx2)+vn+voffset;
+%        vel3(:,ilat)=-v0*tanh(x2./sigx2)+vn+voffset;
+        vel3(:,ilat)=500e0*tanh(x2./sigx2);    %to try to match the ESR data
     end
 
 
@@ -169,6 +173,6 @@ end
 
 
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
-save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');
+save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate','vel3');
 
 

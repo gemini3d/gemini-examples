@@ -7,14 +7,14 @@ addpath([gemini_root, filesep, 'vis'])
 
 
 %RISR PERIODIC KHI RUN
-%xdist=239.0625e3;
-%ydist=159.375e3;
-%lxp=720;
-%lyp=720;
 xdist=300e3
 ydist=216e3;
 lxp=1440;    %Andres example with 1km transition width
 lyp=1080;    %Andres examples with 1km transition
+
+%xdist=xdist*2;    %this scales up to deal with the largers scales for a 5km transition
+%ydist=ydist*2;    %5km transition, likely precludes study of inverse cascade...
+
 glat=75.6975;
 glon=360.0-94.8322;
 gridflag=0;
