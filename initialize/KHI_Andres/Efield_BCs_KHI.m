@@ -119,7 +119,7 @@ for it=1:lt
     vel3=zeros(llon,llat);
     for ilat=1:llat
 %        vel3(:,ilat)=-v0*tanh(x2./sigx2)+vn+voffset;
-        vel3(:,ilat)=500e0*tanh(x2./sigx2);    %to try to match the ESR data
+        vel3(:,ilat)=1000e0*tanh(x2./sigx2);    %to try to match the ESR data
     end
 
 

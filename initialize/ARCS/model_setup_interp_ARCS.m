@@ -87,6 +87,13 @@ else
 end
 
 
+%SCALE UP THE DENSITY, IF DESIRED (COULD CAUSE RINGING)
+for isp=1:lsp-1
+  nsi(:,:,:,isp)=4*nsi(:,:,:,isp);
+end
+nsi(:,:,:,end)=sum(nsi(:,:,:,1:lsp-1),4);
+
+
 %WRITE OUT THE GRID
 outdir=[gemini_root,'/../simulations/input/ARCS/'];
 writegrid(xg,outdir);
