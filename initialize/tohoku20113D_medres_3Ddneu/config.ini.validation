@@ -1,6 +1,6 @@
 11,3,2011                     !dmy:  day,month,year
 20783.0                           !UTsec0:  start time in UT seconds
-1800.0                          !tdur:  duration of simulation in seconds
+3600.0                          !tdur:  duration of simulation in seconds
 15.0                          !dtout: how often to do output
 104.7,129.5,37.0              !activ:  f107a,f107,Ap
 0.9                           !tcfl:  target cfl number
@@ -16,8 +16,8 @@
 3
 29.0667d0,209.8501d0
 4d0
-4d3,4d3,2d3
-../simulations/input/tohokutrue3D_neutrals/
+5.875d3,5.875d3,2.937d3
+../simulations/input/tohoku3D_neutrals/
 0
 0
 0
