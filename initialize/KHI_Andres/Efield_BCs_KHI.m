@@ -101,8 +101,8 @@ Vmaxx2ist=zeros(llat,lt);
 Vminx3ist=zeros(llon,lt);
 Vmaxx3ist=zeros(llon,lt);
 
-v0=1000e0;
-vn=1000e0;
+v0=1200e0;
+vn=2000e0;
 voffset=100e0;
 B1val=-50000e-9;
 sigx2=1e3;
@@ -119,19 +119,20 @@ for it=1:lt
     vel3=zeros(llon,llat);
     for ilat=1:llat
 %        vel3(:,ilat)=-v0*tanh(x2./sigx2)+vn+voffset;
-        vel3(:,ilat)=1000e0*tanh(x2./sigx2);    %to try to match the ESR data
+%        vel3(:,ilat)=-v0*tanh(x2./sigx2);    %to try to match the ESR data
+        vel3(:,ilat)=voffset+v0*(1/2-1/2*tanh(x2./sigx2));
     end
 
 
     %CONVERT TO ELECTRIC FIELD
-    E2slab=vel3*B1val;
+    E2slab=-1*vel3*B1val;   %E=-v x B
 
 
     %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID
     DX2=diff(x2,1);
     DX2=[DX2,DX2(end)];
     DX2=repmat(DX2(:),[1,llat]);
-    Phislab=cumsum(E2slab.*DX2,1);    %use a forward difference
+    Phislab=-1*cumsum(E2slab.*DX2,1);    %use a forward difference
     Vmaxx2ist(:,it)=squeeze(Phislab(llon,:));
     Vminx2ist(:,it)=squeeze(Phislab(1,:));
 end
