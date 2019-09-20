@@ -39,10 +39,6 @@ for isp=1:1
   for ix2=1:xg.lx(2)
     amplitude=rand(xg.lx(1),1,xg.lx(3));
     amplitude=0.025*amplitude;
-<<<<<<< Updated upstream
-    nsperturb(:,ix2,:,isp)=ns(:,ix2,:,isp).*(v0+vn+voffset)./(-v0*tanh((xg.x2(2+ix2))/sigx2)+vn+voffset)+ ...
-                          amplitude.*ns(:,ix2,:,isp);     %add some noise to seed instability
-=======
     for ix3=1:xg.lx(3)
       amplitude=rand(xg.lx(1),1,1);
       amplitude=0.025*amplitude;
@@ -50,7 +46,6 @@ for isp=1:1
                           (1/2+1/2.*tanh((xg.x2(2+ix2))/sigx2));
       nsperturb(:,ix2,ix3,isp)=nsperturb(:,ix2,ix3,isp)+amplitude.*ns(:,ix2,ix3,isp);
     end
->>>>>>> Stashed changes
   end
 end
 nsperturb(:,:,:,2:6)=ns(:,:,:,2:6);
