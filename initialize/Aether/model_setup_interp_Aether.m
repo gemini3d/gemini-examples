@@ -4,7 +4,7 @@ addpath([gemini_root, filesep, 'script_utils'])
 addpath([gemini_root, filesep, 'setup/gridgen'])
 addpath([gemini_root, filesep, 'setup'])
 addpath([gemini_root, filesep, 'vis'])
- 
+
  %PFISR LOWRES GRID (CARTESIAN)
  xdist=500e3;    %eastward distance
  ydist=100e3;    %northward distance
@@ -44,7 +44,7 @@ direc=ID;
 
 
 %LOAD THE FRAME
-[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend,UTsec0,ymd0, mloc,xgin);
+[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend, flagoutput, mloc,xgin);
 lsp=size(ns,4);
 
 

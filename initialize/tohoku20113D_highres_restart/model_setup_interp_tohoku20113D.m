@@ -45,7 +45,7 @@ ID='~/zettergmdata/simulations/tohoku20113D_highres_var/'
 
 
 %READ IN THE SIMULATION INFORMATION
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs/config.dat']);
+[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
 xgin=readgrid([ID,'/inputs/']);
 addpath ../vis/
 direc=ID;
@@ -60,7 +60,7 @@ clear xgin;
 
 
 %LOAD THE FRAME
-[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,ns,vs1,Ts] = loadframe(direc,UTsec,ymd,UTsec0,ymd0)
+[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,ns,vs1,Ts] = loadframe(direc,UTsec,ymd)
 lsp=size(ns,4);
 rmpath ../vis/
 

@@ -45,8 +45,8 @@ direc=ID;
 
 
 %LOAD THE FRAME
-%[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend,UTsec0,ymd0,mloc,xgin);
-[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts]=loadframe(direc,ymdend,UTsecend,ymd0,UTsec0,tdur,dtout,flagoutput,mloc,xgin);
+%[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend, nan,mloc,xgin);
+[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts]=loadframe(direc,ymdend,UTsecend, flagoutput,mloc,xgin);
 lsp=size(ns,4);
 
 
