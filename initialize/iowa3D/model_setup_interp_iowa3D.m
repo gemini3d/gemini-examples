@@ -9,8 +9,8 @@ addpath(['../../setup/gridgen'])
 
 
 %% Iowa grid for AGU 2019
-dtheta=20;
-dphi=30;
+dtheta=19;
+dphi=29;
 lp=100;
 lq=200;
 lphi=210;
