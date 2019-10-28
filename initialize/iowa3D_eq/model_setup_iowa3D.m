@@ -43,6 +43,12 @@ neuinfo.ymax=1200;
 neuinfo.rhomax=[];        %meaningless in 3D situations
 
 
+%% FOR USERS INFO CONVERT SOURCE LOCATION TO GEOMAG
+[sourcetheta,sourcephi]=geog2geomag(neuinfo.sourcelat,neuinfo.sourcelong);
+sourcemlat=90-sourcetheta*180/pi;
+sourcemlon=sourcephi*180/pi;
+
+
 %% GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - the iowa event
 %in this case
 UT=2307/3600;
