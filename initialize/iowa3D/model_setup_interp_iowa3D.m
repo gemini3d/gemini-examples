@@ -13,7 +13,7 @@ dtheta=20;
 dphi=30;
 lp=100;
 lq=200;
-lphi=40;
+lphi=210;
 altmin=80e3;
 glat=40;   %38.9609;
 glon=360-94.088;
@@ -49,7 +49,7 @@ ha=plotgrid(xg,flagsource,neuinfo);
 
 
 %SAVE THE GRID DATA
-eqdir='../../../simulations/mooreOK3D_eq/';
+eqdir='../../../simulations/iowa3D_eq/';
 simID='iowa3D_medres';
 [nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
 
