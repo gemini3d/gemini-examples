@@ -34,7 +34,7 @@ ID='~/zettergmdata/simulations/isinglass_eq/';
 
 
 %READ IN THE SIMULATION INFORMATION
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs/config.ini']);
+[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
 xgin=readgrid([ID,'/inputs/']);
 addpath ../vis/
 direc=ID;
@@ -45,7 +45,7 @@ direc=ID;
 
 
 %LOAD THE FRAME
-[ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(direc,ymdend,UTsecend,ymd0,UTsec0,tdur,dtout,flagoutput,mloc,xg);
+[ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(direc,ymdend,UTsecend, flagoutput,mloc,xg);
 lsp=size(ns,4);
 
 

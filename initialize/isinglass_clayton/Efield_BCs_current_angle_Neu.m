@@ -16,8 +16,7 @@ mkdir([outdir]);
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
 if (~exist('ymd0','var'))
-  [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([direcconfig,'/config.ini']);
-  fprintf('Input config.dat file loaded.\n');
+  [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig(direcconfig);
 end
 
 
@@ -35,7 +34,7 @@ dtfile=10;    %can hard-code instead of using the simulation dtout
 UTsec=UTsec0;
 ymd=ymd0;
 while(t<tdur)
-  [ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop]=loadframe(direc,ymd,UTsec,ymd0,UTsec0,tdur,dtout,flagoutput,mloc,xg);
+  [ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop]=loadframe(direc,ymd,UTsec, flagoutput,mloc,xg);
   refFAC(:,:,it)=squeeze(J1(end,:,:));    %this is the FAC off of which we base our new inputs files
   [ymd,UTsec]=dateinc(dtfile,ymd,UTsec);
 end %while
@@ -126,18 +125,18 @@ for it=1:lt
     filename=datelab(ymd,UTsec);
     filename=[outdir,filename,'.dat']
     fid=fopen(filename,'w');
-    
+
     %FOR EACH FRAME WRITE A BC TYPE AND THEN OUTPUT BACKGROUND AND BCs
     fwrite(fid,flagdirich,'real*8');
     fwrite(fid,Exit(:,:,it),'real*8');
     fwrite(fid,Eyit(:,:,it),'real*8');
     fwrite(fid,Vminx1it(:,:,it),'real*8');
-    fwrite(fid,Vmaxx1it(:,:,it),'real*8');  
+    fwrite(fid,Vmaxx1it(:,:,it),'real*8');
     fwrite(fid,Vminx2ist(:,it),'real*8');
-    fwrite(fid,Vmaxx2ist(:,it),'real*8'); 
+    fwrite(fid,Vmaxx2ist(:,it),'real*8');
     fwrite(fid,Vminx3ist(:,it),'real*8');
-    fwrite(fid,Vmaxx3ist(:,it),'real*8');     
-   
+    fwrite(fid,Vmaxx3ist(:,it),'real*8');
+
     fclose(fid);
 end
 

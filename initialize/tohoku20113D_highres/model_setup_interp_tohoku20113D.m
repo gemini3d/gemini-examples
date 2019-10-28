@@ -35,7 +35,7 @@ ID='~/zettergmdata/simulations/tohoku20113D_eq/'
 
 
 %READ IN THE SIMULATION INFORMATION
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs/config.ini']);
+[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
 xgin=readgrid([ID,'/inputs/']);
 addpath ../vis/
 direc=ID;
@@ -46,7 +46,7 @@ direc=ID;
 
 
 %LOAD THE FRAME
-[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend, UTsec0,ymd0, mloc,xgin);
+[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend, nan, mloc,xgin);
 lsp=size(ns,4);
 rmpath ../vis/
 
