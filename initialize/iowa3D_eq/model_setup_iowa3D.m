@@ -13,7 +13,7 @@ addpath([geminiscripts_root,filesep,'setup/gridgen']);
 dtheta=20;
 dphi=30;
 lp=130;
-lq=425;
+lq=500;
 lphi=48;
 altmin=80e3;
 glat=40;   %38.9609;
@@ -24,9 +24,9 @@ iscurv=true;
 
 
 %% MATLAB GRID GENERATION
-%xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-xg=makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+%xg=makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 
 
 %% GEOGRAPHIC COORDINATES OF NEUTRAL SOURCE (OR GRID CENTER)
