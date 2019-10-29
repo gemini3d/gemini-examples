@@ -12,13 +12,13 @@ addpath([geminiscripts_root,filesep,'setup/gridgen']);
 %% Iowa grid for AGU 2019
 dtheta=20;
 dphi=30;
-lp=125;
+lp=130;
 lq=425;
 lphi=48;
 altmin=80e3;
 glat=40;   %38.9609;
 glon=360-94.088;
-gridflag=0;
+gridflag=1;
 flagsource=1;
 iscurv=true;
 
@@ -52,7 +52,7 @@ sourcemlon=sourcephi*180/pi;
 %% GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - the iowa event
 %in this case
 UT=2307/3600;
-dmy=[07,08,2016];
+dmy=[06,08,2016];
 activ=[150,150,4];    %apparently this used the MSIS matlab defaults
 
 
