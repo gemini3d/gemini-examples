@@ -9,6 +9,7 @@ addpath(['../../setup/gridgen'])
 
 
 %% Iowa grid for AGU 2019
+%{
 dtheta=19;
 dphi=29;
 lp=100;
@@ -18,6 +19,18 @@ altmin=80e3;
 glat=40;   %38.9609;
 glon=360-94.088;
 gridflag=0;
+flagsource=1;
+iscurv=true;
+%}
+dtheta=16;
+dphi=29;
+lp=100;
+lq=200;
+lphi=210;
+altmin=80e3;
+glat=41.5;   %38.9609;
+glon=360-94.088;
+gridflag=1;
 flagsource=1;
 iscurv=true;
 
