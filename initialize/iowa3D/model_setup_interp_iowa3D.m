@@ -35,7 +35,6 @@ flagsource=1;
 iscurv=true;
 
 
-
 %% GEOGRAPHIC COORDINATES OF NEUTRAL SOURCE (OR GRID CENTER)
 % Iowa example
 neuinfo.sourcelat=38.9609;
