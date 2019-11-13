@@ -7,7 +7,7 @@ addpath([gemini_root, filesep, 'script_utils'])
 %simname='chile20153D_0.5_medres/';
 %simname='tohoku20113D_highres_var/';
 %simname='tohoku20112D_3Dtest/'
-simname='mooreOK3D_hemis_medres/';
+simname='iowa3D_hemis_medres2/';
 basedir='~/zettergmdata/simulations/'
 %basedir='/scratch/zettergm/simulations/'
 direc=[basedir,simname];
