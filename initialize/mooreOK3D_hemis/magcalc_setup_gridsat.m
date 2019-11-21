@@ -61,9 +61,9 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=30;
+ltheta=256;
 if (~flag2D)
-  lphi=30;
+  lphi=256;
 else
   lphi=1;
 end
@@ -80,7 +80,7 @@ if (~flag2D)
 else
   phi=phidist;
 end
-r=(6370e3+500e3)*ones(ltheta,lphi);                          %use ground level for altitude for all field points
+r=(6370e3+500e3)*ones(ltheta,lphi);                          %use satellite orbital plane
 [phi,theta]=meshgrid(phi,theta);
 
 %CREATE AN INPUT FILE OF FIELD POINTS
