@@ -16,8 +16,8 @@ lp=128;
 lq=256;
 lphi=48;
 altmin=80e3;
-glat=12;          %38.9609;
-glon=360-94.088;
+glat=12;
+glon=360-76.9;     %Jicamarca
 gridflag=1;
 flagsource=0;
 iscurv=true;
@@ -57,7 +57,7 @@ ha=plotgrid(xg,flagsource,neuinfo);
 
 %% GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - the iowa event
 %in this case
-UT=2307/3600;
+UT=5.25;
 dmy=[06,08,2016];
 activ=[150,150,4];    %apparently this used the MSIS matlab defaults
 
@@ -69,8 +69,8 @@ nme=2e11;
 
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
-outdir = [gemini_root, filesep, '../simulations/input/iowa3D_eq/'];
-simlabel='iowa3D_eq';
+outdir = [gemini_root, filesep, '../simulations/input/ESF_eq/'];
+simlabel='ESF_eq';
 writegrid(xg,outdir);
 time=UT*3600;   %doesn't matter for input files
 writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);
