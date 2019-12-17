@@ -10,13 +10,13 @@ addpath([geminiscripts_root,filesep,'setup/gridgen']);
 
 
 %% EQuatorial grid
-dtheta=5;
+dtheta=5.75;
 dphi=10;
 lp=128;
 lq=256;
 lphi=48;
 altmin=80e3;
-glat=10;          %38.9609;
+glat=12;          %38.9609;
 glon=360-94.088;
 gridflag=1;
 flagsource=0;
