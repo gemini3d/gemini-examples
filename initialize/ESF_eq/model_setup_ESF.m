@@ -9,17 +9,17 @@ geminiscripts_root = [cwd, filesep, '../../../GEMINI-scripts'];
 addpath([geminiscripts_root,filesep,'setup/gridgen']);
 
 
-%% Iowa grid for AGU 2019
-dtheta=20;
-dphi=30;
-lp=130;
-lq=500;
+%% EQuatorial grid
+dtheta=5;
+dphi=10;
+lp=128;
+lq=256;
 lphi=48;
 altmin=80e3;
-glat=40;   %38.9609;
+glat=10;          %38.9609;
 glon=360-94.088;
 gridflag=1;
-flagsource=1;
+flagsource=0;
 iscurv=true;
 
 
@@ -30,23 +30,29 @@ xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 
 
 %% GEOGRAPHIC COORDINATES OF NEUTRAL SOURCE (OR GRID CENTER)
-% Iowa example
-neuinfo.sourcelat=38.9609;
-neuinfo.sourcelong=360-94.088;
-neuinfo.neugridtype=3;    %1 = Cartesian neutral grid (2D), 2 - axisymmetric (2D), 3 - 3D Cartesian
-neuinfo.zmin=0;
-neuinfo.zmax=375;
-neuinfo.xmin=-1200;
-neuinfo.xmax=1200;
-neuinfo.ymin=-1200;
-neuinfo.ymax=1200;
-neuinfo.rhomax=[];        %meaningless in 3D situations
+% % Iowa example
+% neuinfo.sourcelat=38.9609;
+% neuinfo.sourcelong=360-94.088;
+% neuinfo.neugridtype=3;    %1 = Cartesian neutral grid (2D), 2 - axisymmetric (2D), 3 - 3D Cartesian
+% neuinfo.zmin=0;
+% neuinfo.zmax=375;
+% neuinfo.xmin=-1200;
+% neuinfo.xmax=1200;
+% neuinfo.ymin=-1200;
+% neuinfo.ymax=1200;
+% neuinfo.rhomax=[];        %meaningless in 3D situations
 
 
-%% FOR USERS INFO CONVERT SOURCE LOCATION TO GEOMAG
-[sourcetheta,sourcephi]=geog2geomag(neuinfo.sourcelat,neuinfo.sourcelong);
-sourcemlat=90-sourcetheta*180/pi;
-sourcemlon=sourcephi*180/pi;
+%% FOR USERS INFO CONVERT SOURCE LOCATION TO GEOMAG for input file
+% [sourcetheta,sourcephi]=geog2geomag(neuinfo.sourcelat,neuinfo.sourcelong);
+% sourcemlat=90-sourcetheta*180/pi;
+% sourcemlon=sourcephi*180/pi;
+
+neuinfo=[];
+
+
+%% PLot the grid
+ha=plotgrid(xg,flagsource,neuinfo);
 
 
 %% GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - the iowa event
