@@ -1,7 +1,7 @@
 cwd = fileparts(mfilename('fullpath'));
 gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'vis'])
+addpath([gemini_root, filesep, 'script_utils']);
+addpath([gemini_root, filesep, 'vis']);
 
 
 %% READ IN THE SIMULATION INFORMATION
