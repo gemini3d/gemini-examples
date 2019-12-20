@@ -37,7 +37,7 @@ simid='ESF_medres'
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
-ID='~/Downloads/ESF_eq/'
+ID='~/zettergmdata/simulations/ESF_eq/'
 
 
 %READ IN THE SIMULATION INFORMATION
@@ -94,7 +94,7 @@ end
 
 
 %WRITE OUT THE GRID
-outdir=['~/simulations/input/',simid,'/'];
+outdir=['~/zettergmdata/simulations/input/',simid,'/'];
 writegrid(xg,outdir);    %just put it in pwd for now
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
