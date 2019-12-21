@@ -60,8 +60,30 @@ lsp=size(ns,4);
 %DO THE INTERPOLATION
 if (lx3~=1)
   fprintf('Starting interp3''s...\n');
+  [X2,X1]=meshgrid(xgin.x2(3:end-2),xgin.x1(3:end-2));
+  [X2i,X1i]=meshgrid(xg.x2(3:end-2),xg.x1(3:end-2)); 
+   for isp=1:lsp
+    ix3=floor(xgin.lx(3)/2);
+
+    tmpvar=interp2(X2,X1,squeeze(ns(:,:,ix3,isp)),X2i,X1i);
+    inds=find(isnan(tmpvar));
+    tmpvar(inds)=1e0;
+
+    nsi(:,:,:,isp)=repmat(tmpvar,[1 1 lx3]);
+
+    tmpvar=interp2(X2,X1,squeeze(vs1(:,:,ix3,isp)),X2i,X1i);
+    tmpvar(inds)=0e0;
+
+    vs1i(:,:,:,isp)=repmat(tmpvar,[1 1 lx3]);
+
+    tmpvar=interp2(X2,X1,squeeze(Ts(:,:,ix3,isp)),X2i,X1i);
+    tmpvar(inds)=100e0;
+
+    Tsi(:,:,:,isp)=repmat(tmpvar,[1 1 lx3]);
+  end
+%{
   [X2,X1,X3]=meshgrid(xgin.x2(3:end-2),xgin.x1(3:end-2),xgin.x3(3:end-2));
-  [X2i,X1i,X3i]=meshgrid(xg.x2(3:end-2),xg.x1(3:end-2),xg.x3(3:end-2));
+  [X2i,X1i,X3i]=meshgrid(xg.x2(3:end-2),xg.x1(3:end-2),xg.x3(3:end-2)); 
   for isp=1:lsp
     tmpvar=interp3(X2,X1,X3,ns(:,:,:,isp),X2i,X1i,X3i);
     inds=find(isnan(tmpvar));
@@ -74,6 +96,7 @@ if (lx3~=1)
     tmpvar(inds)=100e0;
     Tsi(:,:,:,isp)=tmpvar;
   end
+%}
 else
   fprintf('Starting interp2''s...\n');
   [X2,X1]=meshgrid(xgin.x2(3:end-2),xgin.x1(3:end-2));
