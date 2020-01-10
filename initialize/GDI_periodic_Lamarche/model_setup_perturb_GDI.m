@@ -5,7 +5,7 @@ addpath([gemini_root, filesep, 'vis']);
 
 
 %% READ IN THE SIMULATION INFORMATION
-ID=[gemini_root,'/../simulations/input/GDI_periodic_Lamarche/'];
+ID=[gemini_root,'/../simulations/input/GDI_periodic_LL/'];
 xg=readgrid([ID,'/inputs/']);
 x1=xg.x1(3:end-2);    %trim ghost cells
 x2=xg.x2(3:end-2);
@@ -13,7 +13,7 @@ x2=xg.x2(3:end-2);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 direc=ID;
-filebase='GDI_periodic_Lamarche';
+filebase='GDI_periodic_LL';
 filename=[filebase,'_ICs.dat'];
 [ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
 lsp=size(ns,4);

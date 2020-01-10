@@ -4,11 +4,11 @@ addpath([gemini_root, filesep, 'script_utils'])
 
 %REFERENCE GRID TO USE
 direcconfig='./'
-direcgrid=[gemini_root,'/../simulations/input/GDI_periodic_Lamarche/inputs/']
+direcgrid=[gemini_root,'/../simulations/input/GDI_periodic_LL/inputs/']
 
 
 %OUTPUT FILE LOCATION
-outdir=[gemini_root,'/../simulations/input/GDI_periodic_Lamarche_fields/';]
+outdir=[gemini_root,'/../simulations/input/GDI_periodic_LL_fields/';]
 mkdir(outdir);
 
 

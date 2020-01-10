@@ -27,7 +27,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %% IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='GDI_periodic_Lamarche'
+simid='GDI_periodic_LL'
 
 
 %% ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
@@ -87,7 +87,7 @@ end
 
 
 %% WRITE OUT THE GRID AND INITIAL CONDITIONS
-outdir=[gemini_root,'/../simulations/input/GDI_periodic_Lamarche/']
+outdir=[gemini_root,'/../simulations/input/GDI_periodic_LL/']
 writegrid(xg,[outdir,'/inputs/']);    %just put it in pwd for now
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
