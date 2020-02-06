@@ -1,5 +1,7 @@
 # GEMINI Example scenarios
 
+[![DOI](https://zenodo.org/badge/180855327.svg)](https://zenodo.org/badge/latestdoi/180855327)
+
 Set of scripts containing different examples for how to initialize and run
 GEMINI model](https://github.com/gemini3d/GEMINI).
 
@@ -40,4 +42,3 @@ The examples are labeled:
 * KHI_periodic_highres_fileinput - a simulation of Kelvin-Helmholtz instability illustration periodic meshes and use of polarization current solver
 
 A fair bit of testing has been done on these, but there could still be problems so contact a developer if you are having issues with the examples.
-
