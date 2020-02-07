@@ -6,7 +6,7 @@ addpath([gemini_root, filesep, '../GEMINI-scripts/setup/gridgen'])
 addpath([gemini_root, filesep, 'setup/'])
 addpath([gemini_root, filesep, 'vis'])
 addpath(['../../setup/gridgen'])
-
+file_format = 'raw';
 
 %MOORE, OK GRID (FULL)
 dtheta=20;
@@ -28,7 +28,7 @@ gridflag=1;
 if (~exist('xg'))
   %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
   %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg=makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);  
+  xg=makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 
 
@@ -46,5 +46,5 @@ ha=plotgrid(xg,flagsource,sourcelat,sourcelong,neugridtype,zmin,zmax,rhomax);
 %SAVE THE GRID DATA
 eqdir='../../../simulations/mooreOK3D_hemis_eq/';
 simID='mooreOK3D_hemis_medres';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);
 
