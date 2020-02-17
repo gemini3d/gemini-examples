@@ -4,6 +4,7 @@ addpath([gemini_root, filesep, 'script_utils'])
 addpath([gemini_root, filesep, 'setup/gridgen'])
 addpath([gemini_root, filesep, 'setup'])
 addpath([gemini_root, filesep, 'vis'])
+file_format = 'raw';
 
 mlonctr=259.0423;
 mlatctr=66.7615;
@@ -25,7 +26,7 @@ I=90;
 
 
 %RUN THE GRID GENERATION CODE
-if (~exist('xg'))
+if ~exist('xg', 'var')
   xg=makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -34,4 +35,4 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 eqdir='../../../simulations/isinglass_eq/';
 distdir='../../../simulations/isinglass_clayton_flight/';
 simID='isinglass_clayton_flight';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,distdir,simID,xg);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format, distdir);

@@ -6,7 +6,7 @@ addpath([gemini_root, filesep, 'setup/'])
 addpath([gemini_root, filesep, 'vis'])
 geminiscripts_root = [cwd, filesep, '../../../GEMINI-scripts'];
 addpath([geminiscripts_root,filesep,'setup/gridgen']);
-
+file_format = 'raw';
 
 %MOORE, OK GRID (FULL)
 dtheta=20;
@@ -24,7 +24,7 @@ gridflag=0;
 
 %MATLAB GRID GENERATION
 
-if (~exist('xg'))
+if ~exist('xg', 'var')
   %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
   xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
@@ -42,7 +42,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 %INTERPOLATE ONTO THE NEW GRID
 %eqdir=[geminiscripts_root,filesep,'../simulations/Perkins_bridge/'];
 simID='Perkins';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);
 lsp=size(nsi,4);
 
 

@@ -5,7 +5,7 @@ addpath([gemini_root, filesep, 'setup/gridgen'])
 addpath([gemini_root, filesep, 'setup'])
 addpath([gemini_root, filesep, 'vis'])
 
-
+file_format = 'raw';
 %LOWRES 2D EXAMPLE FOR TESTING
 xdist=40e3;    %eastward distance
 ydist=600e3;    %northward distance
@@ -32,4 +32,4 @@ end
 
 eqdir='../../../simulations/2Dtest_eq/';
 simID='ICI2';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);

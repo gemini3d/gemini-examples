@@ -1,4 +1,5 @@
 %LOWRES 2D EXAMPLE FOR TESTING
+file_format = 'raw';
 xdist=200e3;    %eastward distance
 ydist=600e3;    %northward distance
 lxp=40;
@@ -25,5 +26,5 @@ end
 eqdir='../../../simulations/2Dtest_lowres_eq/';
 distdir='../../../simulations/input/2Dtest_lowres/';
 simID='2Dtest_lowres';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);
 

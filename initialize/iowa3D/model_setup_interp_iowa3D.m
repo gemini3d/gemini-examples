@@ -6,7 +6,7 @@ addpath([gemini_root, filesep, '../GEMINI-scripts/setup/gridgen'])
 addpath([gemini_root, filesep, 'setup/'])
 addpath([gemini_root, filesep, 'vis'])
 addpath(['../../setup/gridgen'])
-
+file_format = 'raw';
 
 %% Iowa grid for AGU 2019
 %{
@@ -53,7 +53,7 @@ neuinfo.rhomax=[];        %meaningless in 3D situations
 if (~exist('xg'))
   %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
   %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg=makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);  
+  xg=makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 
 
@@ -64,5 +64,5 @@ ha=plotgrid(xg,flagsource,neuinfo);
 %SAVE THE GRID DATA
 eqdir='../../../simulations/iowa3D_eq/';
 simID='iowa3D_medres';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);
 
