@@ -63,9 +63,11 @@ sigx2=fracwidth*(max(xg.x2)-min(xg.x2));
 
 %TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
 tmin=0;
-tmax=300;
-lt=301;
-time=linspace(tmin,tmax,lt)';
+tmax=tdur;
+%lt=301;
+%time=linspace(tmin,tmax,lt)';
+time=(tmin:5:tmax)';
+lt=numel(time);
 
 
 %SET UP TIME VARIABLES

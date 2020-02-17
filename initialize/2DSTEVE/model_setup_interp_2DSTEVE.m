@@ -9,7 +9,7 @@ addpath([gemini_root, filesep, 'vis'])
 %LOWRES 2D EXAMPLE FOR TESTING
 xdist=200e3;    %eastward distance
 ydist=600e3;    %northward distance
-lxp=80;
+lxp=128;
 lyp=1;
 glat=67.11;
 glon=212.95;
@@ -31,5 +31,5 @@ simid='2DSTEVE'
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 eqdir='../../../simulations/2Dtest_eq/';
 simID='2DSTEVE';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg,'raw');
 
