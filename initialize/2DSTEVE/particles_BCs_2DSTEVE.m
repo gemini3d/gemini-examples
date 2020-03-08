@@ -29,8 +29,8 @@ end
 
 
 %CREATE A 'DATASET' OF PRECIPITATION CHARACTERISTICS
-llon=100;
-llat=100;
+llon=128;
+llat=128;
 if (xg.lx(2)==1)    %this is cartesian-specific code
     llon=1;
 elseif (xg.lx(3)==1)
@@ -123,7 +123,7 @@ E0it=zeros(llon,llat,lt);
 for it=1:lt
   %Qit(:,:,it)=10*exp(-(MLON-mlonmean).^2/2*mlonsig^2).*exp(-(MLAT-mlatmean).^2/2*mlatsig^2);         %mW/m^2
   %E0it(:,:,it)=5e3;%*ones(llon,llat);     %eV
-  Qit(:,:,it)=1e-3*ones(llon,llat,1);
+  Qit(:,:,it)=1e-2*ones(llon,llat,1);
   E0it(:,:,it)=1e3*ones(llon,llat,1);
 end
 

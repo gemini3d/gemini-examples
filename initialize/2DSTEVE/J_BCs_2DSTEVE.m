@@ -29,8 +29,8 @@ end
 
 
 %CREATE A 'DATASET' OF ELECTRIC FIELD INFO
-llon=100;
-llat=100;
+llon=128;
+llat=128;
 if (xg.lx(2)==1)    %this is cartesian-specific code
     llon=1;
 elseif (xg.lx(3)==1)
@@ -54,7 +54,8 @@ mlatmean=mean(mlat);
 
 %WIDTH OF THE DISTURBANCE
 %fracwidth=1/7;
-mlonsig=0.5;                             %based on Bill Archer's notes
+%mlonsig=0.5;                             %based on Bill Archer's notes
+mlonsig=1;
 fracwidth=mlonsig/(mlonmax-mlonmin);
 %mlonsig=fracwidth*(mlonmax-mlonmin);
 mlatsig=fracwidth*(mlatmax-mlatmin);

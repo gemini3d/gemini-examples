@@ -29,8 +29,8 @@ end
 
 
 %CREATE A 'DATASET' OF ELECTRIC FIELD INFO
-llon=100;
-llat=100;
+llon=128;
+llat=128;
 if (xg.lx(2)==1)    %this is cartesian-specific code
     llon=1;
 elseif (xg.lx(3)==1)
@@ -95,7 +95,7 @@ Vminx2ist=zeros(llat,lt);
 Vmaxx2ist=zeros(llat,lt);
 Vminx3ist=zeros(llon,lt);
 Vmaxx3ist=zeros(llon,lt);
-Etarg=190e-3;            % target E value in V/m
+Etarg=100e-3;            % target E value in V/m
 pk=Etarg*sigx2.*xg.h2(lx1,floor(lx2/2),1).*sqrt(pi)./2;
 x2ctr=1/2*(xg.x2(lx2)+xg.x2(1));
 for it=1:lt
