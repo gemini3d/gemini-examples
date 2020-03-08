@@ -1,35 +1,35 @@
 cwd = fileparts(mfilename('fullpath'));
 gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-addpath([gemini_root, filesep, 'vis'])
-file_format = 'raw';
-
-%LOWRES 2D EXAMPLE FOR TESTING
-xdist=200e3;    %eastward distance
-ydist=600e3;    %northward distance
-lxp=128;
-lyp=1;
-glat=67.11;
-glon=212.95;
-gridflag=0;
-I=90;
+addpath([gemini_root, filesep, 'matlab/setup'])
+addpath([gemini_root, filesep, 'matlab/setup/gridgen'])
+addpath([gemini_root, filesep, 'matlab/vis'])
 
 
-%RUN THE GRID GENERATION CODE
+%% 2D EXAMPLE FOR TESTING
+pgrid.xdist=200e3;    %eastward distance
+pgrid.ydist=600e3;    %northward distance
+pgrid.lxp=128;
+pgrid.lyp=1;
+pgrid.glat=67.11;
+pgrid.glon=212.95;
+pgrid.gridflag=0;
+pgrid.Bincl=90;
+pgrid.alt_min=80e3;
+pgrid.alt_max=975e3;
+pgrid.alt_scale=[10e3, 8e3, 500e3, 150e3];    %parameters setting the nonuniform structure of the grid
+
+
+%% RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-  xg=makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
+  xg=makegrid_cart_3D(pgrid);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
-%IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='2DSTEVE'
-
-
-%ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
-eqdir='../../../simulations/2Dtest_eq/';
-simID='2DSTEVE';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);
+%% ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
+pfile.format = 'raw';
+pfile.eqdir='../../../simulations/2Dtest_eq/';
+pfile.realbits=64;
+pfile.simdir='~/simulations/input/2DSTEVE';
+[nsi,vs1i,Tsi]=eq2dist(pfile,xg);
 
