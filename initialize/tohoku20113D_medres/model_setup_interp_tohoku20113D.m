@@ -16,9 +16,9 @@ p.simdir='~/simulations/input/tohoku20113D_medres';
 %% A LOW/MEDIUM RES TOHOKU
 dtheta=7.5;
 dphi=12;
-lp=192;
-lq=512;
-lphi=192;
+lp=144;
+lq=384;
+lphi=144;
 altmin=80e3;
 glat=42.45;
 glon=143.4;

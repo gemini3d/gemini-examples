@@ -1,4 +1,4 @@
-# The GDI_periodic_medres example
+# The GDI\_periodic\_medres example
 
 This example shows an application of the GEMINI model to simulate gradient-drift instability in the 3D box.  The y-direction (x3) is taken to be periodic so as to accommodate a density patch that is elongated in that direction.  
 
