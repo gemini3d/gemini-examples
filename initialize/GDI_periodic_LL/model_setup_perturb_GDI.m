@@ -43,7 +43,7 @@ for isp=1:lsp-1
     nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp)+...                                             %original data
                 nepatchfact*nsscale(:,ix2,:,isp)*(1/2*tanh((x2(ix2)-x21)/ell)-1/2*tanh((x2(ix2)-x22)/ell));    %patch, note offset in the x2 index!!!!
 
-    if (ix2>100 & ix2<xg.lx(2)-100)         %do not apply noise near the edge (corrupts boundary conditions)
+    if (ix2>200 & ix2<xg.lx(2)-200)         %do not apply noise near the edge (corrupts boundary conditions)
       nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);
     end %if
     
@@ -71,5 +71,5 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 outdir=ID;
 dmy=[simdate(3),simdate(2),simdate(1)];
 UTsec=simdate(4)*3600;
-writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);
+writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,'raw',64);
 

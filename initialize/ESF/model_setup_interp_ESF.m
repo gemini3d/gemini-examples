@@ -12,7 +12,7 @@ addpath([geminiscripts_root,filesep,'setup/gridgen']);
 
 %% EQuatorial grid
 dtheta=5.70;
-dphi=10;
+dphi=5;
 lp=256;
 lq=384;
 lphi=192;
