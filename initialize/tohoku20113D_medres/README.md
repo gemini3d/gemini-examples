@@ -20,12 +20,15 @@ This example simulates ionospheric response to the M 9.0 2011 Tohoku earthquake 
 5)  Once the simulation is done the results can be plotted by opening matlab and setting the paths by:
 
 ``` cd <gemini-matlab directory> ```
+
 ``` setup ```
+
 ``` cd vis ```
+
 ``` plotall('<output direcotry>',{'png'}) ```
 
 This will print the plots to .png files within the output directory.  
 
-6)  To compute TEC perturbations...
+6)  To compute TEC perturbations from the simulation output...
 
 
