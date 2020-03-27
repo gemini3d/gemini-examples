@@ -96,7 +96,7 @@ if (flagplots)
   system(['mkdir ',plotdir]);
   figure;
   %set(gcf,'PaperPosition',[0 0 8.5 3.5]);
-  for it=1:lt
+  parfor it=1:lt
       clf;
       subplot(121);
       imagesc(glon,glat,squeeze(Qdat(it,:,:))');    %transpose since we are doing lon,lat as 1,2 dims.
@@ -176,7 +176,7 @@ if (flagplots)
   system(['mkdir ',plotdir]);
   figure;
   %set(gcf,'PaperPosition',[0 0 8.5 3.5]);
-  for it=1:lt
+  parfor it=1:lt
       clf;
       subplot(121);
       imagesc(glon,glat,squeeze(Qsmooth(it,:,:))');    %transpose since we are doing lon,lat as 1,2 dims.
@@ -247,7 +247,7 @@ if (flagplots)
   system(['mkdir ',plotdir]);
   figure;
   %set(gcf,'PaperPosition',[0 0 8.5 3.5]);
-  for it=1:lt
+  parfor it=1:lt
       clf;
       subplot(121);
       imagesc(mlondatgrid,mlatdatgrid,squeeze(Qdatmag(it,:,:))');    %transpose since we are doing lon,lat as 1,2 dims.
@@ -322,7 +322,7 @@ if (flagplots)
   plotdir=[outdir,'/plots/'];
   system(['mkdir ',plotdir]);
   figure;
-  for it=1:lt
+  parfor it=1:lt
       clf;
       subplot(121);
       imagesc(mlon,mlat,squeeze(Q(it,:,:))');    %transpose since we are doing lon,lat as 1,2 dims.
@@ -406,7 +406,7 @@ if (flagplots)
   plotdir=[outdir,'/plots_2ndsmooth/'];
   system(['mkdir ',plotdir]);
   figure;
-  for it=1:lt
+  parfor it=1:lt
       clf;
       subplot(121);
       imagesc(mlon,mlat,squeeze(Q(it,:,:))');    %transpose since we are doing lon,lat as 1,2 dims.
@@ -527,7 +527,3 @@ end
 
 %ALSO SAVE TO A  MATLAB FILE
 save('-v7.3',[outdir,'particles.mat'],'glon','glat','mlon','mlat','Qit','E0it','outputdate');
-
-
-%RESTORE PATH
-rmpath ./script_utils;
