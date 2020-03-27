@@ -6,26 +6,26 @@
 close all
 flagplots=1;
 
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-addpath([gemini_root, filesep, 'vis'])
-addpath ~/articles/ISINGLASS/AGU2017/restore_idl/;
-%clear
+% cwd = fileparts(mfilename('fullpath'));
+% gemini_root = [cwd, filesep, '../../../GEMINI'];
+% addpath([gemini_root, filesep, 'script_utils'])
+% addpath([gemini_root, filesep, 'setup/gridgen'])
+% addpath([gemini_root, filesep, 'setup'])
+% addpath([gemini_root, filesep, 'vis'])
+addpath ~/Dropbox/common/mypapers/ISINGLASS/AGU2017/restore_idl/;
+% %clear
 
 
 %FLAGS CONTROLLING WHETHER WE ARE PLOTTING/SMOOTHING, ETC.
 
 
 %MINIMUM ALLOWABLE CHARACTERISTIC ENERGY
-minE0=2;    %keV
-maxE0=15;   
+minE0=0;    %keV
+maxE0=20;   
 
 
 %CREATE SOME SPACE FOR OUTPUT FILES
-outdir='~/zettergmdata/simulations/input/particles_isinglass_grubbs_final/';
+outdir='~/simulations/input/particles_isinglass_grubbs_final/';
 system(['mkdir ',outdir]);
 system(['rm -rvf ',outdir,'/*']);   %clean out existing files
 
@@ -33,7 +33,8 @@ system(['rm -rvf ',outdir,'/*']);   %clean out existing files
 %READ IN THE IDL SAVE FILE - THIS IS THE FORMAT NORMALLY GIVEN TO ME BY GUY GRUBBS
 firstrun=0;
 if (~exist('Qdat','var'))
-    datapath='~/articles/clayton/';
+    %datapath='~/articles/clayton/';
+    datapath='~/Dropbox/common/mypapers/ISINGLASS/AGU2017/';
     %fname='isinglass_eflux_asi_highres.sav';
     %fname='isinglass_eflux_asi_full.sav';
     fname='isinglass_eflux_MB-2.sav';
@@ -91,7 +92,7 @@ end
 
 %VISUALIZE ORIGINAL DATA
 if (flagplots)
-  plotdir=[outdir,'/plots_orig/'];;
+  plotdir=[outdir,'/plots_orig/'];
   system(['mkdir ',plotdir]);
   figure;
   %set(gcf,'PaperPosition',[0 0 8.5 3.5]);
