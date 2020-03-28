@@ -1,6 +1,6 @@
 # The tohoku20113D\_medres Example
 
-This example simulates ionospheric response to the M 9.0 2011 Tohoku earthquake occurring off of the coast of Japan.  It illustrates the use of neutral wave data input from another model (MAGIC in the cases that we've published), and takes approximately 36-48 hours to run on a 4-8 core machine (something more recent than Haswell vintage).  The default grid size is 384 x 144 x 144 (~7M grid points), but can be adjusted arbitrarily (within CPU and memory constraints).  
+This example simulates ionospheric response to the M 9.0 2011 Tohoku earthquake occurring off of the coast of Japan.  It illustrates the use of neutral wave data input from another model (MAGIC in the cases that we've published), and takes approximately 36-48 hours to run on a 8 core machine (something more recent than Haswell vintage).  The default grid size is 384 x 144 x 144 (~7M grid points), but can be adjusted arbitrarily (within CPU and memory constraints).  
 
 ## Running this example
 
@@ -29,6 +29,8 @@ This example simulates ionospheric response to the M 9.0 2011 Tohoku earthquake 
 
 This will print the plots to .png files within the output directory.  
 
-6)  To compute TEC perturbations from the simulation output...
+6)  To compute TEC perturbations from the simulation output you first need a control simulation so that the background TEC can be subtracted out.  The easiest way to do this is to
+
+7)  A MATLAB script for computing TEC perturbations is included in the [gemini-matlab respository](https://github.com/gemini3d/gemini-matlab), specifically [here](https://github.com/gemini3d/gemini-matlab/blob/master/matlab/vis/TECcalc.m).
 
 
