@@ -36,8 +36,9 @@ if (~exist('Qdat','var'))
     %datapath='~/articles/clayton/';
     datapath='~/Dropbox/common/mypapers/ISINGLASS/AGU2017/';
     %fname='isinglass_eflux_asi_highres.sav';
-    %fname='isinglass_eflux_asi_full.sav';
-    fname='isinglass_eflux_MB-2.sav';
+    fname='isinglass_eflux_asi_full.sav';    %this contains the spatial offset correction...
+    %fname='isinglass_eflux_MB-2.sav';
+    %fname='isinglass_eflux_asi_resync.sav';    
     outargs=restore_idl([datapath,fname]);
     time=double(outargs.NEW_TIME);
 %    time = [0:3598.8/11922:3598.8]';    %Rob's fix for the time variable...
@@ -56,7 +57,12 @@ if (~exist('Qdat','var'))
     E0dat=max(E0dat,minE0);
     E0dat=min(E0dat,maxE0);
 
-    firstrun=1; 
+    firstrun=1;
+    
+    if (time(1)<7)
+        time=time+7;   %some of the input files have time starting from 7UT
+    end %if
+    
     datadate=[2017*ones(lt,1),03*ones(lt,1),02*ones(lt,1),time(:)/3600,zeros(lt,1),zeros(lt,1)];     %define a date structure for the input data
  
     load([datapath,'isinglass_clayton_grid.mat']);

@@ -10,7 +10,7 @@ It illustrates the use of neutral wave data input from another model (MAGIC in t
 
 1)  Either obtain equilibrium data (a) from its repository [TBD]() or (b) run the Tohoku equilibrium simulation found [https://github.com/gemini3d/GEMINI-examples/tree/master/initialize/tohoku20113D_eq](https://github.com/gemini3d/GEMINI-examples/tree/master/initialize/tohoku20113D_eq) (see associated README for instruction) to recompute initial conditions for this simulation example.
 
-2)  Download the neutral simulation data from its repository [TBD]().  Note that these data are from the MAGIC compressible atmospheric model (described in [Zettergren and Snively (2015)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2015JA021116)) and were used for the 3D simulation of ionospheric responses to the Tohoku event published in [Zettergren and Snively (2019)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018GL081569?casa_token=g2l3MOiyg4YAAAAA%3AUygvgBFrbj0ffiFzZuEhogWuAODDE3HH3RohpCDy5BvflfBqK_58jjy1kTe8EsAup9OxZBYNr34OpM5t).  These input data occupy about 40 GB of disk space.  
+2)  Download the neutral simulation data from its Zenodo repository [linked here](www.).  Note that these data are from the MAGIC compressible atmospheric model (described in [Zettergren and Snively (2015)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2015JA021116)) and were used for the 3D simulation of ionospheric responses to the Tohoku event published in [Zettergren and Snively (2019)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018GL081569?casa_token=g2l3MOiyg4YAAAAA%3AUygvgBFrbj0ffiFzZuEhogWuAODDE3HH3RohpCDy5BvflfBqK_58jjy1kTe8EsAup9OxZBYNr34OpM5t).  These input data occupy about 40 GB of disk space.  
 
 3)  Change the paths for the (a) size file, (b) grid file, (c) initial conditions file, and (d) neutral input data directory in the config.ini (or config.nml) file so that they point to where the input data are stored on your computer.  
 
@@ -55,5 +55,3 @@ setup
 cd vis
 TECcalc
 ```
-
-
