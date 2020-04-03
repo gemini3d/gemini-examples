@@ -5,7 +5,7 @@ addpath([gemini_root, filesep, 'matlab/setup/gridgen'])
 addpath([gemini_root, filesep, 'matlab/vis'])
 
 
-%% 2D EXAMPLE FOR TESTING
+%% 2D EXAMPLE FOR STEVE TESTING
 pgrid.xdist=200e3;    %eastward distance
 pgrid.ydist=600e3;    %northward distance
 pgrid.lxp=128;
