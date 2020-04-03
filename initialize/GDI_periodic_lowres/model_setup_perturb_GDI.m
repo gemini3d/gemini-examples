@@ -73,5 +73,5 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 outdir=ID;
 ymd=[simdate(1:3)];
 UTsec=simdate(4)*3600;
-writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,'raw',64);
+writedata(ymd,UTsec,nsperturb,vs1,Ts,outdir,'raw',64);
 

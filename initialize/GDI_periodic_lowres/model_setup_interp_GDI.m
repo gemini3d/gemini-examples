@@ -9,9 +9,9 @@ addpath ../../../GEMINI-scripts/setup/gridgen;
 
 %% Setup a coarse grid for testing GDI development
 pgrid.xdist=200e3;    %eastward distance
-pgrid.ydist=200e3;    %northward distance
-pgrid.lxp=128;
-pgrid.lyp=128;
+pgrid.ydist=50e3;    %northward distance (periodic here)
+pgrid.lxp=256;
+pgrid.lyp=64;
 pgrid.glat=75.6975;
 pgrid.glon=360.0-94.8322;
 pgrid.gridflag=0;
