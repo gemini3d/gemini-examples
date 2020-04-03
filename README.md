@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/180855327.svg)](https://zenodo.org/badge/latestdoi/180855327)
 
 Set of scripts containing different examples for how to initialize and run
-GEMINI model](https://github.com/gemini3d/GEMINI).
+[GEMINI model](https://github.com/gemini3d/GEMINI).
 
 ## Example GEMINI simulations included in this repo
 
@@ -11,7 +11,8 @@ Several different examples are included with the source code; although initial c
 These equilibrium runs generally are started with a made-up initial condition so there is a lot of initial settling before a sensible ionospheric state is achieved.
 To account for this one usually needs to run for about 24 hours of simulation time to insure a set of state parameters that are a good representation of the ionosphere.
 
-Each of these examples has its own initial and boundary conditions generation scripts which are stored in the appropriately named directories in the `initialize/` directory, along with a `config.ini` file as input to the simulation.
+Each of these examples has its own initial and boundary conditions generation scripts which are stored in the appropriately named directories in the `initialize/` directory, along with a "config.nml" file as input to the simulation.
+Older simulations have a "config.ini", but "config.nml" is strongly recommended for new / updated simulations as .nml has a much clearer format.
 The generation scripts must be run in order to produce input grids and initial conditions for each simulation.
 
 The examples are labeled:
