@@ -1,4 +1,4 @@
-# GEMINI Example scenarios
+# GEMINI Example Simulations
 
 [![DOI](https://zenodo.org/badge/180855327.svg)](https://zenodo.org/badge/latestdoi/180855327)
 
@@ -23,6 +23,20 @@ Then, for each simulation you want to generate, here for "ARCS_eq":
 ```matlab
 model_setup('ARCS_eq/config.nml')
 ```
+
+
+## Some term definitions
+
+### Equilibrium simulation
+
+GEMINI is a dynamic model - if you start it in an arbitrary state it will "ring" and take a while to settle into a equilibrium.  If one is not careful this can obscure physics of interest so the best approach is to initialize GEMINI using a steady state solution.  There is not good way to obtain such a solution except for to start the model from an arbitrary state and let it run for a very long time until it achieves equilbrium.  This would be an expensive thing to do except that the equilbrium state will have very little structure and so may be run at a very coarse resolution.  Often for a Cartesian grid with a limited lat/lon extent 64 x 20 x 20 is sufficient.  For a dipole grid one must be a bit more careful, but generally a much lower resolution can be used (see some of the dipole equilibrium examples in this repository).  
+
+### Upsampling
+
+We refer to the act of taking an equilibrium state and interpolating it onto a finer grid for simulation of some disturbance phenomena as "upsampling".
+
+
+
 
 ## Example GEMINI simulations included in this repo
 
