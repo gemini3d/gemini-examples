@@ -1,0 +1,38 @@
+&base
+ymd = 2017,3,2                  ! year, month, day
+UTsec0 = 27000.0               !UTsec0:  start time in UT seconds
+tdur = 86400.0                          !tdur:  duration of simulation in seconds
+dtout = 1800.0                          !dtout: how often to do output
+activ = 76.5,79.3,31.5                  !activ:  f107a,f107,Ap
+tcfl = 0.9                           !tcfl:  target cfl number
+Teinf = 1500.0                        !Teinf:  exospheric electron temperature
+/
+
+&flags
+potsolve = 0                             !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0                             !flagperiodic:  periodic in x3 grid?
+flagoutput = 1                             !flagoutput
+flagcap = 0                             !flagcap:  use inertial capacitance? (0 - no; 1 - yes; 2 - add a nominal magnetospheric capacitance)
+/
+
+&files
+file_format= '.h5'
+indat_size = '~/gemini_sim/arcs_eq/inputs/simsize.h5'
+indat_grid = ~/gemini_sim/arcs_eq/inputs/simgrid.dat'
+indat_file = '~/gemini_sim/arcs_eq/initial_conditions.h5'
+/
+
+&setup
+glat = 67.11
+glon = 212.95
+xdist = 4000e3              ! eastward distance (meters)
+ydist = 1000e3               ! northward distance (meters)
+alt_min = 80e3              ! minimum altitude (meters)
+alt_max = 1000e3            ! maximum altitude (meters)
+alt_scale = 13.75e3, 20e3, 200e3, 200e3  ! altitude grid scales (meters)
+lxp = 25                   ! number of x-cells
+lyp = 25                   ! number of y-cells
+Bincl = 90                  ! geomagnetic inclination
+nmf = 5e11
+nme = 2e11
+/

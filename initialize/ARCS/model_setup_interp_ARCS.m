@@ -1,5 +1,6 @@
  cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
+gemini_root = [cwd, filesep, '../../../gemini-matlab/matlab'];
+assert(isfolder(gemini_root), ['GEMINI Matlab code directory not found: ',gemini_root])
 addpath([gemini_root, filesep, 'script_utils'])
 addpath([gemini_root, filesep, 'setup/gridgen'])
 addpath([gemini_root, filesep, 'setup'])
