@@ -1,10 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'matlab/setup'])
-addpath([gemini_root, filesep, 'matlab/setup/gridgen'])
-addpath([gemini_root, filesep, 'matlab/vis'])
-
-
 %% 2D EXAMPLE FOR STEVE TESTING
 pgrid.xdist=200e3;    %eastward distance
 pgrid.ydist=600e3;    %northward distance
@@ -27,7 +20,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %% ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
-pfile.format = 'raw';
+pfile.file_format = 'raw';
 pfile.eqdir='../../../simulations/2Dtest_eq/';
 pfile.realbits=64;
 pfile.simdir='~/simulations/input/2DSTEVE';
