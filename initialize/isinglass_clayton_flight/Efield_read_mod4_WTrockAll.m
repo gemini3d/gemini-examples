@@ -1,87 +1,46 @@
-%addpath ../../script_utils;
-
 clear all
 close all
 
-%OUTPUT FILE LOCATION
-% outdir='./Efield_outdir_rocket/';
-outdir='Efield_outdir_clayton5_testclean3';
+
+%% Where to put the output files for GEMINI
+outdir='~/simulations/input/Efield_outdir_clayton5_testclean3/';
 system(['mkdir ',outdir]);
 
-%get time
-%get data
 
-%load('clayton5_step_smooth7.mat')
-
-%load('Eclean_c5.mat')
-load('Eclean_c5_128pts.mat')
+%% Load Rob's fits for electric field
+inputdir='~/Dropbox/common/mypapers/ISINGLASS/paper2_finally/';
+load([inputdir,'Eclean_c5_128pts.mat']);
 clear outu outv
 outu = permute(Exclean,[3,1,2]);
 outv = permute(Eyclean,[3,1,2]);
 clear Exclean Eyclean
+outy = double(outy);   %mlat
+outx=double(outx);     %mlon
 
-outy = double(outy);
-load('isinglass_clayton_grid.mat')
 
-%READ IN FIELD AND POSITION DATA FROM AMISR HDF5 FILEA
+%% Load Matt's GEMINI grid
+load([inputdir,'/isinglass_clayton_grid.mat']);
+
+
+%% Field and position data from Rob's file
 datapath='./';
-% Exgeog=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Fit2D/Ex_geo'),'double');
-% Eygeog=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Fit2D/Ey_geo'),'double');
-% Exgeomagdat=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Fit2D/Ex'),'double');
-% Eygeomagdat=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Fit2D/Ey'),'double');
-% Xgeo=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Grid/X_geo'),'double');    % Geo lon
-% Ygeo=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Grid/Y_geo'),'double');    % Geo lat
-% Exgeomagdat=zeros(length(Xgeo),length(Ygeo),length(vvelmapx(:,1,1)));
-% Eygeomagdat=zeros(length(Xgeo),length(Ygeo),length(vvelmapx(:,1,1)));
-% for i = 1:length(vvelmapx(:,1,1))
-%     Fu = scatteredInterpolant(reshape(vvelmapx(i,:,:),[1510 1]),reshape(vvelmapy(i,:,:),[1510 1]),reshape(vvelmapu(i,:,:),[1510 1]));
-%     Fv = scatteredInterpolant(reshape(vvelmapx(i,:,:),[1510 1]),reshape(vvelmapy(i,:,:),[1510 1]),reshape(vvelmapv(i,:,:),[1510 1]));
-%     Exgeomagdat(:,:,i)=Fu(Xgeo,Ygeo);
-%     Eygeomagdat(:,:,i)=Fv(Xgeo,Ygeo);
-% end
-    Exgeomagdat=outu;
-    Eygeomagdat=outv;
-% Xgeo=outx;    % Geo lon
-% Ygeo=outy;    % Geo lat
-% for i=1:1:length(outx(:,1,1))
-% Xgeo(i,:,:)=squeeze(outx(i,:,:))';    % Geo lon
-% Ygeo(i,:,:)=squeeze(outy(i,:,:))';    % Geo lat
-% end
+Exgeomagdat=outu;
+Eygeomagdat=outv;
+
 for i=1:1:length(outt)
-Xgeo(i,:,:)=(squeeze(glon(100,1:2:end-1,1:2:end-1)))';    % Geo lon
-Ygeo(i,:,:)=(squeeze(glat(100,1:2:end-1,1:2:end-1)))';    % Geo lat
+    Xgeo(i,:,:)=(squeeze(glon(100,1:2:end-1,1:2:end-1)))';    % Geo lon
+    Ygeo(i,:,:)=(squeeze(glat(100,1:2:end-1,1:2:end-1)))';    % Geo lat
 end
 [lt,llon,llat]=size(Exgeomagdat);
 clear glon glat
 
-% %GET THE DIMENSIONS PERMUTED CORRECTLY
-% for it=1:lt
-%    Xgeo_corr(:,:,it)=permute(squeeze(Xgeo(it,:,:)),[2,1]);
-%    Ygeo_corr(:,:,it)=permute(squeeze(Ygeo(it,:,:)),[2,1]);
-% end
-% Xgeo_old=Xgeo;
-% Ygeo_old=Ygeo;
-% Xgeo=Xgeo_corr;
-% Ygeo=Ygeo_corr;
+
+%AFAIK previous code's purpose is to put the data into the arrays Xgeo
+%(glon) dimensions time,glon,glat; Ygeo(glat) dimensions same;
+%Exgeomagdat,Eygeomagdat dimensions same, geomagnetic directions.  
 
 
-%TIMING INFORMATION
-% day=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Time/Day'),'double');
-% day=mean(day,1);   %average in time
-% day=day(:);
-% month=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Time/Month'),'double');
-% month=mean(month,1);
-% month=month(:);
-% year=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Time/Year'),'double');
-% year=mean(year,1);
-% year=year(:);
-% UThrs=cast(hdf5read([datapath,'20170302.002_lp_1min-cal_2dVEF_001001_NoLonely-geo.h5'],'Time/dtime'),'double');
-% UThrs=mean(UThrs,1);
-% UThrs=UThrs(:);
-% UTsec=UThrs*3600;
-% expdate=cat(2,year,month,day,UThrs,zeros(lt,1),zeros(lt,1));    %create a date vector for this dataset
-% t=datenum(expdate);
-
+%% Time information
 day = 2*ones(length(outt),1);
 month = 3*ones(length(outt),1);
 year = 2017*ones(length(outt),1);
@@ -90,22 +49,14 @@ expdate=cat(2,year,month,day,UThrs,zeros(lt,1),zeros(lt,1));    %create a date v
 t=datenum(expdate);
 
 
-%CONVERT POSITIONS TO GEOMAGNETIC USING SAME ALGORITHM AS SIMULATION
-% glat=Ygeo;
-% glon=Xgeo-360;
-% gloncorrected=360+glon;
+%% CONVERT POSITIONS TO GEOMAGNETIC USING SAME ALGORITHM AS SIMULATION
 glat=Ygeo;
 glon=Xgeo;
 gloncorrected=glon;
-% [theta,phi]=geog2geomag(glat,glon);
-% mlat=90-theta*180/pi;
-% mlon=phi*180/pi;
 
 
-%SAMPLE THE DATA ON A UNIFORM MLAT,MLON GRID
+%% FIND MLAT,MLON POSITION OF INPUT DATA
 fprintf('Interpolating...\n')
-
-%FIND MLAT,MLON POSITION OF INPUT DATA
 theta=zeros(llon,llat,lt);
 phi=zeros(llon,llat,lt);
 for it=1:lt
@@ -119,7 +70,7 @@ for it=1:lt
 end
 
 
-%NUMBER OF LAT/LON POINTS FOR OUTPUT DATAS
+%% NUMBER OF LAT/LON POINTS FOR OUTPUT DATAS
 llat2=256;
 llon2=256;
 % mlatdat=90-theta*180/pi;
@@ -142,7 +93,7 @@ phi=mlon*pi/180;
 [GLAT,GLON]=geomag2geog(THETA,PHI);
 
 
-%DO SPATIAL INTERPOLATIONS
+%% DO SPATIAL INTERPOLATIONS
 Exgeomag=zeros(llon2,llat2,lt);
 Eygeomag=zeros(llon2,llat2,lt);
 for it=1:lt
@@ -194,7 +145,8 @@ end
 % close all;
 
 
-%NEED TO SAMPLE DATA ON A UNIFORM TEMPORAL GRID FOR THE MODEL
+%% NEED TO SAMPLE DATA ON A UNIFORM TEMPORAL GRID FOR THE MODEL
+fprintf("Resampling data...\n")
 %samplerate=min(diff(t));    %sampling rate in days, this uses the min from the dataset
 % samplerate=10/86400;    %sampling rate in days
 samplerate=1/86400;
@@ -227,20 +179,7 @@ for ilat=1:llat2
        Eyit(ilon,ilat,:)=reshape(Eyi,[1 1 ltout]);       
    end
 end
-% for ilat=1:llat
-%    for ilon=1:llon
-%        Exhere=squeeze(Exgeomagdat(ilon,ilat,:));
-%        inds=find(isnan(Exhere));
-%        Exhere(inds)=0;    %assumes the simulation is not encapsulating the entire domain of the electric field data
-%        Eyhere=squeeze(Eygeomagdat(ilon,ilat,:));
-%        inds=find(isnan(Eyhere));
-%        Eyhere(inds)=0;
-%        Exi=interp1(t,Exhere,outputt);
-%        Eyi=interp1(t,Eyhere,outputt);
-%        Exit(ilon,ilat,:)=reshape(Exi,[1 1 ltout]);
-%        Eyit(ilon,ilat,:)=reshape(Eyi,[1 1 ltout]);       
-%    end
-% end
+
 
 %ZZZ - ROB PLEASE CHECK!!!!!
 % %CONVERT TO V/M
@@ -269,7 +208,7 @@ end
 % end
 
 
-%ADD IN THE BOUNDARY CONDITIONS
+%% ADD IN THE BOUNDARY CONDITIONS
 Vminx1it=zeros(llon2,llat2,ltout);
 Vmaxx1it=zeros(llon2,llat2,ltout);
 Vminx2it=zeros(llat2,ltout);
@@ -278,15 +217,16 @@ Vminx3it=zeros(llon2,ltout);
 Vmaxx3it=zeros(llon2,ltout);
 
 
-%SAVE THESE DATA TO APPROPRIATE FILES - LEAVE THE SPATIAL AND TEMPORAL INTERPOLATION TO THE
+%% SAVE THESE DATA TO APPROPRIATE FILES - LEAVE THE SPATIAL AND TEMPORAL INTERPOLATION TO THE
 %FORTRAN CODE IN CASE DIFFERENT GRIDS NEED TO BE TRIED.  THE EFIELD DATA DO
 %NO NEED TO BE SMOOTHED.
-filename='simsize.dat';
+fprintf("Generating GEMINI inputs files...\n");
+filename=[outdir,'simsize.dat'];
 fid=fopen(filename,'wb');
 fwrite(fid,llon2,'integer*4');
 fwrite(fid,llat2,'integer*4');
 fclose(fid);
-filename='simgrid.dat';
+filename=[outdir,'simgrid.dat'];
 fid=fopen(filename,'w');
 fwrite(fid,mlon,'real*8');
 fwrite(fid,mlat,'real*8');
@@ -298,7 +238,7 @@ for it=1:ltout
     ymd=outputdate(it,1:3);
     filename=datelab(ymd,UTsec);
     %filename='2017_4_6_';
-    filename=[filename,'.dat']
+    filename=[outdir,filename,'.dat']
     fid=fopen(filename,'w');
 
     fwrite(fid,flagdirich,'real*8');
@@ -318,6 +258,3 @@ end
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
 %save([outdir,'fields.mat'],'glon','glat','mlon','mlat','GLAT','GLON','MLAT','MLON','Exit','Eyit','Exgeog','Eygeog','Vm*','outputdate');
 save([outdir,'fields.mat'],'glon','glat','mlon','mlat','GLAT','GLON','MLAT','MLON','Exit','Eyit','Vm*','outputdate');
-
-
-%rmpath ../../script_utils;

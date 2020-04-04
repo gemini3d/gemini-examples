@@ -20,12 +20,12 @@ addpath ~/Dropbox/common/mypapers/ISINGLASS/AGU2017/restore_idl/;
 
 
 %MINIMUM ALLOWABLE CHARACTERISTIC ENERGY
-minE0=0;    %keV
-maxE0=20;   
+minE0=1;    %keV
+maxE0=15;   
 
 
 %CREATE SOME SPACE FOR OUTPUT FILES
-outdir='~/simulations/input/particles_isinglass_grubbs_final/';
+outdir='~/simulations/input/particles_isinglass_grubbs_final_new/';
 system(['mkdir ',outdir]);
 system(['rm -rvf ',outdir,'/*']);   %clean out existing files
 

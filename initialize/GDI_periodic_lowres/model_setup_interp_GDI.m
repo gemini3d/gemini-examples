@@ -1,6 +1,3 @@
-addpath ../../../GEMINI-scripts/setup/gridgen;
-
-
 %% Setup a coarse grid for testing GDI development
 pgrid.xdist=200e3;    %eastward distance
 pgrid.ydist=50e3;    %northward distance (periodic here)
@@ -12,7 +9,9 @@ pgrid.gridflag=0;
 pgrid.Bincl=90;
 pgrid.alt_min=80e3;
 pgrid.alt_max=975e3;
-pgrid.alt_scale=[30e3, 25e3, 500e3, 150e3];    %parameters setting the nonuniform structure of the grid
+%pgrid.alt_scale=[30e3, 25e3, 500e3, 150e3];    %parameters setting the nonuniform structure of the grid
+%pgrid.alt_scale=[40e3, 35e3, 450e3, 150e3];    %coarse along field line
+pgrid.alt_scale=[50e3, 45e3, 400e3, 150e3];    %super coarse along the field line...
 
 
 %% RUN THE GRID GENERATION CODE
