@@ -1,9 +1,10 @@
 clear all
 close all
+plotflag=0;
 
 
 %% Where to put the output files for GEMINI
-outdir='~/simulations/input/Efield_outdir_clayton5_testclean3/';
+outdir='~/simulations/input/fields_isinglass_clayton5_final/';
 system(['mkdir ',outdir]);
 
 
@@ -109,40 +110,42 @@ for it=1:lt
 end
 
 
-% %DEBUG PLOTTING OF ORIGINAL DATA
-% plotdir='./plotsE/';
-% system(['mkdir ',plotdir]);
-% figure;
-% set(gcf,'PaperPosition',[0 0 8.5 3.5]);
-% for it=1:lt
-%     clf;
-%     subplot(131);
-%     quiver(gloncorrected,glat,Exgeog(:,:,it),Eygeog(:,:,it));
-%     xlabel('geographic lon.');
-%     ylabel('geographic lat.');
-%     title(datestr(datenum(expdate(it,:))));
-%     
-%     subplot(132);
-%     quiver(GLON,GLAT,Exgeomag(:,:,it),Eygeomag(:,:,it));
-%     xlabel('geog. lon. (resamp.)');
-%     ylabel('geog. lat. (resamp.)');
-%     title(datestr(datenum(expdate(it,:))));
-% 
-%     subplot(133);
-% %    quiver(MLON,MLAT,Exgeomag(:,:,it),Eygeomag(:,:,it));
-%     quiver(MLON',MLAT',Exgeomag(:,:,it)',Eygeomag(:,:,it)');
-%     xlabel('geomagnetic lon.');
-%     ylabel('geomagnetic lat.');
-%     title(datestr(datenum(expdate(it,:))));    
-%     
-%     UTsec=expdate(it,4)*3600+expdate(it,5)*60+expdate(it,6);
-%     ymd=expdate(it,1:3);
-%     filename=datelab(ymd,UTsec);
-%     filename=[plotdir,filename,'.png']
-%     
-%     print('-dpng',filename,'-r300')
-% end
-% close all;
+%DEBUG PLOTTING OF ORIGINAL DATA
+if (plotflag)
+    plotdir='./plotsE/';
+    system(['mkdir ',plotdir]);
+    figure;
+    set(gcf,'PaperPosition',[0 0 8.5 3.5]);
+    for it=1:lt
+        clf;
+        subplot(131);
+        quiver(gloncorrected,glat,Exgeog(:,:,it),Eygeog(:,:,it));
+        xlabel('geographic lon.');
+        ylabel('geographic lat.');
+        title(datestr(datenum(expdate(it,:))));
+        
+        subplot(132);
+        quiver(GLON,GLAT,Exgeomag(:,:,it),Eygeomag(:,:,it));
+        xlabel('geog. lon. (resamp.)');
+        ylabel('geog. lat. (resamp.)');
+        title(datestr(datenum(expdate(it,:))));
+        
+        subplot(133);
+        %    quiver(MLON,MLAT,Exgeomag(:,:,it),Eygeomag(:,:,it));
+        quiver(MLON',MLAT',Exgeomag(:,:,it)',Eygeomag(:,:,it)');
+        xlabel('geomagnetic lon.');
+        ylabel('geomagnetic lat.');
+        title(datestr(datenum(expdate(it,:))));
+        
+        UTsec=expdate(it,4)*3600+expdate(it,5)*60+expdate(it,6);
+        ymd=expdate(it,1:3);
+        filename=datelab(ymd,UTsec);
+        filename=[plotdir,filename,'.png']
+        
+        print('-dpng',filename,'-r300')
+    end
+    close all;
+end %if
 
 
 %% NEED TO SAMPLE DATA ON A UNIFORM TEMPORAL GRID FOR THE MODEL
@@ -174,17 +177,15 @@ for ilat=1:llat2
        inds=find(isnan(Eyhere));
        Eyhere(inds)=0;
        Exi=interp1(t,Exhere,outputt);
+       inds=find(isnan(Exi));
+       Exi(inds)=0;
        Eyi=interp1(t,Eyhere,outputt);
+       inds=find(isnan(Eyi));
+       Eyi(inds)=0;       
        Exit(ilon,ilat,:)=reshape(Exi,[1 1 ltout]);
        Eyit(ilon,ilat,:)=reshape(Eyi,[1 1 ltout]);       
    end
 end
-
-
-%ZZZ - ROB PLEASE CHECK!!!!!
-% %CONVERT TO V/M
-% Exit=Exit*1e-3;
-% Eyit=Eyit*1e-3;
 
 
 % % PLOT THE INTERPOLATED DATA AS A CHECK
