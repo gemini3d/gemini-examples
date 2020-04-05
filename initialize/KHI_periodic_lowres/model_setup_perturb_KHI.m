@@ -1,14 +1,12 @@
 %% READ IN THE SIMULATION INFORMATION
-ID=['../../../simulations/input/GDI_periodic_lowres/'];
+ID=['../../../simulations/input/KHI_periodic_lowres/'];
 xg=readgrid(ID,'raw',64);
-x1=xg.x1(3:end-2);    %trim ghost cells
-x2=xg.x2(3:end-2);
+x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
+lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 direc=ID;
-%filebase='GDI_periodic_medres';
-%filename=[filebase,'_ICs.dat'];
 filebase='initial_conditions';
 filename=[filebase,'.dat'];
 [ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
@@ -24,25 +22,21 @@ end %for
 nsscale(:,:,:,lsp)=sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
 
-%% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
-ell=5e3;           %a gradient scale length for patch/blob
-x21=-50e3;         %location on one of the patch edges
-x22=-10e3;         %other patch edge
-nepatchfact=10;    %density increase factor over background
+%% APPLY THE PERTURBATION
+densfact=10;              %factor by which the density increases over the shear region - see Keskinen, et al (1988)
+v0=500;                   %background flow value, actually this will be turned into a shear in the Efield input file
+voffset=2*v0/densfact;
+ell=1e3;                  %scale length for shear transition
 
 nsperturb=zeros(size(ns));
-for isp=1:lsp-1
+for isp=1:lsp
   for ix2=1:xg.lx(2)
-    amplitude=randn(xg.lx(1),1,xg.lx(3));     %AWGN - note that can result in subtractive effects on density!!!
-    amplitude=0.01*amplitude;                  %amplitude standard dev. is scaled to be 1% of reference profile
-    
-    nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp)+...                                             %original data
-                nepatchfact*nsscale(:,ix2,:,isp)*(1/2*tanh((x2(ix2)-x21)/ell)-1/2*tanh((x2(ix2)-x22)/ell));    %patch, note offset in the x2 index!!!!
+    amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWM, note this can make density go negative so error checking needed below
+    amplitude=0.01*amplitude;
 
-    if (ix2>75 & ix2<xg.lx(2)-75)         %do not apply noise near the edge (corrupts boundary conditions)
-      nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);
-    end %if
-    
+    nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp).*(2*v0+voffset)./(-v0*tanh((x2(ix2))/ell)+v0+voffset);
+                      
+    nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);        %add some noise to seed instability
   end %for
 end %for
 nsperturb=max(nsperturb,1e4);                        %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
