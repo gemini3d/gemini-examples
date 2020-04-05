@@ -4,7 +4,7 @@
 %   https://www.mathworks.com/matlabcentral/fileexchange/43899-restore-idl 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all
-flagplots=1;
+flagplots=0;
 
 % cwd = fileparts(mfilename('fullpath'));
 % gemini_root = [cwd, filesep, '../../../GEMINI'];
@@ -60,7 +60,7 @@ if (~exist('Qdat','var'))
     firstrun=1;
     
     if (time(1)<7)
-        time=time+7;   %some of the input files have time starting from 7UT
+        time=time+7*3600;   %some of the input files have time starting from 7UT
     end %if
     
     datadate=[2017*ones(lt,1),03*ones(lt,1),02*ones(lt,1),time(:)/3600,zeros(lt,1),zeros(lt,1)];     %define a date structure for the input data
@@ -316,8 +316,8 @@ end
 
 
 %SAFETY CHECKS FOR NEGATIVE ENERGY FLUX AND E0
-inds=find(E0(:)<3);
-E0(inds)=3;
+inds=find(E0(:)<minE0);
+E0(inds)=minE0;
 inds=find(Q(:)<0.025);
 Q(inds)=0.025;
 

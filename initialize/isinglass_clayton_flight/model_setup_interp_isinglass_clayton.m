@@ -5,8 +5,10 @@ thetactr=pi/2-mlatctr*pi/180;
 phictr=mlonctr*pi/180;
 
 [pgrid.glat,pgrid.glon]=geomag2geog(thetactr,phictr);
-pgrid.xdist=280e3;    %eastward distance
-pgrid.ydist=155e3;    %northward distance
+%pgrid.xdist=280e3;    %eastward distance
+%pgrid.ydist=155e3;    %northward distance
+pgrid.xdist=275e3;    %eastward distance
+pgrid.ydist=150e3;    %northward distance
 pgrid.lxp=128;
 pgrid.lyp=128;
 pgrid.gridflag=0;
