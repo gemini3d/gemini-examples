@@ -8,9 +8,9 @@
 
 %% A modest resolution grid to test the global run with
 dtheta=15;
-lp=256;
-lq=384;
-lphi=128;
+lp=192;
+lq=256;
+lphi=96;
 dphi=365-365/lphi;
 altmin=80e3;
 glat=42.45;
@@ -41,8 +41,8 @@ p.nme=2e11;
 
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
-p.simdir='../../../simulations/input/global_eq';
-p.format='raw';
+p.simdir='../../../simulations/input/EIA_eq';
+p.file_format='raw';
 p.realbits=64;
 writegrid(p,xg);
 writedata(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);
