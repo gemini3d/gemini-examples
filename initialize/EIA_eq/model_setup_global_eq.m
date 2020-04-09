@@ -8,7 +8,7 @@
 
 %% A modest resolution grid to test the global run with
 dtheta=15;
-lp=192;
+lp=128;
 lq=256;
 lphi=96;
 dphi=365-365/lphi;
