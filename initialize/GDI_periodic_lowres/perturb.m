@@ -1,19 +1,12 @@
+function perturb(cfg)
 %% READ IN THE SIMULATION INFORMATION
-ID=['../../../simulations/input/GDI_periodic_lowres/'];
-xg=readgrid(ID,'raw',64);
-x1=xg.x1(3:end-2);    %trim ghost cells
-x2=xg.x2(3:end-2);
-
+xg = readgrid(cfg.indat_grid);
+x1 = xg.x1(3:end-2);    %trim ghost cells
+x2 = xg.x2(3:end-2);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-direc=ID;
-%filebase='GDI_periodic_medres';
-%filename=[filebase,'_ICs.dat'];
-filebase='initial_conditions';
-filename=[filebase,'.dat'];
 [ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
 lsp=size(ns,4);
-
 
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
 scalefact=2.75;
@@ -35,14 +28,14 @@ for isp=1:lsp-1
   for ix2=1:xg.lx(2)
     amplitude=randn(xg.lx(1),1,xg.lx(3));     %AWGN - note that can result in subtractive effects on density!!!
     amplitude=0.01*amplitude;                  %amplitude standard dev. is scaled to be 1% of reference profile
-    
+
     nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp)+...                                             %original data
                 nepatchfact*nsscale(:,ix2,:,isp)*(1/2*tanh((x2(ix2)-x21)/ell)-1/2*tanh((x2(ix2)-x22)/ell));    %patch, note offset in the x2 index!!!!
 
     if (ix2>75 & ix2<xg.lx(2)-75)         %do not apply noise near the edge (corrupts boundary conditions)
       nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);
     end %if
-    
+
   end %for
 end %for
 nsperturb=max(nsperturb,1e4);                        %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
@@ -69,3 +62,4 @@ ymd=[simdate(1:3)];
 UTsec=simdate(4)*3600;
 writedata(ymd,UTsec,nsperturb,vs1,Ts,outdir,'raw',64);
 
+end % function
