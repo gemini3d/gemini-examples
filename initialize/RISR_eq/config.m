@@ -1,10 +1,9 @@
 cwd = fileparts(mfilename('fullpath'));
-if ~exist('gemini_root', 'var'), run([cwd, '/../../setup.m']), end
+if isempty(getenv('GEMINI_ROOT')), run([cwd, '/../../setup.m']), end
+
+outdir = [getenv('GEMINI_ROOT'), '/../simulations/input/RISR_eq/'];
 
 cfg = read_config(cwd);
-
-outdir = [gemini_root, '/../simulations/input/RISR_eq/'];
-
 %% MATLAB GRID GENERATION
 xg = makegrid_cart_3D(cfg);
 
