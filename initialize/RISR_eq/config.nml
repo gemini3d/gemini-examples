@@ -15,7 +15,6 @@ xdist = 1.5e6             ! eastward distance (meters)
 ydist = 1.5e6             ! northward distance (meters)
 lxp = 20
 lyp = 20
-gridflag = 0
 Bincl = 90
 nmf = 5e11
 nme = 2e11
@@ -33,7 +32,7 @@ flagcap = 0
 
 &files
 file_format = 'h5'
-indat_size = '../../simulations/input/RISR_eq/simsize.h5'
-indat_grid = '../../simulations/input/RISR_eq/simgrid.h5'
-indat_file = '../../simulations/input/RISR_eq/initial_conditions.h5'
+indat_size = '~/simulations/RISR_eq/inputs/simsize.h5'
+indat_grid = '~/simulations/RISR_eq/inputs/simgrid.h5'
+indat_file = '~/simulations/RISR_eq/inputs/initial_conditions.h5'
 /
