@@ -1,3 +1,5 @@
+function setup()
+
 cwd = fileparts(mfilename('fullpath'));
 gemini_matlab = [cwd, '/../gemini-matlab'];
 if ~isfolder(gemini_matlab)
@@ -7,3 +9,5 @@ if ~isfolder(gemini_matlab)
   assert(ret==0, 'problem downloading Gemini Matlab functions')
 end
 run([gemini_matlab, '/setup.m'])
+
+end
