@@ -10,6 +10,8 @@ cfg.outdir = '~/simulations/GDI_periodic_lowres/inputs/';
 xg = makegrid_cart_3D(cfg);
 %% Interpolate data to desired grid resolution
 eq2dist(cfg, xg);
+%% E-field boundary conditions
+Efield(cfg, xg)
 %% perturbation
 perturb(cfg)
 end % function
