@@ -50,13 +50,13 @@ UThrs = UTsec / 3600;
 E.expdate = cat(2, repmat(cfg.ymd(:)',[Nt, 1]), UThrs', zeros(Nt, 1), zeros(Nt, 1));
 t = datenum(E.expdate);
 %% CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
-if isfield(p, 'Exit')
-  E.Exit = p.Exit * ones(E.llon, E.llat, Nt);
+if isfield(cfg, 'Exit')
+  E.Exit = cfg.Exit * ones(E.llon, E.llat, Nt);
 else
   E.Exit = zeros(E.llon, E.llat, Nt);
 end
-if isfield(p, 'Eyit')
-  E.Eyit = p.Eyit * ones(E.llon, E.llat, Nt);
+if isfield(cfg, 'Eyit')
+  E.Eyit = cfg.Eyit * ones(E.llon, E.llat, Nt);
 else
   E.Eyit = zeros(E.llon, E.llat, Nt);
 end

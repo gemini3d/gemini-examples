@@ -1,20 +1,24 @@
-function perturb(cfg)
+function perturb(cfg, xg)
+% perturb plasma from initial_conditions file
+
+narginchk(2,2)
+validateattributes(cfg, {'struct'}, {'scalar'})
+validateattributes(xg, {'struct'}, {'scalar'})
 %% READ IN THE SIMULATION INFORMATION
-xg = readgrid(cfg.indat_grid);
 x1 = xg.x1(3:end-2);    %trim ghost cells
 x2 = xg.x2(3:end-2);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-[ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
-lsp=size(ns,4);
+dat = loadframe3Dcurvnoelec(cfg.indat_file);
+lsp = size(dat.ns,4);
 
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
 scalefact=2.75;
-nsscale=zeros(size(ns));
+nsscale=zeros(size(dat.ns));
 for isp=1:lsp-1
-    nsscale(:,:,:,isp)=scalefact*ns(:,:,:,isp);
+    nsscale(:,:,:,isp) = scalefact * dat.ns(:,:,:,isp);
 end %for
-nsscale(:,:,:,lsp)=sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
+nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
 
 %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
@@ -23,7 +27,7 @@ x21=-50e3;         %location on one of the patch edges
 x22=-10e3;         %other patch edge
 nepatchfact=10;    %density increase factor over background
 
-nsperturb=zeros(size(ns));
+nsperturb=zeros(size(dat.ns));
 for isp=1:lsp-1
   for ix2=1:xg.lx(2)
     amplitude=randn(xg.lx(1),1,xg.lx(3));     %AWGN - note that can result in subtractive effects on density!!!
@@ -32,14 +36,14 @@ for isp=1:lsp-1
     nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp)+...                                             %original data
                 nepatchfact*nsscale(:,ix2,:,isp)*(1/2*tanh((x2(ix2)-x21)/ell)-1/2*tanh((x2(ix2)-x22)/ell));    %patch, note offset in the x2 index!!!!
 
-    if (ix2>75 & ix2<xg.lx(2)-75)         %do not apply noise near the edge (corrupts boundary conditions)
-      nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);
+    if (ix2>75 && ix2<xg.lx(2)-75)         %do not apply noise near the edge (corrupts boundary conditions)
+      nsperturb(:,ix2,:,isp) = nsperturb(:,ix2,:,isp) + amplitude .* nsscale(:,ix2,:,isp);
     end %if
 
   end %for
 end %for
-nsperturb=max(nsperturb,1e4);                        %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
-nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
+nsperturb = max(nsperturb,1e4);                        %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
+nsperturb(:,:,:,lsp) = sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% KILL OFF THE E-REGION WHICH WILL DAMP THE INSTABILITY (AND USUALLY ISN'T PRESENT IN PATCHES)
@@ -53,13 +57,12 @@ for isp=1:lsp-1
        end %for
    end %for
 end %for
-nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
+nsperturb(:,:,:,lsp) = sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
-outdir=ID;
-ymd=[simdate(1:3)];
-UTsec=simdate(4)*3600;
-writedata(ymd,UTsec,nsperturb,vs1,Ts,outdir,'raw',64);
+ymd = dat.simdate(1:3);
+UTsec = dat.simdate(4)*3600;
+writedata(ymd, UTsec, nsperturb, dat.vs1, dat.Ts, cfg.outdir, cfg.file_format);
 
 end % function
