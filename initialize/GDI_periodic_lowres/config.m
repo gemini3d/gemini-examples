@@ -6,6 +6,7 @@ if isempty(getenv('GEMINI_ROOT')), run([cwd, '/../../setup.m']), end
 
 cfg = read_config([cwd, '/config.nml']);
 cfg.outdir = '~/simulations/GDI_periodic_lowres/inputs/';
+cfg.realbits=64;
 %% generate grid
 xg = makegrid_cart_3D(cfg);
 %% Interpolate data to desired grid resolution
