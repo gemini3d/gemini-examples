@@ -1,8 +1,10 @@
 %% RISR PERIODIC KHI RUN
 pgrid.xdist=239.0625e3;
-pgrid.ydist=159.375e3;
+%pgrid.ydist=159.375e3;
+pgrid.ydist=159.375e3/2;
 pgrid.lxp=256;
-pgrid.lyp=256;
+%pgrid.lyp=256;
+pgrid.lyp=128;
 pgrid.glat=75.6975;
 pgrid.glon=360.0-94.8322;
 pgrid.gridflag=0;
@@ -25,6 +27,7 @@ pfile.file_format = 'raw';
 pfile.eqdir='../../../simulations/RISR_eq/';
 pfile.realbits=64;
 pfile.simdir='~/simulations/input/KHI_periodic_lowres/';
+pfile.outdir='~/simulations/input/KHI_periodic_lowres/inputs/';
 [nsi,vs1i,Tsi]=eq2dist(pfile,xg);
 
 

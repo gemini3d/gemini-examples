@@ -1,6 +1,6 @@
 %% READ IN THE SIMULATION INFORMATION
 ID=['../../../simulations/input/KHI_periodic_lowres/'];
-xg=readgrid(ID,'raw',64);
+xg=readgrid(ID,64);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -9,7 +9,17 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 direc=ID;
 filebase='initial_conditions';
 filename=[filebase,'.dat'];
-[ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
+dat=loadframe3Dcurvnoelec([direc,'/',filename]);
+
+ne=dat.ne;
+v1=dat.v1;
+Ti=dat.Ti;
+Te=dat.Te;
+ns=dat.ns;
+Ts=dat.Ts;
+vs1=dat.vs1;
+simdate=dat.simdate;
+
 lsp=size(ns,4);
 
 
