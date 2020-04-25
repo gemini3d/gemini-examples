@@ -11,7 +11,7 @@ Teinf = 1500.0                ! exospheric electron temperature
 &setup
 glat = 75.6975
 glon = 265.1678
-xdist = 200e3             ! eastward distance (meters)
+xdist = 600e3             ! eastward distance (meters), including a large low-res buffer for solvers
 ydist = 50e3             ! northward distance (meters)
 lxp = 384
 lyp = 96
@@ -40,12 +40,12 @@ flagglow = 0
 
 &files
 file_format = 'h5'
-indat_size = '~/simulations/GDI_periodic_lowres/inputs/simsize.h5'
-indat_grid = '~/simulations/GDI_periodic_lowres/inputs/simgrid.h5'
-indat_file = '~/simulations/GDI_periodic_lowres/inputs/initial_conditions.h5'
+indat_size = '~/simulations/GDI_periodic_lowres_varx2/inputs/simsize.h5'
+indat_grid = '~/simulations/GDI_periodic_lowres_varx2/inputs/simgrid.h5'
+indat_file = '~/simulations/GDI_periodic_lowres_varx2/inputs/initial_conditions.h5'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/GDI_periodic_lowres/inputs/Efield/'
+E0_dir = '~/simulations/GDI_periodic_lowres_varx2/inputs/Efield/'
 /
