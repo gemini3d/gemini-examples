@@ -23,3 +23,13 @@ catch e
     rethrow(e)
   end
 end
+%% arcs_eq
+model_setup([R, '/arcs_eq'])
+%% arcs
+try
+  model_setup([R, '/arcs'])
+catch e
+  if ~strcmp(e.identifier, 'readgrid:file_not_found')
+    rethrow(e)
+  end
+end
