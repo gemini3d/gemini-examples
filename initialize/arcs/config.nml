@@ -51,10 +51,10 @@ eqdir = ~/gemini_sim/arcs_eq'
 
 &precip
 dtprec =1.0
-prec_dir = '~/gemini_sim/arcs/inputs/prec_inputs/'
+prec_dir = '~/gemini_sim/arcs/inputs/precip/'
 /
 
 &efield
 dtE0 = 10.0
-E0_dir = '~/gemini_sim/arcs/inputs/Efield_inputs/'
+E0_dir = '~/gemini_sim/arcs/inputs/Efield/'
 /
