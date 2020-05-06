@@ -41,5 +41,7 @@ catch e
     rethrow(e)
   end
 end
+%% risr2d_eq
+model_setup([R, '/risr2d_eq'])
 %% risr3d_eq
-run([R, '/risr3d_eq/config.m'])
+model_setup([R, '/risr3d_eq'])
