@@ -36,7 +36,7 @@ flagglow = 0
 
 &files
 file_format = 'h5'
-indat_size = '~/simulations/risr2d_eq/simsize.h5'
-indat_grid = '~/simulations/risr2d_eq/simgrid.h5'
-indat_file = '~/simulations/risr2d_eq/initial_conditions.h5'
+indat_size = '~/simulations/risr2d_eq/inputs/simsize.h5'
+indat_grid = '~/simulations/risr2d_eq/inputs/simgrid.h5'
+indat_file = '~/simulations/risr2d_eq/inputs/initial_conditions.h5'
 /
