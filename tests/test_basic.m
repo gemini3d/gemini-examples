@@ -41,5 +41,5 @@ catch e
     rethrow(e)
   end
 end
-%% risr_eq
-run([R, '/risr_eq/config.m'])
+%% risr3d_eq
+run([R, '/risr3d_eq/config.m'])
