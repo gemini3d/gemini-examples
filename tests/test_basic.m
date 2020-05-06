@@ -5,6 +5,14 @@ this = fileparts(mfilename('fullpath'));
 run([this, '/../setup.m'])
 
 R = [this, '/../initialize'];
+
+%% lint
+if exist('checkcode_recursive', 'file')
+  checkcode_recursive([this, '/../'])
+else
+  disp('SKIP: lint check')
+end
+
 %% test2d_eq
 model_setup([R, '/test2d_eq'])
 %% test2d_fang
@@ -33,3 +41,5 @@ catch e
     rethrow(e)
   end
 end
+%% risr_eq
+run([R, '/risr_eq/config.m'])

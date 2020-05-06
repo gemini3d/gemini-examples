@@ -3,7 +3,7 @@ function config()
 cwd = fileparts(mfilename('fullpath'));
 if isempty(getenv('GEMINI_ROOT')), run([cwd, '/../../setup.m']), end
 
-outdir = '~/simulations/RISR_eq/inputs/';
+outdir = '~/simulations/risr_eq/inputs/';
 
 cfg = read_config([cwd, '/config.nml']);
 makedir(outdir)

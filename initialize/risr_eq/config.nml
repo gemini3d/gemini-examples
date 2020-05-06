@@ -32,7 +32,7 @@ flagcap = 0
 
 &files
 file_format = 'h5'
-indat_size = '~/simulations/RISR_eq/inputs/simsize.h5'
-indat_grid = '~/simulations/RISR_eq/inputs/simgrid.h5'
-indat_file = '~/simulations/RISR_eq/inputs/initial_conditions.h5'
+indat_size = '~/simulations/risr_eq/inputs/simsize.h5'
+indat_grid = '~/simulations/risr_eq/inputs/simgrid.h5'
+indat_file = '~/simulations/risr_eq/inputs/initial_conditions.h5'
 /
