@@ -7,10 +7,15 @@ run([this, '/../setup.m'])
 R = [this, '/../initialize'];
 
 %% lint
-if exist('checkcode_recursive', 'file')
+if exist('checkcode', 'file')
   checkcode_recursive([this, '/../'])
 else
-  disp('SKIP: lint check')
+  fprintf(2, 'SKIP: lint check\n')
+end
+
+if ~exist('h5create', 'file')
+  fprintf(2, 'SKIP: generation tests due to missing HDF5 interface\n')
+  return
 end
 
 %% test2d_eq
@@ -45,3 +50,5 @@ end
 model_setup([R, '/risr2d_eq'])
 %% risr3d_eq
 model_setup([R, '/risr3d_eq'])
+
+disp('OK: gemini-examples generation checks')
