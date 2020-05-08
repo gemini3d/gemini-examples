@@ -8,24 +8,6 @@ tcfl = 0.9                           !tcfl:  target cfl number
 Teinf = 1500.0                        !Teinf:  exospheric electron temperature
 /
 
-&flags
-potsolve = 1                             !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
-flagperiodic = 0                             !flagperiodic:  periodic in x3 grid?
-flagoutput = 2                             !flagoutput
-flagcap = 0                             !flagcap:  use inertial capacitance? (0 - no; 1 - yes; 2 - add a nominal magnetospheric capacitance)
-flagdneu = 0
-flagprecfile = 1
-flagE0file = 1
-flagglow = 0
-/
-
-&files
-file_format= 'h5'
-indat_size = '~/simulations/ARCS/inputs/simsize.h5'
-indat_grid = ~/simulations/ARCS/inputs/simgrid.dat'
-indat_file = '~/simulations/ARCS/initial_conditions.h5'
-/
-
 &setup
 glat = 65.8
 glon = 207.7
@@ -33,7 +15,7 @@ xdist = 2950e3              ! eastward distance (meters)
 ydist = 400e3               ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 950e3            ! maximum altitude (meters)
-alt_scale = 13.75e3, 20e3, 200e3, 200e3  ! altitude grid scales (meters)
+alt_scale = 10e3, 8e3, 500e3, 150e3  ! altitude grid scales (meters)
 lxp = 256                   ! number of x-cells
 lyp = 288                   ! number of y-cells
 Bincl = 90                  ! geomagnetic inclination
@@ -49,6 +31,24 @@ Efield_fracwidth = 0.142857
 eqdir = ~/simulations/ARCS_eq'
 /
 
+&flags
+potsolve = 1                             !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0                             !flagperiodic:  periodic in x3 grid?
+flagoutput = 2                             !flagoutput
+flagcap = 0                             !flagcap:  use inertial capacitance? (0 - no; 1 - yes; 2 - add a nominal magnetospheric capacitance)
+flagdneu = 0
+flagprecfile = 1
+flagE0file = 1
+flagglow = 0
+/
+
+&files
+file_format= 'h5'
+indat_size = '~/simulations/ARCS/inputs/simsize.h5'
+indat_grid = '~/simulations/ARCS/inputs/simgrid.h5'
+indat_file = '~/simulations/ARCS/inputs/initial_conditions.h5'
+/
+
 &precip
 dtprec =1.0
 prec_dir = '~/simulations/ARCS/inputs/precip/'
@@ -58,3 +58,4 @@ prec_dir = '~/simulations/ARCS/inputs/precip/'
 dtE0 = 10.0
 E0_dir = '~/simulations/ARCS/inputs/Efield/'
 /
+
