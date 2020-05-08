@@ -62,6 +62,7 @@ else
 end
 
 %% CREATE DATA FOR BOUNDARY CONDITIONS FOR POTENTIAL SOLUTION
+E.flagdirich=zeros(1,Nt);    %in principle can have different boundary types for different time steps...
 E.Vminx1it = zeros(E.llon,E.llat, Nt);
 E.Vmaxx1it = zeros(E.llon,E.llat, Nt);
 %these are just slices
