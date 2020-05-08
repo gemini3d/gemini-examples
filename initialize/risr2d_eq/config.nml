@@ -1,6 +1,6 @@
 &base
 ymd = 2012,1,23               ! year, month, day
-UTsec0 = 39600.0              ! UTsec0:  start time in UT seconds
+UTsec0 = 39600.0              ! start time in UT seconds
 tdur = 86400.0                ! tdur:  duration of simulation in seconds
 dtout = 1800.0                ! dtout: how often to do output
 activ = 88.896, 139.8, 3      ! activ:  f107a,f107,Ap
