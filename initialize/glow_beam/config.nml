@@ -29,18 +29,18 @@ indat_file = '~/simulations/glow_beam/inputs/initial_conditions.h5'
 file_format = 'h5'
 glat = 67.11
 glon = 212.95
-xdist = 25e3              ! eastward distance (meters)
-ydist = 0              ! northward distance (meters)
+xdist = 0              ! eastward distance (meters)
+ydist = 25e3              ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 1000e3            ! maximum altitude (meters)
 alt_scale = 13.75e3, 20e3, 200e3, 200e3  ! altitude grid scales (meters)
-lxp = 100                   ! number of x-cells
-lyp = 1                     ! number of y-cells
+lxp = 1                   ! number of x-cells
+lyp = 100                     ! number of y-cells
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
-precip_latwidth = 0
-precip_lonwidth = 0.05
+precip_latwidth = 0.05
+precip_lonwidth = 0
 Etarg = 50e-3   ! V/m
 Efield_fracwidth = 0.125
 eqdir = '~/simulations/risr2d_eq'
@@ -49,6 +49,9 @@ eqdir = '~/simulations/risr2d_eq'
 &precip
 dtprec = 5.0
 prec_dir = '~/simulations/glow_beam/inputs/precip/'
+Qprecip = 1.0
+Qprecip_background = 0
+E0precip = 50.0
 /
 
 &efield
