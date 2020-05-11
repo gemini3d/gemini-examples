@@ -51,7 +51,7 @@ t=datenum(expdate);
 
 
 %% Call a function to do the interpolations and output
-griddir='~/simulations/input/isinglass_clayton_flight/'
+griddir='~/simulations/input/isinglass_clayton_flight/';    %have the prep code read the grid out of the input file
 Efield2input(t,Xgeo,Ygeo,Exgeomagdat,Eygeomagdat,griddir,outdir);
 
 
