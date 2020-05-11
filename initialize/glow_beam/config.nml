@@ -15,7 +15,7 @@ flagoutput = 2
 flagcap = 0
 flagdneu = 0
 flagprecfile = 1
-flagE0file = 0
+flagE0file = 1
 flagglow = 1
 /
 
@@ -46,6 +46,7 @@ Qprecip_background = 0
 E0precip = 50.0
 Etarg = 50e-3   ! V/m
 Efield_fracwidth = 0.125
+Eflagdirich = 1
 eqdir = '~/simulations/risr2d_eq'
 /
 
