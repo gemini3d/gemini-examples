@@ -41,6 +41,9 @@ nmf = 5e11
 nme = 2e11
 precip_latwidth = 0.05
 precip_lonwidth = 0
+Qprecip = 1.0
+Qprecip_background = 0
+E0precip = 50.0
 Etarg = 50e-3   ! V/m
 Efield_fracwidth = 0.125
 eqdir = '~/simulations/risr2d_eq'
@@ -49,9 +52,6 @@ eqdir = '~/simulations/risr2d_eq'
 &precip
 dtprec = 5.0
 prec_dir = '~/simulations/glow_beam/inputs/precip/'
-Qprecip = 1.0
-Qprecip_background = 0
-E0precip = 50.0
 /
 
 &efield
