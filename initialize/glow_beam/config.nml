@@ -14,9 +14,9 @@ flagperiodic = 0
 flagoutput = 2
 flagcap = 0
 flagdneu = 0
-flagprecfile = 1
-flagE0file = 1
-flagglow = 1
+flagprecfile = 0
+flagE0file = 0
+flagglow = 0
 /
 
 &files
@@ -26,11 +26,10 @@ indat_file = '~/simulations/glow_beam/inputs/initial_conditions.h5'
 /
 
 &setup
-file_format = 'h5'
 glat = 67.11
 glon = 212.95
 xdist = 0              ! eastward distance (meters)
-ydist = 25e3              ! northward distance (meters)
+ydist = 100e3              ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 1000e3            ! maximum altitude (meters)
 alt_scale = 13.75e3, 20e3, 200e3, 200e3  ! altitude grid scales (meters)
