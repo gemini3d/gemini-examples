@@ -4,36 +4,52 @@ plotflag=0;
 
 
 %% Where to put the output files for GEMINI
-outdir='~/simulations/input/fields_isinglass_clayton5_decurl/';
+outdir='~/simulations/input/fields_isinglass_clayton5_tucker/';
 system(['mkdir ',outdir]);
 
 
-%% Load Rob's fits for electric field
+%% Load Tucker's fits for electric field
 inputdir='~/Dropbox/common/mypapers/ISINGLASS/paper2_finally/';
-load([inputdir,'Efield_clayton5_decurl.mat']);    %this is MZ's decurled version of Robs inputs...
-clear outu outv
-outu = permute(Exclean,[3,1,2]);
-outv = permute(Eyclean,[3,1,2]);
-clear Exclean Eyclean
-outy = double(outy);   %mlat
-outx=double(outx);     %mlon
+load([inputdir,'tucker_reconstructions.mat']);    %this is MZ's decurled version of Robs inputs...
+Xgeomag=permute(xout,[3,1,2]);    %transport so that x is column index
+Ygeomag=permute(yout,[3,1,2]);
+Exgeomagdat=permute(uE,[3,1,2]);
+Eygeomagdat=permute(vE,[3,1,2]);
+
+
+%% Trim dataset to exclude boundary artifacts
+ledge=5;    %number of edge points to trim off
+Xgeomag=Xgeomag(:,ledge:end-ledge,ledge:end-ledge);
+Ygeomag=Ygeomag(:,ledge:end-ledge,ledge:end-ledge);
+Exgeomagdat=Exgeomagdat(:,ledge:end-ledge,ledge:end-ledge);
+Eygeomagdat=Eygeomagdat(:,ledge:end-ledge,ledge:end-ledge);
+[lt,llon,llat]=size(Eygeomagdat);
+
+
+%% Convert geomag input to geographic
+Ygeo=zeros(lt,llon,llat);
+for it=1:lt
+    Xgeomagtmp=squeeze(Xgeomag(1,:,:));
+    Ygeomagtmp=squeeze(Ygeomag(1,:,:));
+    [Ygeo(it,:,:),Xgeo(it,:,:)]=geomag2geog(pi/2-Ygeomagtmp*pi/180,Xgeomagtmp*pi/180);
+end %for
 
 
 %% Load Matt's GEMINI grid
-load([inputdir,'/isinglass_clayton_grid.mat']);
-
-
-%% Field and position data from Rob's file
-datapath='./';
-Exgeomagdat=outu;
-Eygeomagdat=outv;
-
-for i=1:1:length(outt)
-    Xgeo(i,:,:)=(squeeze(glon(100,1:2:end-1,1:2:end-1)))';    % Geo lon
-    Ygeo(i,:,:)=(squeeze(glat(100,1:2:end-1,1:2:end-1)))';    % Geo lat
-end
-[lt,llon,llat]=size(Exgeomagdat);
-clear glon glat
+%load([inputdir,'/isinglass_clayton_grid.mat']);
+% 
+% 
+% %% Field and position data from Rob's file
+% datapath='./';
+% Exgeomagdat=outu;
+% Eygeomagdat=outv;
+% 
+% for i=1:1:length(outt)
+%     Xgeo(i,:,:)=(squeeze(glon(100,1:2:end-1,1:2:end-1)))';    % Geo lon
+%     Ygeo(i,:,:)=(squeeze(glat(100,1:2:end-1,1:2:end-1)))';    % Geo lat
+% end
+% [lt,llon,llat]=size(Exgeomagdat);
+% clear glon glat
 
 
 %AFAIK previous code's purpose is to put the data into the arrays Xgeo
@@ -42,10 +58,11 @@ clear glon glat
 
 
 %% Time information
-day = 2*ones(length(outt),1);
-month = 3*ones(length(outt),1);
-year = 2017*ones(length(outt),1);
-UThrs = outt';
+day = 2*ones(lt,1);
+month = 3*ones(lt,1);
+year = 2017*ones(lt,1);
+UThrs = outt(1:lt);      %may not include full time range???
+UThrs = UThrs(:);
 expdate=cat(2,year,month,day,UThrs,zeros(lt,1),zeros(lt,1));    %create a date vector for this dataset
 t=datenum(expdate);
 

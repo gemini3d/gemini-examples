@@ -5,10 +5,10 @@ thetactr=pi/2-mlatctr*pi/180;
 phictr=mlonctr*pi/180;
 
 [pgrid.glat,pgrid.glon]=geomag2geog(thetactr,phictr);
-%pgrid.xdist=280e3;    %eastward distance
-%pgrid.ydist=155e3;    %northward distance
-pgrid.xdist=270e3;    %eastward distance, trim to deal with clayton input
-pgrid.ydist=145e3;    %northward distance, trim
+%pgrid.xdist=270e3;    %eastward distance, trim to deal with clayton input
+%pgrid.ydist=145e3;    %northward distance, trim to deal with clayton input
+pgrid.xdist=250e3;    %eastward distance, trim to deal with tucker input
+pgrid.ydist=125e3;    %northward distance, trim to deal with tucker input
 pgrid.lxp=128;
 pgrid.lyp=128;
 pgrid.gridflag=0;
