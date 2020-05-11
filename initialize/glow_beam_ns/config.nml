@@ -1,9 +1,13 @@
+&comments
+! this is a north-south 2D simulation at RISR
+/
+
 &base
-ymd =2012,1,24                ! year, month, day
+ymd = 2012,1,24                ! year, month, day
 UTsec0 = 39600.0              ! start time in UT seconds
 tdur = 300.0                  ! duration of simulation in seconds
 dtout = 60.0                  ! how often to do file output
-activ = 100, 100, 5       ! activ:  f107a,f107,Ap
+activ = 100, 100, 5           !   f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
 /
@@ -20,9 +24,9 @@ flagglow = 0
 /
 
 &files
-indat_size = '~/simulations/glow_beam/inputs/simsize.h5'
-indat_grid = '~/simulations/glow_beam/inputs/simgrid.h5'
-indat_file = '~/simulations/glow_beam/inputs/initial_conditions.h5'
+indat_size = '~/simulations/glow_beam_ns/inputs/simsize.h5'
+indat_grid = '~/simulations/glow_beam_ns/inputs/simgrid.h5'
+indat_file = '~/simulations/glow_beam_ns/inputs/initial_conditions.h5'
 /
 
 &setup
@@ -47,17 +51,17 @@ Etarg = 50e-3   ! V/m
 Efield_fracwidth = 0.125
 Eflagdirich = 1
 Exit = 1e-3
-eqdir = '~/simulations/risr2d_eq'
+eqdir = '~/simulations/risr2dns_eq'
 /
 
 &precip
 dtprec = 5.0
-prec_dir = '~/simulations/glow_beam/inputs/precip/'
+prec_dir = '~/simulations/glow_beam_ns/inputs/precip/'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/glow_beam/inputs/Efield/'
+E0_dir = '~/simulations/glow_beam_ns/inputs/Efield/'
 /
 
 &glow
