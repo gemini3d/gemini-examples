@@ -27,8 +27,8 @@ Qprecip = 25
 Qprecip_background = 1
 E0precip = 2e3
 Jtarg = 30e-6   ! A/m
-Efield_fracwidth2 = 0.15
-Efield_fracwidth3 = 0.025
+Efield_lonwidth = 0.15
+Efield_latwidth = 0.025
 eqdir = ~/simulations/ARCS_eq'
 /
 
