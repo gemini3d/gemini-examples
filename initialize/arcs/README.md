@@ -1,6 +1,6 @@
 # Auroral Arcs Examples
 
-This example shows an application of the GEMINI model to simulate a 3D auroral arc.  The simulation is driven by application of a field-aligned currents at the top boundary, as well as precipitation particles.  Steps to run and alter this example are given below:  
+This example shows an application of the GEMINI model to simulate a 3D auroral arc.  The simulation is driven by application of a field-aligned currents at the top boundary, as well as precipitation particles.  The basic setup of this example is an arc that is elongated in longitude (~1000 km) and thin in latitude (~20km or so).  Steps to run and alter this example are given in sections below.
 
 
 ## GEMINI Installation
