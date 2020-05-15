@@ -1,28 +1,21 @@
 % test a few setups
 % for now, just tests that it doesn't error when run
-
-this = fileparts(mfilename('fullpath'));
-run([this, '/../setup.m'])
-
-R = [this, '/../initialize'];
-
 %% lint
 if exist('checkcode', 'file')
   checkcode_recursive([this, '/../'])
 else
   fprintf(2, 'SKIP: lint check\n')
 end
-
-if ~exist('h5create', 'file')
-  fprintf(2, 'SKIP: generation tests due to missing HDF5 interface\n')
-  return
-end
+%% setup
+this = fileparts(mfilename('fullpath'));
+run([this, '/../setup.m'])
+R = [this, '/../initialize'];
 
 %% test2d_eq
-model_setup([R, '/test2d_eq'])
+model_setup([R, '/test2dew_eq'])
 %% test2d_fang
 try
-  model_setup([R, '/test2d_fang'])
+  model_setup([R, '/test2dew_fang'])
 catch e
   if ~strcmp(e.identifier, 'readgrid:file_not_found')
     rethrow(e)
@@ -30,7 +23,7 @@ catch e
 end
 %% test2d_glow
 try
-  model_setup([R, '/test2d_glow'])
+  model_setup([R, '/test2dew_glow'])
 catch e
   if ~strcmp(e.identifier, 'readgrid:file_not_found')
     rethrow(e)
@@ -46,8 +39,10 @@ catch e
     rethrow(e)
   end
 end
-%% risr2d_eq
-model_setup([R, '/risr2d_eq'])
+%% risr2dew_eq
+model_setup([R, '/risr2dew_eq'])
+%% risr2dns_eq
+model_setup([R, '/risr2dns_eq'])
 %% risr3d_eq
 model_setup([R, '/risr3d_eq'])
 
