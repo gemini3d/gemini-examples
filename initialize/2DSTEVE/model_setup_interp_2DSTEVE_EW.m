@@ -24,12 +24,8 @@ end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
-%IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='2DSTEVE'
-
-
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 eqdir='../../../simulations/2Dtest_eq/';
 simID='2DSTEVE';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg,file_format);
 
