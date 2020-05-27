@@ -1,4 +1,5 @@
 function Efield(cfg, xg)
+% this is possibly identical to gemini-matlab/matlab/setup/Efield_BCs.m
 
 narginchk(2, 2)
 validateattributes(cfg, {'struct'}, {'scalar'}, mfilename, 'sim parameters', 1)
