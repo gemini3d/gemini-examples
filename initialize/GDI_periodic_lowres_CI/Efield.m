@@ -76,6 +76,6 @@ E.Vmaxx3ist = zeros(E.llon, Nt);
 % FORTRAN CODE IN CASE DIFFERENT GRIDS NEED TO BE TRIED.
 % THE EFIELD DATA DO NOT TYPICALLY NEED TO BE SMOOTHED.
 
-write_Efield(cfg, E, dir_out)
+write_Efield(E, cfg.E0_dir, cfg.file_format)
 
 end % function

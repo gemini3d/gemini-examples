@@ -5,8 +5,7 @@ narginchk(2, 2)
 validateattributes(cfg, {'struct'}, {'scalar'}, mfilename, 'sim parameters', 1)
 validateattributes(xg, {'struct'}, {'scalar'})
 
-dir_out = absolute_path(cfg.E0_dir);
-makedir(dir_out);
+makedir(cfg.E0_dir);
 
 % lx1 = xg.lx(1);
 lx2 = xg.lx(2);
@@ -40,7 +39,7 @@ E.mlon = linspace(mlonmin-lonbuf, mlonmax+lonbuf, E.llon);
 
 %% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
 xgmlon=squeeze(xg.phi(1,:,1)*180/pi);
-x2=interp1(xgmlon,xg.x2(3:lx2+2),mlon,'linear','extrap');
+x2=interp1(xgmlon,xg.x2(3:lx2+2),E.mlon,'linear','extrap');
 
 
 %% TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
@@ -80,14 +79,14 @@ voffset=2*v0/densfact;
 
 B1val=-50000e-9;
 ell=1e3;
-for it=1:lt
+for it=1:Nt
     %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
 
 
 
     %COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
-    vel3=zeros(llon,llat);
-    for ilat=1:llat
+    vel3=zeros(E.llon, E.llat);
+    for ilat=1:E.llat
         vel3(:,ilat)=-v0*tanh(x2./ell)+v0+voffset;
     end
 
@@ -99,9 +98,9 @@ for it=1:lt
     %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID
     DX2=diff(x2,1);
     DX2=[DX2,DX2(end)];
-    DX2=repmat(DX2(:),[1,llat]);
+    DX2=repmat(DX2(:),[1,E.llat]);
     Phislab=cumsum(E2slab.*DX2,1);    %use a forward difference
-    E.Vmaxx2ist(:,it)=squeeze(Phislab(llon,:));
+    E.Vmaxx2ist(:,it)=squeeze(Phislab(E.llon,:));
     E.Vminx2ist(:,it)=squeeze(Phislab(1,:));
 end
 %% SAVE THESE DATA TO APPROPRIATE FILES
@@ -109,6 +108,6 @@ end
 % FORTRAN CODE IN CASE DIFFERENT GRIDS NEED TO BE TRIED.
 % THE EFIELD DATA DO NOT TYPICALLY NEED TO BE SMOOTHED.
 
-write_Efield(cfg, E, dir_out)
+write_Efield(E, cfg.E0_dir, cfg.file_format)
 
 end % function
