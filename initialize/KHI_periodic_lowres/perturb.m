@@ -1,35 +1,28 @@
+function perturb(cfg, xg)
+% perturb plasma from initial_conditions file
+
+narginchk(2,2)
+validateattributes(cfg, {'struct'}, {'scalar'})
+validateattributes(xg, {'struct'}, {'scalar'})
 %% READ IN THE SIMULATION INFORMATION
-ID=['../../../simulations/input/KHI_periodic_lowres/'];
-xg=readgrid(ID,64);
-x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
+
+x1=xg.x1(3:end-2);
+x2=xg.x2(3:end-2);
+x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-direc=ID;
-filebase='initial_conditions';
-filename=[filebase,'.dat'];
-dat=loadframe3Dcurvnoelec([direc,'/',filename]);
-
-ne=dat.ne;
-v1=dat.v1;
-Ti=dat.Ti;
-Te=dat.Te;
-ns=dat.ns;
-Ts=dat.Ts;
-vs1=dat.vs1;
-simdate=dat.simdate;
-
-lsp=size(ns,4);
-
+dat = loadframe3Dcurvnoelec(cfg.indat_file);
+lsp = size(dat.ns,4);
 
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
 scalefact=2.75;
-nsscale=zeros(size(ns));
+nsscale=zeros(size(dat.ns));
 for isp=1:lsp-1
-    nsscale(:,:,:,isp)=scalefact*ns(:,:,:,isp);
+    nsscale(:,:,:,isp) = scalefact * dat.ns(:,:,:,isp);
 end %for
-nsscale(:,:,:,lsp)=sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
+nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
 
 %% APPLY THE PERTURBATION
@@ -38,14 +31,14 @@ v0=500;                   %background flow value, actually this will be turned i
 voffset=2*v0/densfact;
 ell=1e3;                  %scale length for shear transition
 
-nsperturb=zeros(size(ns));
+nsperturb=zeros(size(dat.ns));
 for isp=1:lsp
   for ix2=1:xg.lx(2)
     amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWM, note this can make density go negative so error checking needed below
     amplitude=0.01*amplitude;
 
     nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp).*(2*v0+voffset)./(-v0*tanh((x2(ix2))/ell)+v0+voffset);
-                      
+
     nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);        %add some noise to seed instability
   end %for
 end %for
@@ -68,8 +61,8 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
-outdir=ID;
-ymd=[simdate(1:3)];
-UTsec=simdate(4)*3600;
-writedata(ymd,UTsec,nsperturb,vs1,Ts,outdir,'raw',64);
+ymd = dat.simdate(1:3);
+UTsec = dat.simdate(4)*3600;
+writedata(ymd, UTsec, nsperturb, dat.vs1, dat.Ts, cfg.outdir, cfg.file_format);
 
+end % function

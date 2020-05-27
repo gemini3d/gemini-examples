@@ -1,4 +1,4 @@
-function Efield(cfg, xg)
+function efield(cfg, xg)
 % this is possibly identical to gemini-matlab/matlab/setup/Efield_BCs.m
 
 narginchk(2, 2)
@@ -8,7 +8,7 @@ validateattributes(xg, {'struct'}, {'scalar'})
 dir_out = absolute_path(cfg.E0_dir);
 makedir(dir_out);
 
-lx1 = xg.lx(1);
+% lx1 = xg.lx(1);
 lx2 = xg.lx(2);
 lx3 = xg.lx(3);
 
@@ -34,12 +34,14 @@ lonbuf = 1/100 * (mlonmax-mlonmin);
 E.mlat = linspace(mlatmin-latbuf, mlatmax+latbuf, E.llat);
 E.mlon = linspace(mlonmin-lonbuf, mlonmax+lonbuf, E.llon);
 [E.MLON, E.MLAT] = ndgrid(E.mlon, E.mlat);
-mlonmean = mean(E.mlon);
-mlatmean = mean(E.mlat);
+% mlonmean = mean(E.mlon);
+% mlatmean = mean(E.mlat);
+
 
 %% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
-% xgmlon=squeeze(xg.phi(1,:,1)*180/pi);
-% x2=interp1(xgmlon,xg.x2(3:lx2+2),mlon,'linear','extrap');
+xgmlon=squeeze(xg.phi(1,:,1)*180/pi);
+x2=interp1(xgmlon,xg.x2(3:lx2+2),mlon,'linear','extrap');
+
 
 %% TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
 tmin = 0;
@@ -72,6 +74,36 @@ E.Vmaxx2ist = zeros(E.llat, Nt);
 E.Vminx3ist = zeros(E.llon, Nt);
 E.Vmaxx3ist = zeros(E.llon, Nt);
 
+densfact=10;
+v0=250e0;
+voffset=2*v0/densfact;
+
+B1val=-50000e-9;
+ell=1e3;
+for it=1:lt
+    %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
+
+
+
+    %COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
+    vel3=zeros(llon,llat);
+    for ilat=1:llat
+        vel3(:,ilat)=-v0*tanh(x2./ell)+v0+voffset;
+    end
+
+
+    %CONVERT TO ELECTRIC FIELD
+    E2slab=vel3*B1val;
+
+
+    %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID
+    DX2=diff(x2,1);
+    DX2=[DX2,DX2(end)];
+    DX2=repmat(DX2(:),[1,llat]);
+    Phislab=cumsum(E2slab.*DX2,1);    %use a forward difference
+    E.Vmaxx2ist(:,it)=squeeze(Phislab(llon,:));
+    E.Vminx2ist(:,it)=squeeze(Phislab(1,:));
+end
 %% SAVE THESE DATA TO APPROPRIATE FILES
 % LEAVE THE SPATIAL AND TEMPORAL INTERPOLATION TO THE
 % FORTRAN CODE IN CASE DIFFERENT GRIDS NEED TO BE TRIED.

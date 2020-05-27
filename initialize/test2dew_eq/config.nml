@@ -1,6 +1,4 @@
-&comments
 ! this is a east-west 2D simulation at RISR
-/
 
 &base
 ymd = 2013,2,19               ! year, month, day

@@ -2,7 +2,6 @@ function config()
 %% coarse grid for testing GDI development
 
 cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
 
 cfg = read_config(cwd);
 %% generate grid
