@@ -21,26 +21,24 @@ Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
-eqdir = '~/simulations/risr_eq/'
+eqdir = '~/simulations/RISR_eq/'
 Eyit = -25e-3
 /
-
 
 &flags
 potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 1
-flagoutput = 3
+flagoutput = 2
 flagcap = 2
-gridflag = 0
 /
 
 &files
-indat_size = '~/simulations/KHI_periodic_lowres/inputs/simsize.h5'
-indat_grid = '~/simulations/KHI_periodic_lowres/inputs/simgrid.h5'
-indat_file = '~/simulations/KHI_periodic_lowres/inputs/initial_conditions.h5'
+indat_size = '~/simulations/KHI_periodic_lowres_hdf5/inputs/simsize.h5'
+indat_grid = '~/simulations/KHI_periodic_lowres_hdf5/inputs/simgrid.h5'
+indat_file = '~/simulations/KHI_periodic_lowres_hdf5/inputs/initial_conditions.h5'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/KHI_periodic_lowres/inputs/Efield/'
+E0_dir = '~/simulations/KHI_periodic_lowres_hdf5/inputs/Efield/'
 /

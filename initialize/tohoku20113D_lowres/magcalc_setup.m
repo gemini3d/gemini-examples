@@ -2,36 +2,34 @@ cwd = fileparts(mfilename('fullpath'));
 gemini_root = [cwd, filesep, '../../../GEMINI'];
 addpath([gemini_root, filesep, 'script_utils'])
 
-%SIMULATIONS LOCAITONS
-%simname='chile20153D_0.5_medres/';
-simname='tohoku20113D_medres/';
-%simname='tohoku20112D_3Dtest/'
-basedir='~/zettergmdata/simulations/'
+%% SIMULATIONS LOCAITONS
+simname='tohoku20113D_lowres/';
+basedir='~/simulations/'
 direc=[basedir,simname];
-mkdir[direc,'/magplots']);    %store output plots with the simulation data
+%mkdir[direc,'/magplots']);    %store output plots with the simulation data
 
 
-%UTseconds of the frame of interest
+%% UTseconds of the frame of interest
 ymd_TOI=[2015,09,16];
 UTsec_TOI=82923;
 
 
-%SIMULATION META-DATA
+%% SIMULATION META-DATA
 [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([direc,'/inputs']);
 
 
-%TABULATE THE SOURCE LOCATION
+%% TABULATE THE SOURCE LOCATION
 mlatsrc=mloc(1);
 mlonsrc=mloc(2);
 thdist=pi/2-mlatsrc*pi/180;    %zenith angle of source location
 phidist=mlonsrc*pi/180;
 
 
-%ANGULAR RANGE TO COVER FOR THE CALCLUATIONS (THIS IS FOR THE FIELD POINTS - SOURCE POINTS COVER ENTIRE GRID)
+%% ANGULAR RANGE TO COVER FOR THE CALCLUATIONS (THIS IS FOR THE FIELD POINTS - SOURCE POINTS COVER ENTIRE GRID)
 dang=5;
 
 
-%WE ALSO NEED TO LOAD THE GRID FILE
+%% WE ALSO NEED TO LOAD THE GRID FILE
 if (~exist('xg','var'))
   fprintf('Reading grid...\n');
   xg=readgrid([direc,'/inputs/']);
@@ -56,7 +54,7 @@ end
 fprintf('Grid loaded...\n');
 
 
-%FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
+%% FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
 ltheta=40;
 if (~flag2D)
   lphi=40;
@@ -79,8 +77,9 @@ end
 r=6370e3*ones(ltheta,lphi);                          %use ground level for altitude for all field points
 [phi,theta]=meshgrid(phi,theta);
 
-%CREATE AN INPUT FILE OF FIELD POINTS
-fid=fopen('~/zettergmdata/simulations/input/tohoku20113D_medres/magfieldpoints.dat','w');
+
+%% CREATE AN INPUT FILE OF FIELD POINTS
+fid=fopen('~/simulations/tohoku20113D_lowres/inputs/magfieldpoints.dat','w');
 fwrite(fid,numel(theta),'integer*4');
 fwrite(fid,r(:),'real*8');
 fwrite(fid,theta(:),'real*8');
