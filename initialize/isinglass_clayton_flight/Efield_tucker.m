@@ -10,7 +10,8 @@ system(['mkdir ',outdir]);
 
 %% Load Tucker's fits for electric field
 inputdir='~/Dropbox/common/mypapers/ISINGLASS/paper2_finally/';
-load([inputdir,'tucker_reconstructions.mat']);    %this is MZ's decurled version of Robs inputs...
+%load([inputdir,'tucker_reconstructions.mat']);
+load([inputdir,'tucker_reconstructions_reordered.mat']);
 Xgeomag=permute(xout,[3,1,2]);                    %permute so that x is column index
 Ygeomag=permute(yout,[3,1,2]);
 Exgeomagdat=permute(uE,[3,2,1]);                  %why are these ordered differently!!!
