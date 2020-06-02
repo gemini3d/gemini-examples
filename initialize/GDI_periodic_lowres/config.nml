@@ -25,9 +25,6 @@ eqdir = '~/simulations/risr_eq/'
 Eyit = -25e-3
 /
 
-! alt_scale = 30e3, 25e3, 500e3, 150e3    ! parameters setting the nonuniform structure of the grid
-! alt_scale = 40e3, 35e3, 450e3, 150e3 ! coarse along field line
-
 &flags
 potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 1
