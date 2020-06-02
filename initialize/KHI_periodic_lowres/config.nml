@@ -22,23 +22,35 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 eqdir = '~/simulations/RISR_eq/'
-Eyit = -25e-3
 /
 
 &flags
 potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 1
 flagoutput = 2
-flagcap = 2
 /
 
 &files
-indat_size = '~/simulations/KHI_periodic_lowres_hdf5/inputs/simsize.h5'
-indat_grid = '~/simulations/KHI_periodic_lowres_hdf5/inputs/simgrid.h5'
-indat_file = '~/simulations/KHI_periodic_lowres_hdf5/inputs/initial_conditions.h5'
+indat_size = '~/simulations/KHI_periodic_lowres_test/inputs/simsize.h5'
+indat_grid = '~/simulations/KHI_periodic_lowres_test/inputs/simgrid.h5'
+indat_file = '~/simulations/KHI_periodic_lowres_test/inputs/initial_conditions.h5'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/KHI_periodic_lowres_hdf5/inputs/Efield/'
+E0_dir = '~/simulations/KHI_periodic_lowres_test/inputs/Efield/'
+/
+
+&Jpar
+flagJpar=.true.
+/
+
+&precip_BG
+PhiWBG=1e-3
+W0BG=3e3
+/
+
+&capacitance
+flagcap=2       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
+magcap=30.0
 /

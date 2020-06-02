@@ -32,18 +32,17 @@ Eyit = -25e-3
 potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 1
 flagoutput = 2
-flagcap = 1
 /
 
 &files
-indat_size = '~/simulations/GDI_periodic_lowres_varx2_tests/inputs/simsize.h5'
-indat_grid = '~/simulations/GDI_periodic_lowres_varx2_tests/inputs/simgrid.h5'
-indat_file = '~/simulations/GDI_periodic_lowres_varx2_tests/inputs/initial_conditions.h5'
+indat_size = '~/simulations/GDI_periodic_lowres_test/inputs/simsize.h5'
+indat_grid = '~/simulations/GDI_periodic_lowres_test/inputs/simgrid.h5'
+indat_file = '~/simulations/GDI_periodic_lowres_test/inputs/initial_conditions.h5'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/GDI_periodic_lowres_varx2_tests/inputs/Efield/'
+E0_dir = '~/simulations/GDI_periodic_lowres_test/inputs/Efield/'
 /
 
 &Jpar
@@ -60,6 +59,6 @@ W0BG=3e3
 ! magcap=5.0    !good for showing damping due to m'sphere...
 
 &capacitance
-flgcap=.false.
+flagcap=1       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
 magcap=0.0
 /
