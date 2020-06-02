@@ -46,11 +46,13 @@ x2=interp1(xgmlon,xg.x2(3:lx2+2),E.mlon,'linear','extrap');
 tmin = 0;
 time = tmin:cfg.dtE0:cfg.tdur;
 Nt = length(time);
+
 %% SET UP TIME VARIABLES
 UTsec = cfg.UTsec0 + time;     %time given in file is the seconds from beginning of hour
 UThrs = UTsec / 3600;
 E.expdate = cat(2, repmat(cfg.ymd(:)',[Nt, 1]), UThrs', zeros(Nt, 1), zeros(Nt, 1));
 t = datenum(E.expdate);
+
 %% CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
 if isfield(cfg, 'Exit')
   E.Exit = cfg.Exit * ones(E.llon, E.llat, Nt);
@@ -62,6 +64,7 @@ if isfield(cfg, 'Eyit')
 else
   E.Eyit = zeros(E.llon, E.llat, Nt);
 end
+
 
 %% CREATE DATA FOR BOUNDARY CONDITIONS FOR POTENTIAL SOLUTION
 E.flagdirich=zeros(Nt,1);    %in principle can have different boundary types for different time steps...
@@ -95,7 +98,8 @@ for it=1:Nt
     E2slab=vel3*B1val;
 
 
-    %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID
+    %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID - then save the edge
+    %boundary conditions
     DX2=diff(x2,1);
     DX2=[DX2,DX2(end)];
     DX2=repmat(DX2(:),[1,E.llat]);

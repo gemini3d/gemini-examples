@@ -26,15 +26,15 @@ nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
 
 %% APPLY THE PERTURBATION
-densfact=10;              %factor by which the density increases over the shear region - see Keskinen, et al (1988)
-v0=500;                   %background flow value, actually this will be turned into a shear in the Efield input file
-voffset=2*v0/densfact;
-ell=1e3;                  %scale length for shear transition
+v0=500;                   % background flow value, actually this will be turned into a shear in the Efield input file
+densfact=10;              % factor by which the density increases over the shear region - see Keskinen, et al (1988)
+voffset=2*v0/densfact;    % plays the role of the neutral wind from K88; prevents singularity - this form results from tweaking asymptotic value of ne to give a certain density jump
+ell=1e3;                  % scale length for shear transition
 
 nsperturb=zeros(size(dat.ns));
 for isp=1:lsp
   for ix2=1:xg.lx(2)
-    amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWM, note this can make density go negative so error checking needed below
+    amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWN, note this can make density go negative so error checking needed below
     amplitude=0.01*amplitude;
 
     nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp).*(2*v0+voffset)./(-v0*tanh((x2(ix2))/ell)+v0+voffset);
