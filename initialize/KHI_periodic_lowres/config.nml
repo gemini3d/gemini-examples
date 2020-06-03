@@ -3,7 +3,7 @@
 &base
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 28500.0              ! start time in UT seconds
-tdur = 720.0                  ! duration of simulation in seconds
+tdur = 1440.0                  ! duration of simulation in seconds
 dtout = 10.0                  ! how often to do file output
 activ = 172.4,165.6,9.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -15,11 +15,11 @@ glat = 75.6975
 glon = 265.1678
 !xdist = 239.0625e3       ! eastward distance (meters), including a large low-res buffer for solvers
 xdist=638.0625e3
-!ydist = 179.688e3             ! northward distance (meters)
-ydist=134.766e3
+ydist = 179.688e3             ! northward distance (meters)
+!ydist=134.766e3
 lxp = 276
-!lyp = 128
-lyp=96
+lyp = 128
+!lyp=96
 Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
@@ -45,8 +45,10 @@ E0_dir = '~/simulations/KHI_periodic_lowres_test/inputs/Efield/'
 /
 
 &Jpar
-flagJpar=.true.
+flagJpar=.false.
 /
+
+!PhiWBG=1e-5    !likely needs to be even lower than 1e-3
 
 &precip_BG
 PhiWBG=1e-3

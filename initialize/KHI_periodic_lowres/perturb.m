@@ -17,7 +17,7 @@ dat = loadframe3Dcurvnoelec(cfg.indat_file);
 lsp = size(dat.ns,4);
 
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
-scalefact=2.75;
+scalefact=2*2.75;
 nsscale=zeros(size(dat.ns));
 for isp=1:lsp-1
     nsscale(:,:,:,isp) = scalefact * dat.ns(:,:,:,isp);
@@ -25,11 +25,14 @@ end %for
 nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
 
-%% APPLY THE PERTURBATION
-v0=500;                   % background flow value, actually this will be turned into a shear in the Efield input file
-densfact=10;              % factor by which the density increases over the shear region - see Keskinen, et al (1988)
-voffset=2*v0/densfact;    % plays the role of the neutral wind from K88; prevents singularity - this form results from tweaking asymptotic value of ne to give a certain density jump
-ell=1e3;                  % scale length for shear transition
+%% Apply the denisty perturbation as a jump and specified plasma drift variation (Earth-fixed frame)
+% because this is derived from current density it is invariant with respect
+% to frame of reference.  
+v0=-500;                             % background flow value, actually this will be turned into a shear in the Efield input file
+densfact=3;                         % factor by which the density increases over the shear region - see Keskinen, et al (1988)
+ell=1e3;                            % scale length for shear transition
+
+vn=-v0*(densfact+1)/(densfact-1);    % plays the role of the neutral wind from K88; prevents singularity - this form results from tweaking asymptotic value of ne to give a certain density jump
 
 nsperturb=zeros(size(dat.ns));
 for isp=1:lsp
@@ -37,7 +40,7 @@ for isp=1:lsp
     amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWN, note this can make density go negative so error checking needed below
     amplitude=0.01*amplitude;
 
-    nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp).*(2*v0+voffset)./(-v0*tanh((x2(ix2))/ell)+v0+voffset);
+    nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp).*(vn-v0)./(v0*tanh((x2(ix2))/ell)+vn);
 
     nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);        %add some noise to seed instability
   end %for

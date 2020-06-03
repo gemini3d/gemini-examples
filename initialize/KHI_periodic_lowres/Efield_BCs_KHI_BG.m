@@ -99,12 +99,14 @@ Vmaxx2ist=zeros(llat,lt);
 Vminx3ist=zeros(llon,lt);
 Vmaxx3ist=zeros(llon,lt);
 
-densfact=10;
-v0=250e0;
-voffset=2*v0/densfact;
+densfact=3;
+v0=500e0;
+ell=1e3;
+
+vn=v0*(densfact+1)./(densfact-1);
+
 
 B1val=-50000e-9;
-ell=1e3;
 for it=1:lt
     %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
     Vminx1it(:,:,it)=zeros(llon,llat);
@@ -117,7 +119,7 @@ for it=1:lt
     vel3=zeros(llon,llat);
     for ilat=1:llat
 %        vel3(:,ilat)=-v0*tanh(x2./ell)+v0+voffset;
-        vel3(:,ilat)=v0*tanh(x2./ell);
+        vel3(:,ilat)=v0*tanh(x2./ell)-vn;
     end
 
 

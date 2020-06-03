@@ -76,12 +76,12 @@ E.Vmaxx2ist = zeros(E.llat, Nt);
 E.Vminx3ist = zeros(E.llon, Nt);
 E.Vmaxx3ist = zeros(E.llon, Nt);
 
-densfact=10;
-v0=250e0;
-voffset=2*v0/densfact;
-
-B1val=-50000e-9;
+densfact=3;
+v0=-500e0;
 ell=1e3;
+
+vn=-v0*(densfact+1)./(densfact-1);
+B1val=-50000e-9;
 for it=1:Nt
     %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
 
@@ -90,7 +90,7 @@ for it=1:Nt
     %COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
     vel3=zeros(E.llon, E.llat);
     for ilat=1:E.llat
-        vel3(:,ilat)=-v0*tanh(x2./ell)+v0+voffset;
+        vel3(:,ilat)=v0*tanh(x2./ell)-vn;
     end
 
 
