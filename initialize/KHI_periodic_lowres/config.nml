@@ -48,10 +48,10 @@ E0_dir = '~/simulations/KHI_periodic_lowres_test/inputs/Efield/'
 flagJpar=.false.
 /
 
-!PhiWBG=1e-5    !likely needs to be even lower than 1e-3
+!PhiWBG=1e-3    !likely needs to be even lower than 1e-3
 
 &precip_BG
-PhiWBG=1e-3
+PhiWBG=1e-5
 W0BG=3e3
 /
 
