@@ -8,16 +8,17 @@
 
 %% Parameters for EQ and new simulation
 p.format='raw';
-p.eqdir='~/zettergmdata/simulations/tohoku20113D_eq/';
+p.eqdir='~/simulations/tohoku20113D_eq/';
 p.realbits=64;
-p.simdir='~/zettergmdata/simulations/input/tohoku20113D_medres';
-
+p.outdir='~/simulations/input/tohoku20113D_medres';
+p.nml='./config.ini';
+p.file_format='raw';
 
 %% A LOW/MEDIUM RES TOHOKU
 dtheta=7.5;
 dphi=12;
-lp=144;
-lq=384;
+lp=192;
+lq=512;
 lphi=144;
 altmin=80e3;
 glat=42.45;
