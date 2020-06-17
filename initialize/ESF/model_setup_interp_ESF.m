@@ -13,7 +13,7 @@
 %% Parameters for creating input files from given equilibrium run
 p.eqdir='~/simulations/ESF_eq/';
 p.realbits=64;
-p.outdir='~/simulations/ESF_medres';
+p.outdir='~/simulations/ESF_medres/inputs';
 p.nml='./config.nml';
 p.file_format='h5';
 
@@ -21,9 +21,9 @@ p.file_format='h5';
 %% Equatorial grid
 dtheta=5.70;
 dphi=5;
-lp=256;
-lq=384;
-lphi=192;
+lp=192;
+lq=300;
+lphi=128;
 altmin=80e3;
 glat=12;
 glon=360-76.9;     %Jicamarca

@@ -1,21 +1,30 @@
 cwd = fileparts(mfilename('fullpath'));
 gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils']);
-addpath([gemini_root, filesep, 'vis']);
+% addpath([gemini_root, filesep, 'script_utils']);
+% addpath([gemini_root, filesep, 'vis']);
 
 
 %% READ IN THE SIMULATION INFORMATION
-ID=[gemini_root,'/../simulations/input/ESF_medres/'];
-xg=readgrid([ID,'inputs/']);
+ID=[gemini_root,'/../simulations/ESF_medres/inputs/'];
+xg=readgrid([ID]);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 direc=ID;
-filebase='ESF_medres';
-filename=[filebase,'_ICs.dat'];
-[ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
+%filebase='ESF_medres';
+%filename=[filebase,'_ICs.dat'];
+filename='initial_conditions.h5';
+dat=loadframe3Dcurvnoelec([direc,filesep,filename]);
+ne=dat.ne;
+v1=dat.v1;
+Ti=dat.Ti;
+Te=dat.Te;
+ns=dat.ns;
+Ts=dat.Ts;
+vs1=dat.vs1;
+simdate=dat.simdate;
 lsp=size(ns,4);
 
 
@@ -57,5 +66,7 @@ nsperturb(:,:,:,7)=sum(nsperturb(:,:,:,1:6),4);
 outdir=ID;
 dmy=[simdate(3),simdate(2),simdate(1)];
 UTsec=simdate(4)*3600;
-writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);
+file_format='h5';
+realbits=64;
+writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,file_format,realbits);
 
