@@ -3,7 +3,7 @@
 &base
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 28500.0              ! start time in UT seconds
-tdur = 1440.0                  ! duration of simulation in seconds
+tdur = 720.0                  ! duration of simulation in seconds
 dtout = 10.0                  ! how often to do file output
 activ = 172.4,165.6,9.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -25,6 +25,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 eqdir = '~/simulations/RISR_eq/'
+outdir = '~/simulations/KHI_periodic_lowres_test/inputs/'
 /
 
 &flags
@@ -59,3 +60,8 @@ W0BG=3e3
 flagcap=2       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
 magcap=30.0
 /
+
+&milestone
+mcadence=10
+/
+

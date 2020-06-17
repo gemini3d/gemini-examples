@@ -2,7 +2,7 @@
 ymd = 2017,3,2                  ! year, month, day
 UTsec0 = 27000.0               !UTsec0:  start time in UT seconds
 tdur = 300.0                          !tdur:  duration of simulation in seconds
-dtout = 5.0                   !dtout: how often to do output
+dtout = 3.0                   !dtout: how often to do output
 activ = 76.5,79.3,31.5                  !activ:  f107a,f107,Ap
 tcfl = 0.9                           !tcfl:  target cfl number
 Teinf = 1500.0                        !Teinf:  exospheric electron temperature
@@ -30,6 +30,7 @@ Jtarg = 30e-6   ! A/m
 Efield_lonwidth = 0.15
 Efield_latwidth = 0.025
 eqdir = ~/simulations/ARCS_eq'
+outdir='~/simulations/ARCS/inputs/'
 /
 
 &flags
@@ -51,7 +52,7 @@ indat_file = '~/simulations/ARCS/inputs/initial_conditions.h5'
 /
 
 &precip
-dtprec =1.0
+dtprec =5.0
 prec_dir = '~/simulations/ARCS/inputs/precip/'
 /
 
@@ -60,3 +61,6 @@ dtE0 = 10.0
 E0_dir = '~/simulations/ARCS/inputs/Efield/'
 /
 
+&milestone
+mcadence=3
+/
