@@ -18,9 +18,9 @@ flagoutput = 1      ! 1 - full output
 
 &files
 file_format='h5'
-indat_size = '~/simulations/ESF_medres/inputs/simsize.h5'
-indat_grid = '~/simulations/ESF_medres/inputs/simgrid.h5'
-indat_file = '~/simulations/ESF_medres/inputs/initial_conditions.h5'
+indat_size = '~/zettergmdata/simulations/ESF_medres_noise/inputs/simsize.h5'
+indat_grid = '~/zettergmdata/simulations/ESF_medres_noise/inputs/simgrid.h5'
+indat_file = '~/zettergmdata/simulations/ESF_medres_noise/inputs/initial_conditions.h5'
 /
 
 &Jpar

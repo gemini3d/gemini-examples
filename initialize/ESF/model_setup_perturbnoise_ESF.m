@@ -28,7 +28,7 @@ simdate=dat.simdate;
 lsp=size(ns,4);
 
 
-nsperturb=dat.ns;
+nsperturb=repmat(dat.ns(:,:,lx3/2,:),[1,1,lx3,1]);    %force the density to be constant with longitude
 for isp=1:lsp-1
   for ix2=1:xg.lx(2)
     amplitude=randn(xg.lx(1),1,xg.lx(3));     %AWGN - note that can result in subtractive effects on density!!!
