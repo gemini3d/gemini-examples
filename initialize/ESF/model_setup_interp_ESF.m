@@ -11,9 +11,9 @@
 
 
 %% Parameters for creating input files from given equilibrium run
-p.eqdir='~/simulations/ESF_eq/';
+p.eqdir='~/zettergmdata/simulations/ESF_eq/';
 p.realbits=64;
-p.outdir='~/simulations/ESF_medres/inputs';
+p.outdir='~/zettergmdata/simulations/ESF_medres/inputs';
 p.nml='./config.nml';
 p.file_format='h5';
 
@@ -22,8 +22,8 @@ p.file_format='h5';
 dtheta=5.70;
 dphi=5;
 lp=192;
-lq=300;
-lphi=128;
+lq=256;
+lphi=192;
 altmin=80e3;
 glat=12;
 glon=360-76.9;     %Jicamarca
