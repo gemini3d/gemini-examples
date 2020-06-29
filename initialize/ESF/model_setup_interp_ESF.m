@@ -20,10 +20,10 @@ p.file_format='h5';
 
 %% Equatorial grid
 dtheta=5.70;
-dphi=5;
-lp=192;
+dphi=2.5;
+lp=192*4;
 lq=256;
-lphi=192;
+lphi=192*2;
 altmin=80e3;
 glat=12;
 glon=360-76.9;     %Jicamarca
