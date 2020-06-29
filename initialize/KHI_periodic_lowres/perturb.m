@@ -50,7 +50,7 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% KILL OFF THE E-REGION WHICH WILL DAMP THE INSTABILITY (AND USUALLY ISN'T PRESENT IN PATCHES)
-x1ref=150e3;     %where to start tapering down the density in altitude
+x1ref=220e3;     %where to start tapering down the density in altitude
 dx1=10e3;
 taper=1/2+1/2*tanh((x1-x1ref)/dx1);
 for isp=1:lsp-1

@@ -5,12 +5,16 @@ plotflag=0;
 
 %% Where to put the output files for GEMINI
 outdir='~/simulations/input/fields_isinglass_clayton5_decurl/';
+%outdir='~/simulations/input/fields_isinglass_tucker_decurl/';
 system(['mkdir ',outdir]);
 
 
 %% Load Rob's fits for electric field
 inputdir='~/Dropbox/common/mypapers/ISINGLASS/paper2_finally/';
 load([inputdir,'Efield_clayton5_decurl.mat']);    %this is MZ's decurled version of Robs inputs...
+%load([inputdir,'Efield_tucker_decurl.mat']);    %this is MZ's decurled version of Tuckers inputs...
+
+%% Wrangle variables
 clear outu outv
 outu = permute(Exclean,[3,1,2]);
 outv = permute(Eyclean,[3,1,2]);
