@@ -3,7 +3,7 @@
 %addpath([gemini_root, filesep, 'script_utils'])
 %addpath([gemini_root, filesep, 'setup/gridgen'])
 %addpath([gemini_root, filesep, 'setup'])
-%User must run gemini-matlab repo script setup.m to set paths
+%User must run mat_gemini repo script setup.m to set paths
 
 
 %% A modest resolution grid to test the global run with
@@ -46,4 +46,3 @@ p.file_format='raw';
 p.realbits=64;
 writegrid(p,xg);
 writedata(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);
-

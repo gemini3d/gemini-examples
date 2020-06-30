@@ -3,7 +3,7 @@
 % addpath([gemini_root, filesep, 'script_utils'])
 % addpath([gemini_root, filesep, 'setup/gridgen'])
 % addpath([gemini_root, filesep, 'vis'])
-%User must run gemini-matlab repo script setup.m to set paths
+% User must run mat_gemini repo script setup.m to set paths
 
 
 %% Parameters for EQ and new simulation
@@ -38,5 +38,3 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 fprintf('Reading in source file...\n');
 %[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg,file_format);
 [nsi,vs1i,Tsi]=eq2dist(p,xg);
-
-

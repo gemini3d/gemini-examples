@@ -1,12 +1,12 @@
 error("reference only: instead run:  model_setup('initialize/ARCS/config.nml')")
 
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../gemini-matlab/matlab'];
-assert(isfolder(gemini_root), ['GEMINI Matlab code directory not found: ',gemini_root])
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-addpath([gemini_root, filesep, 'vis'])
+% cwd = fileparts(mfilename('fullpath'));
+% gemini_root = [cwd, filesep, '../../../mat_gemini/matlab'];
+% assert(isfolder(gemini_root), ['GEMINI Matlab code directory not found: ',gemini_root])
+% addpath([gemini_root, filesep, 'script_utils'])
+% addpath([gemini_root, filesep, 'setup/gridgen'])
+% addpath([gemini_root, filesep, 'setup'])
+% addpath([gemini_root, filesep, 'vis'])
 
 %PFISR-CENTERED GRID (CARTESIAN)
 xdist=2950e3;    %eastward distance
@@ -102,5 +102,3 @@ outdir=[gemini_root,'/../simulations/input/ARCS/'];
 writegrid(xg,outdir);
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
-
-

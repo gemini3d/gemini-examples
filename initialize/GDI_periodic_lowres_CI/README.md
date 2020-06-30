@@ -4,7 +4,7 @@ This example shows an application of the GEMINI model to simulate gradient-drift
 
 ## Running this example
 
-1. Before attempting to run this example you will need to do a full GEMINI installation as described in the README for the core [GEMINI](https://github.com/gemini3d/gemini) repository.  You will also need to install the [gemini-examples](https://github.com/gemini3d/gemini-examples) repository and the [gemini-matlab](https://github.com/gemini3d/gemini-matlab) repository.
+1. Before attempting to run this example you will need to do a full GEMINI installation as described in the README for the core [GEMINI](https://github.com/gemini3d/gemini) repository.  You will also need to install the [gemini-examples](https://github.com/gemini3d/gemini-examples) repository and the [mat_gemini](https://github.com/gemini3d/mat_gemini) repository.
 
 2. Generate an equilibrium simulation for RISR.  The GDI\_periodic\_medres example is usually run with the [RISR_eq equilibrium simulation](https://github.com/gemini3d/gemini-examples/tree/master/initialize/RISR_eq) as input which represents the ionospheric at nighttime above the Resolute Bay incoherent scatter radar location.
 
