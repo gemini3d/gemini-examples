@@ -4,8 +4,7 @@ plotflag=0;
 
 
 %% Where to put the output files for GEMINI
-outdir='~/simulations/input/fields_isinglass_clayton5/';
-%outdir='~/simulations/input/fields_isinglass_clayton5_decurl/';
+outdir='~/simulations/input/fields_isinglass_clayton5_decurl/';
 %outdir='~/simulations/input/fields_isinglass_tucker_decurl/';
 system(['mkdir ',outdir]);
 
