@@ -1,10 +1,10 @@
 clear all
 close all
-plotflag=1;
+plotflag=0;
 
 
 %% Where to put the output files for GEMINI
-outdir='~/simulations/input/fields_isinglass_clayton5_tucker/';
+outdir='~/simulations/input/fields_isinglass_clayton6/';
 system(['mkdir ',outdir]);
 
 
