@@ -29,8 +29,8 @@ interptype = 1
 sourcemlat = 44.9397d0
 sourcemlon = 328.7981d0
 dtneu = 6d0
-dzn = 2d3
 drhon = 2d3
-sourcedir = '../simulations/input/mooreOK_neutrals/'
+dzn = 2d3
+source_dir = '../simulations/input/mooreOK_neutrals/'
 /
 
