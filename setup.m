@@ -1,5 +1,5 @@
 function setup()
-%% configure paths to work with Gemini Matlab
+%% configure paths to work with MatGemini
 narginchk(0,0)
 cwd = fileparts(mfilename('fullpath'));
 gemini_matlab = fullfile(cwd, '../mat_gemini');
