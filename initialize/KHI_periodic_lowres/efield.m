@@ -94,7 +94,7 @@ for it=1:Nt
     end
 
 
-    %CONVERT TO ELECTRIC FIELD
+    %CONVERT TO ELECTRIC FIELD (actually minus electric field...)
     E2slab=vel3*B1val;
 
 

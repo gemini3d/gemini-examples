@@ -63,9 +63,10 @@ end %for
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
-%% WRITE OUT THE RESULTS TO A NEW FILE
+%% Write initial plasma state out to a file
 ymd = dat.simdate(1:3);
 UTsec = dat.simdate(4)*3600;
 writedata(ymd, UTsec, nsperturb, dat.vs1, dat.Ts, cfg.outdir, cfg.file_format);
+
 
 end % function
