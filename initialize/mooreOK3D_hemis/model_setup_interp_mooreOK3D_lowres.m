@@ -41,7 +41,9 @@ end
 
 
 %SAVE THE GRID DATA
-eqdir='../../../simulations/mooreOK3D_hemis_eq/';
-simID='mooreOK3D_hemis_lowres';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);
+p.eqdir='../../../simulations/mooreOK3D_hemis_eq/';
+p.outdir='mooreOK3D_hemis_lowres';
+p.nml='config.nml';
+p.file_format='h5';
+eq2dist(p,xg);
 
