@@ -12,8 +12,8 @@ eq2dist(cfg, xg);
 
 %% perturbation and efield
 %perturb_efield(cfg,xg);
-%perturb_efieldBG(cfg,xg);
-perturb_efield_bridge(cfg,xg);
+perturb_efieldBG(cfg,xg);
+%perturb_efield_bridge(cfg,xg);
 
 %% perturbation
 %perturb(cfg, xg)

@@ -14,7 +14,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 %dat = loadframe3Dcurvnoelec(cfg.indat_file);
-dat=loadframe('~/simulations/KHI_periodic_lowres_bridge/',[2013,02,20],28600);
+dat=loadframe('~/simulations/KHI_archive/KHI_periodic_lowres_bridge/',[2013,02,20],28600);
 dat.simdate=[2013,2,20,28600/3600,0,0];
 lsp = size(dat.ns,4);
 
@@ -34,13 +34,16 @@ lsp = size(dat.ns,4);
 v0=-500;                             % background flow value, actually this will be turned into a shear in the Efield input file
 densfact=3;                         % factor by which the density increases over the shear region - see Keskinen, et al (1988)
 ell=1e3;                            % scale length for shear transition
+%ell=6e3;
 vn=-v0*(densfact+1)./(densfact-1);
 B1val=-50000e-9;
 
 nsperturb=zeros(size(dat.ns));
 for isp=1:lsp
   for ix2=1:xg.lx(2)
-    amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWN, note this can make density go negative so error checking needed below
+%    amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWN, note this can make density go negative so error checking needed below
+    amplitude=randn(1,1,xg.lx(3));
+    amplitude=repmat(amplitude,[xg.lx(1),1,1]);
     amplitude=0.01*amplitude;
     nsperturb(:,ix2,:,isp)=dat.ns(:,ix2,:,isp)+amplitude.*dat.ns(:,ix2,:,isp);        %add some noise to seed instability
   end %for

@@ -28,20 +28,36 @@ nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 %% Apply the denisty perturbation as a jump and specified plasma drift variation (Earth-fixed frame)
 % because this is derived from current density it is invariant with respect
 % to frame of reference.  
-v0=-500;                             % background flow value, actually this will be turned into a shear in the Efield input file
-densfact=3;                         % factor by which the density increases over the shear region - see Keskinen, et al (1988)
-ell=1e3;                            % scale length for shear transition
+v0=-500;                                 % background flow value, actually this will be turned into a shear in the Efield input file
+densfact=3;                              % factor by which the density increases over the shear region - see Keskinen, et al (1988)
+ell=3.1513e3;                            % scale length for shear transition
 vn=-v0*(densfact+1)./(densfact-1);
 B1val=-50000e-9;
 
 nsperturb=zeros(size(dat.ns));
 for isp=1:lsp
   for ix2=1:xg.lx(2)
-    amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWN, note this can make density go negative so error checking needed below
-%    amplitude=0.01*amplitude;
-    amplitude=0;
+    % 3D noise
+    %amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWN, note this can make density go negative so error checking needed below
+    %amplitude=0.01*amplitude;
+    
+    % 2D noise
+%     amplitude=randn(1,1,xg.lx(3));
+%     amplitude=smooth(amplitude,10);
+%     amplitude=reshape(amplitude,[1,1,lx3]);
+%     amplitude=repmat(amplitude,[xg.lx(1),1,1]);
+%     amplitude=0.01*amplitude;
+    
+    % single resonant perturbation
+    x3dist=x3(end)-x3(1);
+    nhar=2;
+    lnoise=x3dist/nhar;
+    knoise=2*pi/lnoise;
+    amplitude=0.01*sin(knoise.*x3);
+    amplitude=reshape(amplitude,[1,1,lx3]);
+    amplitude=repmat(amplitude,[xg.lx(1),1,1]);
+    
     nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp).*(vn-v0)./(v0*tanh((x2(ix2))/ell)+vn);
-
     nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);        %add some noise to seed instability
   end %for
 end %for
