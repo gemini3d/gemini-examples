@@ -48,16 +48,17 @@ flagJpar=.false.
 /
 
 ! PhiWBG=0.05    !good for illustrating effects of precip -> damping
+! PhiWBG=1e-3
 
 &precip_BG
-PhiWBG=1e-3
+PhiWBG=0.05
 W0BG=3e3
 /
 
 ! magcap=5.0    !good for showing damping due to m'sphere...
 
 &capacitance
-flagcap=1       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
+flagcap=0       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
 magcap=0.0
 /
 

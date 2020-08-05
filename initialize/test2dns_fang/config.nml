@@ -10,19 +10,19 @@ Teinf = 1500.0                ! exospheric electron temperature
 
 &flags
 potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
-flagoutput = 2
+flagoutput = 1
 /
 
 &files
-indat_size = '~/simulations/test2dns_fang/inputs/simsize.h5'
-indat_grid = '~/simulations/test2dns_fang/inputs/simgrid.h5'
-indat_file = '~/simulations/test2dns_fang/inputs/initial_conditions.h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
 /
 
 &setup
 glat = 67.11
 glon = 212.95
-xdist = 0                   ! eastward distance (meters)
+xdist = 200e3               ! eastward distance (meters)
 ydist = 100e3               ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 1000e3            ! maximum altitude (meters)
@@ -38,15 +38,15 @@ Qprecip_background = 0.0
 E0precip = 5e3
 Etarg = 50e-3   ! V/m
 Efield_latwidth = 0.142857
-eqdir = '~/simulations/test2dns_eq'
+eqdir = '../test2dns_eq'
 /
 
 &precip
 dtprec = 5.0
-prec_dir = '~/simulations/test2dns_fang/inputs/precip/'
+prec_dir = 'inputs/precip/'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/test2dns_fang/inputs/Efield/'
+E0_dir = 'inputs/Efield/'
 /
