@@ -17,10 +17,10 @@ flagoutput = 2      ! 1 - full output
 /
 
 &files
-file_format='h5'
-indat_size = '../simulations/input/mooreOK3D_hemis_medres_h5/simsize.h5'
-indat_grid = '../simulations/input/mooreOK3D_hemis_medres_h5/simgrid.h5'
-indat_file = '../simulations/input/mooreOK3D_hemis_medres_h5/initial_conditions.h5'
+file_format='raw'
+indat_size = '../simulations/input/mooreOK3D_hemis_medres/simsize.dat'
+indat_grid = '../simulations/input/mooreOK3D_hemis_medres/simgrid.dat'
+indat_file = '../simulations/input/mooreOK3D_hemis_medres/mooreOK3D_hemis_medres_ICs.dat'
 /
 
 &neutral_perturb 
