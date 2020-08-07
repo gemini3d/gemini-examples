@@ -3,7 +3,7 @@
 &base
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 28500.0              ! start time in UT seconds
-tdur = 720.0                  ! duration of simulation in seconds
+tdur = 1800.0                  ! duration of simulation in seconds
 dtout = 10.0                  ! how often to do file output
 activ = 172.4,165.6,9.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -26,7 +26,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 eqdir = '~/simulations/RISR_eq/'
-outdir = '~/simulations/KHI_periodic_lowres_test/inputs/'
+outdir = '~/simulations/KHI_periodic_lowres_test/'
 /
 
 &flags
@@ -36,14 +36,14 @@ flagoutput = 2
 /
 
 &files
-indat_size = '~/simulations/KHI_periodic_lowres_test/inputs/simsize.h5'
-indat_grid = '~/simulations/KHI_periodic_lowres_test/inputs/simgrid.h5'
-indat_file = '~/simulations/KHI_periodic_lowres_test/inputs/initial_conditions.h5'
+indat_size = '~/simulations/KHI_periodic_lowres_test/simsize.h5'
+indat_grid = '~/simulations/KHI_periodic_lowres_test/simgrid.h5'
+indat_file = '~/simulations/KHI_periodic_lowres_test/initial_conditions.h5'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/KHI_periodic_lowres_test/inputs/Efield/'
+E0_dir = '~/simulations/KHI_periodic_lowres_test/Efield/'
 /
 
 &Jpar
@@ -54,6 +54,8 @@ flagJpar=.false.
 PhiWBG=1e-5
 W0BG=3e3
 /
+
+!magcap=30.0
 
 &capacitance
 flagcap=2       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part

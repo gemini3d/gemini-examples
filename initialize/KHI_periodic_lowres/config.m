@@ -11,8 +11,8 @@ xg = makegrid_cart_3D(cfg);
 eq2dist(cfg, xg);
 
 %% perturbation and efield
-%perturb_efield(cfg,xg);
-perturb_efieldBG(cfg,xg);
+perturb_efield(cfg,xg);
+%perturb_efieldBG(cfg,xg);
 %perturb_efield_bridge(cfg,xg);
 
 %% perturbation

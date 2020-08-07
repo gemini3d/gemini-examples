@@ -35,34 +35,39 @@ vn=-v0*(densfact+1)./(densfact-1);
 B1val=-50000e-9;
 
 nsperturb=zeros(size(dat.ns));
+n1=zeros(size(dat.ns));
 for isp=1:lsp
   for ix2=1:xg.lx(2)
     % 3D noise
     %amplitude=randn(xg.lx(1),1,xg.lx(3));    %AGWN, note this can make density go negative so error checking needed below
     %amplitude=0.01*amplitude;
     
-    % 2D noise
-%     amplitude=randn(1,1,xg.lx(3));
-%     amplitude=smooth(amplitude,10);
-%     amplitude=reshape(amplitude,[1,1,lx3]);
-%     amplitude=repmat(amplitude,[xg.lx(1),1,1]);
-%     amplitude=0.01*amplitude;
-    
-    % single resonant perturbation
-    x3dist=x3(end)-x3(1);
-    nhar=2;
-    lnoise=x3dist/nhar;
-    knoise=2*pi/lnoise;
-    amplitude=0.01*sin(knoise.*x3);
+    %2D noise
+    amplitude=randn(1,1,xg.lx(3));
+    amplitude=smooth(amplitude,10);
     amplitude=reshape(amplitude,[1,1,lx3]);
     amplitude=repmat(amplitude,[xg.lx(1),1,1]);
-
-    nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp).*(vn-v0)./(v0*tanh((x2(ix2))/ell)+vn);
-    nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+amplitude.*nsscale(:,ix2,:,isp);        %add some noise to seed instability
+    amplitude=0.01*amplitude;
+    
+%     % single resonant perturbation; makes it easier to judge growth
+%     x3dist=x3(end)-x3(1);
+%     nhar=2;
+%     lnoise=x3dist/nhar;
+%     knoise=2*pi/lnoise;
+%     amplitude=0.01*sin(knoise.*x3);
+%     amplitude=reshape(amplitude,[1,1,lx3]);
+%     amplitude=repmat(amplitude,[xg.lx(1),1,1]);
+    
+    n1here=amplitude.*nsscale(:,ix2,:,isp);     %perturbation seeding instability
+    n1(:,ix2,:,isp)=n1here;                     %save the perturbation for computing potential perturbation
+    
+    nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp).*(vn-v0)./(v0*tanh((x2(ix2))/ell)+vn);     %background density
+    nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+n1here;                                  %perturbation
   end %for
 end %for
 nsperturb=max(nsperturb,1e4);                        %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
+n1(:,:,:,lsp)=sum(n1(:,:,:,1:6),4);
 
 
 %% Remove any residual E-region from the simulation
@@ -81,13 +86,13 @@ nsperturb(inds,:,:,:)=1e3;
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
-%% Now compute an initial potential
+%% Now compute an initial potential, background
 vel3=zeros(lx2,lx3);
 for ix3=1:lx3
     vel3(:,ix3)=v0*tanh(x2./ell)-vn;
 end
-vel3=flipud(vel3);
-E2top=vel3*B1val;     % this is minus the electric field
+%vel3=flipud(vel3);    % wtf is going on here?!
+E2top=vel3*B1val;     % this is -1* the electric field
 
 % integrate field to get potential
 DX2=diff(x2(:)',1);
@@ -95,7 +100,12 @@ DX2=[DX2,DX2(end)];
 DX2=repmat(DX2(:),[1,lx3]);
 Phitop=cumsum(E2top.*DX2,1);
 
+
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Electromagnetic parameter inputs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 makedir(cfg.E0_dir);
 
 
@@ -176,10 +186,10 @@ for it=1:Nt
     for ilat=1:E.llat
         vel3(:,ilat)=v0*tanh(x2i./ell)-vn;
     end
-    vel3=flipud(vel3);
+    %vel3=flipud(vel3);
     
 
-    %CONVERT TO ELECTRIC FIELD (actually minus electric field...)
+    %CONVERT TO ELECTRIC FIELD (actually -1* electric field...)
     E2slab=vel3*B1val;
 
 
@@ -195,9 +205,9 @@ end
 
 
 %% Write initial plasma state out to a file
-ymd = dat.simdate(1:3);
-UTsec = dat.simdate(4)*3600;
-writedata(ymd, UTsec, nsperturb, dat.vs1, dat.Ts, cfg.outdir, cfg.file_format, 64, Phitop);
+ymd = cfg.ymd;
+UTsec = cfg.UTsec0;
+writedata(ymd,UTsec,nsperturb,dat.vs1,dat.Ts,[cfg.outdir,'/initial_conditions'],cfg.file_format,64,Phitop);
 
 
 %% Write electric field data to file
