@@ -1,49 +1,24 @@
 % test a few setups
 % for now, just tests that it doesn't error when run
-%% lint
-if exist('checkcode', 'file')
-  checkcode_recursive([this, '/../'])
-else
-  fprintf(2, 'SKIP: lint check\n')
-end
-%% setup
+
 this = fileparts(mfilename('fullpath'));
-run([this, '/../setup.m'])
-R = [this, '/../initialize'];
+run(fullfile(this, '../setup.m'))
 
 %% test2d_eq
-model_setup([R, '/test2dew_eq'])
+runner('test2dew_eq')
 %% test2d_fang
-try
-  model_setup([R, '/test2dew_fang'])
-catch e
-  if ~strcmp(e.identifier, 'readgrid:file_not_found')
-    rethrow(e)
-  end
-end
+runner('test2dew_fang')
 %% test2d_glow
-try
-  model_setup([R, '/test2dew_glow'])
-catch e
-  if ~strcmp(e.identifier, 'readgrid:file_not_found')
-    rethrow(e)
-  end
-end
+runner('test2dew_glow')
 %% arcs_eq
-model_setup([R, '/arcs_eq'])
+runner('arcs_eq')
 %% arcs
-try
-  model_setup([R, '/arcs'])
-catch e
-  if ~strcmp(e.identifier, 'readgrid:file_not_found')
-    rethrow(e)
-  end
-end
+runner('arcs')
 %% risr2dew_eq
-model_setup([R, '/risr2dew_eq'])
+runner('risr2dew_eq')
 %% risr2dns_eq
-model_setup([R, '/risr2dns_eq'])
+runner('risr2dns_eq')
 %% risr3d_eq
-model_setup([R, '/risr3d_eq'])
+runner('risr3d_eq')
 
 disp('OK: gemini-examples generation checks')

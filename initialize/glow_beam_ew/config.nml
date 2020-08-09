@@ -24,9 +24,9 @@ flagglow = 0
 /
 
 &files
-indat_size = '~/simulations/glow_beam_ew/inputs/simsize.h5'
-indat_grid = '~/simulations/glow_beam_ew/inputs/simgrid.h5'
-indat_file = '~/simulations/glow_beam_ew/inputs/initial_conditions.h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
 /
 
 &setup
@@ -51,17 +51,17 @@ Etarg = 50e-3   ! V/m
 Efield_fracwidth = 0.125
 Eflagdirich = 1
 Exit = 1e-3
-eqdir = '~/simulations/risr2dew_eq'
+eqdir = '../risr2dew_eq'
 /
 
 &precip
 dtprec = 5.0
-prec_dir = '~/simulations/glow_beam_ew/inputs/precip/'
+prec_dir = 'inputs/precip/'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/glow_beam_ew/inputs/Efield/'
+E0_dir = 'inputs/Efield/'
 /
 
 &glow
