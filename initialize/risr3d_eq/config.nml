@@ -20,7 +20,7 @@ nmf = 5e11
 nme = 2e11
 alt_min = 80e3
 alt_max = 1000e3
-alt_scale = 10e3, 8e3, 500e3, 150e3
+alt_scale = 50e3, 45e3, 400e3, 150e3
 /
 
 &flags
