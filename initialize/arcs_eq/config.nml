@@ -16,10 +16,9 @@ flagcap = 0                             !flagcap:  use inertial capacitance? (0 
 /
 
 &files
-file_format= 'h5'
-indat_size = '~/gemini_sim/arcs_eq/inputs/simsize.h5'
-indat_grid = ~/gemini_sim/arcs_eq/inputs/simgrid.dat'
-indat_file = '~/gemini_sim/arcs_eq/initial_conditions.h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.dat'
+indat_file = 'inputs/initial_conditions.h5'
 /
 
 &setup
