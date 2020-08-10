@@ -91,7 +91,7 @@ vel3=zeros(lx2,lx3);
 for ix3=1:lx3
     vel3(:,ix3)=v0*tanh(x2./ell)-vn;
 end
-%vel3=flipud(vel3);    % wtf is going on here?!
+vel3=flipud(vel3);    % wtf is going on here?!
 E2top=vel3*B1val;     % this is -1* the electric field
 
 % integrate field to get potential
@@ -186,7 +186,7 @@ for it=1:Nt
     for ilat=1:E.llat
         vel3(:,ilat)=v0*tanh(x2i./ell)-vn;
     end
-    %vel3=flipud(vel3);
+    vel3=flipud(vel3);
     
 
     %CONVERT TO ELECTRIC FIELD (actually -1* electric field...)
