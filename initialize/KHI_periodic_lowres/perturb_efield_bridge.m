@@ -14,7 +14,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 %dat = loadframe3Dcurvnoelec(cfg.indat_file);
-dat=loadframe('~/simulations/KHI_archive/KHI_periodic_lowres_bridge/',[2013,02,20],28600);
+dat=loadframe(get_frame_filename('~/simulations/KHI_archive/KHI_periodic_lowres_bridge/',[2013,02,20],28600));
 dat.simdate=[2013,2,20,28600/3600,0,0];
 lsp = size(dat.ns,4);
 
@@ -30,7 +30,7 @@ lsp = size(dat.ns,4);
 
 %% Apply the denisty perturbation as a jump and specified plasma drift variation (Earth-fixed frame)
 % because this is derived from current density it is invariant with respect
-% to frame of reference.  
+% to frame of reference.
 v0=-500;                             % background flow value, actually this will be turned into a shear in the Efield input file
 densfact=3;                         % factor by which the density increases over the shear region - see Keskinen, et al (1988)
 ell=1e3;                            % scale length for shear transition
@@ -164,7 +164,7 @@ for it=1:Nt
         vel3(:,ilat)=v0*tanh(x2i./ell)-vn;
     end
     vel3=flipud(vel3);
-    
+
 
     %CONVERT TO ELECTRIC FIELD (actually minus electric field...)
     E2slab=vel3*B1val;

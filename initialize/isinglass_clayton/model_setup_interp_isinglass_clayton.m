@@ -1,9 +1,5 @@
 cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-addpath([gemini_root, filesep, 'vis'])
+run(fullfile(cwd, '../../setup.m'))
 
 mlonctr=259.0423;
 mlatctr=66.7615;
@@ -52,8 +48,8 @@ direc=ID;
 
 
 %% LOAD THE FRAME
-%[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend, flagoutput, mloc,xgin);
-[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(direc,ymdend,UTsecend, flagoutput,mloc,xgin);
+%[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,UTsecend,ymdend), flagoutput, mloc,xgin);
+[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,ymdend,UTsecend), flagoutput,mloc,xgin);
 lsp=size(ns,4);
 
 
@@ -98,4 +94,3 @@ outdir='~/zettergmdata/simulations/input/isinglass_clayton_lowres/'
 writegrid(xg,outdir);
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
-

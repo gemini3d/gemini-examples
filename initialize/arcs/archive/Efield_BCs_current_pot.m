@@ -1,7 +1,5 @@
 cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils']);
-addpath([gemini_root, filesep, 'vis']);
+run(fullfile(cwd, '../../setup.m'))
 
 
 direcconfig='./'
@@ -31,7 +29,7 @@ end
 
 
 %LOAD A REFERENCE POTENTIAL FROM AN EXISTING SIMULATION THAT USED NEUMANN BOUNDARY CONDITIONS
-[ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop] = loadframe(direc,ymd,UTsec);
+[ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop] = loadframe(get_frame_filename(direc,ymd,UTsec));
 refpotential=Phitop;    %this is the potential off of which we base our new inputs files
 
 
@@ -184,4 +182,3 @@ end
 
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
 save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');
-

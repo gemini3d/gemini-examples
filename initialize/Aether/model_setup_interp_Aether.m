@@ -1,19 +1,15 @@
- cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-addpath([gemini_root, filesep, 'vis'])
+cwd = fileparts(mfilename('fullpath'));
+run(fullfile(cwd, '../../setup.m'))
 
- %PFISR LOWRES GRID (CARTESIAN)
- xdist=500e3;    %eastward distance
- ydist=100e3;    %northward distance
- lxp=384/2;
- lyp=128;
- glat=67.11;
- glon=212.95;
- gridflag=0;
- I=90;
+%PFISR LOWRES GRID (CARTESIAN)
+xdist=500e3;    %eastward distance
+ydist=100e3;    %northward distance
+lxp=384/2;
+lyp=128;
+glat=67.11;
+glon=212.95;
+gridflag=0;
+I=90;
 
 
 
@@ -44,7 +40,7 @@ direc=ID;
 
 
 %LOAD THE FRAME
-[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend, flagoutput, mloc,xgin);
+[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,UTsecend,ymdend), flagoutput, mloc,xgin);
 lsp=size(ns,4);
 
 
@@ -89,4 +85,3 @@ outdir=['~/zettergmdata/simulations/input/',simid,'/'];
 writegrid(xg,outdir);
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
-

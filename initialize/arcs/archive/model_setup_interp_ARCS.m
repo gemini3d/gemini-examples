@@ -49,7 +49,7 @@ direc=ID;
 
 
 %LOAD THE FRAME
-[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(direc,ymdend,UTsecend, flagoutput,mloc,xgin);
+[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,ymdend,UTsecend), flagoutput,mloc,xgin);
 lsp=size(ns,4);
 rmpath ../vis/
 

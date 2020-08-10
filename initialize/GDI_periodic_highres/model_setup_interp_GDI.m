@@ -1,9 +1,5 @@
 cwd = fileparts(mfilename('fullpath'));
-GEMINI_root = [cwd, filesep, '../../../GEMINI'];
-addpath([GEMINI_root, filesep, 'script_utils'])
-addpath([GEMINI_root, filesep, 'setup/gridgen'])
-addpath([GEMINI_root, filesep, 'setup'])
-addpath([GEMINI_root, filesep, 'vis'])
+run(fullfile(cwd, '../../setup.m'))
 
 %RISR PERIODIC GDI RUN (HIGHRES)
 xdist=200e3;
@@ -45,7 +41,7 @@ direc=ID;
 
 
 %LOAD THE FRAME
-[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(direc,UTsecend,ymdend, flagoutput, mloc,xgin);
+[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,UTsecend,ymdend), flagoutput, mloc,xgin);
 lsp=size(ns,4);
 
 
@@ -90,4 +86,3 @@ outdir='~/zettergmdata/simulations/input/GDI_periodic_highres_fileinput/'
 writegrid(xg,outdir);    %just put it in pwd for now
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
-

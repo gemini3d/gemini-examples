@@ -1,8 +1,5 @@
 cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils']);
-addpath([gemini_root, filesep, 'vis']);
-
+run(fullfile(cwd, '../../setup.m'))
 
 direcconfig='./'
 direcgrid=[gemini_root,filesep,'../simulations/input/ARCS/'];
@@ -36,7 +33,7 @@ UTsec=UTsec0;
 ymd=ymd0;
 it=1;
 while(t<=tdur)
-  [ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop]=loadframe(direc,ymd,UTsec, flagoutput,mloc,xg);
+  [ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop]=loadframe(get_frame_filename(direc,ymd,UTsec), flagoutput,mloc,xg);
   refpotential(:,:,it)=Phitop;    %this is the FAC off of which we base our new inputs files
   [ymd,UTsec]=dateinc(dtfile,ymd,UTsec);
   it=it+1;
@@ -147,4 +144,3 @@ end
 
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
 save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');
-

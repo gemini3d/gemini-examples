@@ -1,9 +1,5 @@
 cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-addpath([gemini_root, filesep, 'vis'])
+run(fullfile(cwd, '../../setup.m'))
 
 %PFISR LOWRES GRID (CARTESIAN)
 xdist=500e3;    %eastward distance
@@ -45,7 +41,7 @@ direc=ID;
 
 
 %LOAD THE FRAME
-[ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(direc,ymdend,UTsecend, flagoutput,mloc,xg);
+[ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,ymdend,UTsecend), flagoutput,mloc,xg);
 lsp=size(ns,4);
 
 
@@ -99,5 +95,3 @@ writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
 %plotslice3D_curv(UTsec/3600,[3,11,2011],xg,log10(nsi(:,:,:,7)),'log_{10} n_e',[8 13])
 %print -dpng nei.png
 %rmpath ./vis;
-
-

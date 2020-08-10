@@ -1,8 +1,5 @@
 cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'vis'])
+run(fullfile(cwd, '../../setup.m'))
 
 
 %A MEDIUM RES TOHOKU
@@ -60,7 +57,7 @@ clear xgin;
 
 
 %LOAD THE FRAME
-[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,ns,vs1,Ts] = loadframe(direc,UTsec,ymd)
+[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,ns,vs1,Ts] = loadframe(get_frame_filename(direc,UTsec,ymd));
 lsp=size(ns,4);
 rmpath ../vis/
 
@@ -106,5 +103,3 @@ end
 %WRITE OUT THE GRID
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
 writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
-
-
