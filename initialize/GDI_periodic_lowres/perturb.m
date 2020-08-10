@@ -2,21 +2,21 @@ function perturb(cfg, xg)
 % perturb plasma from initial_conditions file
 
 narginchk(2,2)
-validateattributes(cfg, {'struct'}, {'scalar'})
-validateattributes(xg, {'struct'}, {'scalar'})
+validateattributes(cfg, {'struct'}, {'scalar'},1)
+validateattributes(xg, {'struct'}, {'scalar'},2)
 %% READ IN THE SIMULATION INFORMATION
 x1 = xg.x1(3:end-2);    %trim ghost cells
 x2 = xg.x2(3:end-2);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-dat = loadframe3Dcurvnoelec(cfg.indat_file);
-lsp = size(dat.ns,4);
+dat = loadframe(cfg.indat_file);
+lsp = size(dat.ns, 4);
 
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
 scalefact=2.75;
 nsscale=zeros(size(dat.ns));
 for isp=1:lsp-1
-    nsscale(:,:,:,isp) = scalefact * dat.ns(:,:,:,isp);
+  nsscale(:,:,:,isp) = scalefact * dat.ns(:,:,:,isp);
 end %for
 nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
@@ -62,8 +62,6 @@ nsperturb(:,:,:,lsp) = sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
-ymd = dat.simdate(1:3);
-UTsec = dat.simdate(4)*3600;
-writedata(ymd, UTsec, nsperturb, dat.vs1, dat.Ts, cfg.outdir, cfg.file_format);
+writedata(dat.time, nsperturb, dat.vs1, dat.Ts, cfg.outdir, cfg.file_format);
 
 end % function

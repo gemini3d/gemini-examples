@@ -15,6 +15,6 @@ eq2dist(cfg, xg);
 %% perturbation
 perturb(cfg, xg)
 %% E-field boundary conditions
-Efield(cfg, xg)
+Efield_BCs(cfg, xg)
 
 end % function

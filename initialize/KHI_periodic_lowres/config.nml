@@ -25,8 +25,7 @@ Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
-eqdir = '~/simulations/RISR_eq/'
-outdir = '~/simulations/KHI_periodic_lowres_test/'
+eqdir = '~/simulations/risr3d_eq/'
 /
 
 &flags
@@ -36,14 +35,14 @@ flagoutput = 2
 /
 
 &files
-indat_size = '~/simulations/KHI_periodic_lowres_test/simsize.h5'
-indat_grid = '~/simulations/KHI_periodic_lowres_test/simgrid.h5'
-indat_file = '~/simulations/KHI_periodic_lowres_test/initial_conditions.h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/KHI_periodic_lowres_test/Efield/'
+E0_dir = 'inputs/Efield/'
 /
 
 &Jpar

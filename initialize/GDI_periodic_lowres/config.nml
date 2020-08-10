@@ -21,7 +21,7 @@ Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
-eqdir = '~/simulations/risr_eq/'
+eqdir = '~/simulations/risr3d_eq/'
 Eyit = -25e-3
 /
 
@@ -32,15 +32,14 @@ flagoutput = 2
 /
 
 &files
-file_format = 'h5'
-indat_size = '~/simulations/GDI_periodic_lowres_test/inputs/simsize.h5'
-indat_grid = '~/simulations/GDI_periodic_lowres_test/inputs/simgrid.h5'
-indat_file = '~/simulations/GDI_periodic_lowres_test/inputs/initial_conditions.h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
 /
 
 &efield
 dtE0 = 1.0
-E0_dir = '~/simulations/GDI_periodic_lowres_test/inputs/Efield/'
+E0_dir = 'inputs/Efield/'
 /
 
 &Jpar

@@ -148,10 +148,7 @@ time = tmin:cfg.dtE0:cfg.tdur;
 Nt = length(time);
 
 %% SET UP TIME VARIABLES
-UTsec = cfg.UTsec0 + time;     %time given in file is the seconds from beginning of hour
-UThrs = UTsec / 3600;
-E.expdate = cat(2, repmat(cfg.ymd(:)',[Nt, 1]), UThrs', zeros(Nt, 1), zeros(Nt, 1));
-t = datenum(E.expdate);
+E.times = cfg.times(1):seconds(cfg.dtE0):cfg.times(end);
 
 %% CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
 if isfield(cfg, 'Exit')
@@ -205,9 +202,8 @@ end
 
 
 %% Write initial plasma state out to a file
-ymd = cfg.ymd;
-UTsec = cfg.UTsec0;
-writedata(ymd,UTsec,nsperturb,dat.vs1,dat.Ts,[cfg.outdir,'/initial_conditions'],cfg.file_format,64,Phitop);
+
+writedata(cfg.times(1),nsperturb,dat.vs1,dat.Ts,[cfg.outdir,'/initial_conditions'],cfg.file_format,64,Phitop);
 
 
 %% Write electric field data to file
