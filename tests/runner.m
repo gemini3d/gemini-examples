@@ -7,7 +7,7 @@ cwd = fileparts(mfilename('fullpath'));
 
 test_dir = fullfile(cwd, '../initialize', name);
 %% setup new test data
-p = read_nml(test_dir);
+p = read_config(test_dir);
 p.outdir = fullfile(tempdir, name);
 
 try
