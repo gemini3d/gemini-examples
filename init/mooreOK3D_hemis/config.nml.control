@@ -1,0 +1,28 @@
+! Simulation of 2013 EF5 tornado source affects on the ionosphere
+
+&base
+ymd = 2013,5,20               ! year, month, day
+UTsec0 = 71100.0              ! start time in UT seconds
+tdur = 14400.0                  ! duration of simulation in seconds
+dtout = 30.0                  ! how often to do file output
+activ = 124.6,138.5,6.1       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 2      ! 1 - full output
+/
+
+&files
+file_format='raw'
+indat_size = '../simulations/input/mooreOK3D_hemis_medres/simsize.dat'
+indat_grid = '../simulations/input/mooreOK3D_hemis_medres/simgrid.dat'
+indat_file = '../simulations/input/mooreOK3D_hemis_medres/mooreOK3D_hemis_medres_ICs.dat'
+/
+
+&milestone
+mcadence=10
+/

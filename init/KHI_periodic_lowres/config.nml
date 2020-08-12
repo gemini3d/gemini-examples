@@ -1,0 +1,72 @@
+! this is a KH instability simulation
+
+&base
+ymd = 2013,2,20               ! year, month, day
+UTsec0 = 28500.0              ! start time in UT seconds
+tdur = 1800.0                  ! duration of simulation in seconds
+dtout = 10.0                  ! how often to do file output
+activ = 172.4,165.6,9.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&setup
+glat = 75.6975
+glon = 265.1678
+!xdist = 239.0625e3       ! eastward distance (meters), including a large low-res buffer for solvers
+xdist=638.0625e3
+ydist=90e3
+x2parms = 200e3,0.75e3,10.1e3,30e3
+!ydist = 179.688e3             ! northward distance (meters)
+!!ydist=134.766e3
+lxp = 276
+lyp = 128
+!lyp=96
+Bincl = 90
+alt_min = 80e3
+alt_max = 975e3
+alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
+
+eq_dir = '~/simulations/risr3d_eq/'
+eq_zip = '~/simulations/risr3d_eq.zip'
+eq_url = 'https://zenodo.org/record/3980312/files/risr3d_eq.zip?download=1'
+
+setup_functions = 'perturb_efield'
+/
+
+&flags
+potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 1
+flagoutput = 2
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&efield
+dtE0 = 1.0
+E0_dir = 'inputs/Efield/'
+/
+
+&Jpar
+flagJpar=.false.
+/
+
+&precip_BG
+PhiWBG=1e-5
+W0BG=3e3
+/
+
+!magcap=30.0
+
+&capacitance
+flagcap=2       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
+magcap=30.0
+/
+
+&milestone
+mcadence=10
+/
