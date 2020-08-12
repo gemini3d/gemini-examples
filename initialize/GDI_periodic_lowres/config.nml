@@ -17,6 +17,7 @@ xdist = 600e3             ! eastward distance (meters), including a large low-re
 ydist = 50e3             ! northward distance (meters)
 lxp = 384
 lyp = 96
+x2parms = 200e3,0.5e3,9.5e3,10e3
 Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
