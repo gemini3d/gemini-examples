@@ -12,7 +12,6 @@
 
 %% Parameters for creating input files from given equilibrium run
 p.eqdir='~/zettergmdata/simulations/ESF_eq/';
-p.realbits=64;
 p.outdir='~/zettergmdata/simulations/ESF_medres_noise/inputs';
 p.nml='./config.nml';
 p.file_format='h5';

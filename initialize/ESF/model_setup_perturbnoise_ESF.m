@@ -1,8 +1,5 @@
 cwd = fileparts(mfilename('fullpath'));
 gemini_root = [cwd, filesep, '../../../GEMINI'];
-% addpath([gemini_root, filesep, 'script_utils']);
-% addpath([gemini_root, filesep, 'vis']);
-
 
 %% READ IN THE SIMULATION INFORMATION
 ID=[gemini_root,'/../simulations/ESF_medres_noise/inputs/'];
@@ -49,8 +46,7 @@ outdir=ID;
 dmy=[simdate(3),simdate(2),simdate(1)];
 UTsec=simdate(4)*3600;
 file_format='h5';
-realbits=64;
-writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,file_format,realbits);
+writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,file_format);
 
 
 %% Visualize

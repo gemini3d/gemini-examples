@@ -28,5 +28,4 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 p.file_format='raw';
 p.eqdir=[gemini_root,'/../simulations/tohoku20113D_eq/'];
 p.simdir=[gemini_root,'/../simulations/input/tohoku20113D_lowres/'];
-p.realbits=64;
 [nsi,vs1i,Tsi]=eq2dist(p,xg);

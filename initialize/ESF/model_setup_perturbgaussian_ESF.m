@@ -67,6 +67,4 @@ outdir=ID;
 dmy=[simdate(3),simdate(2),simdate(1)];
 UTsec=simdate(4)*3600;
 file_format='h5';
-realbits=64;
-writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,file_format,realbits);
-
+writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,file_format);

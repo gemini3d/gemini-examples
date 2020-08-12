@@ -1,13 +1,6 @@
 %cwd = fileparts(mfilename('fullpath'));
-%gemini_root = [cwd, filesep, '../../../GEMINI'];
-%addpath([gemini_root, filesep, 'script_utils'])
-%addpath([gemini_root, filesep, 'setup/gridgen'])
-%addpath([gemini_root, filesep, '../GEMINI-scripts/matlab/setup/gridgen'])
-%addpath([gemini_root, filesep, 'setup/'])
-%ddpath([gemini_root, filesep, 'vis'])
-%addpath(['../../setup/gridgen'])
-run('../../../mat_gemini/setup.m')
-addpath ../../../GEMINI-scripts/matlab/setup/gridgen;
+run('../../setup.m')
+addpath('../../../GEMINI-scripts/matlab/setup/gridgen')
 p.file_format = 'h5';
 
 %MOORE, OK GRID (FULL)
@@ -46,10 +39,8 @@ rhomax=[];
 
 
 %SAVE THE GRID DATA
-p.realbits=64;
 p.eqdir='../../../simulations/mooreOK3D_hemis_eq/';
 p.indat_size = '../../../simulations/mooreOK3D_hemis_inputs/simsize.h5';
 p.indat_grid = '../../../simulations/mooreOK3D_hemis_inputs/simgrid.h5';
 p.indat_file = '../../../simulations/mooreOK3D_hemis_inputs/initial_conditions.h5';
 eq2dist(p,xg);
-

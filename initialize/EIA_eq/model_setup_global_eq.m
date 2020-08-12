@@ -43,6 +43,5 @@ p.nme=2e11;
 %% WRITE THE GRID AND INITIAL CONDITIONS
 p.simdir='../../../simulations/input/EIA_eq';
 p.file_format='raw';
-p.realbits=64;
 writegrid(p,xg);
 writedata(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);

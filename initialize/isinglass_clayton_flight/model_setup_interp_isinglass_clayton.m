@@ -29,6 +29,5 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 %% Interpolate data to desired grid resolution
 pfile.file_format = 'raw';
 pfile.eqdir='../../../simulations/isinglass_eq/';
-pfile.realbits=64;
 pfile.simdir='~/simulations/input/isinglass_clayton_flight/';
 [nsi,vs1i,Tsi]=eq2dist(pfile,xg);
