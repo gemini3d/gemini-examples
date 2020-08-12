@@ -26,11 +26,11 @@ indat_file = '../../simulations/input/mooreOK3D_hemis_lowres/initial_conditions.
 &neutral_perturb
 flagdneu = 1
 interptype = 1
-sourcemlat = 44.9397d0
-sourcemlon = 328.7981d0
-dtneu = 6d0
-drhon = 2d3
-dzn = 2d3
+sourcemlat = 44.9397
+sourcemlon = 328.7981
+dtneu = 6.0
+drhon = 2000
+dzn = 2000
 source_dir = '../../simulations/input/mooreOK_neutrals/'
 /
 
