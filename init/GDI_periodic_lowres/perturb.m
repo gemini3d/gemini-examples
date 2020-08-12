@@ -61,7 +61,7 @@ end %for
 nsperturb(:,:,:,lsp) = sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
-%% WRITE OUT THE RESULTS TO A NEW FILE
-writedata(dat.time, nsperturb, dat.vs1, dat.Ts, cfg.outdir, cfg.file_format);
+%% WRITE OUT THE RESULTS TO the same file
+writedata(dat.time, nsperturb, dat.vs1, dat.Ts, cfg.indat_file, cfg.file_format);
 
 end % function
