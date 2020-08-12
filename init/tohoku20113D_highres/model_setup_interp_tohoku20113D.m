@@ -32,18 +32,14 @@ ID='~/zettergmdata/simulations/tohoku20113D_eq/'
 
 
 %READ IN THE SIMULATION INFORMATION
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
+cfg = read_config(ID);
 xgin=readgrid([ID,'/inputs/']);
 addpath ../vis/
 direc=ID;
 
 
-%FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
-[ymdend,UTsecend]=dateinc(tdur,ymd0,UTsec0);
-
-
 %LOAD THE FRAME
-[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,UTsecend,ymdend), nan, mloc,xgin);
+dat = loadframe(get_frame_filename(direc, cfg.times(end)), cfg,xgin);
 lsp=size(ns,4);
 rmpath ../vis/
 
@@ -87,5 +83,5 @@ end
 %WRITE OUT THE GRID
 outdir=['~/zettergmdata/simulations/input/',simid,'/'];
 writegrid(xg,outdir);    %just put it in pwd for now
-dmy=[ymdend(3),ymdend(2),ymdend(1)];
-writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
+
+writedata(cfg.times(end),nsi,vs1i,Tsi,outdir)

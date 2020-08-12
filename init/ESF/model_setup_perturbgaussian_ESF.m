@@ -63,8 +63,4 @@ nsperturb(:,:,:,7)=sum(nsperturb(:,:,:,1:6),4);
 
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
-outdir=ID;
-dmy=[simdate(3),simdate(2),simdate(1)];
-UTsec=simdate(4)*3600;
-file_format='h5';
-writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,file_format);
+writedata(dat.time,nsperturb,vs1,Ts, cfg.indat_file);

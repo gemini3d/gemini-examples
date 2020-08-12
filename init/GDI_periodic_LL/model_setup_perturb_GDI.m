@@ -15,7 +15,7 @@ x2=xg.x2(3:end-2);
 direc=ID;
 filebase='GDI_periodic_LL';
 filename=[filebase,'_ICs.dat'];
-[ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
+dat = loadframe3Dcurvnoelec(direc,filename);
 lsp=size(ns,4);
 
 
@@ -68,7 +68,5 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
-outdir=ID;
-dmy=[simdate(3),simdate(2),simdate(1)];
-UTsec=simdate(4)*3600;
-writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,'raw',64);
+
+writedata(dat.time,nsperturb,vs1,Ts,outdir);

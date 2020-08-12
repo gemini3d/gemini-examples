@@ -38,18 +38,12 @@ ID='~/zettergmdata/simulations/isinglass_eq/';
 
 
 %READ IN THE SIMULATION INFORMATION
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs/config.ini']);
+cfg = read_config(ID);
 xgin=readgrid([ID,'/inputs/']);
 direc=ID;
 
-
-%FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
-[ymdend,UTsecend]=dateinc(tdur,ymd0,UTsec0);
-
-
 %% LOAD THE FRAME
-%[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,UTsecend,ymdend), flagoutput, mloc,xgin);
-[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,ymdend,UTsecend), flagoutput,mloc,xgin);
+dat = loadframe(get_frame_filename(direc, cfg.times(end)), cfg,xgin);
 lsp=size(ns,4);
 
 
@@ -92,5 +86,4 @@ end
 %WRITE OUT THE GRID
 outdir='~/zettergmdata/simulations/input/isinglass_clayton_lowres/'
 writegrid(xg,outdir);
-dmy=[ymdend(3),ymdend(2),ymdend(1)];
-writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
+writedata(dat.time,nsi,vs1i,Tsi,outdir)

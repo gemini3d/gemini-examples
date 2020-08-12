@@ -172,9 +172,7 @@ end
 
 
 %% Write initial plasma state out to a file
-ymd = dat.simdate(1:3);
-UTsec = dat.simdate(4)*3600;
-writedata(ymd, UTsec, nsperturb, dat.vs1, dat.Ts, cfg.outdir, cfg.file_format, 64, Phitop);
+writedata(dat.time, nsperturb, dat.vs1, dat.Ts, cfg.indat_file, cfg.file_format, Phitop);
 
 
 %% Write electric field data to file

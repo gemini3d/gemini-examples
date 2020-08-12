@@ -15,7 +15,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 direc=ID;
 filebase='KHI_periodic_medres';
 filename=[filebase,'_ICs.dat'];
-[ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
+dat = loadframe3Dcurvnoelec(direc,filename);
 lsp=size(ns,4);
 
 
@@ -63,8 +63,7 @@ end %for
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
-%% WRITE OUT THE RESULTS TO A NEW FILE
+%% WRITE OUT THE RESULTS
 outdir=ID;
-dmy=[simdate(3),simdate(2),simdate(1)];
-UTsec=simdate(4)*3600;
-writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);
+
+writedata(dat.time,nsperturb,vs1,Ts, cfg.indat_file);

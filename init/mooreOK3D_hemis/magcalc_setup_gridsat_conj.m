@@ -21,14 +21,11 @@ UTsec_TOI=82923;
 
 
 %SIMULATION META-DATA
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([direc,'/inputs']);
-
+cfg = read_config(direc);
 
 %TABULATE THE SOURCE LOCATION
-mlatsrc=-1*mloc(1);
-mlonsrc=mloc(2);
-thdist=pi/2-mlatsrc*pi/180;    %zenith angle of source location
-phidist=mlonsrc*pi/180;
+thdist=pi/2-cfg.sourcemlat*pi/180;    %zenith angle of source location
+phidist= cfg.sourcemlon*pi/180;
 
 
 %ANGULAR RANGE TO COVER FOR THE CALCLUATIONS (THIS IS FOR THE FIELD POINTS - SOURCE POINTS COVER ENTIRE GRID)

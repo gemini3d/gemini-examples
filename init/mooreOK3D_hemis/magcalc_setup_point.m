@@ -21,7 +21,8 @@ UTsec_TOI=82923;
 
 
 %SIMULATION META-DATA
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([direc,'/inputs']);
+cfg = read_config(direc);
+
 
 
 %TABULATE THE SOURCE LOCATION

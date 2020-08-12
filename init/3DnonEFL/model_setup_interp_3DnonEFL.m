@@ -29,18 +29,14 @@ ID=[gemini_root,'/../simulations/ARCS_eq/'];
 
 
 %READ IN THE SIMULATION INFORMATION
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
+cfg = readconfig(ID);
 xgin=readgrid([ID,'/inputs/']);
 addpath ../vis/
 direc=ID;
 
 
-%FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
-[ymdend,UTsecend]=dateinc(tdur,ymd0,UTsec0);
-
-
 %LOAD THE FRAME
-[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,UTsecend,ymdend), flagoutput,mloc,xgin);
+dat = loadframe(get_frame_filename(direc, cfg.times(end)), cfg, xgin);
 lsp=size(ns,4);
 rmpath ../vis/
 
@@ -84,5 +80,5 @@ end
 %WRITE OUT THE GRID
 outdir=[gemini_root,'/../simulations/input/3DnonEFL/'];
 writegrid(xg,outdir);
-dmy=[ymdend(3),ymdend(2),ymdend(1)];
-writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
+
+writedata(dat.time,nsi,vs1i,Tsi,outdir);

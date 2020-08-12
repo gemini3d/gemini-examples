@@ -204,8 +204,7 @@ end
 
 %% Write initial plasma state out to a file
 
-writedata(cfg.times(1),nsperturb,dat.vs1,dat.Ts, ...
-  cfg.indat_file, cfg.file_format, Phitop)
+writedata(cfg.times(1),nsperturb,dat.vs1,dat.Ts, cfg.indat_file, cfg.file_format, Phitop)
 
 
 %% Write electric field data to file
