@@ -6,9 +6,9 @@ It illustrates the use of neutral wave data input from another model (MAGIC in t
 
 ## Running this example
 
-1. Before attempting to run this example you will need to do a full GEMINI installation as described in the README for the core [GEMINI](https://github.com/gemini3d/GEMINI) repository.  You will also need to install the [GEMINI-examples](https://github.com/gemini3d/GEMINI-examples) repository and the [mat_gemini](https://github.com/gemini3d/mat_gemini) repository.
+1. Before attempting to run this example you will need to do a full GEMINI installation as described in the README for the core [GEMINI](https://github.com/gemini3d/gemini3d) repository.  You will also need to install the [GEMINI-examples](https://github.com/gemini3d/GEMINI-examples) repository and the [mat_gemini](https://github.com/gemini3d/mat_gemini) repository.
 
-2. Either obtain equilibrium data (a) from its repository [TBD]() or (b) run the Tohoku equilibrium simulation found [https://github.com/gemini3d/GEMINI-examples/tree/master/initialize/tohoku20113D_eq](https://github.com/gemini3d/GEMINI-examples/tree/master/initialize/tohoku20113D_eq) (see associated README for instruction) to recompute initial conditions for this simulation example.
+2. Either obtain equilibrium data (a) from its repository [TBD]() or (b) run the Tohoku equilibrium simulation found [https://github.com/gemini3d/GEMINI-examples/tree/master/init/tohoku20113D_eq](https://github.com/gemini3d/GEMINI-examples/tree/master/init/tohoku20113D_eq) (see associated README for instruction) to recompute initial conditions for this simulation example.
 
 3. Define a new grid and interpolate up.  See the model_setup_interp.m script for an example of how to complete this step.  Be sure to adjust the paths in this script to match your machine's setup.
 
@@ -20,7 +20,7 @@ It illustrates the use of neutral wave data input from another model (MAGIC in t
 
 ```
 cd <GEMINI directory>/build
-mpirun -np 8 ./gemini.bin <GEMINI-examples dir>/initialize/tohoku20113D_medres/config.ini <output directory>/
+mpirun -np 8 ./gemini.bin <GEMINI-examples dir>/init/tohoku20113D_medres/config.ini <output directory>/
 ```
 
 7. Once the simulation is done the results can be plotted by opening matlab and setting the paths by:
@@ -37,7 +37,7 @@ This will print the plots to .png files within the output directory.  The zenodo
 8. To compute TEC perturbations from the simulation output you first need a control simulation so that the background TEC can be subtracted out.  The simplest way to do this is to rerun the GEMINI code but use the control input config file:
 
 ```
-mpirun -np 8 ./gemini.bin <GEMINI-examples dir>/initialize/tohoku20113D_medres/config.ini.control <output directory>_control/
+mpirun -np 8 ./gemini.bin <GEMINI-examples dir>/init/tohoku20113D_medres/config.ini.control <output directory>_control/
 ```
 
 9. A MATLAB script for computing TEC perturbations is included in the [mat_gemini respository](https://github.com/gemini3d/mat_gemini), specifically [here](https://github.com/gemini3d/mat_gemini/blob/master/matlab/vis/TECcalc.m).  To run this script, you will need to edit it to point to you simulation output directories, i.e. these lines:

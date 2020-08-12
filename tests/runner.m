@@ -5,7 +5,7 @@ validateattributes(name, {'char'}, {'vector'}, mfilename, 'test name', 1)
 
 cwd = fileparts(mfilename('fullpath'));
 
-test_dir = fullfile(cwd, '../initialize', name);
+test_dir = fullfile(cwd, '../init', name);
 %% setup new test data
 p = read_config(test_dir);
 p.outdir = fullfile(tempdir, name);

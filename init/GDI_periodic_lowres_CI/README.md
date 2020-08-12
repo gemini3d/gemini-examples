@@ -6,7 +6,7 @@ This example shows an application of the GEMINI model to simulate gradient-drift
 
 1. Before attempting to run this example you will need to do a full GEMINI installation as described in the README for the core [GEMINI](https://github.com/gemini3d/gemini) repository.  You will also need to install the [gemini-examples](https://github.com/gemini3d/gemini-examples) repository and the [mat_gemini](https://github.com/gemini3d/mat_gemini) repository.
 
-2. Generate an equilibrium simulation for RISR.  The GDI\_periodic\_medres example is usually run with the [RISR_eq equilibrium simulation](https://github.com/gemini3d/gemini-examples/tree/master/initialize/RISR_eq) as input which represents the ionospheric at nighttime above the Resolute Bay incoherent scatter radar location.
+2. Generate an equilibrium simulation for RISR.  The GDI\_periodic\_medres example is usually run with the [RISR_eq equilibrium simulation](./init/RISR_eq) as input which represents the ionospheric at nighttime above the Resolute Bay incoherent scatter radar location.
 
 3. Define a new grid and upsample.  See the model\_setup\_interp.m script for an example of how to complete this step.  In essence this is taking a coarsely sampled equilibrium state and interpolating to up to a grid with fine resolution that can be used for a sensible turbulence simulation.  Be sure to adjust the paths so that they point to the place on your system where the simulation data are/will be stored.  This script specifically needs the path to the RISR_eq data and also needs the path where the upsampled initial conditions are to be stored.
 

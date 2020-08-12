@@ -3,7 +3,7 @@ gemini_root = [cwd, filesep, '../../../GEMINI'];
 addpath([gemini_root, filesep, 'script_utils'])
 
 %REFERENCE GRID TO USE
-%direcconfig='../initialize/KHI_periodic_highres_fileinput/'
+%direcconfig='../init/KHI_periodic_highres_fileinput/'
 direcconfig='./';
 direcgrid='~/zettergmdata/simulations/input/KHI_periodic_highres/'
 

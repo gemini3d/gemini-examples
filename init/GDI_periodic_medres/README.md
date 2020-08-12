@@ -13,7 +13,7 @@ The GDI_periodic_medres example is usually run with the RISR_eq equilibrium simu
 
 See the model_setup_interp.m script for an example of how to complete this step.  In essence this is taking a coarsely sampled equilibrium state and interpolating to up to a grid with fine resolution that can be used for a sensible turbulence simulation.
 
-Create a grid, Cartesian in this case, using the makegrid_cart3D.m script from the main GEMINI repository (https://github.com/gemini3d/GEMINI/)).  To see the GDI cascade well requires about 512 grid points in both the x and y directions (x2 and x3, respectively, in the model).  This is an expensive simulation and should be done on 16-256 cores and will take about 2 hours-2 days.
+Create a grid, Cartesian in this case, using the makegrid_cart3D.m script from the main GEMINI repository (https://github.com/gemini3d/gemini3d/).  To see the GDI cascade well requires about 512 grid points in both the x and y directions (x2 and x3, respectively, in the model).  This is an expensive simulation and should be done on 16-256 cores and will take about 2 hours-2 days.
 
 Interpolate the data from the equilbruim run onto this new grid and shown by the example in the model_setup_interp.m script.  Be sure to adjust the paths so that they point to the place on your system where the simulation data are/will be stored.  This script specifically needs the path to the RISR_eq data and also needs the path where the upsampled initial conditions are to be stored.
 

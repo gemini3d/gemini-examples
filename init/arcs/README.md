@@ -10,7 +10,7 @@ This example shows an application of the GEMINI model to simulate a 3D auroral a
 
 ## Equilibrium Simulation
 
-2. Generate an equilibrium simulation for this example using the [ARCs\_eq example](https://github.com/gemini3d/gemini-examples/tree/master/initialize/arcs_eq).  Alternatively one may request input data from one of the repo maintainers, but there is not gaurantee of a timely response and/or the input data may be quite large and unwieldy to transfer across a network.
+2. Generate an equilibrium simulation for this example using the [ARCs\_eq example](./init/arcs_eq).  Alternatively one may request input data from one of the repo maintainers, but there is not gaurantee of a timely response and/or the input data may be quite large and unwieldy to transfer across a network.
 
 
 ## Disturbance Simulation Setup
