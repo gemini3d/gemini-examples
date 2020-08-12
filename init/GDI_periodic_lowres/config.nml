@@ -56,7 +56,7 @@ flagJpar=.false.
 ! PhiWBG=1e-3
 
 &precip_BG
-PhiWBG=0.05
+PhiWBG=1e-3
 W0BG=3e3
 /
 

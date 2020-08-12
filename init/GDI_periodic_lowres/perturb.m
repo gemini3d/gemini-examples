@@ -4,19 +4,32 @@ function perturb(cfg, xg)
 narginchk(2,2)
 validateattributes(cfg, {'struct'}, {'scalar'},1)
 validateattributes(xg, {'struct'}, {'scalar'},2)
+
+
 %% READ IN THE SIMULATION INFORMATION
 x1 = xg.x1(3:end-2);    %trim ghost cells
 x2 = xg.x2(3:end-2);
+
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 dat = loadframe(cfg.indat_file);
 lsp = size(dat.ns, 4);
 
-%% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
-scalefact=2.75;
+
+%% Choose a single profile from the center of the eq domain
+ix2=floor(xg.lx(2)/2);
+ix3=floor(xg.lx(3)/2);
 nsscale=zeros(size(dat.ns));
+for isp=1:lsp
+    nprof=dat.ns(:,ix2,ix3,isp);
+    nsscale(:,:,:,isp)=repmat(nprof,[1 xg.lx(2) xg.lx(3)]);
+end %for
+
+
+%% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
+scalefact=2.75*6/8;
 for isp=1:lsp-1
-  nsscale(:,:,:,isp) = scalefact * dat.ns(:,:,:,isp);
+  nsscale(:,:,:,isp) = scalefact * nsscale(:,:,:,isp);
 end %for
 nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
@@ -30,7 +43,7 @@ nepatchfact=10;    %density increase factor over background
 nsperturb=zeros(size(dat.ns));
 for isp=1:lsp-1
   for ix2=1:xg.lx(2)
-    amplitude=randn(xg.lx(1),1,xg.lx(3));     %AWGN - note that can result in subtractive effects on density!!!
+    amplitude=randn(xg.lx(1),1,xg.lx(3));      %AWGN - note that can result in subtractive effects on density so apply a floor later!!!
     amplitude=0.01*amplitude;                  %amplitude standard dev. is scaled to be 1% of reference profile
 
     nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp)+...                                             %original data
