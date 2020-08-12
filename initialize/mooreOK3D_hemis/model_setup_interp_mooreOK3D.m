@@ -39,7 +39,7 @@ rhomax=[];
 
 
 %SAVE THE GRID DATA
-p.eqdir='../../../simulations/mooreOK3D_hemis_eq/';
+p.eq_dir='../../../simulations/mooreOK3D_hemis_eq/';
 p.indat_size = '../../../simulations/mooreOK3D_hemis_inputs/simsize.h5';
 p.indat_grid = '../../../simulations/mooreOK3D_hemis_inputs/simgrid.h5';
 p.indat_file = '../../../simulations/mooreOK3D_hemis_inputs/initial_conditions.h5';

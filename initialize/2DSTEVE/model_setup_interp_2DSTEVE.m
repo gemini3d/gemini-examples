@@ -21,6 +21,6 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 %% ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 pfile.file_format = 'raw';
-pfile.eqdir='../../../simulations/2Dtest_eq/';
+pfile.eq_dir='../../../simulations/2Dtest_eq/';
 pfile.simdir='~/simulations/input/2DSTEVE';
 [nsi,vs1i,Tsi]=eq2dist(pfile,xg);

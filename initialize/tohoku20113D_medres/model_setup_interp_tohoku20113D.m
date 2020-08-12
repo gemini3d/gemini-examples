@@ -8,7 +8,7 @@
 
 %% Parameters for EQ and new simulation
 p.format='raw';
-p.eqdir='~/simulations/tohoku20113D_eq/';
+p.eq_dir='~/simulations/tohoku20113D_eq/';
 p.outdir='~/simulations/input/tohoku20113D_medres';
 p.nml='./config.ini';
 p.file_format='raw';
