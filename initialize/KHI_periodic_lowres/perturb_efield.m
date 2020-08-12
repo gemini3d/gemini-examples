@@ -44,7 +44,8 @@ for isp=1:lsp
     
     %2D noise
     amplitude=randn(1,1,xg.lx(3));
-    amplitude=smooth(amplitude,10);
+    % amplitude=smooth(amplitude,10);  % requires curve fitting toolbox
+    amplitude = movmean(amplitude, 10);
     amplitude=reshape(amplitude,[1,1,lx3]);
     amplitude=repmat(amplitude,[xg.lx(1),1,1]);
     amplitude=0.01*amplitude;
@@ -203,7 +204,8 @@ end
 
 %% Write initial plasma state out to a file
 
-writedata(cfg.times(1),nsperturb,dat.vs1,dat.Ts,[cfg.outdir,'/initial_conditions'],cfg.file_format,64,Phitop);
+writedata(cfg.times(1),nsperturb,dat.vs1,dat.Ts, ...
+  fullfile(cfg.outdir, 'initial_conditions'), cfg.file_format, Phitop)
 
 
 %% Write electric field data to file
