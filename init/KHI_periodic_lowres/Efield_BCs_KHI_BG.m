@@ -1,7 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
 
 %% REFERENCE GRID TO USE
 direcconfig='./';
@@ -16,8 +12,7 @@ delete([outdir,'*'])
 
 %% READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
 if (~exist('ymd0','var'))
-  [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([direcconfig,'/config.ini']);
-  fprintf('Input config.dat file loaded.\n');
+  cfg = gemini3d.read_config(direcconfig);
 end
 
 

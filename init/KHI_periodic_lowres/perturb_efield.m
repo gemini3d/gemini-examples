@@ -13,7 +13,7 @@ x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-dat = loadframe3Dcurvnoelec(cfg.indat_file);
+dat = gemini3d.vis.loadframe3Dcurvnoelec(cfg.indat_file);
 lsp = size(dat.ns,4);
 
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
@@ -107,7 +107,7 @@ Phitop=cumsum(E2top.*DX2,1);
 % Electromagnetic parameter inputs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-makedir(cfg.E0_dir);
+gemini3d.fileio.makedir(cfg.E0_dir);
 
 
 %% CREATE ELECTRIC FIELD DATASET
@@ -204,10 +204,10 @@ end
 
 %% Write initial plasma state out to a file
 
-writedata(cfg.times(1),nsperturb,dat.vs1,dat.Ts, cfg.indat_file, cfg.file_format, Phitop)
+gemini3d.writedata(cfg.times(1),nsperturb,dat.vs1,dat.Ts, cfg.indat_file, cfg.file_format, Phitop)
 
 
 %% Write electric field data to file
-write_Efield(E, cfg.E0_dir, cfg.file_format)
+gemini3d.setup.write_Efield(E, cfg.E0_dir, cfg.file_format)
 
 end %function perturb_efield

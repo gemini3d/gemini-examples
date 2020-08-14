@@ -12,7 +12,7 @@ x2 = xg.x2(3:end-2);
 
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-dat = loadframe(cfg.indat_file);
+dat = gemini3d.vis.loadframe(cfg.indat_file);
 lsp = size(dat.ns, 4);
 
 
@@ -75,6 +75,6 @@ nsperturb(:,:,:,lsp) = sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% WRITE OUT THE RESULTS TO the same file
-writedata(dat.time, nsperturb, dat.vs1, dat.Ts, cfg.indat_file, cfg.file_format)
+gemini3d.writedata(dat.time, nsperturb, dat.vs1, dat.Ts, cfg.indat_file, cfg.file_format)
 
 end % function

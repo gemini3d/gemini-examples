@@ -13,7 +13,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-dat = loadframe3Dcurvnoelec(cfg.indat_file);
+dat = gemini3d.vis.loadframe3Dcurvnoelec(cfg.indat_file);
 lsp = size(dat.ns,4);
 
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
@@ -64,7 +64,7 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% Write initial plasma state out to a file
-writedata(dat.time, nsperturb, dat.vs1, dat.Ts, cfg.indat_file, cfg.file_format);
+gemini3d.writedata(dat.time, nsperturb, dat.vs1, dat.Ts, cfg.indat_file, cfg.file_format);
 
 
 end % function

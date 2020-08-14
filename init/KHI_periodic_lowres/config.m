@@ -2,4 +2,4 @@
 
 cwd = fileparts(mfilename('fullpath'));
 
-model_setup(cwd, '~/simulations/khi_periodic_lowres');
+gemini3d.setup.model_setup(cwd, '~/simulations/khi_periodic_lowres');

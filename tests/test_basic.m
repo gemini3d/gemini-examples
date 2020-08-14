@@ -1,6 +1,5 @@
 % test a few setups
 % for now, just tests that it doesn't error when run
-
 this = fileparts(mfilename('fullpath'));
 run(fullfile(this, '../setup.m'))
 
