@@ -16,11 +16,21 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 dat = gemini3d.vis.loadframe3Dcurvnoelec(cfg.indat_file);
 lsp = size(dat.ns,4);
 
+
+%% Choose a single profile from the center of the eq domain
+ix2=floor(xg.lx(2)/2);
+ix3=floor(xg.lx(3)/2);
+nsscale=zeros(size(dat.ns));
+for isp=1:lsp
+    nprof=dat.ns(:,ix2,ix3,isp);
+    nsscale(:,:,:,isp)=repmat(nprof,[1 xg.lx(2) xg.lx(3)]);
+end %for
+
+
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
 scalefact=2*2.75;
-nsscale=zeros(size(dat.ns));
 for isp=1:lsp-1
-    nsscale(:,:,:,isp) = scalefact * dat.ns(:,:,:,isp);
+  nsscale(:,:,:,isp) = scalefact * nsscale(:,:,:,isp);
 end %for
 nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
@@ -92,7 +102,7 @@ vel3=zeros(lx2,lx3);
 for ix3=1:lx3
     vel3(:,ix3)=v0*tanh(x2./ell)-vn;
 end
-vel3=flipud(vel3);    % wtf is going on here?!
+vel3=flipud(vel3);    % this is needed for consistentcy with equilibrium...  Not completely clear why
 E2top=vel3*B1val;     % this is -1* the electric field
 
 % integrate field to get potential
