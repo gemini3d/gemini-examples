@@ -2,4 +2,7 @@
 
 cwd = fileparts(mfilename('fullpath'));
 
-gemini3d.setup.model_setup(cwd, '~/simulations/khi_periodic_lowres');
+params = struct();
+% params.dryrun = true; % setup but not run
+
+gemini3d.gemini_run(cwd, fullfile(tempdir, 'khi_periodic_lowres'), params)

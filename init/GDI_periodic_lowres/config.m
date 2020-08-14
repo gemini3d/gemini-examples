@@ -1,5 +1,8 @@
-%% coarse grid for testing GDI development
+%% gradient drift instability
 
 cwd = fileparts(mfilename('fullpath'));
 
-gemini3d.setup.model_setup(cwd, '~/simulations/gdi_periodic_lowres_releasecandidate');
+params = struct();
+% params.dryrun = true; % setup but not run
+
+gemini3d.gemini_run(cwd, fullfile(tempdir, 'gdi_periodic_lowres'), params)
