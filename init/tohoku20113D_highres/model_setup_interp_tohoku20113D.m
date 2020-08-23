@@ -32,14 +32,14 @@ ID='~/zettergmdata/simulations/tohoku20113D_eq/'
 
 
 %READ IN THE SIMULATION INFORMATION
-cfg = read_config(ID);
-xgin=readgrid([ID,'/inputs/']);
+cfg = gemini3d.read_config(ID);
+xgin= gemini3d.readgrid(ID);
 addpath ../vis/
 direc=ID;
 
 
 %LOAD THE FRAME
-dat = loadframe(get_frame_filename(direc, cfg.times(end)), cfg,xgin);
+dat = gemini3d.vis.loadframe(direc, cfg.times(end));
 lsp=size(ns,4);
 rmpath ../vis/
 
@@ -82,6 +82,6 @@ end
 
 %WRITE OUT THE GRID
 outdir=['~/zettergmdata/simulations/input/',simid,'/'];
-writegrid(xg,outdir);    %just put it in pwd for now
+gemini3d.writegrid(xg,outdir);    %just put it in pwd for now
 
-writedata(cfg.times(end),nsi,vs1i,Tsi,outdir)
+gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir)

@@ -14,7 +14,7 @@ ydist=145e3;    %northward distance
 %ydist=155e3;
 lxp=128;
 lyp=128;
-[glat,glon]=geomag2geog(thetactr,phictr)
+[glat,glon]=gemini3d.geomag2geog(thetactr,phictr)
 %glat=67.11;
 %glon=212.95;
 gridflag=0;
@@ -23,7 +23,7 @@ I=90;
 
 %RUN THE GRID GENERATION CODE
 if (~exist('xg'))
-  xg=makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
+  xg=gemini3d.setup.gridgen.makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -43,7 +43,7 @@ xgin=readgrid([ID,'/inputs/']);
 direc=ID;
 
 %% LOAD THE FRAME
-dat = loadframe(get_frame_filename(direc, cfg.times(end)), cfg,xgin);
+dat = gemini3d.vis.loadframe(direc, cfg.times(end));
 lsp=size(ns,4);
 
 
@@ -85,5 +85,5 @@ end
 
 %WRITE OUT THE GRID
 outdir='~/zettergmdata/simulations/input/isinglass_clayton_lowres/'
-writegrid(xg,outdir);
-writedata(dat.time,nsi,vs1i,Tsi,outdir)
+gemini3d.writegrid(xg,outdir);
+gemini3d.writedata(dat.time,nsi,vs1i,Tsi,outdir)

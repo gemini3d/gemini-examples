@@ -34,17 +34,13 @@ ID=[gemini_root,'/../simulations/RISR_eq/'];
 
 
 %% READ IN THE SIMULATION INFORMATION
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
-xgin=readgrid([ID,'/inputs/']);
+cfg = gemini3d.read_config(ID);
+xgin= gemini3d.readgrid(ID);
 direc=ID;
 
 
-%% FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
-[ymdend,UTsecend]=dateinc(tdur,ymd0,UTsec0);
-
-
 %% LOAD THE FRAME
-[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts]=loadframe(get_frame_filename(direc,ymdend,UTsecend), flagoutput,mloc,xgin);
+dat = gemini3d.vis.loadframe(direc, cfg.times(end));
 lsp=size(ns,4);
 
 
@@ -86,6 +82,6 @@ end
 
 %% WRITE OUT THE GRID AND INITIAL CONDITIONS
 outdir=[gemini_root,'/../simulations/input/GDI_periodic_LL/']
-writegrid(xg,[outdir,'/inputs/']);    %just put it in pwd for now
-dmy=[ymdend(3),ymdend(2),ymdend(1)];
-writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
+gemini3d.writegrid(xg,[outdir,'/inputs/']);    %just put it in pwd for now
+
+gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);

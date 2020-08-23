@@ -34,13 +34,13 @@ ID=[gemini_root,'/../simulations/KHI_Andres_eq/'];
 
 
 %READ IN THE SIMULATION INFORMATION
-cfg = read_config(ID);
-xgin=readgrid([ID,'/inputs/']);
-addpath ../vis/
+cfg = gemini3d.read_config(ID);
+xgin= gemini3d.readgrid(ID);
+
 direc=ID;
 
 %LOAD THE FRAME
-dat = loadframe(get_frame_filename(direc, cfg.times(end)), cfg, xgin);
+dat = gemini3d.vis.loadframe(direc, cfg.times(end));
 lsp=size(ns,4);
 
 
@@ -82,6 +82,6 @@ end
 
 %WRITE OUT THE GRID
 outdir=[gemini_root,'/../simulations/input/KHI_Andres/']
-writegrid(xg,outdir);
+gemini3d.writegrid(xg,outdir);
 
-writedata(dat.time,nsi,vs1i,Tsi,outdir)
+gemini3d.writedata(dat.time,nsi,vs1i,Tsi,outdir)

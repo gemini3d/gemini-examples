@@ -31,19 +31,13 @@ ID='~/zettergmdata/simulations/RISR_eq/'
 
 
 %READ IN THE SIMULATION INFORMATION
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
-xgin=readgrid([ID,'/inputs/']);
-addpath ../vis/
+cfg = gemini3d.read_config(ID);
+xgin= gemini3d.readgrid(ID);
+
 direc=ID;
 
-
-%FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
-[ymdend,UTsecend]=dateinc(tdur,ymd0,UTsec0);
-
-
 %LOAD THE FRAME
-%[ne,v1,Ti,Te,J1,v2,v3,J2,J3,mlatsrc,mlonsrc,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,UTsecend,ymdend), nan, mloc,xgin);
-[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,ymdend,UTsecend),flagoutput,mloc,xgin);
+dat = gemini3d.vis.loadframe(direc, cfg.times(end));
 lsp=size(ns,4);
 rmpath ../vis/
 
@@ -54,14 +48,14 @@ if (lx3~=1)
   [X2,X1,X3]=meshgrid(xgin.x2(3:end-2),xgin.x1(3:end-2),xgin.x3(3:end-2));
   [X2i,X1i,X3i]=meshgrid(xg.x2(3:end-2),xg.x1(3:end-2),xg.x3(3:end-2));
   for isp=1:lsp
-    tmpvar=interp3(X2,X1,X3,ns(:,:,:,isp),X2i,X1i,X3i);
+    tmpvar=interp3(X2,X1,X3, dat.ns(:,:,:,isp),X2i,X1i,X3i);
     inds=find(isnan(tmpvar));
     tmpvar(inds)=1e0;
     nsi(:,:,:,isp)=tmpvar;
-    tmpvar=interp3(X2,X1,X3,vs1(:,:,:,isp),X2i,X1i,X3i);
+    tmpvar=interp3(X2,X1,X3, dat.vs1(:,:,:,isp),X2i,X1i,X3i);
     tmpvar(inds)=0e0;
     vs1i(:,:,:,isp)=tmpvar;
-    tmpvar=interp3(X2,X1,X3,Ts(:,:,:,isp),X2i,X1i,X3i);
+    tmpvar=interp3(X2,X1,X3, dat.Ts(:,:,:,isp),X2i,X1i,X3i);
     tmpvar(inds)=100e0;
     Tsi(:,:,:,isp)=tmpvar;
   end
@@ -86,6 +80,6 @@ end
 
 %WRITE OUT THE GRID
 outdir='~/zettergmdata/simulations/input/GDI_periodic_highres_fileinput_large/'
-writegrid(xg,outdir);    %just put it in pwd for now
-dmy=[ymdend(3),ymdend(2),ymdend(1)];
-writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
+gemini3d.writegrid(xg,outdir);    %just put it in pwd for now
+
+gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);

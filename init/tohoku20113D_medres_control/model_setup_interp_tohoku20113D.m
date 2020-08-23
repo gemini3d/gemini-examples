@@ -18,7 +18,7 @@ flagsource=1;
 if ~exist('xg', 'var')
 %    xg=makegrid_tilteddipole_nonuniform_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %    xg=makegrid_tilteddipole_nonuniform_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg=gemini3d.setup.gridgen.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -33,14 +33,14 @@ ID=[gemini_root, '/../simulations/tohoku20113D_eq/'];
 
 
 %READ IN THE SIMULATION INFORMATION
-cfg = read_config(ID);
-xgin=readgrid([ID,'/inputs/']);
+cfg = gemini3d.read_config(ID);
+xgin= gemini3d.readgrid(ID);
 addpath ../vis/
 direc=ID;
 
 
 %LOAD THE FRAME
-dat = loadframe(get_frame_filename(direc,cfg.times(end)), cfg,xgin);
+dat = gemini3d.vis.loadframe(direc, cfg.times(end));
 lsp=size(ns,4);
 
 
@@ -82,6 +82,6 @@ end
 
 %WRITE OUT THE GRID
 outdir=['~/zettergmdata/simulations/input/',simid,'/'];
-writegrid(xg,outdir);    %just put it in pwd for now
+gemini3d.writegrid(xg,outdir);    %just put it in pwd for now
 
-writedata(cfg.times(end),nsi,vs1i,Tsi,outdir,simid)
+gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir,simid)

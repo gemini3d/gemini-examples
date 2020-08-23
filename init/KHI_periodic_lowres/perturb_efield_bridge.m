@@ -14,8 +14,8 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 %dat = loadframe3Dcurvnoelec(cfg.indat_file);
-dat=gemini3d.loadframe(get_frame_filename('~/simulations/KHI_archive/KHI_periodic_lowres_bridge/',[2013,02,20],28600));
-dat.simdate=[2013,2,20,28600/3600,0,0];
+time = datetime(2013,02,20) + seconds(28600);
+dat = gemini3d.vis.loadframe('~/simulations/KHI_archive/KHI_periodic_lowres_bridge/',time);
 lsp = size(dat.ns,4);
 
 
@@ -83,7 +83,7 @@ DX2=repmat(DX2(:),[1,lx3]);
 Phitop=cumsum(E2top.*DX2,1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-makedir(cfg.E0_dir);
+gemini3d.fileio.makedir(cfg.E0_dir);
 
 
 %% CREATE ELECTRIC FIELD DATASET

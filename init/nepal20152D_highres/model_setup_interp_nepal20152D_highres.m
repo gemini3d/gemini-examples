@@ -32,17 +32,12 @@ ID='~/zettergmdata/simulations/nepal20152D_eq/'
 
 
 %READ IN THE SIMULATION INFORMATION
-cfg = read_config(ID);
-xgin=readgrid([ID,'/inputs/']);
+cfg = gemini3d.read_config(ID);
+xgin= gemini3d.readgrid(ID);
 direc=ID;
 
-
-%FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
-[ymdend,UTsecend]=dateinc(tdur,ymd0,UTsec0);
-
-
 %LOAD THE FRAME
-dat = loadframe(get_frame_filename(direc, cfg.times(end)), cfg, xgin);
+dat = gemini3d.vis.loadframe(direc, cfg.times(end));
 lsp=size(ns,4);
 
 
@@ -84,5 +79,5 @@ end
 
 %WRITE OUT THE GRID
 outdir='~/zettergmdata/simulations/input/nepal20152D_highres/'
-writegrid(xg,outdir);    %just put it in pwd for now
-writedata(cfg.times(end),nsi,vs1i,Tsi,outdir)
+gemini3d.writegrid(xg,outdir);    %just put it in pwd for now
+gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir)

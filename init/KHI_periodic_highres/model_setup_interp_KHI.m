@@ -30,13 +30,13 @@ ID='~/zettergmdata/simulations/RISR_eq/'
 
 
 %READ IN THE SIMULATION INFORMATION
-cfg = readconfig(ID);
-xgin=readgrid([ID,'/inputs/']);
-addpath ../vis/
+cfg = gemini3d.read_config(ID);
+xgin= gemini3d.readgrid(ID);
+
 direc=ID;
 
 %LOAD THE FRAME
-dat = loadframe(get_frame_filename(direc, cfg.times(end)), cfg, xgin);
+dat = gemini3d.vis.loadframe(direc, cfg.times(end));
 lsp=size(ns,4);
 
 
@@ -78,6 +78,6 @@ end
 
 %WRITE OUT THE GRID
 outdir='~/zettergmdata/simulations/input/KHI_periodic_highres_fileinput/'
-writegrid(xg,outdir);
+gemini3d.writegrid(xg,outdir);
 
-writedata(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);
+gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);

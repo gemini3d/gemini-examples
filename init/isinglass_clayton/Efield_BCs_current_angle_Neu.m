@@ -9,33 +9,29 @@ direc='~/zettergmdata/simulations/ARCS_angle/'
 
 %OUTPUT FILE LOCATION
 outdir=[gemini_root,filesep,'../simulations/input/ARCS_fields/'];
-mkdir([outdir]);
+mkdir(outdir);
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
 if (~exist('ymd0','var'))
-  [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig(direcconfig);
+  cfg = gemini3d.read_config(direcconfig);
 end
 
 
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
- xg=readgrid([direcgrid,'/']);
+ xg = gemini3d.readgrid(direcgrid);
  lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
  fprintf('Grid loaded.\n');
 end
 
 
 %LOAD A REFERENCE POTENTIAL FROM AN EXISTING SIMULATION THAT USED NEUMANN BOUNDARY CONDITIONS
-t=0;
-dtfile=10;    %can hard-code instead of using the simulation dtout
-UTsec=UTsec0;
-ymd=ymd0;
-while(t<tdur)
-  [ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop]=loadframe(get_frame_filename(direc,ymd,UTsec), flagoutput,mloc,xg);
-  refFAC(:,:,it)=squeeze(J1(end,:,:));    %this is the FAC off of which we base our new inputs files
-  [ymd,UTsec]=dateinc(dtfile,ymd,UTsec);
-end %while
+
+for i = 1:length(cfg.times)
+  dat = gemini3d.vis.loadframe(direc, cfg.times(i));
+  refFAC(:,:,i) = squeeze(dat.J1(end,:,:));    %this is the FAC off of which we base our new inputs files
+end
 
 
 %INTERPOLATION IS DONE IN MLON AND MLAT
