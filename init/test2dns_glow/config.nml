@@ -42,12 +42,12 @@ eqdir = '../test2dns_eq'
 /
 
 &precip
-dtprec = 5.0
+dtprec = 60.0
 prec_dir = 'inputs/precip/'
 /
 
 &efield
-dtE0 = 1.0
+dtE0 = 60.0
 E0_dir = 'inputs/Efield/'
 /
 
