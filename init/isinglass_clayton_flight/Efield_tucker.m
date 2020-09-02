@@ -1,21 +1,25 @@
-clear all
-close all
-plotflag=0;
+clear all;
+close all;
+run('~/Projects/mat_gemini/setup.m')
+plotflag=1;
 
 
 %% Where to put the output files for GEMINI
-outdir='~/simulations/input/fields_isinglass_clayton6/';
+outdir='~/simulations/input/fields_isinglass_clayton6_MB/';
 system(['mkdir ',outdir]);
 
 
 %% Load Tucker's fits for electric field
 inputdir='~/Dropbox/common/mypapers/ISINGLASS/paper2_finally/';
 %load([inputdir,'tucker_reconstructions.mat']);
-load([inputdir,'tucker_reconstructions_reordered.mat']);
+%load([inputdir,'tucker_reconstructions_reordered.mat']);
+load([inputdir,'tucker_reconstructions_reordered_MB.mat']);
 Xgeomag=permute(xout,[3,1,2]);                    %permute so that x is column index
 Ygeomag=permute(yout,[3,1,2]);
-Exgeomagdat=permute(uE,[3,2,1]);                  %why are these ordered differently!!!
-Eygeomagdat=permute(vE,[3,2,1]);
+%Exgeomagdat=permute(uE,[3,2,1]);                  %why are these ordered differently!!!
+%Eygeomagdat=permute(vE,[3,2,1]);
+Exgeomagdat=permute(uEMB,[3,2,1]);                  %why are these ordered differently!!!
+Eygeomagdat=permute(vEMB,[3,2,1]);
 
 
 %% Trim dataset to exclude boundary artifacts from Tucker's fits
@@ -33,7 +37,7 @@ Xgeo=zeros(lt,llon,llat);
 for it=1:lt
     Xgeomagtmp=squeeze(Xgeomag(1,:,:));    %really need the grid to not change with time, appears not to
     Ygeomagtmp=squeeze(Ygeomag(1,:,:));
-    [Ygeo(it,:,:),Xgeo(it,:,:)]=geomag2geog(pi/2-Ygeomagtmp*pi/180,Xgeomagtmp*pi/180);
+    [Ygeo(it,:,:),Xgeo(it,:,:)]=gemini3d.geomag2geog(pi/2-Ygeomagtmp*pi/180,Xgeomagtmp*pi/180);
 end %for
 
 
@@ -63,8 +67,10 @@ if (plotflag)
     for it=1:lt
         xnow=xout(:,1,1);
         ynow=yout(1,:,1);
-        uEnow=uflow(:,:,it);
-        vEnow=vflow(:,:,it);
+        %uEnow=uflow(:,:,it);
+        %vEnow=vflow(:,:,it);
+        uEnow=uEMB(:,:,it);
+        vEnow=vEMB(:,:,it);
         subplot(121);
         imagesc(xnow',ynow',uEnow')
         axis xy;
@@ -81,6 +87,6 @@ if (plotflag)
         while (numel(framenum)<2)
             framenum=['0',framenum];
         end %while
-        print('-dpng',['~/Downloads/Tucker/',framenum,'.png'])
+        print('-dpng',['~/Downloads/Tucker_MB/',framenum,'.png'])
     end %for
 end %if

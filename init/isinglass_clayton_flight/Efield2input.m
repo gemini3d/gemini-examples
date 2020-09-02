@@ -5,7 +5,7 @@ plotflag=false;
 
 
 %% Load grid using API so we don't have to keep updating manually
-xg=readgrid(griddir);
+xg=gemini3d.readgrid(griddir);
 mlat=90-xg.theta*180/pi;
 mlon=xg.phi*180/pi;
 
@@ -24,7 +24,7 @@ phi=zeros(llon,llat,lt);
 for it=1:lt
     for ilat=1:llat
         for ilon=1:llon
-            [thetatmp,phitmp]=geog2geomag(glat(it,ilat,ilon),glon(it,ilat,ilon));
+            [thetatmp,phitmp]=gemini3d.geog2geomag(glat(it,ilat,ilon),glon(it,ilat,ilon));
             theta(ilon,ilat,it)=thetatmp;
             phi(ilon,ilat,it)=phitmp;
         end
@@ -52,7 +52,7 @@ theta=pi/2-mlat*pi/180;    %don't sort since we are making a glon,glat grid out 
 phi=mlon*pi/180;
 
 [THETA,PHI]=meshgrid(theta,phi);    %because we've arranged the data as lon,lat.
-[GLAT,GLON]=geomag2geog(THETA,PHI);
+[GLAT,GLON]=gemini3d.geomag2geog(THETA,PHI);
 
 
 %% DO SPATIAL INTERPOLATIONS
@@ -72,41 +72,41 @@ end
 
 
 %DEBUG PLOTTING OF ORIGINAL DATA
-if (plotflag)
-    plotdir='./plotsE/';
-    system(['mkdir ',plotdir]);
-    figure;
-    set(gcf,'PaperPosition',[0 0 8.5 3.5]);
-    for it=1:lt
-        clf;
-        subplot(131);
-        quiver(gloncorrected,glat,Exgeog(:,:,it),Eygeog(:,:,it));
-        xlabel('geographic lon.');
-        ylabel('geographic lat.');
-        title(datestr(datenum(expdate(it,:))));
-
-        subplot(132);
-        quiver(GLON,GLAT,Exgeomag(:,:,it),Eygeomag(:,:,it));
-        xlabel('geog. lon. (resamp.)');
-        ylabel('geog. lat. (resamp.)');
-        title(datestr(datenum(expdate(it,:))));
-
-        subplot(133);
-        %    quiver(MLON,MLAT,Exgeomag(:,:,it),Eygeomag(:,:,it));
-        quiver(MLON',MLAT',Exgeomag(:,:,it)',Eygeomag(:,:,it)');
-        xlabel('geomagnetic lon.');
-        ylabel('geomagnetic lat.');
-        title(datestr(datenum(expdate(it,:))));
-
-        UTsec=expdate(it,4)*3600+expdate(it,5)*60+expdate(it,6);
-        ymd=expdate(it,1:3);
-        filename=datelab(ymd,UTsec);
-        filename=[plotdir,filename,'.png']
-
-        print('-dpng',filename,'-r300')
-    end
-    close all;
-end %if
+% if (plotflag)
+%     plotdir='./plotsE/';
+%     system(['mkdir ',plotdir]);
+%     figure;
+%     set(gcf,'PaperPosition',[0 0 8.5 3.5]);
+%     for it=1:lt
+%         clf;
+%         subplot(131);
+%         quiver(gloncorrected,glat,Exgeog(:,:,it),Eygeog(:,:,it));
+%         xlabel('geographic lon.');
+%         ylabel('geographic lat.');
+%         title(datestr(datenum(expdate(it,:))));
+% 
+%         subplot(132);
+%         quiver(GLON,GLAT,Exgeomag(:,:,it),Eygeomag(:,:,it));
+%         xlabel('geog. lon. (resamp.)');
+%         ylabel('geog. lat. (resamp.)');
+%         title(datestr(datenum(expdate(it,:))));
+% 
+%         subplot(133);
+%         %    quiver(MLON,MLAT,Exgeomag(:,:,it),Eygeomag(:,:,it));
+%         quiver(MLON',MLAT',Exgeomag(:,:,it)',Eygeomag(:,:,it)');
+%         xlabel('geomagnetic lon.');
+%         ylabel('geomagnetic lat.');
+%         title(datestr(datenum(expdate(it,:))));
+% 
+%         UTsec=expdate(it,4)*3600+expdate(it,5)*60+expdate(it,6);
+%         ymd=expdate(it,1:3);
+%         filename=gemini3d.datelab(datetime([ymd,0,0,UTsec]));
+%         filename=[plotdir,filename,'.png']
+% 
+%         print('-dpng',filename,'-r300')
+%     end
+%     close all;
+% end %if
 
 
 %% NEED TO SAMPLE DATA ON A UNIFORM TEMPORAL GRID FOR THE MODEL
@@ -194,8 +194,9 @@ flagdirich=1;   %if 0 data is interpreted as FAC, else we interpret it as potent
 for it=1:ltout
     UTsec=outputdate(it,4)*3600+outputdate(it,5)*60+fix(outputdate(it,6));
     ymd=outputdate(it,1:3);
-    filename=datelab(ymd,UTsec);
-    filename=[outdir,filename,'.dat']
+    %filename=gemini3d.datelab(ymd,UTsec);
+    filename=gemini3d.datelab(datetime([ymd,0,0,UTsec]))
+    filename=strcat(outdir,filename,'.dat')
     fid=fopen(filename,'w');
 
     fwrite(fid,flagdirich,'real*8');
