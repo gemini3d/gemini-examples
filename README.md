@@ -21,7 +21,7 @@ to always enable Gemini.
 Then, for each simulation you want to generate, here for "ARCS_eq":
 
 ```matlab
-model_setup('ARCS_eq/config.nml')
+gemini3d.setup.model_setup('init/ARCS_eq')
 ```
 
 OR if the folder has Matlab .m files, run the `config()` config.m in that folder.
