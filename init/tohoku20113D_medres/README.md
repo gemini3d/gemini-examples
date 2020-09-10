@@ -27,9 +27,7 @@ mpirun -np 8 ./gemini.bin <GEMINI-examples dir>/init/tohoku20113D_medres/config.
 
 ```
 cd <mat_gemini directory>
-setup
-cd vis
-plotall('<output direcotry>',{'png'})
+gemini3d.vis.plotall('<output directory>', "png")
 ```
 
 This will print the plots to .png files within the output directory.  The zenodo archive for this example contains movies with which you can compare your results to insure you have correctly built and run everything.
@@ -52,7 +50,5 @@ Note the forward slash "/" at the end of the simulation names.  Then open MATLAB
 
 ```
 cd <mat_gemini directory>
-setup
-cd vis
-TECcalc
+gemini3d.vis.TECcalc
 ```
