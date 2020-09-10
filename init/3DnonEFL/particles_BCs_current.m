@@ -1,7 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
 %REFERENCE GRID TO USE
 direcconfig='./'
 direcgrid=[gemini_root,filesep,'../simulations/input/3DnonEFL/'];
@@ -14,7 +10,7 @@ delete([outdir,'/*']);
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
 if (~exist('ymd0','var'))
-  [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([direcconfig,'/config.ini']);
+  cfg = gemini3d.read_config([direcconfig,'/config.ini']);
   fprintf('Input config.dat file loaded.\n');
 end
 
@@ -22,7 +18,7 @@ end
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
   %WE ALSO NEED TO LOAD THE GRID FILE
-  xg=readgrid([direcgrid,'/']);
+  xg= gemini3d.readgrid([direcgrid,'/']);
   fprintf('Grid loaded.\n');
 end
 

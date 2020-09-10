@@ -1,9 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'vis'])
-
-
 %% READ IN THE SIMULATION INFORMATION
 ID='~/zettergmdata/simulations/input/GDI_periodic_highres_fileinput_large/';
 xg=readgrid(ID);

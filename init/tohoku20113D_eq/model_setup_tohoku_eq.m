@@ -1,10 +1,3 @@
-% cwd = fileparts(mfilename('fullpath'));
-% gemini_root = [cwd, filesep, '../../../GEMINI'];
-% addpath([gemini_root, filesep, 'script_utils'])
-% addpath([gemini_root, filesep, 'setup/gridgen'])
-% addpath([gemini_root, filesep, 'setup'])
-
-
 %% A HIGHRES TOHOKU INIT GRID
 dtheta=10;
 dphi=15;
@@ -20,7 +13,7 @@ flagsource=1;
 
 %% MATLAB GRID GENERATION
 if (~exist('xg'))
-    xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+    xg= gemini3d.setup.gridgen.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end %if
 
 

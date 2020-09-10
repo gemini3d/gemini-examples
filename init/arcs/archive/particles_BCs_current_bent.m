@@ -1,13 +1,9 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
 %REFERENCE GRID TO USE
 direcconfig='./'
-direcgrid=[gemini_root,filesep,'../simulations/input/ARCS/'];
+direcgrid=['~/simulations/input/ARCS/'];
 
 %CREATE SOME SPACE FOR OUTPUT FILES
-outdir=[gemini_root,filesep,'../simulations/input/ARCS_particles/'];
+outdir= '~/simulations/input/ARCS_particles/';
 mkdir(outdir);
 delete([outdir,'/*']);
 

@@ -1,9 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils']);
-addpath([gemini_root, filesep, 'vis']);
-
-
 %% READ IN THE SIMULATION INFORMATION
 ID=[gemini_root,'/../simulations/input/KHI_periodic_medres/'];
 xg=readgrid([ID,'/inputs/']);
@@ -66,4 +60,4 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 %% WRITE OUT THE RESULTS
 outdir=ID;
 
-writedata(dat.time,nsperturb,vs1,Ts, cfg.indat_file);
+gemini3d.writedata(dat.time,nsperturb,vs1,Ts, cfg.indat_file);

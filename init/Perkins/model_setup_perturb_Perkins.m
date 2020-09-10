@@ -1,12 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup/'])
-addpath([gemini_root, filesep, 'vis'])
-geminiscripts_root = [cwd, filesep, '../../../GEMINI-scripts'];
-addpath([geminiscripts_root,filesep,'setup/gridgen']);
-file_format = 'raw';
 
 %MOORE, OK GRID (FULL)
 dtheta=20;
@@ -26,10 +17,10 @@ gridflag=0;
 
 if ~exist('xg', 'var')
   %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg= gemini3d.setup.gridgen.makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 
-eqdir=[gemini_root,'/../simulations/Perkins_bridge_vn/'];
+eqdir=['~/simulations/Perkins_bridge_vn/'];
 %{
 if (~exist('xg'))
     xg=readgrid([eqdir,'inputs/']);
@@ -42,7 +33,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 %INTERPOLATE ONTO THE NEW GRID
 %eqdir=[geminiscripts_root,filesep,'../simulations/Perkins_bridge/'];
 simID='Perkins';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]= gemini3d.setup.eq2dist(eqdir,simID,xg, file_format);
 lsp=size(nsi,4);
 
 
@@ -79,9 +70,9 @@ nsi(:,:,:,7)=sum(nsi(:,:,:,1:6),4);
 
 %WRITE OUT THE RESULTS TO A NEW FILE
 outdir=[gemini_root,'/../simulations/input/Perkins'];
-writegrid(xg,outdir);
+gemini3d.writegrid(xg,outdir);
 %dmy=[simdate(3),simdate(2),simdate(1)];
 dmy=[2,2,2002];     %isn't used by GEMINI anyway...
 %UTsec=simdate(4)*3600;
 UTsec=1;
-writedata(dmy,UTsec,nsi,vs1i,Tsi,outdir,[simID,'_perturb']);
+gemini3d.writedata(dmy,UTsec,nsi,vs1i,Tsi,outdir,[simID,'_perturb']);

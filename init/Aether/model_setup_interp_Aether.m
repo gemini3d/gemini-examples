@@ -1,6 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
-
 %PFISR LOWRES GRID (CARTESIAN)
 xdist=500e3;    %eastward distance
 ydist=100e3;    %northward distance
@@ -15,7 +12,7 @@ I=90;
 
 %RUN THE GRID GENERATION CODE
 if (~exist('xg'))
-  xg=makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
+  xg= gemini3d.setup.gridgen.makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 

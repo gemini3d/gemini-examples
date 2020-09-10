@@ -1,6 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
-
 %A MEDIUM RES TOHOKU
 dtheta=7.5;
 dphi=12;
@@ -16,7 +13,7 @@ flagsource=1;
 
 %RUN THE GRID GENERATION CODE
 if (~exist('xg'))
-  xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg= gemini3d.setup.gridgen.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 

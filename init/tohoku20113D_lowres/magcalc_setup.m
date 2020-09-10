@@ -1,7 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
 %% SIMULATIONS LOCAITONS
 simname='tohoku20113D_lowres/';
 basedir='~/simulations/'

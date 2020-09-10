@@ -1,6 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
-
 mlonctr=259.0423;
 mlatctr=66.7615;
 thetactr=pi/2-mlatctr*pi/180;

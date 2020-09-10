@@ -6,16 +6,6 @@
 close all
 flagplots=0;
 
-% cwd = fileparts(mfilename('fullpath'));
-% gemini_root = [cwd, filesep, '../../../GEMINI'];
-% addpath([gemini_root, filesep, 'script_utils'])
-% addpath([gemini_root, filesep, 'setup/gridgen'])
-% addpath([gemini_root, filesep, 'setup'])
-% addpath([gemini_root, filesep, 'vis'])
-addpath ~/Dropbox/common/mypapers/ISINGLASS/AGU2017/restore_idl/;
-% %clear
-
-
 %FLAGS CONTROLLING WHETHER WE ARE PLOTTING/SMOOTHING, ETC.
 
 

@@ -1,11 +1,3 @@
-%cwd = fileparts(mfilename('fullpath'));
-%gemini_root = [cwd, filesep, '../../../GEMINI'];
-%addpath([gemini_root, filesep, 'script_utils'])
-%addpath([gemini_root, filesep, 'setup/gridgen'])
-%addpath([gemini_root, filesep, 'setup'])
-%User must run mat_gemini repo script setup.m to set paths
-
-
 %% A modest resolution grid to test the global run with
 dtheta=15;
 lp=128;
@@ -21,7 +13,7 @@ flagsource=1;
 
 %% MATLAB GRID GENERATION
 if (~exist('xg'))
-    xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+    xg= gemini3d.setup.gridgen.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end %if
 
 
@@ -43,5 +35,5 @@ p.nme=2e11;
 %% WRITE THE GRID AND INITIAL CONDITIONS
 p.simdir='../../../simulations/input/EIA_eq';
 p.file_format='raw';
-writegrid(p,xg);
-writedata(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);
+gemini3d.writegrid(p,xg);
+gemini3d.writedata(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);

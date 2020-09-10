@@ -1,9 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils']);
-addpath([gemini_root, filesep, 'vis']);
-
-
 %% READ IN THE SIMULATION INFORMATION
 ID=[gemini_root,'/../simulations/input/GDI_periodic_LL/'];
 xg=readgrid([ID,'/inputs/']);

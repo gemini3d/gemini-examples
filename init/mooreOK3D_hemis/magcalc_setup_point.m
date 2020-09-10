@@ -1,8 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
-
 %SIMULATIONS LOCAITONS
 %simname='chile20153D_0.5_medres/';
 %simname='tohoku20113D_highres_var/';
@@ -23,8 +18,6 @@ UTsec_TOI=82923;
 %SIMULATION META-DATA
 cfg = read_config(direc);
 
-
-
 %TABULATE THE SOURCE LOCATION
 mlatsrc=mloc(1);
 mlonsrc=mloc(2);
@@ -39,7 +32,7 @@ dang=0;
 %WE ALSO NEED TO LOAD THE GRID FILE
 if (~exist('xg','var'))
   fprintf('Reading grid...\n');
-  xg=readgrid([direc,'/inputs/']);
+  xg= gemini3d.readgrid(direc);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   lh=lx1;   %possibly obviated in this version - need to check
   if (lx3==1)

@@ -1,11 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-addpath([gemini_root, filesep, 'vis'])
-
-file_format = 'raw';
 %LOWRES 2D EXAMPLE FOR TESTING
 xdist=40e3;    %eastward distance
 ydist=600e3;    %northward distance
@@ -16,20 +8,11 @@ glon=212.95;
 gridflag=0;
 I=90;
 
-
-%ADD PATHS FOR FUNCTIONS
-cwd = fileparts(mfilename('fullpath'));
-addpath([cwd, filesep, '..', filesep,'..',filesep,'script_utils']);
-addpath([cwd, filesep, '..', filesep,'..',filesep,'setup']);
-addpath([cwd, filesep, '..', filesep,'..',filesep,'setup',filesep,'gridgen'])
-addpath([cwd, filesep, '..', filesep,'..',filesep,'vis']);
-
-
 %RUN THE GRID GENERATION CODE
 if (~exist('xg'))
-  xg=makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
+  xg= gemini3d.setup.gridgen.makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 
 eqdir='../../../simulations/2Dtest_eq/';
 simID='ICI2';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg, file_format);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]= gemini3d.setup.eq2dist(eqdir,simID,xg, file_format);

@@ -1,17 +1,13 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
 
 indir='~/zettergmdata/simulations.MAGIC/tohoku/'
 loc='';
 simlab='strong'
 outdir='~/zettergmdata/simulations/input/tohoku_neutrals/'
-mkdir([outdir]);
+mkdir(outdir);
 
 
 %TOHOKU EXAMPLE
-ymd0=[2011,3,11];
-UTsec0=20783;
+time = datetime(2011,3,11) + seconds(20783);
 dtneu=4;
 
 
@@ -28,16 +24,13 @@ end
 
 
 %CREATE A SEQUENCE OF BINBARY OUTPUT FILES THAT CONTAIN A FRAME OF DATA EACH
-system(['rm -rf ',outdir,'/*.dat'])
-filename=[outdir,'simsize.dat']
+
+filename= fullfile(outdir,'simsize.dat');
 fid=fopen(filename,'w');
 fwrite(fid,lrho,'integer*4');
 fwrite(fid,lz,'integer*4');
 fclose(fid);
 
-
-ymd=ymd0;
-UTsec=UTsec0;
 for it=1:lt
     velxnow=squeeze(velx(it,:,:));     %note that these are organized as t,rho,z - the fortran code wants z,rho
     velxnow=permute(velxnow,[2, 1]);
@@ -57,8 +50,7 @@ for it=1:lt
     doxsnow=squeeze(doxs(it,:,:));
     doxsnow=permute(doxsnow,[2, 1]);
 
-    filename=datelab(ymd,UTsec);
-    filename=[outdir,filename,'.dat']
+    filename=datelab(time) + ".dat";
     fid=fopen(filename,'w');
     fwrite(fid,doxsnow,'real*8');
     fwrite(fid,dnit2snow,'real*8');
@@ -68,5 +60,5 @@ for it=1:lt
     fwrite(fid,tempnow,'real*8');
     fclose(fid);
 
-    [ymd,UTsec]=dateinc(dtneu,ymd,UTsec);
+    time = time + seconds(dtneu);
 end

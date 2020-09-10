@@ -1,12 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, '../GEMINI-scripts/setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-addpath([cwd,filesep,'../../setup/gridgen']);
-
-
 %MOORE, OK GRID (FULL), INTERHEMISPHERIC
 dtheta=25;
 dphi=35;
@@ -23,7 +14,7 @@ gridflag=1;
 %MATLAB GRID GENERATION
 %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-xg=makegrid_tilteddipole_varx2_3D_eq(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+xg= gemini3d.setup.gridgen.makegrid_tilteddipole_varx2_3D_eq(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 
 
 %PLOT THE GRID IF DESIRED
@@ -52,6 +43,6 @@ nme=2e11;
 %WRITE THE GRID AND INITIAL CONDITIONS
 outdir = [gemini_root, filesep, '../simulations/input/mooreOK3D_hemis_eq/'];
 simlabel='mooreOK3D_hemis_eq';
-writegrid(xg,outdir);
+gemini3d.writegrid(xg,outdir);
 time=UT*3600;   %doesn't matter for input files
-writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);

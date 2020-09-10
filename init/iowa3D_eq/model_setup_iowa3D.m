@@ -1,14 +1,3 @@
-%% Set paths to other GEMINI repos
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, '../GEMINI-scripts/setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-geminiscripts_root = [cwd, filesep, '../../../GEMINI-scripts'];
-addpath([geminiscripts_root,filesep,'setup/gridgen']);
-
-
 %% Iowa grid for AGU 2019
 dtheta=20;
 dphi=30;
@@ -24,7 +13,7 @@ iscurv=true;
 
 
 %% MATLAB GRID GENERATION
-xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+xg= gemini3d.setup.gridgen.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %xg=makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 
@@ -44,7 +33,7 @@ neuinfo.rhomax=[];        %meaningless in 3D situations
 
 
 %% FOR USERS INFO CONVERT SOURCE LOCATION TO GEOMAG
-[sourcetheta,sourcephi]=geog2geomag(neuinfo.sourcelat,neuinfo.sourcelong);
+[sourcetheta,sourcephi]= gemini3d.geog2geomag(neuinfo.sourcelat,neuinfo.sourcelong);
 sourcemlat=90-sourcetheta*180/pi;
 sourcemlon=sourcephi*180/pi;
 
@@ -59,12 +48,12 @@ activ=[150,150,4];    %apparently this used the MSIS matlab defaults
 %% USE OLD CODE FROM MATLAB MODEL
 nmf=5e11;
 nme=2e11;
-[ns,Ts,vsx1]=eqICs3D(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+[ns,Ts,vsx1]= gemini3d.setup.eqICs3D(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
 outdir = [gemini_root, filesep, '../simulations/input/iowa3D_eq/'];
 simlabel='iowa3D_eq';
-writegrid(xg,outdir);
+gemini3d.writegrid(xg,outdir);
 time=UT*3600;   %doesn't matter for input files
-writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);

@@ -1,14 +1,3 @@
-%% Set paths to other GEMINI repos
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, '../GEMINI-scripts/setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-geminiscripts_root = [cwd, filesep, '../../../GEMINI-scripts'];
-addpath([geminiscripts_root,filesep,'setup/gridgen']);
-
-
 %% EQuatorial grid
 dtheta=5.75;
 dphi=10;
@@ -24,7 +13,7 @@ iscurv=true;
 
 
 %% MATLAB GRID GENERATION
-xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+xg= gemini3d.setup.gridgen.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %xg=makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 
@@ -71,6 +60,6 @@ nme=2e11;
 %% WRITE THE GRID AND INITIAL CONDITIONS
 outdir = [gemini_root, filesep, '../simulations/input/ESF_eq/'];
 simlabel='ESF_eq';
-writegrid(xg,outdir);
+gemini3d.writegrid(xg,outdir);
 time=UT*3600;   %doesn't matter for input files
-writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);

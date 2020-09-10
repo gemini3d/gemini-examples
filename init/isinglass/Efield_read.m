@@ -1,7 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd,filesep,'../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
 %OUTPUT FILE LOCATION
 outdir=[gemini_root,filesep,'../simulations/input/isinglass_fields_grubbs/'];
 mkdir(outdir)

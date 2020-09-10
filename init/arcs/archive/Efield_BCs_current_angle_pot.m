@@ -1,6 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
-
 
 direcconfig='./'
 %direcgrid=[gemini_root,filesep,'../simulations/input/ARCS/'];

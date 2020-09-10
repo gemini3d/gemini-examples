@@ -1,6 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
-
 %A MEDIUM RES TOHOKU
 dtheta=7.5;
 dphi=12;
@@ -17,7 +14,7 @@ flagsource=1;
 
 %RUN THE GRID GENERATION CODE
 if (~exist('xg'))
-    xg=makegrid_tilteddipole_nonuniform_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+    xg= gemini3d.setup.gridgen.makegrid_tilteddipole_nonuniform_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -34,14 +31,12 @@ ID='~/zettergmdata/simulations/tohoku20113D_eq/'
 %READ IN THE SIMULATION INFORMATION
 cfg = gemini3d.read_config(ID);
 xgin= gemini3d.readgrid(ID);
-addpath ../vis/
 direc=ID;
 
 
 %LOAD THE FRAME
 dat = gemini3d.vis.loadframe(direc, cfg.times(end));
 lsp=size(ns,4);
-rmpath ../vis/
 
 
 %DO THE INTERPOLATION

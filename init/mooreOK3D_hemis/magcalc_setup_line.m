@@ -1,8 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
-
 %SIMULATIONS LOCAITONS
 %simname='chile20153D_0.5_medres/';
 %simname='tohoku20113D_highres_var/';
@@ -19,9 +14,8 @@ ymd_TOI=[2015,09,16];
 UTsec_TOI=82923;
 
 
-
 %SIMULATION META-DATA
-cfg = read_config(direc);
+cfg = gemini3d.read_config(direc);
 
 %TABULATE THE SOURCE LOCATION
 thdist=pi/2-cfg.sourcemlat*pi/180;    %zenith angle of source location

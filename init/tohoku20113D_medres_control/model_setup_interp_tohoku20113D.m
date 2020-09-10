@@ -1,6 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
-
 %A MEDIUM RES TOHOKU
 dtheta=7.5;
 dphi=12;
@@ -35,7 +32,7 @@ ID=[gemini_root, '/../simulations/tohoku20113D_eq/'];
 %READ IN THE SIMULATION INFORMATION
 cfg = gemini3d.read_config(ID);
 xgin= gemini3d.readgrid(ID);
-addpath ../vis/
+
 direc=ID;
 
 

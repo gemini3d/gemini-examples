@@ -1,9 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-
 
 %WHERE TO PUT THE GRID FILES, ETC.
 outdir=[gemini_root, filesep, '../simulations/input/KHI_Andres_eq/'];
@@ -20,7 +14,7 @@ gridflag=0;
 I=90;
 
 %MATLAB GRID GENERATION
-xg=makegrid_cart_3D_lowresx1(xdist,lxp,ydist,lyp,I,glat,glon);
+xg= gemini3d.setup.gridgen.makegrid_cart_3D_lowresx1(xdist,lxp,ydist,lyp,I,glat,glon);
 
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT
@@ -33,12 +27,12 @@ activ=[150.0,150.0,50.0];
 %USE OLD CODE FROM MATLAB MODEL
 nmf=5e11;
 nme=2e11;
-[ns,Ts,vsx1]=eqICs3D(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+[ns,Ts,vsx1]= gemini3d.setup.eqICs3D(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS
 
 simlabel='KHI_Andres_eq'
-writegrid(xg,outdir);
+gemini3d.writegrid(xg,outdir);
 time=UT*3600;   %doesn't matter for input files
-writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);

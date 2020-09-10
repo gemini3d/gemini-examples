@@ -1,7 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'vis'])
 
 %% READ IN THE SIMULATION INFORMATION
 ID='~/zettergmdata/simulations/input/KHI_periodic_highres_fileinput/';
@@ -39,4 +35,4 @@ end
 
 %% WRITE OUT THE RESULTS
 
-writedata(dat.time,nsperturb,vs1,Ts, cfg.indat_file);
+gemini3d.writedata(dat.time,nsperturb,vs1,Ts, cfg.indat_file);

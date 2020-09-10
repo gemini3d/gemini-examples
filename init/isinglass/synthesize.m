@@ -1,7 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
 %ELECTRIC FIELD DATA
 load ~/Dropbox/common/mypapers/ISINGLASS/Grubbs/fields.mat;
 mlatfields=MLAT;

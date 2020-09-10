@@ -1,6 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
-
 %PFISR LOWRES GRID (CARTESIAN)
 xdist=500e3;    %eastward distance
 ydist=250e3;    %northward distance
@@ -84,9 +81,7 @@ gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);
 
 
 %MAKE A SAMPLE PLOT OF INTERPOLATED DATA
-%addpath ./vis;
 %plotslice3D_curv(UTsec/3600,[3,11,2011],xgin,log10(ns(:,:,:,7)),'log_{10} n_e',[8 13])
 %print -dpng ne.png
 %plotslice3D_curv(UTsec/3600,[3,11,2011],xg,log10(nsi(:,:,:,7)),'log_{10} n_e',[8 13])
 %print -dpng nei.png
-%rmpath ./vis;

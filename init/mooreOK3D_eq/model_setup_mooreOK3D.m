@@ -1,11 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-addpath([gemini_root, filesep, 'setup/gridgen'])
-addpath([gemini_root, filesep, 'setup'])
-addpath([cwd,filesep,'../../setup/gridgen']);
-
-
 %MOORE, OK GRID (FULL), INTERHEMISPHERIC
 dtheta=25;
 dphi=35;
@@ -21,7 +13,7 @@ gridflag=1;
 
 %MATLAB GRID GENERATION
 %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+xg= gemini3d.setup.gridgen.makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %xg=makegrid_tilteddipole_varx2_oneside_3D_eq(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 
 
@@ -34,12 +26,12 @@ activ=[124.6,138.5,6.1];
 %USE OLD CODE FROM MATLAB MODEL
 nmf=5e11;
 nme=2e11;
-[ns,Ts,vsx1]=eqICs3D(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+[ns,Ts,vsx1]= gemini3d.setup.eqICs3D(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS
 outdir = [gemini_root, filesep, '../simulations/input/mooreOK3D_eq/'];
 simlabel='mooreOK3D_eq';
-writegrid(xg,outdir);
+gemin3d.writegrid(xg,outdir);
 time=UT*3600;   %doesn't matter for input files
-writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);

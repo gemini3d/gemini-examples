@@ -1,7 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
-
-
 %% RISR PERIODIC GDI RUN (HIGHRES)
 xdist=700e3;
 ydist=50e3;
@@ -14,12 +10,9 @@ glon=360.0-94.8322;
 gridflag=0;
 I=90;
 
-
-
-
 %% RUN THE GRID GENERATION CODE
 if (~exist('xg'))
-  xg=makegrid_cart_3D_lowresx1(xdist,lxp,ydist,lyp,I,glat,glon);
+  xg= gemini3d.setup.gridgen.makegrid_cart_3D_lowresx1(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 

@@ -1,12 +1,7 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-% addpath([gemini_root, filesep, 'script_utils']);
-% addpath([gemini_root, filesep, 'vis']);
-
 
 %% READ IN THE SIMULATION INFORMATION
-ID=[gemini_root,'/../simulations/ESF_medres/inputs/'];
-xg=readgrid([ID]);
+ID=['~/simulations/ESF_medres/inputs/'];
+xg= gemini3d.readgrid([ID]);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 

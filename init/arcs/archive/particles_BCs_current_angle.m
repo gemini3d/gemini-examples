@@ -1,7 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils']);
-
 %REFERENCE GRID TO USE
 direcconfig='./'
 direcgrid=[gemini_root,filesep,'../simulations/input/ARCS/'];

@@ -1,6 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-run(fullfile(cwd, '../../setup.m'))
-
 %A MEDIUM RES TOHOKU
 dtheta=7.5;
 dphi=12;

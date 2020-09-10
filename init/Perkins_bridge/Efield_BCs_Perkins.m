@@ -1,7 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
 %REFERENCE GRID TO USE
 direcconfig='./'
 direcgrid=[gemini_root,filesep,'../simulations/input/Perkins/']
@@ -13,16 +9,13 @@ mkdir(outdir);
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
-if (~exist('ymd0','var'))
-  [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([direcconfig,'/config.ini']);
-  fprintf('Input config.dat file loaded.\n');
-end
+cfg = gemini3d.read_config(direcconfig);
 
 
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
   %WE ALSO NEED TO LOAD THE GRID FILE
-  xg=readgrid([direcgrid,'/']);
+  xg= gemini3d.readgrid(direcgrid);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
   fprintf('Grid loaded.\n');

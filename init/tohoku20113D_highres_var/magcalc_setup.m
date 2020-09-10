@@ -1,8 +1,3 @@
-cwd = fileparts(mfilename('fullpath'));
-gemini_root = [cwd, filesep, '../../../GEMINI'];
-addpath([gemini_root, filesep, 'script_utils'])
-
-
 %SIMULATIONS LOCAITONS
 %simname='chile20153D_0.5_medres/';
 simname='tohoku20113D_highres_var/';
