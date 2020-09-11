@@ -1,6 +1,6 @@
 %% READ IN THE SIMULATION INFORMATION
-ID='~/simulations/ESF_medres_noise/inputs/';
-xg=readgrid(ID);
+ID='~/simulations/ESF_medres_noise_test/inputs/';
+xg=gemini3d.readgrid(ID);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -18,7 +18,7 @@ Te=dat.Te;
 ns=dat.ns;
 Ts=dat.Ts;
 vs1=dat.vs1;
-simdate=dat.simdate;
+%simdate=dat.simdate;
 lsp=size(ns,4);
 
 
