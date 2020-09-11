@@ -1,6 +1,6 @@
 %% READ IN THE SIMULATION INFORMATION
 ID='~/simulations/ESF_medres_noise/inputs/';
-xg=readgrid([ID]);
+xg=readgrid(ID);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -10,7 +10,7 @@ direc=ID;
 %filebase='ESF_medres';
 %filename=[filebase,'_ICs.dat'];
 filename='initial_conditions.h5';
-dat=loadframe3Dcurvnoelec([direc,filesep,filename]);
+dat=gemini3d.vis.loadframe3Dcurvnoelec(fullfile(direc,filename));
 ne=dat.ne;
 v1=dat.v1;
 Ti=dat.Ti;
@@ -39,7 +39,7 @@ nsperturb(:,:,:,lsp) = sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
-writedata(dat.time,nsperturb,vs1,Ts,cfg.indat_file);
+gemini3d.writedata(dat.time,nsperturb,vs1,Ts,cfg.indat_file);
 
 
 %% Visualize

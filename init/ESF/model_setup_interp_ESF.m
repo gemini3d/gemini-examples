@@ -1,8 +1,13 @@
 %% Parameters for creating input files from given equilibrium run
-p.eq_dir='~/simulations/ESF_eq/';
-p.outdir='~/simulations/ESF_medres_noise_test/inputs';
-p.nml='./config.nml';
-p.file_format='h5';
+cfg.eq_dir='~/simulations/ESF_eq/';
+cfg.outdir='~/simulations/ESF_medres_noise_test/inputs';
+cfg.indat_size='~/simulations/ESF_medres_noise_test/inputs/simsize.h5'
+cfg.indat_grid='~/simulations/ESF_medres_noise_test/inputs/simgrid.h5'
+cfg.indat_file='~/simulations/ESF_medres_noise_test/inputs/initial_conditions.h5'
+cfg.nml='./config.nml';
+cfg.file_format='h5';
+mkdir(cfg.outdir);
+system(['cp ',cfg.nml,' ',cfg.outdir])
 
 
 %% Equatorial grid
@@ -28,4 +33,4 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 %% READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
-[nsi,vs1i,Tsi]=gemini3d.setup.eq2dist(p,xg);
+[nsi,vs1i,Tsi]=gemini3d.setup.eq2dist(cfg,xg);

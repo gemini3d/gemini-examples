@@ -70,3 +70,7 @@ magcap=0.0
 &milestone
 mcadence=4
 /
+
+&lagrangian
+flaglagrangian=.true.
+/
