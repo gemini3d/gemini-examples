@@ -36,8 +36,10 @@ nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
 %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
 ell=5e3;           %a gradient scale length for patch/blob
-x21=-85e3;         %location on one of the patch edges
-x22=-45e3;         %other patch edge
+%x21=-85e3;         %location on one of the patch edges
+%x22=-45e3;         %other patch edge
+x21=-20e3;         %location on one of the patch edges
+x22=20e3;         %other patch edge
 nepatchfact=10;    %density increase factor over background
 
 nsperturb=zeros(size(dat.ns));

@@ -2,6 +2,13 @@
 setenv('GEMINI_ROOT','~/Projects/GEMINI')
 out_dir = fullfile('~/simulations/gdi_periodic_lowres_lagrangian');
 
-gemini3d.gemini_run(out_dir, 'dryrun', true)
+
+%% "manual setup"
+cfg = gemini3d.read_config('./config.nml');
+cfg.outdir = gemini3d.fileio.expanduser(out_dir);
+gemini3d.setup.model_setup(cfg)
+
+%% OR have matlab run it automatically
+% gemini3d.gemini_run(out_dir, 'dryrun', true)
 
 % gemini3d.vis.gemini_plot(out_dir, 'png')
