@@ -14,9 +14,9 @@ flagoutput = 1
 /
 
 &files
-indat_size = 'inputs/simsize.h5'
-indat_grid = 'inputs/simgrid.h5'
-indat_file = 'inputs/initial_conditions.h5'
+indat_size = "inputs/simsize.h5"
+indat_grid = "inputs/simgrid.h5"
+indat_file = "inputs/initial_conditions.h5"
 /
 
 &setup
@@ -27,7 +27,7 @@ ydist = 100e3               ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 1000e3            ! maximum altitude (meters)
 alt_scale = 13.75e3, 20e3, 200e3, 200e3  ! altitude grid scales (meters)
-lxp = 1                    ! number of x-cells
+lxp = 1                     ! number of x-cells
 lyp = 20                     ! number of y-cells
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
