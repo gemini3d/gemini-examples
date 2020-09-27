@@ -29,7 +29,7 @@ E0precip = 2e3
 Jtarg = 30e-6   ! A/m
 Efield_lonwidth = 0.15
 Efield_latwidth = 0.025
-eqdir = '../arcs_eq'
+eqdir = '~/simulations/ARCS_eq'
 /
 
 &flags

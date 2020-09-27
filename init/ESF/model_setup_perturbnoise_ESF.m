@@ -19,6 +19,7 @@ ns=dat.ns;
 Ts=dat.Ts;
 vs1=dat.vs1;
 %simdate=dat.simdate;
+dat.time = datetime(2016,3,3,4500/3600,0,0);
 lsp=size(ns,4);
 
 

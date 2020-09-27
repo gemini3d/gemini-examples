@@ -1,9 +1,9 @@
 %% Parameters for creating input files from given equilibrium run
 cfg.eq_dir='~/simulations/ESF_eq/';
-cfg.outdir='~/simulations/ESF_medres_noise_test/inputs';
-cfg.indat_size='~/simulations/ESF_medres_noise_test/inputs/simsize.h5'
-cfg.indat_grid='~/simulations/ESF_medres_noise_test/inputs/simgrid.h5'
-cfg.indat_file='~/simulations/ESF_medres_noise_test/inputs/initial_conditions.h5'
+cfg.outdir='~/simulations/ESF_medres_noise_test_noise/inputs';
+cfg.indat_size='~/simulations/ESF_medres_noise_test_noise/inputs/simsize.h5'
+cfg.indat_grid='~/simulations/ESF_medres_noise_test_noise/inputs/simgrid.h5'
+cfg.indat_file='~/simulations/ESF_medres_noise_test_noise/inputs/initial_conditions.h5'
 cfg.nml='./config.nml';
 cfg.file_format='h5';
 mkdir(cfg.outdir);

@@ -37,7 +37,9 @@ This example shows an application of the GEMINI model to simulate a 3D auroral a
 	```
 	The shape of the precipitation can be specified by altering the ```precip_gaussian2d.m``` function; in a later release the user will be able to provide a pointer to their own function for the shape parameter.
 
-6. Run the top-level MATLAB script to generate files for initial and boundary conditions for this simulation.  Navigate to this directory in the MATLAB command window and then execute:  ```>> model_setup('config.nml')```
+6. Load mat_gemini by navigating into that directory and execute (from MATLAB):   ```>> setup```
+
+7. Run the top-level MATLAB script to generate files for initial and boundary conditions for this simulation.  Navigate to this directory in the MATLAB command window and then execute:  ```>> gemini3d.setup.model_setup('config.nml')```
 You should see a bunch of console output in MATLAB to verify that the grid is being created and HDF5 input files for the fortran code are being written.
 
 
