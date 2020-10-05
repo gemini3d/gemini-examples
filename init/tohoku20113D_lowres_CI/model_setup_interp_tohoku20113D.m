@@ -19,7 +19,10 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
-p.file_format='raw';
-p.eq_dir= fullfile(gemini_root,'../simulations/tohoku20113D_eq/');
-p.simdir= fullfile(gemini_root,'../simulations/input/tohoku20113D_lowres/');
+p.file_format='h5';
+p.eq_dir= '../../../simulations/tohoku20113D_eq/';
+p.outdir='../../../simulations/tohoku20113D_lowres/';
+p.indat_size = '../../../simulations/tohoku20113D_lowres/inputs/simsize.h5';
+p.indat_grid = '../../../simulations/tohoku20113D_lowres/inputs/simgrid.h5';
+p.indat_file = '../../../simulations/tohoku20113D_lowres/inputs/initial_conditions.h5';
 [nsi,vs1i,Tsi]= gemini3d.setup.eq2dist(p,xg);
