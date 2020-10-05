@@ -1,11 +1,9 @@
 
 %SIMULATIONS LOCAITONS
-%simname='chile20153D_0.5_medres/';
-simname='tohoku20113D_medres/';
-%simname='tohoku20112D_3Dtest/'
-basedir='~/zettergmdata/simulations/'
+simname='tohoku20113D_lowres_test10/';
+basedir='~/simulations/'
 direc=[basedir,simname];
-mkdir[direc,'/magplots']);    %store output plots with the simulation data
+mkdir([direc,'/magplots']);    %store output plots with the simulation data
 
 
 %UTseconds of the frame of interest
@@ -14,12 +12,12 @@ UTsec_TOI=82923;
 
 
 %SIMULATION META-DATA
-cfg = read_config(direc);
+cfg = gemini3d.read_config(direc);
 
 
 %TABULATE THE SOURCE LOCATION
-mlatsrc=mloc(1);
-mlonsrc=mloc(2);
+mlatsrc=cfg.sourcemlat;
+mlonsrc=cfg.sourcemlon;
 thdist=pi/2-mlatsrc*pi/180;    %zenith angle of source location
 phidist=mlonsrc*pi/180;
 
@@ -54,9 +52,9 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=40;
+ltheta=10;
 if (~flag2D)
-  lphi=40;
+  lphi=10;
 else
   lphi=1;
 end
@@ -77,7 +75,7 @@ r=6370e3*ones(ltheta,lphi);                          %use ground level for altit
 [phi,theta]=meshgrid(phi,theta);
 
 %CREATE AN INPUT FILE OF FIELD POINTS
-fid=fopen('~/zettergmdata/simulations/input/tohoku20113D_medres/magfieldpoints.dat','w');
+fid=fopen('~/simulations/tohoku20113D_lowres_test10/inputs/magfieldpoints.dat','w');
 fwrite(fid,numel(theta),'integer*4');
 fwrite(fid,r(:),'real*8');
 fwrite(fid,theta(:),'real*8');
