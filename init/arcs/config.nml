@@ -2,7 +2,7 @@
 ymd = 2017,3,2                  ! year, month, day
 UTsec0 = 27000.0               !UTsec0:  start time in UT seconds
 tdur = 300.0                          !tdur:  duration of simulation in seconds
-dtout = 3.0                   !dtout: how often to do output
+dtout = 5.0                   !dtout: how often to do output
 activ = 76.5,79.3,31.5                  !activ:  f107a,f107,Ap
 tcfl = 0.9                           !tcfl:  target cfl number
 Teinf = 1500.0                        !Teinf:  exospheric electron temperature
@@ -36,11 +36,6 @@ eqdir = '~/simulations/ARCS_eq'
 potsolve = 1                             !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 0                             !flagperiodic:  periodic in x3 grid?
 flagoutput = 2                             !flagoutput
-flagcap = 0                             !flagcap:  use inertial capacitance? (0 - no; 1 - yes; 2 - add a nominal magnetospheric capacitance)
-flagdneu = 0
-flagprecfile = 1
-flagE0file = 1
-flagglow = 0
 /
 
 &files
@@ -60,5 +55,5 @@ E0_dir = 'inputs/Efield/'
 /
 
 &milestone
-mcadence=3
+mcadence=20
 /
