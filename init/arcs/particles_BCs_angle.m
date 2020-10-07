@@ -56,12 +56,8 @@ end
 
 precip = gemini3d.setup.precip_grid(xg, p, precip);
 
-% NOTE: in future, E0 could be made time-dependent in config.nml as 1D array
-%for i = i_on:i_off
-%   precip.Qit(:,:,i) = gemini3d.setup.precip_gaussian2d(precip, Qprecip, Qprecip_bg);
-%   precip.E0it(:,:,i) = E0precip;
-%end
 
+%% User-defined precipitation shape
 lt=Nt;
 precip.Qit=zeros(precip.llon,precip.llat,lt);
 precip.E0it=zeros(precip.llon,precip.llat,lt);
@@ -85,8 +81,10 @@ for it=1:lt
 end
 
 
+%% Error checking
 if any(~isfinite(precip.Qit)), error('particle_BCs:value_error', 'precipitation flux not finite'), end
 if any(~isfinite(precip.E0it)), error('particle_BCs:value_error', 'E0 not finite'), end
+
 
 %% CONVERT THE ENERGY TO EV
 %E0it = max(E0it,0.100);

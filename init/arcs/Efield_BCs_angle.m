@@ -103,14 +103,8 @@ end % function
 
 function E = Jcurrent_target(E, Nt)
 
-% Set the top boundary shape (current density) and potential solve type flag
-
-%S = E.Jtarg * exp(-(E.MLON - E.mlonmean).^2/2 / E.mlonsig^2) .* exp(-(E.MLAT - E.mlatmean - 1.5 * E.mlatsig).^2/ 2 / E.mlatsig^2);
-%for i = 6:Nt
-%  E.flagdirich(i)=0;    %could have different boundary types for different times
-%  E.Vmaxx1it(:,:,i) = S - E.Jtarg * exp(-(E.MLON - E.mlonmean).^2/ 2 / E.mlonsig^2) .* exp(-(E.MLAT - E.mlatmean + 1.5 * E.mlatsig).^2/ 2 / E.mlatsig^2);
-%end
-
+% Set the top boundary shape (current density) and potential solve type
+% flag.  Can be adjusted by user to achieve any desired shape.
 
 Jpk=E.Jtarg;
 %mlonsig=E.Efield_lonwidth;
