@@ -1,3 +1,4 @@
 *.asv
 *.m~
 simulations/
+.DS_Store
