@@ -30,6 +30,7 @@ Jtarg = 30e-6   ! A/m
 Efield_lonwidth = 0.15
 Efield_latwidth = 0.025
 eqdir = '~/simulations/ARCS_eq'
+setup_functions = 'Efield_BCs_angle', 'particles_BCs_angle'
 /
 
 &flags
