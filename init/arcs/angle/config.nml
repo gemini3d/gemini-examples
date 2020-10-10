@@ -1,11 +1,11 @@
 &base
-ymd = 2017,3,2                  ! year, month, day
-UTsec0 = 27000.0               !UTsec0:  start time in UT seconds
-tdur = 300.0                          !tdur:  duration of simulation in seconds
-dtout = 5.0                   !dtout: how often to do output
-activ = 76.5,79.3,31.5                  !activ:  f107a,f107,Ap
-tcfl = 0.9                           !tcfl:  target cfl number
-Teinf = 1500.0                        !Teinf:  exospheric electron temperature
+ymd = 2017,3,2                    ! year, month, day
+UTsec0 = 27000.0                  !UTsec0:  start time in UT seconds
+tdur = 300.0                      !tdur:  duration of simulation in seconds
+dtout = 5.0                       !dtout: how often to do output
+activ = 76.5,79.3,31.5            !activ:  f107a,f107,Ap
+tcfl = 0.9                        !tcfl:  target cfl number
+Teinf = 1500.0                    !Teinf:  exospheric electron temperature
 /
 
 &setup
@@ -26,11 +26,12 @@ precip_lonwidth = 0.15
 Qprecip = 25
 Qprecip_background = 1
 E0precip = 2e3
-Jtarg = 30e-6   ! A/m
+Jtarg = 30e-6               ! A/m2
 Efield_lonwidth = 0.15
 Efield_latwidth = 0.025
 eqdir = '~/simulations/ARCS_eq'
 setup_functions = 'Efield_BCs_angle', 'particles_BCs_angle'
+Eyit=25e-3
 /
 
 &flags
