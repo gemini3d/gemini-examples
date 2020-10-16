@@ -12,7 +12,7 @@ flagsource=1;
 
 
 %RUN THE GRID GENERATION CODE
-if (~exist('xg'))
+if ~exist('xg')
     xg= gemini3d.setup.gridgen.makegrid_tilteddipole_nonuniform_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -34,7 +34,7 @@ xgin= gemini3d.readgrid(ID);
 direc=ID;
 
 %LOAD THE FRAME
-dat = gemini3d.vis.loadframe(direc,cfg.times(end));
+dat = gemini3d.loadframe(direc, "time", cfg.times(end));
 lsp=size(ns,4);
 
 

@@ -33,7 +33,7 @@ direc=ID;
 
 
 %LOAD THE FRAME
-dat = gemini3d.vis.loadframe(direc,cfg.times(end));
+dat = gemini3d.loadframe(direc, "time", cfg.times(end));
 lsp=size(ns,4);
 
 
