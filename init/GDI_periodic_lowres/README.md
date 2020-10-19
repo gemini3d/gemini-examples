@@ -34,7 +34,7 @@ config
     ```matlab
     out_dir = '~/sims/gdi_periodic_lowres'
 
-    gemini3d.run(out_dir)
+    gemini3d.run(out_dir, '.')
     ```
 
 8. plot the simulation outputs (saved as PNG files under <output_dir>/plots)
