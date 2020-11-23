@@ -17,11 +17,11 @@ This example is an efficient 2D simulation of a STEVE auroral features driven by
     ```matlab
     cd gemini-examples/init/2DSTEVE
 
-    gemini3d.gemini_run('~/sims/steve')
+    gemini3d.run('~/sims/steve', '.')
     ```
 
 5. Once the simulation is done the results can be plotted by opening matlab and setting the paths by:
 
     ```
-    gemini3d.vis.plotall('~/sims/steve', 'png')
+    gemini3d.plot('~/sims/steve', 'png')
     ```

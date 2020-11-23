@@ -24,5 +24,5 @@ cd gemini-examples/init/tohoku20113D_eq
 Create equilibrium simulation input data and compute the desired equilibrium state from Matlab:
 
 ```matlab
-gemini3d.gemini_run(<output directory>)
+gemini3d.run(out_dir, path/to/config.nml)
 ```
