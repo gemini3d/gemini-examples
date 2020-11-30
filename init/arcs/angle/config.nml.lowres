@@ -17,8 +17,8 @@ alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 950e3             ! maximum altitude (meters)
 !alt_scale = 10e3, 4e3, 500e3, 150e3  ! altitude grid scales (meters)
 alt_scale = 10e3, 8e3, 500e3, 150e3
-lxp = 256                   ! number of x-cells
-lyp = 288                   ! number of y-cells
+lxp = 128                   ! number of x-cells
+lyp = 144                   ! number of y-cells
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
@@ -58,7 +58,7 @@ E0_dir = 'inputs/Efield/'
 /
 
 &milestone
-mcadence=12
+mcadence=20
 /
 
 !! Uncomment these lines if you want GLOW to be used for the ionization rates
