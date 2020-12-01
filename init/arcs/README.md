@@ -6,6 +6,9 @@ There are currently two ARCs examples, others will be developed in the near futu
 
 1. The standard configuration which is a straight arc that tapers in intensity with longitude in ./standard
 2. An arc situated at an angle to the background flow in ./angle
+3. An angled arc that is double the standard width in ./angle\_wide
+4. An angled multiple arc system in ./angle\_multiple
+5. An angled arc that moves in ./angle\_moving
 
 ## GEMINI Installation
 
@@ -19,10 +22,10 @@ Generate an equilibrium simulation for this example using the [ARCs\_eq example]
 
 ## Disturbance Simulation Setup
 
-It is now possible to set up basic auroral arc simulations (viz. simulations with arbirary precipitation and field-aligned current inputs) by using generic routines provided in the mat_gemini respostory using ```model_setup``` as follows.  Navigate to the par
+It is now possible to set up basic auroral arc simulations (viz. simulations with arbirary precipitation and field-aligned current inputs) by using generic routines provided in the mat_gemini respostory using ```model_setup``` as follows.  Navigate to the directory for the examples that you wish to run, start MATLAB and then:
 
 ```MATLAB
-gemini3d.setup.model_setup("config.nml")
+gemini3d.setup.model_setup("config.nml","output directory name")
 ```
 
 The example config.nml files included in this directory illustrate how to use various namelist variables to control, e.g. width and intensity of precipitation and other parameters.  For creating one's own precipitation and current density boundary see ./angle/config.nml which shows how to specify custom user-defined functions for current and precipitation patterns.  
