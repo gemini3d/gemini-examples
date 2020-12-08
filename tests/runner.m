@@ -13,7 +13,7 @@ p.outdir = fullfile(tempdir, name);
 try
   gemini3d.setup.model_setup(p);
 catch e
-  if ~strcmp(e.identifier, 'get_frame_filename:file_not_found')
+  if ~contains(e.identifier, 'file_not_found')
     rethrow(e)
   end
   fprintf(2, 'SKIP %s\n', name);
