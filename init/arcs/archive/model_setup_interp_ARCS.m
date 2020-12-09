@@ -15,7 +15,7 @@ I=90;
 
 %RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-  xg=makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
+  xg= gemini3d.setup.gridgen.makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -30,17 +30,17 @@ ID=[gemini_root,'/../simulations/ARCS_eq/'];
 
 
 %READ IN THE SIMULATION INFORMATION
-[ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
-xgin=gemini3d.read.grid([ID,'/inputs/']);
+cfg = gemini3d.read.config(ID);
+xgin=gemini3d.read.grid(ID);
 direc=ID;
 
 
 %FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
-[ymdend,UTsecend]=dateinc(tdur,ymd0,UTsec0);
+[ymdend,UTsecend]= gemini3d.dateinc(tdur,ymd0,UTsec0);
 
 
 %LOAD THE FRAME
-[ne,mlatsrc,mlonsrc,xgin,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop,ns,vs1,Ts] = loadframe(get_frame_filename(direc,ymdend,UTsecend), flagoutput,mloc,xgin);
+dat = gemini3d.read.frame(gemini3d.find.frame(direc,ymdend,UTsecend), flagoutput,mloc,xgin);
 lsp=size(ns,4);
 
 %DO THE INTERPOLATION
@@ -88,6 +88,6 @@ nsi(:,:,:,end)=sum(nsi(:,:,:,1:lsp-1),4);
 
 %WRITE OUT THE GRID
 outdir=[gemini_root,'/../simulations/input/ARCS/'];
-write.grid(xg,outdir);
+gemini3d.write.grid(xg,outdir);
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
-write.data(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
+gemini3d.write.data(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);

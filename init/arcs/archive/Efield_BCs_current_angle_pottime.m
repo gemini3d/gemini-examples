@@ -1,23 +1,23 @@
 direcconfig='./'
-direcgrid=[gemini_root,filesep,'../simulations/input/ARCS/'];
+direcgrid= fullfile(gemini_root,'../simulations/input/ARCS/');
 direc='~/zettergmdata/simulations/ARCS_angle/'
 
 
 %OUTPUT FILE LOCATION
-outdir=[gemini_root,filesep,'../simulations/input/ARCS_fields/'];
-mkdir([outdir]);
+outdir= fullfile(gemini_root,'../simulations/input/ARCS_fields/');
+mkdir(outdir);
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
-if (~exist('ymd0','var'))
-  [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig(direcconfig);
+if ~exist('ymd0','var')
+  cfg = gemini3d.read.config(direcconfig);
   fprintf('Input config.dat file loaded.\n');
 end
 
 
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
-if (~exist('xg','var'))
- xg=gemini3d.read.grid([direcgrid,'/']);
+if ~exist('xg','var')
+ xg=gemini3d.read.grid(direcgrid);
  lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
  fprintf('Grid loaded.\n');
 end
@@ -30,9 +30,9 @@ UTsec=UTsec0;
 ymd=ymd0;
 it=1;
 while(t<=tdur)
-  [ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop]=loadframe(get_frame_filename(direc,ymd,UTsec), flagoutput,mloc,xg);
+  dat = gemini3d.read.frame(gemini3d.find.frame(direc,ymd,UTsec), flagoutput,mloc,xg);
   refpotential(:,:,it)=Phitop;    %this is the FAC off of which we base our new inputs files
-  [ymd,UTsec]=dateinc(dtfile,ymd,UTsec);
+  [ymd,UTsec]= gemini3d.dateinc(dtfile,ymd,UTsec);
   it=it+1;
   t=t+dtfile;
 end %while

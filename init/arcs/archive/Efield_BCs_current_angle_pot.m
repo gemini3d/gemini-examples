@@ -12,8 +12,8 @@ mkdir([outdir]);
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
-if (~exist('ymd0','var'))
-  [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig(direcconfig);
+if ~exist('ymd0','var')
+  cfg= gemini3d.read.config(direcconfig);
   fprintf('Input config.dat file loaded.\n');
 end
 
@@ -27,7 +27,7 @@ end
 
 
 %LOAD A REFERENCE POTENTIAL FROM AN EXISTING SIMULATION THAT USED NEUMANN BOUNDARY CONDITIONS
-[ne,mlatsrc,mlonsrc,xg,v1,Ti,Te,J1,v2,v3,J2,J3,filename,Phitop] = loadframe(get_frame_filename(direc,ymd,UTsec));
+dat = gemini3d.read.frame(gemini3d.find.frame(direc,ymd,UTsec));
 refpotential=Phitop;    %this is the potential off of which we base our new inputs files
 
 
@@ -159,7 +159,7 @@ for it=1:lt
     UTsec=expdate(it,4)*3600+expdate(it,5)*60+expdate(it,6);
     ymd=expdate(it,1:3);
     filename=datelab(ymd,UTsec);
-    filename=[outdir,filename,'.dat']
+    filename = fullfile(outdir,[filename,'.dat']);
     fid=fopen(filename,'w');
 
     %FOR EACH FRAME WRITE A BC TYPE AND THEN OUTPUT BACKGROUND AND BCs
