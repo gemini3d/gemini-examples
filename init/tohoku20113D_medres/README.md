@@ -27,7 +27,7 @@ mpirun -np 8 ./gemini.bin <GEMINI-examples dir>/init/tohoku20113D_medres/config.
 
 ```
 cd <mat_gemini directory>
-gemini3d.vis.plotall('<output directory>', "png")
+gemini3d.plot('<output directory>', "png")
 ```
 
 This will print the plots to .png files within the output directory.  The zenodo archive for this example contains movies with which you can compare your results to insure you have correctly built and run everything.
@@ -38,17 +38,10 @@ This will print the plots to .png files within the output directory.  The zenodo
 mpirun -np 8 ./gemini.bin <GEMINI-examples dir>/init/tohoku20113D_medres/config.ini.control <output directory>_control/
 ```
 
-9. A MATLAB script for computing TEC perturbations is included in the [mat_gemini respository](https://github.com/gemini3d/mat_gemini), specifically [here](https://github.com/gemini3d/mat_gemini/blob/master/matlab/vis/TECcalc.m).  To run this script, you will need to edit it to point to you simulation output directories, i.e. these lines:
+9. A MATLAB script for computing TEC perturbations is TECcalc.m.  To run this script, you will need to edit it to point to simulation output directories, i.e. these lines:
 
 ```
-simname='<simulation dir name>/';
-simname_control='<control simulation dir name>/';
-basedir='/media/data/zettergm/simulations/';
-```
-
-Note the forward slash "/" at the end of the simulation names.  Then open MATLAB and run the script:
-
-```
-cd <mat_gemini directory>
-gemini3d.vis.TECcalc
+simname='<simulation dir name>';
+simname_control='<control simulation dir name>';
+basedir='/media/data/zettergm/simulations';
 ```
