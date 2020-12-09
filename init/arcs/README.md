@@ -9,6 +9,7 @@ There are currently two ARCs examples, others will be developed in the near futu
 3. An angled arc that is double the standard width in ./angle\_wide
 4. An angled multiple arc system in ./angle\_multiple
 5. An angled arc that moves in ./angle\_moving
+6. An angled arc that is double standard width on a grid than encompasses most of AK in ./angle\_wid\_nonuniform .  This is the candidate "master grid" example we are considering right now...
 
 ## GEMINI Installation
 
