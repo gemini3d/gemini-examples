@@ -7,7 +7,7 @@ xg= gemini3d.read.grid(ID);
 direc=ID;
 filebase='GDI_periodic_highres_fileinput';
 filename=[filebase,'_ICs.dat'];
-[ne,v1,Ti,Te,ns,vs1,Ts,simdate]= gemini3d.vis.loadframe3Dcurvnoelec(direc,filename);
+dat = gemini3d.read.frame3Dcurvnoelec(fullfile(direc,filename));
 lsp=size(ns,4);
 
 %DEFINE A PERTURBATION AND CHANGE THE INITIAL CONDITIONS

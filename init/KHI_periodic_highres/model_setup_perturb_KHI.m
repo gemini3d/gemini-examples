@@ -8,7 +8,7 @@ xg= gemini3d.read.grid(ID);
 direc=ID;
 filebase='KHI_periodic_highres_fileinput';
 filename=[filebase,'_ICs.dat'];
-dat = gemini3d.vis.loadframe3Dcurvnoelec(direc,filename);
+dat = gemini3d.read.frame3Dcurvnoelec(fullfile(direc,filename));
 lsp=size(ns,4);
 
 %% KHI EXAMPLE PARAMETERS

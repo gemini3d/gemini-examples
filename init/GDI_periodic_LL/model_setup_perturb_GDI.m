@@ -9,7 +9,7 @@ x2=xg.x2(3:end-2);
 direc=ID;
 filebase='GDI_periodic_LL';
 filename=[filebase,'_ICs.dat'];
-dat = gemini3d.vis.loadframe3Dcurvnoelec(direc,filename);
+dat = gemini3d.read.frame3Dcurvnoelec(fullfile(direc,filename));
 lsp=size(ns,4);
 
 

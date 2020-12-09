@@ -9,7 +9,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 direc=ID;
 filebase='KHI_Andres';
 filename=[filebase,'_ICs.dat'];
-dat = gemini3d.vis.loadframe3Dcurvnoelec(direc,filename);
+dat = gemini3d.read.frame3Dcurvnoelec(fullfile(direc,filename));
 lsp=size(ns,4);
 
 

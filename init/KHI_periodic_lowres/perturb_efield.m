@@ -13,7 +13,7 @@ x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-dat = gemini3d.vis.loadframe3Dcurvnoelec(cfg.indat_file);
+dat = gemini3d.read.frame3Dcurvnoelec(cfg.indat_file);
 lsp = size(dat.ns,4);
 
 
