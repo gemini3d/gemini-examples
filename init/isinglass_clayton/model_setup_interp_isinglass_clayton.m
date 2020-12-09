@@ -36,7 +36,7 @@ ID='~/zettergmdata/simulations/isinglass_eq/';
 
 %READ IN THE SIMULATION INFORMATION
 cfg = read.config(ID);
-xgin=read.grid([ID,'/inputs/']);
+xgin=gemini3d.read.grid([ID,'/inputs/']);
 direc=ID;
 
 %% LOAD THE FRAME

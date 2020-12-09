@@ -11,7 +11,7 @@ direc=ID;
 %filebase='ESF_medres';
 %filename=[filebase,'_ICs.dat'];
 filename='initial_conditions.h5';
-dat=loadframe3Dcurvnoelec([direc,filesep,filename]);
+dat= gemini3d.vis.loadframe3Dcurvnoelec(fullfile(direc,filename));
 ne=dat.ne;
 v1=dat.v1;
 Ti=dat.Ti;
@@ -58,4 +58,4 @@ nsperturb(:,:,:,7)=sum(nsperturb(:,:,:,1:6),4);
 
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
-write.data(dat.time,nsperturb,vs1,Ts, cfg.indat_file);
+gemini3d.write.data(dat.time,nsperturb,vs1,Ts, cfg.indat_file);

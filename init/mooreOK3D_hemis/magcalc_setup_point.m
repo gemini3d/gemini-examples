@@ -16,7 +16,7 @@ UTsec_TOI=82923;
 
 
 %SIMULATION META-DATA
-cfg = read.config(direc);
+cfg = gemini3d.read.config(direc);
 
 %TABULATE THE SOURCE LOCATION
 mlatsrc=mloc(1);

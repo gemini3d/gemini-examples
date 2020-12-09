@@ -1,13 +1,13 @@
 %READ IN THE SIMULATION INFORMATION
 ID=[gemini_root,'/../simulations/input/GDI_periodic_round/']
-xg=read.grid(ID);
+xg= gemini3d.read.grid(ID);
 
 
 %LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 direc=ID;
 filebase='GDI_periodic_round';
 filename=[filebase,'_ICs.dat'];
-[ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
+[ne,v1,Ti,Te,ns,Ts,vs1,simdate]= gemini3d.vis.loadframe3Dcurvnoelec(direc,filename);
 lsp=size(ns,4);
 
 

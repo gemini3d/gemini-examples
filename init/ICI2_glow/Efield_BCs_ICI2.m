@@ -6,7 +6,7 @@ direcgrid='../../../simulations/input/ICI2/'
 
 %OUTPUT FILE LOCATION
 outdir='../../../simulations/input/ICI2_fields/';
-system(['mkdir ',outdir]);
+mkdir(outdir);
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
@@ -17,9 +17,9 @@ end
 
 
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
-if (~exist('xg','var'))
+if ~exist('xg','var')
   %WE ALSO NEED TO LOAD THE GRID FILE
-  xg=read.grid([direcgrid,'/']);
+  xg= gemini3d.read.grid(direcgrid);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   fprintf('Grid loaded.\n');
 end
@@ -140,6 +140,3 @@ end
 
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
 save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');
-
-
-rmpath ../../script_utils;

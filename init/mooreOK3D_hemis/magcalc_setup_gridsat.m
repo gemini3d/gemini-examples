@@ -30,7 +30,7 @@ dang=10;
 %WE ALSO NEED TO LOAD THE GRID FILE
 if (~exist('xg','var'))
   fprintf('Reading grid...\n');
-  xg=read.grid([direc,'/inputs/']);
+  xg= gemin3d.read.grid([direc,'/inputs/']);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   lh=lx1;   %possibly obviated in this version - need to check
   if (lx3==1)

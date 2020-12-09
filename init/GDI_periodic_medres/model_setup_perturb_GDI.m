@@ -1,6 +1,6 @@
 %% READ IN THE SIMULATION INFORMATION
 ID=[gemini_root,'/../simulations/input/GDI_periodic_medres/'];
-xg=read.grid([ID,'/inputs/']);
+xg= gemini3d.read.grid([ID,'/inputs/']);
 x1=xg.x1(3:end-2);    %trim ghost cells
 x2=xg.x2(3:end-2);
 
@@ -9,7 +9,7 @@ x2=xg.x2(3:end-2);
 direc=ID;
 filebase='GDI_periodic_medres';
 filename=[filebase,'_ICs.dat'];
-[ne,v1,Ti,Te,ns,Ts,vs1,simdate]=loadframe3Dcurvnoelec(direc,filename);
+[ne,v1,Ti,Te,ns,Ts,vs1,simdate]= gemini3d.vis.loadframe3Dcurvnoelec(direc,filename);
 lsp=size(ns,4);
 
 
@@ -65,4 +65,4 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 outdir=ID;
 dmy=[simdate(3),simdate(2),simdate(1)];
 UTsec=simdate(4)*3600;
-write.data(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);
+gemini3d.write.data(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);

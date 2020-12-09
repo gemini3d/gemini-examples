@@ -1,6 +1,6 @@
 %% READ IN THE SIMULATION INFORMATION
 ID=[gemini_root,'/../simulations/input/KHI_periodic_medres/'];
-xg=read.grid([ID,'/inputs/']);
+xg=gemini3d.read.grid([ID,'/inputs/']);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 

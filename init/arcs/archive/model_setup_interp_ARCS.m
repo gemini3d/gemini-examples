@@ -31,7 +31,7 @@ ID=[gemini_root,'/../simulations/ARCS_eq/'];
 
 %READ IN THE SIMULATION INFORMATION
 [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
-xgin=read.grid([ID,'/inputs/']);
+xgin=gemini3d.read.grid([ID,'/inputs/']);
 direc=ID;
 
 

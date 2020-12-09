@@ -17,7 +17,7 @@ end
 
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
- xg=read.grid([direcgrid,'/']);
+ xg=gemini3d.read.grid([direcgrid,'/']);
  lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
  fprintf('Grid loaded.\n');
 end

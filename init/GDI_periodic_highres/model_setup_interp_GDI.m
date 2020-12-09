@@ -12,7 +12,7 @@ I=90;
 
 
 %RUN THE GRID GENERATION CODE
-if (~exist('xg'))
+if ~exist('xg', 'var')
   xg= gemini3d.setup.gridgen.makegrid_cart_3D_lowresx1(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -29,7 +29,7 @@ ID='~/zettergmdata/simulations/RISR_eq/'
 
 %READ IN THE SIMULATION INFORMATION
 cfg = gemini3d.read.config(ID);
-xgin=read.grid(ID);
+xgin= gemini3d.read.grid(ID);
 direc=ID;
 
 %LOAD THE FRAME

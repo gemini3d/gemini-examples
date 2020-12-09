@@ -1,14 +1,14 @@
 
 %% READ IN THE SIMULATION INFORMATION
 ID='~/zettergmdata/simulations/input/KHI_periodic_highres_fileinput/';
-xg=read.grid(ID);
+xg= gemini3d.read.grid(ID);
 
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 direc=ID;
 filebase='KHI_periodic_highres_fileinput';
 filename=[filebase,'_ICs.dat'];
-dat = loadframe3Dcurvnoelec(direc,filename);
+dat = gemini3d.vis.loadframe3Dcurvnoelec(direc,filename);
 lsp=size(ns,4);
 
 %% KHI EXAMPLE PARAMETERS
