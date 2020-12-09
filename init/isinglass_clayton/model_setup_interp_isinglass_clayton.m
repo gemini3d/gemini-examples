@@ -40,7 +40,7 @@ xgin=gemini3d.read.grid([ID,'/inputs/']);
 direc=ID;
 
 %% LOAD THE FRAME
-dat = gemini3d.loadframe(direc, "time", cfg.times(end));
+dat = gemini3d.read.frame(direc, "time", cfg.times(end));
 lsp=size(ns,4);
 
 

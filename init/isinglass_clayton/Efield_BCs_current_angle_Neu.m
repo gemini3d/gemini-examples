@@ -25,7 +25,7 @@ end
 %LOAD A REFERENCE POTENTIAL FROM AN EXISTING SIMULATION THAT USED NEUMANN BOUNDARY CONDITIONS
 
 for i = 1:length(cfg.times)
-  dat = gemini3d.loadframe(direc, "time", cfg.times(end));
+  dat = gemini3d.read.frame(direc, "time", cfg.times(end));
   refFAC(:,:,i) = squeeze(dat.J1(end,:,:));    %this is the FAC off of which we base our new inputs files
 end
 

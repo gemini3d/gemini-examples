@@ -15,7 +15,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 %dat = loadframe3Dcurvnoelec(cfg.indat_file);
 time = datetime(2013,02,20) + seconds(28600);
-dat = gemini3d.loadframe('~/simulations/KHI_archive/KHI_periodic_lowres_bridge/', "time", time);
+dat = gemini3d.read.frame('~/simulations/KHI_archive/KHI_periodic_lowres_bridge/', "time", time);
 lsp = size(dat.ns,4);
 
 

@@ -12,7 +12,7 @@ x2 = xg.x2(3:end-2);
 
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-dat = gemini3d.loadframe(cfg.indat_file, "config", cfg);
+dat = gemini3d.read.frame(cfg.indat_file, "config", cfg);
 lsp = size(dat.ns, 4);
 
 
