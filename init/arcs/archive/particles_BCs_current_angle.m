@@ -18,7 +18,7 @@ end
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
   %WE ALSO NEED TO LOAD THE GRID FILE
-  xg=readgrid([direcgrid,'/']);
+  xg=read.grid([direcgrid,'/']);
   fprintf('Grid loaded.\n');
 end
 

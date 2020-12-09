@@ -21,7 +21,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 %WRITE OUT THE GRID then flush memory
 outdir=['~/zettergmdata/simulations/input/',simid,'/'];
-gemini3d.writegrid(xg,outdir);    %just put it in pwd for now
+gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
 x1i=xg.x1(3:end-2);
 x2i=xg.x2(3:end-2);
 x3i=xg.x3(3:end-2);
@@ -38,8 +38,8 @@ ID='~/zettergmdata/simulations/tohoku20113D_highres_var/'
 
 
 %READ IN THE SIMULATION INFORMATION
-cfg = gemini3d.read_config(ID);
-xgin=gemini3d.readgrid(ID);
+cfg = gemini3d.read.config(ID);
+xgin=gemini3d.read.grid(ID);
 direc=ID;
 x1=xgin.x1(3:end-2);
 x2=xgin.x2(3:end-2);
@@ -90,4 +90,4 @@ end
 
 
 %WRITE OUT THE GRID
-gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir);
+gemini3d.write.data(cfg.times(end),nsi,vs1i,Tsi,outdir);

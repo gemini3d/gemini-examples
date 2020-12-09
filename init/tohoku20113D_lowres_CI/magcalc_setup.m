@@ -12,7 +12,7 @@ UTsec_TOI=82923;
 
 
 %SIMULATION META-DATA
-cfg = gemini3d.read_config(direc);
+cfg = gemini3d.read.config(direc);
 
 
 %TABULATE THE SOURCE LOCATION
@@ -29,7 +29,7 @@ dang=5;
 %WE ALSO NEED TO LOAD THE GRID FILE
 if (~exist('xg','var'))
   fprintf('Reading grid...\n');
-  xg=gemini3d.readgrid(direc);
+  xg=gemini3d.read.grid(direc);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   lh=lx1;   %possibly obviated in this version - need to check
   if (lx3==1)

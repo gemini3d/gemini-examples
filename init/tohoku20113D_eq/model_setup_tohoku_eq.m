@@ -30,5 +30,5 @@ p.nme=2e11;
 p.simdir='../../../simulations/input/tohoku20113D_eq';
 p.format='raw';
 
-writegrid(p,xg);
-writedata(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);
+gemini3d.write.grid(p,xg);
+gemini3d.write.data(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);

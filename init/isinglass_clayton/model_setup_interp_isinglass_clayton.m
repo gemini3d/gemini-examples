@@ -35,8 +35,8 @@ ID='~/zettergmdata/simulations/isinglass_eq/';
 
 
 %READ IN THE SIMULATION INFORMATION
-cfg = read_config(ID);
-xgin=readgrid([ID,'/inputs/']);
+cfg = read.config(ID);
+xgin=read.grid([ID,'/inputs/']);
 direc=ID;
 
 %% LOAD THE FRAME
@@ -82,5 +82,5 @@ end
 
 %WRITE OUT THE GRID
 outdir='~/zettergmdata/simulations/input/isinglass_clayton_lowres/'
-gemini3d.writegrid(xg,outdir);
-gemini3d.writedata(dat.time,nsi,vs1i,Tsi,outdir)
+gemini3d.write.grid(xg,outdir);
+gemini3d.write.data(dat.time,nsi,vs1i,Tsi,outdir)

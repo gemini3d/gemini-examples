@@ -35,5 +35,5 @@ p.nme=2e11;
 %% WRITE THE GRID AND INITIAL CONDITIONS
 p.simdir='../../../simulations/input/EIA_eq';
 p.file_format='raw';
-gemini3d.writegrid(p,xg);
-gemini3d.writedata(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);
+gemini3d.write.grid(p,xg);
+gemini3d.write.data(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);

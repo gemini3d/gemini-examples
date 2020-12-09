@@ -1,6 +1,6 @@
 %READ IN THE SIMULATION INFORMATION
 ID='~/zettergmdata/simulations/input/GDI_periodic_highres_fileinput/';
-xg=readgrid(ID);
+xg=read.grid(ID);
 
 
 %LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
@@ -83,4 +83,4 @@ end
 outdir=ID;
 dmy=[simdate(3),simdate(2),simdate(1)];
 UTsec=simdate(4)*3600;
-writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);
+write.data(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);

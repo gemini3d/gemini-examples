@@ -9,13 +9,13 @@ mkdir(outdir);
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
-cfg = gemini3d.read_config(direcconfig);
+cfg = gemini3d.read.config(direcconfig);
 
 
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
   %WE ALSO NEED TO LOAD THE GRID FILE
-  xg= gemini3d.readgrid(direcgrid);
+  xg= gemini3d.read.grid(direcgrid);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
   fprintf('Grid loaded.\n');

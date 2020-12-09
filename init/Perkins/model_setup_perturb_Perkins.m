@@ -21,11 +21,6 @@ if ~exist('xg', 'var')
 end
 
 eqdir=['~/simulations/Perkins_bridge_vn/'];
-%{
-if (~exist('xg'))
-    xg=readgrid([eqdir,'inputs/']);
-end
-%}
 
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -70,9 +65,9 @@ nsi(:,:,:,7)=sum(nsi(:,:,:,1:6),4);
 
 %WRITE OUT THE RESULTS TO A NEW FILE
 outdir=[gemini_root,'/../simulations/input/Perkins'];
-gemini3d.writegrid(xg,outdir);
+gemini3d.write.grid(xg,outdir);
 %dmy=[simdate(3),simdate(2),simdate(1)];
 dmy=[2,2,2002];     %isn't used by GEMINI anyway...
 %UTsec=simdate(4)*3600;
 UTsec=1;
-gemini3d.writedata(dmy,UTsec,nsi,vs1i,Tsi,outdir,[simID,'_perturb']);
+gemini3d.write.data(dmy,UTsec,nsi,vs1i,Tsi,outdir,[simID,'_perturb']);

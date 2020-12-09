@@ -7,7 +7,7 @@ cwd = fileparts(mfilename('fullpath'));
 
 test_dir = fullfile(cwd, "../init", name);
 %% setup new test data
-p = gemini3d.read_config(test_dir);
+p = gemini3d.read.config(test_dir);
 p.outdir = fullfile(tempdir, name);
 
 try

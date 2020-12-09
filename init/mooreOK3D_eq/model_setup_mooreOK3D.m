@@ -32,6 +32,6 @@ nme=2e11;
 %WRITE THE GRID AND INITIAL CONDITIONS
 outdir = [gemini_root, filesep, '../simulations/input/mooreOK3D_eq/'];
 simlabel='mooreOK3D_eq';
-gemin3d.writegrid(xg,outdir);
+gemin3d.write.grid(xg,outdir);
 time=UT*3600;   %doesn't matter for input files
-gemini3d.writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.write.data(dmy,time,ns,vsx1,Ts,outdir,simlabel);

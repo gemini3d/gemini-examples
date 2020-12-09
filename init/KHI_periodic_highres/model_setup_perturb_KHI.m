@@ -1,7 +1,7 @@
 
 %% READ IN THE SIMULATION INFORMATION
 ID='~/zettergmdata/simulations/input/KHI_periodic_highres_fileinput/';
-xg=readgrid(ID);
+xg=read.grid(ID);
 
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
@@ -35,4 +35,4 @@ end
 
 %% WRITE OUT THE RESULTS
 
-gemini3d.writedata(dat.time,nsperturb,vs1,Ts, cfg.indat_file);
+gemini3d.write.data(dat.time,nsperturb,vs1,Ts, cfg.indat_file);

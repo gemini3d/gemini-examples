@@ -5,8 +5,8 @@ narginchk(2, 2)
 validateattributes(cfg, {'struct'}, {'scalar'}, mfilename, 'sim parameters', 1)
 validateattributes(xg, {'struct'}, {'scalar'})
 
-dir_out = absolute_path(cfg.E0_dir);
-makedir(dir_out);
+dir_out = gemini3d.fileio.absolute_path(cfg.E0_dir);
+gemini3d.fileio.makedir(dir_out);
 
 lx1 = xg.lx(1);
 lx2 = xg.lx(2);
@@ -77,6 +77,6 @@ E.Vmaxx3ist = zeros(E.llon, Nt);
 % FORTRAN CODE IN CASE DIFFERENT GRIDS NEED TO BE TRIED.
 % THE EFIELD DATA DO NOT TYPICALLY NEED TO BE SMOOTHED.
 
-write_Efield(E, cfg.E0_dir, cfg.file_format)
+gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
 
 end % function

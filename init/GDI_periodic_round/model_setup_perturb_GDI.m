@@ -1,6 +1,6 @@
 %READ IN THE SIMULATION INFORMATION
 ID=[gemini_root,'/../simulations/input/GDI_periodic_round/']
-xg=readgrid(ID);
+xg=read.grid(ID);
 
 
 %LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
@@ -41,4 +41,4 @@ nsperturb=max(nsperturb,1e4);
 outdir=ID;
 dmy=[simdate(3),simdate(2),simdate(1)];
 UTsec=simdate(4)*3600;
-gemini3d.writedata(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);
+gemini3d.write.data(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);

@@ -214,10 +214,10 @@ end
 
 %% Write initial plasma state out to a file
 
-gemini3d.writedata(cfg.times(1),nsperturb,dat.vs1,dat.Ts, cfg.indat_file, cfg.file_format, Phitop)
+gemini3d.write.data(cfg.times(1),nsperturb,dat.vs1,dat.Ts, cfg.indat_file, cfg.file_format, Phitop)
 
 
 %% Write electric field data to file
-gemini3d.setup.write_Efield(E, cfg.E0_dir, cfg.file_format)
+gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
 
 end %function perturb_efield

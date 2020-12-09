@@ -26,5 +26,5 @@ cfg.nme=2e11;
 %WRITE THE GRID AND INITIAL CONDITIONS
 outdir = '../simulations/input/mooreOK3D_eq/';
 simlabel='mooreOK3D_eq';
-gemini3d.writegrid(xg,outdir);
-gemini3d.writedata(time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.write.grid(xg,outdir);
+gemini3d.write.data(time,ns,vsx1,Ts,outdir,simlabel);

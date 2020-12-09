@@ -27,8 +27,8 @@ ID=[gemini_root,'/../simulations/RISR_eq/'];
 
 
 %% READ IN THE SIMULATION INFORMATION
-cfg = gemini3d.read_config(ID);
-xgin= gemini3d.readgrid(ID);
+cfg = gemini3d.read.config(ID);
+xgin= gemini3d.read.grid(ID);
 direc=ID;
 
 
@@ -75,6 +75,6 @@ end
 
 %% WRITE OUT THE GRID AND INITIAL CONDITIONS
 outdir=[gemini_root,'/../simulations/input/GDI_periodic_LL/']
-gemini3d.writegrid(xg,[outdir,'/inputs/']);    %just put it in pwd for now
+gemini3d.write.grid(xg,[outdir,'/inputs/']);    %just put it in pwd for now
 
-gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);
+gemini3d.write.data(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);

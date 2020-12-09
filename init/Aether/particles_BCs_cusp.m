@@ -11,7 +11,7 @@ delete([outdir,'/*']);
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
 if (~exist('ymd0','var'))
-  cfg = gemini3d.read_config([direcconfig,'/config.ini']);
+  cfg = gemini3d.read.config([direcconfig,'/config.ini']);
   fprintf('Input config.dat file loaded.\n');
 end
 
@@ -19,7 +19,7 @@ end
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
   %WE ALSO NEED TO LOAD THE GRID FILE
-  xg= gemini3d.readgrid([direcgrid,'/']);
+  xg= gemini3d.read.grid([direcgrid,'/']);
   fprintf('Grid loaded.\n');
 end
 

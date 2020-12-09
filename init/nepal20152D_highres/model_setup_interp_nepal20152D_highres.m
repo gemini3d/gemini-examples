@@ -28,8 +28,8 @@ ID='~/zettergmdata/simulations/nepal20152D_eq/'
 
 
 %READ IN THE SIMULATION INFORMATION
-cfg = gemini3d.read_config(ID);
-xgin= gemini3d.readgrid(ID);
+cfg = gemini3d.read.config(ID);
+xgin= gemini3d.read.grid(ID);
 direc=ID;
 
 %LOAD THE FRAME
@@ -75,5 +75,5 @@ end
 
 %WRITE OUT THE GRID
 outdir='~/zettergmdata/simulations/input/nepal20152D_highres/'
-gemini3d.writegrid(xg,outdir);    %just put it in pwd for now
-gemini3d.writedata(cfg.times(end),nsi,vs1i,Tsi,outdir)
+gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
+gemini3d.write.data(cfg.times(end),nsi,vs1i,Tsi,outdir)

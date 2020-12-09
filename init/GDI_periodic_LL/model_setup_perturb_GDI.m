@@ -1,6 +1,6 @@
 %% READ IN THE SIMULATION INFORMATION
 ID=[gemini_root,'/../simulations/input/GDI_periodic_LL/'];
-xg=readgrid([ID,'/inputs/']);
+xg=read.grid([ID,'/inputs/']);
 x1=xg.x1(3:end-2);    %trim ghost cells
 x2=xg.x2(3:end-2);
 
@@ -63,4 +63,4 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
 
-writedata(dat.time,nsperturb,vs1,Ts,outdir);
+write.data(dat.time,nsperturb,vs1,Ts,outdir);

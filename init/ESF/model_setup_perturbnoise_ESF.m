@@ -1,6 +1,6 @@
 %% READ IN THE SIMULATION INFORMATION
 ID='~/simulations/ESF_medres_noise_test/inputs/';
-xg=gemini3d.readgrid(ID);
+xg=gemini3d.read.grid(ID);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -40,7 +40,7 @@ nsperturb(:,:,:,lsp) = sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
-gemini3d.writedata(dat.time,nsperturb,vs1,Ts,cfg.indat_file);
+gemini3d.write.data(dat.time,nsperturb,vs1,Ts,cfg.indat_file);
 
 
 %% Visualize

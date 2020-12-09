@@ -112,6 +112,6 @@ end
 % FORTRAN CODE IN CASE DIFFERENT GRIDS NEED TO BE TRIED.
 % THE EFIELD DATA DO NOT TYPICALLY NEED TO BE SMOOTHED.
 
-gemini3d.setup.write_Efield(E, cfg.E0_dir, cfg.file_format)
+gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
 
 end % function

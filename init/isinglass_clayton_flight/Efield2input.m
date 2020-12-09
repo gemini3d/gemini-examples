@@ -5,7 +5,7 @@ plotflag=false;
 
 
 %% Load grid using API so we don't have to keep updating manually
-xg=gemini3d.readgrid(griddir);
+xg=gemini3d.read.grid(griddir);
 mlat=90-xg.theta*180/pi;
 mlon=xg.phi*180/pi;
 

@@ -33,5 +33,5 @@ p.nme=2e11;
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
 p.simdir='../../../simulations/input/global_eq';
-gemini3d.writegrid(p,xg);
-gemini3d.writedata(p.time,ns,vsx1,Ts,p.simdir);
+gemini3d.write.grid(p,xg);
+gemini3d.write.data(p.time,ns,vsx1,Ts,p.simdir);

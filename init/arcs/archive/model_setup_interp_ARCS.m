@@ -31,7 +31,7 @@ ID=[gemini_root,'/../simulations/ARCS_eq/'];
 
 %READ IN THE SIMULATION INFORMATION
 [ymd0,UTsec0,tdur,dtout,flagoutput,mloc]=readconfig([ID,'/inputs']);
-xgin=readgrid([ID,'/inputs/']);
+xgin=read.grid([ID,'/inputs/']);
 direc=ID;
 
 
@@ -88,6 +88,6 @@ nsi(:,:,:,end)=sum(nsi(:,:,:,1:lsp-1),4);
 
 %WRITE OUT THE GRID
 outdir=[gemini_root,'/../simulations/input/ARCS/'];
-writegrid(xg,outdir);
+write.grid(xg,outdir);
 dmy=[ymdend(3),ymdend(2),ymdend(1)];
-writedata(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
+write.data(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);

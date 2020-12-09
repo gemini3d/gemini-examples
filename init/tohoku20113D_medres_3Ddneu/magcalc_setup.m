@@ -12,7 +12,7 @@ mkdir[direc,'/magplots']);    %store output plots with the simulation data
 time = datetime(2015,09,16) + seconds(82923);
 
 %SIMULATION META-DATA
-cfg = read_config(direc);
+cfg = read.config(direc);
 
 %TABULATE THE SOURCE LOCATION
 thdist=pi/2-cfg.sourcemlat*pi/180;    %zenith angle of source location
@@ -26,7 +26,7 @@ dang=5;
 %WE ALSO NEED TO LOAD THE GRID FILE
 if (~exist('xg','var'))
   fprintf('Reading grid...\n');
-  xg=readgrid(direc);
+  xg=read.grid(direc);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   lh=lx1;   %possibly obviated in this version - need to check
   if (lx3==1)

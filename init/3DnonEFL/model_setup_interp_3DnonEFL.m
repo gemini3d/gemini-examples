@@ -26,8 +26,8 @@ ID=[gemini_root,'/../simulations/ARCS_eq/'];
 
 
 %READ IN THE SIMULATION INFORMATION
-cfg = gemini3d.read_config(ID);
-xgin= gemini3d.readgrid(ID);
+cfg = gemini3d.read.config(ID);
+xgin= gemini3d.read.grid(ID);
 direc=ID;
 
 
@@ -74,6 +74,6 @@ end
 
 %WRITE OUT THE GRID
 outdir=[gemini_root,'/../simulations/input/3DnonEFL/'];
-gemini3d.writegrid(xg,outdir);
+gemini3d.write.grid(xg,outdir);
 
-gemini3d.writedata(dat.time,nsi,vs1i,Tsi,outdir);
+gemini3d.write.data(dat.time,nsi,vs1i,Tsi,outdir);

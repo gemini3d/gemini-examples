@@ -31,6 +31,6 @@ nme=2e11;
 %WRITE THE GRID AND INITIAL CONDITIONS
 simlabel='nepal20152D_eq'
 outdir='~/zettergmdata/simulations/input/nepal20152D_eq'
-gemini3d.writegrid(xg,outdir);
+gemini3d.write.grid(xg,outdir);
 time=UT*3600;   %doesn't matter for input files
-gemini3d.writedata(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.write.data(dmy,time,ns,vsx1,Ts,outdir,simlabel);

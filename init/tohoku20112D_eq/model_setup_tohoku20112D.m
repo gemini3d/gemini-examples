@@ -25,5 +25,5 @@ cfg.nme=2e11;
 %WRITE THE GRID AND INITIAL CONDITIONS
 outdir = [gemini_root, filesep, '../simulations/input/tohoku20112D_eq/'];
 simlabel='tohoku20112D_eq';
-gemini3d.writegrid(xg,outdir);
-gemini3d.writedata(time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.write.grid(xg,outdir);
+gemini3d.write.data(time,ns,vsx1,Ts,outdir,simlabel);
