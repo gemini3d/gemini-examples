@@ -14,7 +14,7 @@ I=90;
 
 
 %RUN THE GRID GENERATION CODE
-if (~exist('xg'))
+if ~exist('xg', 'var')
   xg=makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
