@@ -11,7 +11,7 @@ p = gemini3d.read.config(test_dir);
 p.outdir = fullfile(tempdir, name);
 
 try
-  gemini3d.setup.model_setup(p);
+  gemini3d.model.setup(p);
 catch e
   if ~contains(e.identifier, 'file_not_found')
     rethrow(e)

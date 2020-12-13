@@ -12,8 +12,8 @@ flagsource=1;
 
 
 %% MATLAB GRID GENERATION
-if (~exist('xg'))
-    xg= gemini3d.setup.gridgen.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+if ~exist('xg', 'var')
+    xg= gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end %if
 
 
@@ -29,7 +29,7 @@ p.ymd=[2011,3,11];
 p.activ=[120,120,25];
 p.nmf=5e11;
 p.nme=2e11;
-[ns,Ts,vsx1]=eqICs3D(p,xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+[ns,Ts,vsx1]= gemini3d.model.eqICs(p,xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %% WRITE THE GRID AND INITIAL CONDITIONS

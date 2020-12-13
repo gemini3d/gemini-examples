@@ -12,8 +12,8 @@ flagsource=1;
 
 
 %RUN THE GRID GENERATION CODE
-if (~exist('xg'))
-    xg= gemini3d.setup.gridgen.makegrid_tilteddipole_nonuniform_oneside_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+if ~exist('xg', 'var')
+    xg= gemini3d.grid.makegrid_tilteddipole_nonuniform_oneside_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
