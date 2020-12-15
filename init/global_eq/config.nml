@@ -1,0 +1,21 @@
+&base
+ymd = 2011,3,10               ! year, month, day
+UTsec0 = 20783.0              ! UTsec0:  start time in UT seconds
+tdur = 172800.0                  ! tdur:  duration of simulation in seconds
+dtout = 900.0                   ! dtout: how often to do file output
+activ = 104.7,129.5,37.0       ! activ:  f107a,f107,Ap
+tcfl = 0.9                    ! tcfl:  target cfl number
+Teinf = 1500.0                ! Teinf:  exospheric electron temperature
+/
+
+&flags
+potsolve = 0                  ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 1              ! whether to consider the x3 dimension periodic:  0 - no; 1 - yes
+flagoutput = 2                ! what information to put in output files:  1 - all state variables; 2 - averaged plasma parameters; 3 - electron density only
+/
+
+! (optional - default off) control equatorial ionization anomaly
+&EIA
+flagEIA = .true.              ! toggles EIA calculation
+v0equator = 10.0              ! equatorial peak drift value
+/
