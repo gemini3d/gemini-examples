@@ -26,11 +26,11 @@ iscurv=true;
 
 %% MATLAB GRID GENERATION
 if (~exist('xg'))
-    xg=gemini3d.setup.gridgen.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+    xg=gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end %if
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %% READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
-[nsi,vs1i,Tsi]=gemini3d.setup.eq2dist(cfg,xg);
+[nsi,vs1i,Tsi]=gemini3d.model.eq2dist(cfg,xg);

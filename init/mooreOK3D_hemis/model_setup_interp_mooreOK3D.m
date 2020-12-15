@@ -19,7 +19,7 @@ gridflag=1;
 if (~exist('xg'))
   %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
   %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg= gemini3d.setup.gridgen.makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg= gemini3d.grid.makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 
 
@@ -39,4 +39,4 @@ p.eq_dir='../../../simulations/mooreOK3D_hemis_eq/';
 p.indat_size = '../../../simulations/mooreOK3D_hemis_inputs/simsize.h5';
 p.indat_grid = '../../../simulations/mooreOK3D_hemis_inputs/simgrid.h5';
 p.indat_file = '../../../simulations/mooreOK3D_hemis_inputs/initial_conditions.h5';
-gemini3d.setup.eq2dist(p,xg);
+gemini3d.model.eq2dist(p,xg);

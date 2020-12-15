@@ -9,7 +9,7 @@ gridflag=0;
 I=90;
 
 %MATLAB GRID GENERATION
-xg= gemini3d.setup.gridgen.makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
+xg= gemini3d.grid.makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT
 %%ISINGLASS B LAUNCH
@@ -21,7 +21,7 @@ activ=[76.5,79.3,31.5];
 %USE OLD CODE FROM MATLAB MODEL
 nmf=5e11;
 nme=2e11;
-[ns,Ts,vsx1]= gemini3d.setup.eqICs3D(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+[ns,Ts,vsx1]= gemini3d.model.eqICs(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS

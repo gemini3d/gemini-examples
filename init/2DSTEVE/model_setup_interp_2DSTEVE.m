@@ -14,7 +14,7 @@ pgrid.alt_scale=[10e3, 8e3, 500e3, 150e3];    %parameters setting the nonuniform
 
 %% RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-  xg=makegrid_cart_3D(pgrid);
+  xg= gemini3d.grid.cart3d(pgrid);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -23,4 +23,4 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 pfile.file_format = 'raw';
 pfile.eq_dir='../../../simulations/2Dtest_eq/';
 pfile.simdir='~/simulations/input/2DSTEVE';
-[nsi,vs1i,Tsi]=eq2dist(pfile,xg);
+[nsi,vs1i,Tsi]= gemini3d.model.eq2dist(pfile,xg);

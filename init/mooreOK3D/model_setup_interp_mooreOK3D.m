@@ -18,7 +18,7 @@ gridflag=1;
 if (~exist('xg'))
   %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
   %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg= gemini3d.setup.gridgen.makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg= gemini3d.grid.makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 
 
@@ -36,4 +36,4 @@ ha=plotgrid(xg,flagsource,sourcelat,sourcelong,neugridtype,zmin,zmax,rhomax);
 %SAVE THE GRID DATA
 eqdir='../../../simulations/mooreOK3D_eq/';
 simID='mooreOK3D_medres';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]= gemini3d.setup.eq2dist(eqdir,simID,xg, file_format);
+[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]= gemini3d.model.eq2dist(eqdir,simID,xg, file_format);

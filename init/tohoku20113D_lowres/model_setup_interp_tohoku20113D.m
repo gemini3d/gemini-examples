@@ -13,7 +13,7 @@ flagsource=1;
 
 %RUN THE GRID GENERATION CODE
 if (~exist('xg'))
-  xg= gemini3d.setup.gridgen.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg= gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
@@ -22,4 +22,4 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 p.file_format='raw';
 p.eq_dir=[gemini_root,'/../simulations/tohoku20113D_eq/'];
 p.simdir=[gemini_root,'/../simulations/input/tohoku20113D_lowres/'];
-[nsi,vs1i,Tsi]= gemini3d.setup.eq2dist(p,xg);
+[nsi,vs1i,Tsi]= gemini3d.model.eq2dist(p,xg);
