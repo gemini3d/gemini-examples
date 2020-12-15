@@ -14,6 +14,13 @@ flagperiodic = 1              ! whether to consider the x3 dimension periodic:  
 flagoutput = 2                ! what information to put in output files:  1 - all state variables; 2 - averaged plasma parameters; 3 - electron density only
 /
 
+! Inputs file locations and format
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
 ! (optional - default off) control equatorial ionization anomaly
 &EIA
 flagEIA = .true.              ! toggles EIA calculation
