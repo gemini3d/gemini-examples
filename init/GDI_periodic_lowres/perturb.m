@@ -1,10 +1,9 @@
 function perturb(cfg, xg)
 % perturb plasma from initial_conditions file
-
-narginchk(2,2)
-validateattributes(cfg, {'struct'}, {'scalar'},1)
-validateattributes(xg, {'struct'}, {'scalar'},2)
-
+arguments
+  cfg (1,1) struct
+  xg (1,1) struct
+end
 
 %% READ IN THE SIMULATION INFORMATION
 x1 = xg.x1(3:end-2);    %trim ghost cells
