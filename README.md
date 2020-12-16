@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/180855327.svg)](https://zenodo.org/badge/latestdoi/180855327)
 
 Set of scripts containing different examples for how to initialize and run
-[GEMINI model](https://github.com/gemini3d/gemini3d).  These are not all kept up-to-date with the latest GEMINI releases but many are and you can request an update to a particular example of interest by creating and issue on the github page for this repo.  
+[GEMINI model](https://github.com/gemini3d/gemini3d).  These are not all kept up-to-date with the latest GEMINI releases but many are and you can request an update to a particular example of interest by creating and issue on the github page for this repo.
 
 ## Usage
 
@@ -21,7 +21,7 @@ to always enable Gemini.
 Then, for each simulation you want to generate, here for "ARCS_eq":
 
 ```matlab
-gemini3d.setup.model_setup('init/ARCS_eq')
+gemini3d.model.setup('init/ARCS_eq')
 ```
 
 OR if the folder has Matlab .m files, run the `config()` config.m in that folder.

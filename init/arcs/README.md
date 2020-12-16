@@ -13,7 +13,7 @@ There are currently two ARCs examples, others will be developed in the near futu
 
 ## GEMINI Installation
 
-Before attempting to run this example you will need to do a full GEMINI installation as described in the README for the core [GEMINI](https://github.com/gemini3d/gemini) repository.  You will also need to install the [gemini-examples](https://github.com/gemini3d/gemini-examples) repository and the [mat_gemini](https://github.com/gemini3d/mat_gemini) repositories.  
+Before attempting to run this example you will need to do a full GEMINI installation as described in the README for the core [GEMINI](https://github.com/gemini3d/gemini) repository.  You will also need to install the [gemini-examples](https://github.com/gemini3d/gemini-examples) repository and the [mat_gemini](https://github.com/gemini3d/mat_gemini) repositories.
 
 
 ## Equilibrium Simulation
@@ -23,13 +23,13 @@ Generate an equilibrium simulation for this example using the [ARCs\_eq example]
 
 ## Disturbance Simulation Setup
 
-It is now possible to set up basic auroral arc simulations (viz. simulations with arbirary precipitation and field-aligned current inputs) by using generic routines provided in the mat_gemini respostory using ```model_setup``` as follows.  Navigate to the directory for the examples that you wish to run, start MATLAB and then:
+It is now possible to set up basic auroral arc simulations (viz. simulations with arbirary precipitation and field-aligned current inputs) by using generic routines provided in the mat_gemini respostory using `gemini3d.model.setup` as follows.  Navigate to the directory for the examples that you wish to run, start MATLAB and then:
 
 ```MATLAB
-gemini3d.setup.model_setup("config.nml","output directory name")
+gemini3d.model.setup("config.nml","output directory name")
 ```
 
-The example config.nml files included in this directory illustrate how to use various namelist variables to control, e.g. width and intensity of precipitation and other parameters.  For creating one's own precipitation and current density boundary see ./angle/config.nml which shows how to specify custom user-defined functions for current and precipitation patterns.  
+The example config.nml files included in this directory illustrate how to use various namelist variables to control, e.g. width and intensity of precipitation and other parameters.  For creating one's own precipitation and current density boundary see ./angle/config.nml which shows how to specify custom user-defined functions for current and precipitation patterns.
 
 
 <!---
@@ -57,7 +57,7 @@ The example config.nml files included in this directory illustrate how to use va
 
 6. Load mat_gemini by navigating into that directory and execute (from MATLAB):   ```>> setup```
 
-7. Run the top-level MATLAB script to generate files for initial and boundary conditions for this simulation.  Navigate to this directory in the MATLAB command window and then execute:  ```>> gemini3d.setup.model_setup('config.nml')```
+7. Run the top-level MATLAB script to generate files for initial and boundary conditions for this simulation.  Navigate to this directory in the MATLAB command window and then execute:  ```>> gemini3d.model.setup('config.nml')```
 You should see a bunch of console output in MATLAB to verify that the grid is being created and HDF5 input files for the fortran code are being written.
 -->
 
@@ -69,7 +69,7 @@ After running model_setup this simulation may be run from the command line by:
 	```sh
 	mpirun -np 8 ./gemini.bin path/outputdirectory/ -manual_grid 2 4
 	```
-	
+
 It will take approximately several hours to complete on a 4-8 core system; It is recommended that one use at least 16-32 cores, if available, to speed the calculations.  It is possible to use up to ~192 cores with this example if you manually specify the mpi split in x2 and x3, e.g.:
 
 	```
