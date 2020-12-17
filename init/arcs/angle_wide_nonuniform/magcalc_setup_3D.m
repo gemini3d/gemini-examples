@@ -63,7 +63,8 @@ thmin=min(xg.theta(:));
 thmax=max(xg.theta(:));
 phimin=min(xg.phi(:));
 phimax=max(xg.phi(:));
-
+rmin=6370e3+100e3;
+rmax=6370e3+450e3;
 
 theta=linspace(thmin,thmax,ltheta);
 if (~flag2D)
@@ -72,8 +73,8 @@ else
   phi=phidist;
 end
 %r=(6370e3+500e3)*ones(ltheta,lphi);                          %use satellite orbital plane
-r=linspace(100,450,lr);
-[R,PHI,THETA]=meshgrid(r,phi,theta);
+r=linspace(rmin,rmax,lr);
+[R,THETA,PHI]=ndgrid(r,theta,phi);
 
 %CREATE AN INPUT FILE OF FIELD POINTS
 fid=fopen([direc,'/inputs/magfieldpoints.dat'],'w');

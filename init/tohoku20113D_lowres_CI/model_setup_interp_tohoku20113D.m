@@ -26,3 +26,5 @@ p.indat_size = '../../../simulations/tohoku20113D_lowres/inputs/simsize.h5';
 p.indat_grid = '../../../simulations/tohoku20113D_lowres/inputs/simgrid.h5';
 p.indat_file = '../../../simulations/tohoku20113D_lowres/inputs/initial_conditions.h5';
 [nsi,vs1i,Tsi]= gemini3d.model.eq2dist(p,xg);
+
+system("cp config.nml ../../../simulations/tohoku20113D_lowres/inputs/");
