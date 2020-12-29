@@ -9,11 +9,9 @@ end
 x1 = xg.x1(3:end-2);    %trim ghost cells
 x2 = xg.x2(3:end-2);
 
-
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 dat = gemini3d.read.frame(cfg.indat_file);
 lsp = size(dat.ns, 4);
-
 
 %% Choose a single profile from the center of the eq domain
 ix2=floor(xg.lx(2)/2);

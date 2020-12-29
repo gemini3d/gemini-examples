@@ -28,7 +28,7 @@ eq_dir = '~/simulations/risr3d_eq/'
 eq_zip = '~/simulations/risr3d_eq.zip'
 eq_url = 'https://zenodo.org/record/3980312/files/risr3d_eq.zip?download=1'
 
-setup_functions = 'gemini3d.model.Efield_BCs', 'perturb'
+setup_functions = 'perturb', 'gemini3d.model.Efield_BCs'
 /
 
 &flags
@@ -60,7 +60,7 @@ PhiWBG=1e-3
 W0BG=3e3
 /
 
-! magcap=5.0    !good for showing damping due to m'sphere...
+! magcap=5.0    !good for showing damping due to magnetosphere...
 
 &capacitance
 flagcap=0       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
