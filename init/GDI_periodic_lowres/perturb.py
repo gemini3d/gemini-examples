@@ -23,18 +23,22 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # %% Choose a single profile from the center of the eq domain
     ix2 = xg["lx"][1] // 2
     ix3 = xg["lx"][2] // 2
-    nsscale = np.zeros(ns.shape)
+    nsscale = np.zeros_like(ns)
     for i in range(lsp):
         nprof = ns[i, :, ix2, ix3]
         nsscale[i, :, :, :] = nprof[:, None, None]
-
+    # %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
+    scalefact = 2.75 * 6 / 8
+    for i in range(lsp - 1):
+        nsscale[i, :, :, :] = scalefact * nsscale[i, :, :, :]
+    nsscale[-1, :, :, :] = nsscale[:-1, :, :, :].sum(axis=0)
+    # enforce quasineutrality
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
     ell = 5e3  # gradient scale length for patch/blob
     x21 = -85e3  # location on one of the patch edges
     x22 = -45e3  # other patch edge
     nepatchfact = 10  # density increase factor over background
-
-    nsperturb = np.zeros(ns.shape)
+    nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):
         for j in range(xg["lx"][1]):
             amplitude = numpy.random.standard_normal([xg["lx"][0], xg["lx"][2]])
@@ -48,7 +52,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
             )
             # patch, note offset in the x2 index!!!!
 
-            if (j > 10) and (j < xg["lx"][1] - 10):
+            if (j > 9) and (j < xg["lx"][1] - 10):
                 # do not apply noise near the edge (corrupts boundary conditions)
                 nsperturb[i, :, j, :] = nsperturb[i, :, j, :] + amplitude * nsscale[i, :, j, :]
 
