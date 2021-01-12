@@ -5,6 +5,12 @@ arguments
   xg (1,1) struct
 end
 
+params = struct(...
+  'v0', -500, ...       % background flow value, actually this will be turned into a shear in the Efield input file
+  'densfact', 3, ...    % factor by which the density increases over the shear region - see Keskinen, et al (1988)
+  'ell', 3.1513e3, ...  % scale length for shear transition
+  'B1val', -50000e-9);
+
 %% Sizes
 x1=xg.x1(3:end-2);
 x2=xg.x2(3:end-2);
@@ -34,11 +40,8 @@ nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 %% Apply the denisty perturbation as a jump and specified plasma drift variation (Earth-fixed frame)
 % because this is derived from current density it is invariant with respect
 % to frame of reference.
-v0=-500;                                 % background flow value, actually this will be turned into a shear in the Efield input file
-densfact=3;                              % factor by which the density increases over the shear region - see Keskinen, et al (1988)
-ell=3.1513e3;                            % scale length for shear transition
-vn=-v0*(densfact+1)./(densfact-1);
-B1val=-50000e-9;
+
+params.vn = -params.v0*(params.densfact+1) ./ (params.densfact-1);
 
 nsperturb=zeros(size(dat.ns));
 n1=zeros(size(dat.ns));
@@ -68,7 +71,8 @@ for isp=1:lsp
     n1here=amplitude.*nsscale(:,ix2,:,isp);     %perturbation seeding instability
     n1(:,ix2,:,isp)=n1here;                     %save the perturbation for computing potential perturbation
 
-    nsperturb(:,ix2,:,isp)=nsscale(:,ix2,:,isp).*(vn-v0)./(v0*tanh((x2(ix2))/ell)+vn);     %background density
+    nsperturb(:,ix2,:,isp) = nsscale(:,ix2,:,isp) .* (params.vn-params.v0) ./ ...
+                            (params.v0*tanh((x2(ix2)) / params.ell) + params.vn);     %background density
     nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+n1here;                                  %perturbation
   end %for
 end %for
@@ -95,10 +99,10 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 %% Now compute an initial potential, background
 vel3=zeros(lx2,lx3);
 for ix3=1:lx3
-    vel3(:,ix3)=v0*tanh(x2./ell)-vn;
+    vel3(:,ix3) = params.v0*tanh(x2 ./ params.ell) - params.vn;
 end
 vel3=flipud(vel3);    % this is needed for consistentcy with equilibrium...  Not completely clear why
-E2top=vel3*B1val;     % this is -1* the electric field
+E2top = vel3 * params.B1val;     % this is -1* the electric field
 
 % integrate field to get potential
 DX2=diff(x2);
@@ -107,21 +111,24 @@ DX2=repmat(DX2(:),[1,lx3]);
 Phitop=cumsum(E2top.*DX2,1);
 
 
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Electromagnetic parameter inputs
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Electromagnetic parameter inputs
 
-gemini3d.fileio.makedir(cfg.E0_dir);
+create_Efield(cfg, xg, dat, nsperturb, Phitop, params)
 
+end %function perturb_efield
+
+
+function create_Efield(cfg, xg, dat, nsperturb, Phitop, params)
+
+gemini3d.fileio.makedir(cfg.E0_dir)
 
 %% CREATE ELECTRIC FIELD DATASET
 E.llon=100;
 E.llat=100;
 % NOTE: cartesian-specific code
-if lx2 == 1
+if xg.lx(2) == 1
   E.llon = 1;
-elseif lx3 == 1
+elseif xg.lx(3) == 1
   E.llat = 1;
 end
 thetamin = min(xg.theta(:));
@@ -144,18 +151,12 @@ E.mlon = linspace(mlonmin-lonbuf, mlonmax+lonbuf, E.llon);
 %% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
 xgmlon=squeeze(xg.phi(1,:,1)*180/pi);
 % xgmlat=squeeze(90-xg.theta(1,1,:)*180/pi);
-x2i=interp1(xgmlon,xg.x2(3:lx2+2),E.mlon,'linear','extrap');
+x2i=interp1(xgmlon,xg.x2(3:xg.lx(2)+2),E.mlon,'linear','extrap');
 % x3i=interp1(xgmlat,xg.x3(3:lx3+2),E.mlat,'linear','extrap');
-
-
-%% TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
-tmin = 0;
-time = tmin:cfg.dtE0:cfg.tdur;
-Nt = length(time);
 
 %% SET UP TIME VARIABLES
 E.times = cfg.times(1):seconds(cfg.dtE0):cfg.times(end);
-
+Nt = length(E.times);
 %% CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
 if isfield(cfg, 'Exit')
   E.Exit = cfg.Exit * ones(E.llon, E.llat, Nt);
@@ -170,7 +171,7 @@ end
 
 
 %% CREATE DATA FOR BOUNDARY CONDITIONS FOR POTENTIAL SOLUTION
-E.flagdirich=zeros(Nt,1);    %in principle can have different boundary types for different time steps...
+E.flagdirich = zeros(Nt, 1);    %in principle can have different boundary types for different time steps...
 E.Vminx1it = zeros(E.llon,E.llat, Nt);
 E.Vmaxx1it = zeros(E.llon,E.llat, Nt);
 %these are just slices
@@ -185,13 +186,12 @@ for it=1:Nt
   %COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
   vel3=zeros(E.llon, E.llat);
   for ilat=1:E.llat
-      vel3(:,ilat)=v0*tanh(x2i./ell)-vn;
+      vel3(:,ilat) = params.v0*tanh(x2i ./ params.ell) - params.vn;
   end
   vel3=flipud(vel3);
 
-
   %CONVERT TO ELECTRIC FIELD (actually -1* electric field...)
-  E2slab=vel3*B1val;
+  E2slab= vel3*params.B1val;
 
   %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID - then save the edge
   %boundary conditions
@@ -205,9 +205,9 @@ end
 
 
 %% Write initial plasma state out to a file
-gemini3d.write.data(cfg.times(1),nsperturb,dat.vs1,dat.Ts, cfg.indat_file, cfg.file_format, Phitop)
+gemini3d.write.data(cfg.times(1),nsperturb, dat.vs1, dat.Ts, cfg.indat_file, cfg.file_format, Phitop)
 
 %% Write electric field data to file
 gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
 
-end %function perturb_efield
+end % function create_Efield
