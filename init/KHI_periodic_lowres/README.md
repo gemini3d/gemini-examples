@@ -1,4 +1,4 @@
-# The KHI\_periodic\_medres example
+# KHI_periodic_lowres example
 
 This example simulates ionospheric Kelvin-Helmholtz instability.
 

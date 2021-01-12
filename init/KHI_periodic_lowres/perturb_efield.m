@@ -8,23 +8,21 @@ end
 %% Sizes
 x1=xg.x1(3:end-2);
 x2=xg.x2(3:end-2);
-x3=xg.x3(3:end-2);
-lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
+lx2=xg.lx(2);
+lx3=xg.lx(3);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 dat = gemini3d.read.frame3Dcurvnoelec(cfg.indat_file);
 lsp = size(dat.ns,4);
-
 
 %% Choose a single profile from the center of the eq domain
 ix2=floor(xg.lx(2)/2);
 ix3=floor(xg.lx(3)/2);
 nsscale=zeros(size(dat.ns));
 for isp=1:lsp
-    nprof=dat.ns(:,ix2,ix3,isp);
-    nsscale(:,:,:,isp)=repmat(nprof,[1 xg.lx(2) xg.lx(3)]);
+  nprof = dat.ns(:,ix2,ix3,isp);
+  nsscale(:,:,:,isp) = repmat(nprof,[1 xg.lx(2) xg.lx(3)]);
 end %for
-
 
 %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
 scalefact=2*2.75;
@@ -32,7 +30,6 @@ for isp=1:lsp-1
   nsscale(:,:,:,isp) = scalefact * nsscale(:,:,:,isp);
 end %for
 nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
-
 
 %% Apply the denisty perturbation as a jump and specified plasma drift variation (Earth-fixed frame)
 % because this is derived from current density it is invariant with respect
@@ -79,19 +76,18 @@ nsperturb=max(nsperturb,1e4);                        %enforce a density floor (p
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 n1(:,:,:,lsp)=sum(n1(:,:,:,1:6),4);
 
-
 %% Remove any residual E-region from the simulation
 x1ref=220e3;     %where to start tapering down the density in altitude
 dx1=10e3;
 taper=1/2+1/2*tanh((x1-x1ref)/dx1);
 for isp=1:lsp-1
-   for ix3=1:xg.lx(3)
-       for ix2=1:xg.lx(2)
-           nsperturb(:,ix2,ix3,isp)=1e6+nsperturb(:,ix2,ix3,isp).*taper;
-       end %for
-   end %for
-end %for
-inds=find(x1<150e3);
+  for ix3=1:xg.lx(3)
+    for ix2=1:xg.lx(2)
+      nsperturb(:,ix2,ix3,isp)=1e6+nsperturb(:,ix2,ix3,isp).*taper;
+    end
+  end
+end
+inds = x1 < 150e3;
 nsperturb(inds,:,:,:)=1e3;
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
