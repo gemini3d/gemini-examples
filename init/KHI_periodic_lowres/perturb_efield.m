@@ -9,7 +9,11 @@ params = struct(...
   'v0', -500, ...       % background flow value, actually this will be turned into a shear in the Efield input file
   'densfact', 3, ...    % factor by which the density increases over the shear region - see Keskinen, et al (1988)
   'ell', 3.1513e3, ...  % scale length for shear transition
-  'B1val', -50000e-9);
+  'B1val', -50000e-9, ...
+  'x1ref', 220e3, ...     %where to start tapering down the density in altitude
+  'dx1', 10e3);
+
+params.vn = -params.v0*(params.densfact+1) ./ (params.densfact-1);
 
 %% Sizes
 x1=xg.x1(3:end-2);
@@ -19,7 +23,24 @@ lx3=xg.lx(3);
 
 %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 dat = gemini3d.read.frame3Dcurvnoelec(cfg.indat_file);
-lsp = size(dat.ns,4);
+
+nsscale = init_profile(xg, dat);
+
+%% Apply the denisty perturbation as a jump and specified plasma drift variation (Earth-fixed frame)
+nsperturb = perturb_density(xg, dat, nsscale, x1, x2, params);
+
+%% compute initial potential, background
+Phitop = potential_bg(x2, lx2, lx3, params);
+
+%% Electromagnetic parameter inputs
+create_Efield(cfg, xg, dat, nsperturb, Phitop, params)
+
+end %function perturb_efield
+
+
+function nsscale = init_profile(xg, dat)
+
+lsp = size(dat.ns, 4);
 
 %% Choose a single profile from the center of the eq domain
 ix2=floor(xg.lx(2)/2);
@@ -37,11 +58,14 @@ for isp=1:lsp-1
 end %for
 nsscale(:,:,:,lsp) = sum(nsscale(:,:,:,1:6),4);   %enforce quasineutrality
 
-%% Apply the denisty perturbation as a jump and specified plasma drift variation (Earth-fixed frame)
+end % function init_profile
+
+function nsperturb = perturb_density(xg, dat, nsscale, x1, x2, params)
+
 % because this is derived from current density it is invariant with respect
 % to frame of reference.
 
-params.vn = -params.v0*(params.densfact+1) ./ (params.densfact-1);
+lsp = size(dat.ns,4);
 
 nsperturb=zeros(size(dat.ns));
 n1=zeros(size(dat.ns));
@@ -55,7 +79,7 @@ for isp=1:lsp
     amplitude=randn(1,1,xg.lx(3));
     % amplitude=smooth(amplitude,10);  % requires curve fitting toolbox
     amplitude = movmean(amplitude, 10);
-    amplitude=reshape(amplitude,[1,1,lx3]);
+    amplitude=reshape(amplitude,[1,1, xg.lx(3)]);
     amplitude=repmat(amplitude,[xg.lx(1),1,1]);
     amplitude=0.01*amplitude;
 
@@ -73,7 +97,7 @@ for isp=1:lsp
 
     nsperturb(:,ix2,:,isp) = nsscale(:,ix2,:,isp) .* (params.vn-params.v0) ./ ...
                             (params.v0*tanh((x2(ix2)) / params.ell) + params.vn);     %background density
-    nsperturb(:,ix2,:,isp)=nsperturb(:,ix2,:,isp)+n1here;                                  %perturbation
+    nsperturb(:,ix2,:,isp) = nsperturb(:,ix2,:,isp)+n1here;                                  %perturbation
   end %for
 end %for
 nsperturb=max(nsperturb,1e4);                        %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
@@ -81,9 +105,8 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 n1(:,:,:,lsp)=sum(n1(:,:,:,1:6),4); %#ok<NASGU>
 
 %% Remove any residual E-region from the simulation
-x1ref=220e3;     %where to start tapering down the density in altitude
-dx1=10e3;
-taper=1/2+1/2*tanh((x1-x1ref)/dx1);
+
+taper=1/2+1/2*tanh((x1-params.x1ref)/params.dx1);
 for isp=1:lsp-1
   for ix3=1:xg.lx(3)
     for ix2=1:xg.lx(2)
@@ -95,8 +118,11 @@ inds = x1 < 150e3;
 nsperturb(inds,:,:,:)=1e3;
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
+end % function perturb_density
 
-%% Now compute an initial potential, background
+
+function Phitop = potential_bg(x2, lx2, lx3, params)
+
 vel3=zeros(lx2,lx3);
 for ix3=1:lx3
     vel3(:,ix3) = params.v0*tanh(x2 ./ params.ell) - params.vn;
@@ -110,12 +136,7 @@ DX2=[DX2,DX2(end)];
 DX2=repmat(DX2(:),[1,lx3]);
 Phitop=cumsum(E2top.*DX2,1);
 
-
-%% Electromagnetic parameter inputs
-
-create_Efield(cfg, xg, dat, nsperturb, Phitop, params)
-
-end %function perturb_efield
+end % function potential_bg
 
 
 function create_Efield(cfg, xg, dat, nsperturb, Phitop, params)
