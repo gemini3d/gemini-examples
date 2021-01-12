@@ -1,6 +1,8 @@
-function runner(name)
+function runner(tc, name, outdir)
 arguments
+  tc (1,1) matlab.unittest.TestCase
   name (1,1) string
+  outdir string = fullfile(tempdir, name)
 end
 
 cwd = fileparts(mfilename('fullpath'));
@@ -8,7 +10,8 @@ cwd = fileparts(mfilename('fullpath'));
 test_dir = fullfile(cwd, "../init", name);
 %% setup new test data
 p = gemini3d.read.config(test_dir);
-p.outdir = fullfile(tempdir, name);
+tc.verifyNotEmpty(p, "did not contain config.nml")
+p.out_dir = outdir;
 
 try
   gemini3d.model.setup(p);
