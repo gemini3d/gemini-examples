@@ -1,10 +1,9 @@
 function perturb_efield(cfg,xg)
 %Electric field boundary conditions and initial condition for KHI case
-
-%% Error checking
-narginchk(2,2)
-validateattributes(cfg, {'struct'}, {'scalar'})
-validateattributes(xg, {'struct'}, {'scalar'})
+arguments
+  cfg (1,1) struct
+  xg (1,1) struct
+end
 
 %% Sizes
 x1=xg.x1(3:end-2);

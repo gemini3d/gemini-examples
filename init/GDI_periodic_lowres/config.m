@@ -1,6 +1,6 @@
 %% gradient drift instability
 
-out_dir = fullfile(tempdir, 'gdi_periodic_lowres');
+out_dir = fullfile('~/sims', 'gdi_periodic_lowres');
 
 gemini3d.run(out_dir, '.')
 
