@@ -74,7 +74,7 @@ for isp=1:lsp
 end %for
 nsperturb=max(nsperturb,1e4);                        %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
-n1(:,:,:,lsp)=sum(n1(:,:,:,1:6),4);
+n1(:,:,:,lsp)=sum(n1(:,:,:,1:6),4); %#ok<NASGU>
 
 %% Remove any residual E-region from the simulation
 x1ref=220e3;     %where to start tapering down the density in altitude
@@ -101,7 +101,7 @@ vel3=flipud(vel3);    % this is needed for consistentcy with equilibrium...  Not
 E2top=vel3*B1val;     % this is -1* the electric field
 
 % integrate field to get potential
-DX2=diff(x2(:)',1);
+DX2=diff(x2);
 DX2=[DX2,DX2(end)];
 DX2=repmat(DX2(:),[1,lx3]);
 Phitop=cumsum(E2top.*DX2,1);
@@ -143,9 +143,9 @@ E.mlon = linspace(mlonmin-lonbuf, mlonmax+lonbuf, E.llon);
 
 %% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
 xgmlon=squeeze(xg.phi(1,:,1)*180/pi);
-xgmlat=squeeze(90-xg.theta(1,1,:)*180/pi);
+% xgmlat=squeeze(90-xg.theta(1,1,:)*180/pi);
 x2i=interp1(xgmlon,xg.x2(3:lx2+2),E.mlon,'linear','extrap');
-x3i=interp1(xgmlat,xg.x3(3:lx3+2),E.mlat,'linear','extrap');
+% x3i=interp1(xgmlat,xg.x3(3:lx3+2),E.mlat,'linear','extrap');
 
 
 %% TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
@@ -180,37 +180,32 @@ E.Vminx3ist = zeros(E.llon, Nt);
 E.Vmaxx3ist = zeros(E.llon, Nt);
 
 for it=1:Nt
-    %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
+  %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
+
+  %COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
+  vel3=zeros(E.llon, E.llat);
+  for ilat=1:E.llat
+      vel3(:,ilat)=v0*tanh(x2i./ell)-vn;
+  end
+  vel3=flipud(vel3);
 
 
+  %CONVERT TO ELECTRIC FIELD (actually -1* electric field...)
+  E2slab=vel3*B1val;
 
-    %COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
-    vel3=zeros(E.llon, E.llat);
-    for ilat=1:E.llat
-        vel3(:,ilat)=v0*tanh(x2i./ell)-vn;
-    end
-    vel3=flipud(vel3);
-
-
-    %CONVERT TO ELECTRIC FIELD (actually -1* electric field...)
-    E2slab=vel3*B1val;
-
-
-    %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID - then save the edge
-    %boundary conditions
-    DX2=diff(x2i(:)',1);
-    DX2=[DX2,DX2(end)];
-    DX2=repmat(DX2(:),[1,E.llat]);
-    Phislab=cumsum(E2slab.*DX2,1);    %use a forward difference
-    E.Vmaxx2ist(:,it)=squeeze(Phislab(E.llon,:));
-    E.Vminx2ist(:,it)=squeeze(Phislab(1,:));
+  %INTEGRATE TO PRODUCE A POTENTIAL OVER GRID - then save the edge
+  %boundary conditions
+  DX2=diff(x2i);
+  DX2=[DX2,DX2(end)]; %#ok<AGROW>
+  DX2=repmat(DX2(:),[1,E.llat]);
+  Phislab=cumsum(E2slab.*DX2,1);    %use a forward difference
+  E.Vmaxx2ist(:,it)=squeeze(Phislab(E.llon,:));
+  E.Vminx2ist(:,it)=squeeze(Phislab(1,:));
 end
 
 
 %% Write initial plasma state out to a file
-
 gemini3d.write.data(cfg.times(1),nsperturb,dat.vs1,dat.Ts, cfg.indat_file, cfg.file_format, Phitop)
-
 
 %% Write electric field data to file
 gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
