@@ -28,4 +28,4 @@ cfg.nme=2e11;
 outdir = [gemini_root, filesep, '../simulations/input/SAPs3D_eq/'];
 simlabel='SAPs3D_eq';
 gemini3d.write.grid(xg,outdir);
-gemini3d.write.data(time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.write.state(outdir, time,ns,vsx1,Ts);

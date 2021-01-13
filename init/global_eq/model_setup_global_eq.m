@@ -14,7 +14,7 @@ flagsource=1;
 
 
 %% MATLAB GRID GENERATION
-if (~exist('xg'))
+if ~exist('xg','var')
     xg= gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end %if
 
@@ -35,14 +35,13 @@ p.nme=2e11;
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
 p.simdir="~/simulations/global_eq_testing";
-p.indat_grid=strcat(p.simdir,"/inputs/simgrid.h5");
-p.indat_size=strcat(p.simdir,"/inputs/simsize.h5");
-p.outdir=strcat(p.simdir);
+p.indat_grid=fullfile(p.simdir,"/inputs/simgrid.h5");
+p.indat_size=fullfile(p.simdir,"/inputs/simsize.h5");
+
 gemini3d.write.grid(p,xg);
-filename=strcat(p.simdir,"/inputs/initial_conditions.h5");
-gemini3d.write.data(p.times,ns,vsx1,Ts,filename);
+filename= fullfile(p.simdir, "inputs/initial_conditions.h5");
+gemini3d.write.state(filename,p.times,ns,vsx1,Ts);
 
 
 %% Copy over the config.nml
-system(strcat("cp config.nml ",p.simdir,"/inputs/"));
-
+copyfile("config.nml", fullfile(p.simdir,"inputs"));

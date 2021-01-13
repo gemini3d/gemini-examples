@@ -76,6 +76,6 @@ end
 
 %WRITE OUT THE GRID
 outdir=['~/simulations/input/',simid,'/'];
-gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
+gemini3d.write.grid(xg, outdir);    %just put it in pwd for now
 
-gemini3d.write.data(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);
+gemini3d.write.state(outdir,cfg.times(end),nsi,vs1i,Tsi);

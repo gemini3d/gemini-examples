@@ -6,7 +6,7 @@ xg= gemini3d.read.grid(ID);
 %LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
 direc=ID;
 filebase='GDI_periodic_highres_fileinput';
-filename=[filebase,'_ICs.dat'];
+filename= [filebase,'_ICs.dat'];
 dat = gemini3d.read.frame3Dcurvnoelec(fullfile(direc,filename));
 lsp=size(ns,4);
 
@@ -81,6 +81,5 @@ end
 
 %WRITE OUT THE RESULTS TO A NEW FILE
 outdir=ID;
-dmy=[simdate(3),simdate(2),simdate(1)];
-UTsec=simdate(4)*3600;
-gemini3d.write.data(dmy,UTsec,nsperturb,vs1,Ts,outdir,[filebase,'_perturb']);
+time = datetime(simdate(1:4));
+gemini3d.write.state(outdir, time,nsperturb,vs1,Ts);

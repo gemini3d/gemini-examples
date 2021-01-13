@@ -15,11 +15,6 @@ if ~exist('xg', 'var')
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
-
-%% IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='GDI_periodic_medres'
-
-
 %% ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
 ID=[gemini_root,'/../simulations/RISR_eq/'];
@@ -72,6 +67,6 @@ end
 
 
 %% WRITE OUT THE GRID AND INITIAL CONDITIONS
-outdir=[gemini_root,'/../simulations/input/GDI_periodic_medres/']
-gemini3d.write.grid(xg,[outdir,'/inputs/']);    %just put it in pwd for now
-gemini3d.write.data(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);
+outdir = fullfile(gemini_root,'../simulations/input/GDI_periodic_medres/');
+gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
+gemini3d.write.state(outdir, cfg.times(end),nsi,vs1i,Tsi);

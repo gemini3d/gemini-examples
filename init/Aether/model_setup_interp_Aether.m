@@ -11,7 +11,7 @@ I=90;
 
 
 %RUN THE GRID GENERATION CODE
-if (~exist('xg'))
+if ~exist('xg','var')
   xg= gemini3d.grid.cart3d(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -23,7 +23,7 @@ simid='Aether'
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
-ID='~/zettergmdata/simulations/ARCS_eq/'     %use the same input file as for the ARCS example
+ID='~/zettergmdata/simulations/ARCS_eq/';     %use the same input file as for the ARCS example
 
 
 %READ IN THE SIMULATION INFORMATION
@@ -73,6 +73,6 @@ end
 
 
 %WRITE OUT THE GRID
-outdir=['~/zettergmdata/simulations/input/',simid,'/'];
+outdir= fullfile('~/zettergmdata/simulations/input/',simid);
 gemini3d.write.grid(xg,outdir);
-gemini3d.write.data(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);
+gemini3d.write.state(outdir,cfg.times(end),nsi,vs1i,Tsi);

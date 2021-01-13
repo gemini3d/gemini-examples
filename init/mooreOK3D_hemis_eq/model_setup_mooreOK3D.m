@@ -30,19 +30,18 @@ ha=plotgrid(xg,flagsource,sourcelat,sourcelong,neugridtype,zmin,zmax,rhomax);
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
 UT=19.75;
-dmy=[18,5,2013];
+time = datetime([2013,5,18, UT]);
 activ=[124.6,138.5,6.1];
 
 
 %USE OLD CODE FROM MATLAB MODEL
 nmf=5e11;
 nme=2e11;
-[ns,Ts,vsx1]= gemini3d.model.eqICs(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+[ns,Ts,vsx1]= gemini3d.model.eqICs(xg,time,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS
-outdir = [gemini_root, filesep, '../simulations/input/mooreOK3D_hemis_eq/'];
-simlabel='mooreOK3D_hemis_eq';
+outdir = fullfile(gemini_root, '../simulations/input/mooreOK3D_hemis_eq/');
+
 gemini3d.write.grid(xg,outdir);
-time=UT*3600;   %doesn't matter for input files
-gemini3d.write.data(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.write.state(outdir,time,ns,vsx1,Ts);

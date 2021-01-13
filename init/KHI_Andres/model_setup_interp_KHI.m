@@ -77,7 +77,6 @@ end
 
 
 %WRITE OUT THE GRID
-outdir=[gemini_root,'/../simulations/input/KHI_Andres/']
-gemini3d.write.grid(xg,outdir);
-
-gemini3d.write.data(dat.time,nsi,vs1i,Tsi,outdir)
+outdir= fullfile(gemini_root, '../simulations/input/KHI_Andres/');
+gemini3d.write.grid(xg, outdir);
+gemini3d.write.state(outdir, dat.time,nsi,vs1i,Tsi)

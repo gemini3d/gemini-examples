@@ -14,19 +14,16 @@ xg= gemini3d.grid.makegrid_cart_3D(xdist,lxp,ydist,lyp,I,glat,glon);
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT
 %%ISINGLASS B LAUNCH
 UT=7.5;
-dmy=[2,3,2017];
 activ=[76.5,79.3,31.5];
-
+time = datetime([2017,3,2, UT])
 
 %USE OLD CODE FROM MATLAB MODEL
 nmf=5e11;
 nme=2e11;
-[ns,Ts,vsx1]= gemini3d.model.eqICs(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+[ns,Ts,vsx1]= gemini3d.model.eqICs(xg,time,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS
-simlabel='isinglass_eq'
 outdir='~/zettergmdata/simulations/input/isinglass_eq/'
 gemini3d.write.grid(xg,outdir);
-time=UT*3600;   %doesn't matter for input files
-gemini3d.write.data(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+gemini3d.write.state(outdir,time,ns,vsx1,Ts);

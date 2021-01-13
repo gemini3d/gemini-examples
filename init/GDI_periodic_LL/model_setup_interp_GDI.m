@@ -11,14 +11,10 @@ gridflag=0;
 I=90;
 
 %% RUN THE GRID GENERATION CODE
-if ~exist('xg')
+if ~exist('xg','var')
   xg= gemini3d.grid.makegrid_cart_3D_lowresx1(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
-
-
-%% IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='GDI_periodic_LL'
 
 
 %% ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
@@ -74,7 +70,7 @@ end
 
 
 %% WRITE OUT THE GRID AND INITIAL CONDITIONS
-outdir=[gemini_root,'/../simulations/input/GDI_periodic_LL/']
-gemini3d.write.grid(xg,[outdir,'/inputs/']);    %just put it in pwd for now
+outdir= fullfile(gemini_root,'../simulations/input/GDI_periodic_LL/');
+gemini3d.write.grid(xg, outdir);    %just put it in pwd for now
 
-gemini3d.write.data(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);
+gemini3d.write.state(outdir, cfg.times(end),nsi,vs1i,Tsi);

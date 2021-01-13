@@ -16,11 +16,6 @@ if ~exist('xg', 'var')
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
-
-%IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='GDI_periodic_highres_fileinput_large'
-
-
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
 ID='~/zettergmdata/simulations/RISR_eq/'
@@ -75,7 +70,7 @@ end
 
 
 %WRITE OUT THE GRID
-outdir='~/zettergmdata/simulations/input/GDI_periodic_highres_fileinput_large/'
+outdir='~/zettergmdata/simulations/input/GDI_periodic_highres_fileinput_large/';
 gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
 
-gemini3d.write.data(cfg.times(end),nsi,vs1i,Tsi,outdir,simid);
+gemini3d.write.state(outdir, cfg.times(end),nsi,vs1i,Tsi);

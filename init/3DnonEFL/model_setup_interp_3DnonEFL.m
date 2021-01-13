@@ -10,7 +10,7 @@ I=90;
 
 
 %RUN THE GRID GENERATION CODE
-if (~exist('xg'))
+if ~exist('xg', 'var')
   xg= gemini3d.grid.cart3d(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -73,7 +73,7 @@ end
 
 
 %WRITE OUT THE GRID
-outdir=[gemini_root,'/../simulations/input/3DnonEFL/'];
+outdir= fullfile(gemini_root,'../simulations/input/3DnonEFL/');
 gemini3d.write.grid(xg,outdir);
 
-gemini3d.write.data(dat.time,nsi,vs1i,Tsi,outdir);
+gemini3d.write.state(outdir, dat.time,nsi,vs1i,Tsi);

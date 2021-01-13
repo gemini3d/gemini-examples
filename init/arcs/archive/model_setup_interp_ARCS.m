@@ -26,7 +26,7 @@ simid='ARCS'
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
-ID=[gemini_root,'/../simulations/ARCS_eq/'];
+ID= fullfile(gemini_root,'../simulations/ARCS_eq/');
 
 
 %READ IN THE SIMULATION INFORMATION
@@ -35,12 +35,8 @@ xgin=gemini3d.read.grid(ID);
 direc=ID;
 
 
-%FIND THE DATE OF THE END FRAEM OF THE SIMULATION (PRESUMABLY THIS WILL BE THE STARTING POITN FOR ANOTEHR)
-[ymdend,UTsecend]= gemini3d.dateinc(tdur,ymd0,UTsec0);
-
-
 %LOAD THE FRAME
-dat = gemini3d.read.frame(gemini3d.find.frame(direc,ymdend,UTsecend), flagoutput,mloc,xgin);
+dat = gemini3d.read.frame(gemini3d.find.frame(direc, cfg.times(end)), flagoutput,mloc,xgin);
 lsp=size(ns,4);
 
 %DO THE INTERPOLATION
@@ -87,7 +83,6 @@ nsi(:,:,:,end)=sum(nsi(:,:,:,1:lsp-1),4);
 
 
 %WRITE OUT THE GRID
-outdir=[gemini_root,'/../simulations/input/ARCS/'];
+outdir=ID;
 gemini3d.write.grid(xg,outdir);
-dmy=[ymdend(3),ymdend(2),ymdend(1)];
-gemini3d.write.data(dmy,UTsecend,nsi,vs1i,Tsi,outdir,simid);
+gemini3d.write.state(outdir,cfg.times(end),nsi,vs1i,Tsi);

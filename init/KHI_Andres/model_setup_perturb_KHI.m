@@ -62,4 +62,4 @@ nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);
 
 %WRITE OUT THE RESULTS TO A NEW FILE
 outdir=ID;
-gemini3d.write.data(dat.time,nsperturb,vs1,Ts,outdir);
+gemini3d.write.state(outdir,dat.time,nsperturb,vs1,Ts);

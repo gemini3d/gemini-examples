@@ -31,9 +31,9 @@ p.nmf=5e11;
 p.nme=2e11;
 [ns,Ts,vsx1]= gemini3d.model.eqICs(p,xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
+time = datetime([p.ymd, p.TUsec0/3600])
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
 p.simdir='../../../simulations/input/EIA_eq';
-p.file_format='raw';
 gemini3d.write.grid(p,xg);
-gemini3d.write.data(p.ymd,p.UTsec0,ns,vsx1,Ts,p.simdir,'raw',64);
+gemini3d.write.state(p.simdir,time,ns,vsx1,Ts);

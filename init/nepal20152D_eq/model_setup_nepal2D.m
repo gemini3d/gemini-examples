@@ -21,16 +21,17 @@ dmy=[25,4,2015];
 t0=(6+11/60)*3600;
 UT=t0/3600;
 
+time = datetime([dmy, UT]);
+
 
 %USE OLD CODE FROM MATLAB MODEL
 nmf=5e11;
 nme=2e11;
-[ns,Ts,vsx1]= gemini3d.model.eqICs(xg,UT,dmy,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+[ns,Ts,vsx1]= gemini3d.model.eqICs(xg, time, activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS
-simlabel='nepal20152D_eq'
-outdir='~/zettergmdata/simulations/input/nepal20152D_eq'
-gemini3d.write.grid(xg,outdir);
-time=UT*3600;   %doesn't matter for input files
-gemini3d.write.data(dmy,time,ns,vsx1,Ts,outdir,simlabel);
+outdir='~/zettergmdata/simulations/input/nepal20152D_eq';
+gemini3d.write.grid(xg, outdir);
+
+gemini3d.write.state(outdir,time,ns,vsx1,Ts);

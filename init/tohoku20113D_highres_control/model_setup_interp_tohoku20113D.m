@@ -12,7 +12,7 @@ flagsource=1;
 
 
 %RUN THE GRID GENERATION CODE
-if ~exist('xg')
+if ~exist('xg', 'var')
     xg= gemini3d.grid.makegrid_tilteddipole_nonuniform_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -77,4 +77,4 @@ end
 %WRITE OUT THE GRID
 outdir=['~/zettergmdata/simulations/input/',simid,'/'];
 gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
-gemini3d.write.data(cfg.times(end),nsi,vs1i,Tsi,outdir);
+gemini3d.write.state(outdir,cfg.times(end),nsi,vs1i,Tsi);

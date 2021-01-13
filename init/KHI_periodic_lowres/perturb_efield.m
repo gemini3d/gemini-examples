@@ -79,7 +79,6 @@ for isp=1:lsp
     amplitude=randn(1,1,xg.lx(3));
     % amplitude=smooth(amplitude,10);  % requires curve fitting toolbox
     amplitude = movmean(amplitude, 10);
-    amplitude=reshape(amplitude,[1,1, xg.lx(3)]);
     amplitude=repmat(amplitude,[xg.lx(1),1,1]);
     amplitude=0.01*amplitude;
 
@@ -226,7 +225,7 @@ end
 
 
 %% Write initial plasma state out to a file
-gemini3d.write.data(cfg.times(1),nsperturb, dat.vs1, dat.Ts, cfg.indat_file, cfg.file_format, Phitop)
+gemini3d.write.state(cfg.indat_file, cfg.times(1) ,nsperturb, dat.vs1, dat.Ts, cfg.file_format, Phitop)
 
 %% Write electric field data to file
 gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
