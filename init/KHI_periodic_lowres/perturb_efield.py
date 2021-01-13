@@ -150,14 +150,14 @@ def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: T.Dict[str, float])
     DX2 = np.diff(x2)
     DX2 = np.append(DX2, DX2[-1])
 
-    Phitop = np.cumsum(E2top * DX2, axis=0)
+    Phitop = np.cumsum(E2top * DX2[:, None], axis=0)
 
     return Phitop
 
 
 def create_Efield(cfg, xg, dat, nsperturb, Phitop, params):
 
-    cfg["E0_dir"].mkdir(parents=True, exist_ok=True)
+    cfg["E0dir"].mkdir(parents=True, exist_ok=True)
 
     # %% CREATE ELECTRIC FIELD DATASET
     E = {"llon": 100, "llat": 100}
@@ -183,43 +183,43 @@ def create_Efield(cfg, xg, dat, nsperturb, Phitop, params):
 
     # %% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
     xgmlon = np.degrees(xg["phi"][0, :, 0])
-    # xgmlat=squeeze(90-xg.theta(1,1,:)*180/pi);
-    x2i = interp1d(
-        xgmlon, xg["x2"][2 : xg["lx"][1] + 2], E["mlon"], kind="linear", bounds_error=True
-    )
-    # x3i=interp1(xgmlat,xg.x3(3:lx3+2),E.mlat,'linear','extrap');
+    # xgmlat = 90 - np.degrees(xg["theta"][0, 0, :])
+
+    f = interp1d(xgmlon, xg["x2"][2 : xg["lx"][1] + 2], kind="linear", fill_value="extrapolate")
+    x2i = f(E["mlon"])
+    # f = interp1d(xgmlat, xg["x3"][2:lx3 + 2], kind='linear', fill_value="extrapolate")
+    # x3i = f(E["mlat"])
 
     # %% SET UP TIME VARIABLES
     E["time"] = datetime_range(cfg["time"][0], cfg["time"][0] + cfg["tdur"], cfg["dtE0"])
     Nt = len(E["time"])
     # %% CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
     if "Exit" in cfg:
-        E["Exit"] = cfg["Exit"] * np.ones(Nt, E["llon"], E["llat"])
+        E["Exit"] = cfg["Exit"] * np.ones((Nt, E["llon"], E["llat"]))
     else:
-        E["Exit"] = np.zeros(Nt, E["llon"], E["llat"])
+        E["Exit"] = np.zeros((Nt, E["llon"], E["llat"]))
 
     if "Eyit" in cfg:
-        E["Eyit"] = cfg["Eyit"] * np.ones(Nt, E["llon"], E["llat"])
+        E["Eyit"] = cfg["Eyit"] * np.ones((Nt, E["llon"], E["llat"]))
     else:
-        E["Eyit"] = np.zeros(Nt, E["llon"], E["llat"])
+        E["Eyit"] = np.zeros((Nt, E["llon"], E["llat"]))
 
     # %% CREATE DATA FOR BOUNDARY CONDITIONS FOR POTENTIAL SOLUTION
-    E.flagdirich = np.zeros(
-        Nt
-    )  # in principle can have different boundary types for different time steps...
-    E.Vminx1it = np.zeros(Nt, E["llon"], E["llat"])
-    E.Vmaxx1it = np.zeros(Nt, E["llon"], E["llat"])
+    E["flagdirich"] = np.zeros(Nt)
+    # in principle can have different boundary types for different time steps...
+    E["Vminx1it"] = np.zeros((Nt, E["llon"], E["llat"]))
+    E["Vmaxx1it"] = np.zeros((Nt, E["llon"], E["llat"]))
     # these are just slices
-    E.Vminx2ist = np.zeros((Nt, E["llat"]))
-    E.Vmaxx2ist = np.zeros((Nt, E["llat"]))
-    E.Vminx3ist = np.zeros((Nt, E["llon"]))
-    E.Vmaxx3ist = np.zeros((Nt, E["llon"]))
+    E["Vminx2ist"] = np.zeros((Nt, E["llat"]))
+    E["Vmaxx2ist"] = np.zeros((Nt, E["llat"]))
+    E["Vminx3ist"] = np.zeros((Nt, E["llon"]))
+    E["Vmaxx3ist"] = np.zeros((Nt, E["llon"]))
 
     for i in range(Nt):
         # ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
 
         # COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
-        vel3 = np.empty(E.llon, E.llat)
+        vel3 = np.empty((E["llon"], E["llat"]))
         for i in range(E["llat"]):
             vel3[:, i] = params["v0"] * np.tanh(x2i / params["ell"]) - params["vn"]
 
@@ -234,8 +234,8 @@ def create_Efield(cfg, xg, dat, nsperturb, Phitop, params):
         Phislab = np.cumsum(E2slab * DX2, axis=0)
         # use a forward difference
 
-        E.Vmaxx2ist[i, :] = Phislab[-1, :]
-        E.Vminx2ist[i, :] = Phislab[0, :]
+        E["Vmaxx2ist"][i, :] = Phislab[-1, :]
+        E["Vminx2ist"][i, :] = Phislab[0, :]
 
     # %% Write initial plasma state out to a file
     gemini3d.write.state(
@@ -249,7 +249,7 @@ def create_Efield(cfg, xg, dat, nsperturb, Phitop, params):
     )
 
     # %% Write electric field data to file
-    gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
+    gemini3d.write.Efield(E, cfg["E0dir"], cfg["file_format"])
 
 
 def moving_average(x: np.ndarray, k: int):
