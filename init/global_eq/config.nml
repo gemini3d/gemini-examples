@@ -3,9 +3,22 @@ ymd = 2011,3,10               ! year, month, day
 UTsec0 = 20783.0              ! UTsec0:  start time in UT seconds
 tdur = 172800.0                  ! tdur:  duration of simulation in seconds
 dtout = 900.0                   ! dtout: how often to do file output
-activ = 104.7,129.5,37.0       ! activ:  f107a,f107,Ap
+activ = 120, 120, 25       ! activ:  f107a,f107,Ap
 tcfl = 0.9                    ! tcfl:  target cfl number
 Teinf = 1500.0                ! Teinf:  exospheric electron temperature
+/
+
+&setup
+glat = 42.45
+glon = 143.4
+dtheta = 15
+altmin = 80e3
+lp = 256
+lq = 384
+lphi = 128
+gridflag = 1
+nme = 2e11
+nmf = 5e11
 /
 
 &flags
