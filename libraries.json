@@ -1,0 +1,4 @@
+{
+"gemini3d": {"git": "https://github.com/gemini3d/gemini3d.git", "tag": "master"},
+"matgemini": {"git": "https://github.com/gemini3d/mat_gemini.git", "tag": "master"}
+}
