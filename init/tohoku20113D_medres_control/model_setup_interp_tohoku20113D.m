@@ -1,43 +1,35 @@
 %A MEDIUM RES TOHOKU
-dtheta=7.5;
-dphi=12;
-lp=256;
-lq=580;
-lphi=288;
-altmin=80e3;
-glat=42.45;
-glon=143.4;
-gridflag=1;
-flagsource=1;
+p.dtheta=7.5;
+p.dphi=12;
+p.lp=256;
+p.lq=580;
+p.lphi=288;
+p.altmin=80e3;
+p.glat=42.45;
+p.glon=143.4;
+p.gridflag=1;
+p.flagsource=1;
 
 
 %RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
 %    xg=makegrid_tilteddipole_nonuniform_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %    xg=makegrid_tilteddipole_nonuniform_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg=gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg=gemini3d.grid.tilted_dipole3d(p);
 end
-lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
-
 
 %IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='tohoku20113D_medres'
-
+p.outdir = '~/simulations/tohoku20113D_medres';
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
-fprintf('Reading in source file...\n');
-ID=[gemini_root, '/../simulations/tohoku20113D_eq/'];
-
+eq_dir = '~/simulations/tohoku20113D_eq/';
 
 %READ IN THE SIMULATION INFORMATION
-cfg = gemini3d.read.config(ID);
-xgin= gemini3d.read.grid(ID);
-
-direc=ID;
-
+cfg = gemini3d.read.config(eq_dir);
+xgin= gemini3d.read.grid(eq_dir);
 
 %LOAD THE FRAME
-dat = gemini3d.read.frame(direc, "time", cfg.times(end));
+dat = gemini3d.read.frame(eq_dir, "time", cfg.times(end));
 lsp=size(ns,4);
 
 
@@ -76,9 +68,9 @@ else
   end
 end
 
+dint = struct("ns", nsi, "Ts", Tsi, "vs1", vs1i, "time", cfg.times(end));
 
 %WRITE OUT THE GRID
-outdir=['~/zettergmdata/simulations/input/',simid,'/'];
-gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
+gemini3d.write.grid(p, xg);    %just put it in pwd for now
 
-gemini3d.write.state(outdir,cfg.times(end),nsi,vs1i,Tsi,simid)
+gemini3d.write.state(p.outdir, dint)

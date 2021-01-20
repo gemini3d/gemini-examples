@@ -1,40 +1,33 @@
 %A MEDIUM RES TOHOKU
-dtheta=7.5;
-dphi=12;
-lp=576;
-lq=580;
-lphi=576;
-altmin=80e3;
-glat=42.45;
-glon=143.4;
-gridflag=1;
-flagsource=1;
-
-
+p.dtheta=7.5;
+p.dphi=12;
+p.lp=576;
+p.lq=580;
+p.lphi=576;
+p.altmin=80e3;
+p.glat=42.45;
+p.glon=143.4;
+p.gridflag=1;
+p.flagsource=1;
 
 %RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-    xg= gemini3d.grid.makegrid_tilteddipole_nonuniform_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg= gemini3d.grid.makegrid_tilteddipole_nonuniform_oneside_3D(p);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %WRITE OUT THE GRID then flush memory
-outdir=['~/zettergmdata/simulations/input/',simid,'/'];
-gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
+p.outdir='~/zettergmdata/simulations/tohoku20113D_highres_restart';
+gemini3d.write.grid(p,xg);    %just put it in pwd for now
 x1i=xg.x1(3:end-2);
 x2i=xg.x2(3:end-2);
 x3i=xg.x3(3:end-2);
 clear xg;
 
-
-%IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='tohoku20113D_highres_restart'
-
-
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 fprintf('Reading in source file...\n');
-ID='~/zettergmdata/simulations/tohoku20113D_highres_var/'
+ID='~/zettergmdata/simulations/tohoku20113D_highres_var/';
 
 
 %READ IN THE SIMULATION INFORMATION
@@ -88,6 +81,7 @@ else
   end
 end
 
+dint = struct("ns", nsi, "Ts", Tsi, "vs1", vs1i, "time", cfg.times(end));
 
 %WRITE OUT THE GRID
-gemini3d.write.state(outdir, cfg.times(end),nsi,vs1i,Tsi)
+gemini3d.write.state(outdir, dint)

@@ -1,31 +1,22 @@
 %% Parameters for EQ and new simulation
-p.format='raw';
 p.eq_dir='~/simulations/tohoku20113D_eq/';
 p.outdir='~/simulations/input/tohoku20113D_medres';
-p.nml='./config.ini';
-p.file_format='raw';
 
 %% A LOW/MEDIUM RES TOHOKU
-dtheta=7.5;
-dphi=12;
-lp=192;
-lq=512;
-lphi=144;
-altmin=80e3;
-glat=42.45;
-glon=143.4;
-gridflag=1;
-flagsource=1;
-
+p.dtheta=7.5;
+p.dphi=12;
+p.lp=192;
+p.lq=512;
+p.lphi=144;
+p.altmin=80e3;
+p.glat=42.45;
+p.glon=143.4;
+p.gridflag=1;
+p.flagsource=1;
 
 %% RUN THE GRID GENERATION CODE
-if ~exist('xg')
-  xg=getmini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+if ~exist('xg', 'var')
+  xg=getmini3d.grid.tilted_dipole3d(p);
 end
-lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
-
-%% READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
-fprintf('Reading in source file...\n');
-%[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]=eq2dist(eqdir,simID,xg,file_format);
-[nsi,vs1i,Tsi] = gemini3d.model.eq2dist(p,xg);
+dat = gemini3d.model.eq2dist(p,xg);

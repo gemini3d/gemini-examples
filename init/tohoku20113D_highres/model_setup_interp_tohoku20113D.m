@@ -74,9 +74,11 @@ else
   end
 end
 
+dint = struct("ns", nsi, "Ts", Tsi, "vs1", vs1i, "time", cfg.times(end));
+
 
 %WRITE OUT THE GRID
-outdir=['~/zettergmdata/simulations/input/',simid,'/'];
-gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
+p.outdir=['~/zettergmdata/simulations/input/',simid,'/'];
+gemini3d.write.grid(p,xg)
 
-gemini3d.write.state(outdir, cfg.times(end),nsi,vs1i,Tsi)
+gemini3d.write.state(p.outdir, dint)

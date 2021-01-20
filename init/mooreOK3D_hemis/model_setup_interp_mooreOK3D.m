@@ -1,25 +1,25 @@
 
 %MOORE, OK GRID (FULL)
-dtheta=20;
-dphi=27.5;
+p.dtheta=20;
+p.dphi=27.5;
 %lp=350;
 %lq=550;
 %lphi=288;
-lp=256;
-lq=256;
-lphi=210;
-altmin=80e3;
-glat=39;
-glon=262.51;
+p.lp=256;
+p.lq=256;
+p.lphi=210;
+p.altmin=80e3;
+p.glat=39;
+p.glon=262.51;
 %gridflag=0;
-gridflag=1;
+p.gridflag=1;
 
 
 %MATLAB GRID GENERATION
-if (~exist('xg'))
-  %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg= gemini3d.grid.makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+if ~exist('xg','var')
+  %xg= gemini3d.grid.tilted_dipole3d(p);
+  %xg=makegrid_tilteddipole_varx2_3D(p);
+  xg= gemini3d.grid.makegrid_tilteddipole_varx2_oneside_3D(p);
 end
 
 
@@ -35,8 +35,5 @@ rhomax=[];
 
 
 %SAVE THE GRID DATA
-p.eq_dir='../../../simulations/mooreOK3D_hemis_eq/';
-p.indat_size = '../../../simulations/mooreOK3D_hemis_inputs/simsize.h5';
-p.indat_grid = '../../../simulations/mooreOK3D_hemis_inputs/simgrid.h5';
-p.indat_file = '../../../simulations/mooreOK3D_hemis_inputs/initial_conditions.h5';
+p.eq_dir='~/simulations/mooreOK3D_hemis_eq/';
 gemini3d.model.eq2dist(p,xg);

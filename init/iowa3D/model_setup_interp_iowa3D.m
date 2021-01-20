@@ -12,17 +12,17 @@ gridflag=1;
 flagsource=1;
 iscurv=true;
 %}
-dtheta=16;
-dphi=26;
-lp=100;
-lq=200;
-lphi=210;
-altmin=80e3;
-glat=41.5;   %38.9609;
-glon=360-94.088;
-gridflag=1;
-flagsource=1;
-iscurv=true;
+p.dtheta=16;
+p.dphi=26;
+p.lp=100;
+p.lq=200;
+p.lphi=210;
+p.altmin=80e3;
+p.glat=41.5;   %38.9609;
+p.glon=360-94.088;
+p.gridflag=1;
+p.flagsource=1;
+p.iscurv=true;
 
 
 %% GEOGRAPHIC COORDINATES OF NEUTRAL SOURCE (OR GRID CENTER)
@@ -40,18 +40,17 @@ neuinfo.rhomax=[];        %meaningless in 3D situations
 
 
 %MATLAB GRID GENERATION
-if (~exist('xg'))
-  %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  %xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg= gemini3d.grid.makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+if ~exist('xg', 'var')
+  %xg= gemini3d.grid.tilted_dipole3d(p);
+  %xg= gemini3d.grid.tilteddipole_varx2_3D(p);
+  xg= gemini3d.grid.makegrid_tilteddipole_varx2_oneside_3D(p);
 end
 
-
 %PLOT THE GRID IF DESIRED
-ha=plotgrid(xg,flagsource,neuinfo);
-
+gemini3d.plot.grid(xg,flagsource,neuinfo)
 
 %SAVE THE GRID DATA
-eqdir='../../../simulations/iowa3D_eq/';
-simID='iowa3D_medres';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]= gemini3d.model.eq2dist(eqdir,simID,xg, file_format);
+p.eq_dir='~/simulations/iowa3D_eq/';
+p.outdir='~/simulations/iowa3D_medres';
+
+dint = gemini3d.model.eq2dist(p, xg);

@@ -1,21 +1,21 @@
 %% EQuatorial grid
-dtheta=5.75;
-dphi=10;
-lp=128;
-lq=256;
-lphi=48;
-altmin=80e3;
-glat=12;
-glon=360-76.9;     %Jicamarca
-gridflag=1;
-flagsource=0;
-iscurv=true;
+p.dtheta=5.75;
+p.dphi=10;
+p.lp=128;
+p.lq=256;
+p.lphi=48;
+p.altmin=80e3;
+p.glat=12;
+p.glon=360-76.9;     %Jicamarca
+p.gridflag=1;
+p.flagsource=0;
+p.iscurv=true;
 
 
 %% MATLAB GRID GENERATION
-xg= gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-%xg=makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-%xg=makegrid_tilteddipole_varx2_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+xg= gemini3d.grid.tilted_dipole3d(p);
+%xg=makegrid_tilteddipole_varx2_3D(p);
+%xg=makegrid_tilteddipole_varx2_oneside_3D(p);
 
 
 %% GEOGRAPHIC COORDINATES OF NEUTRAL SOURCE (OR GRID CENTER)
@@ -37,26 +37,23 @@ xg= gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridfl
 % sourcemlat=90-sourcetheta*180/pi;
 % sourcemlon=sourcephi*180/pi;
 
-neuinfo=[];
-
-
 %% PLot the grid
-ha=plotgrid(xg,flagsource,neuinfo);
-
+gemini3d.plot.grid(xg)
 
 %% GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - the iowa event
 %in this case
 UT=5.25;
 activ=[150,150,4];    %apparently this used the MSIS matlab defaults
-time = datetime(2016,8,6, UT);
+time = datetime(2016,8,6, UT, 0, 0);
 
 %% USE OLD CODE FROM MATLAB MODEL
-nmf=5e11;
-nme=2e11;
-[ns,Ts,vsx1]= gemini3d.model.eqICs(xg,time,activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+p.nmf=5e11;
+p.nme=2e11;
+
+dat = gemini3d.model.eqICs(p,xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
-outdir = fullfile(gemini_root, '../simulations/input/ESF_eq/');
-gemini3d.write.grid(xg,outdir);
-gemini3d.write.state(outdir,time,ns,vsx1,Ts);
+outdir = '~/simulations/input/ESF_eq/';
+gemini3d.write.grid(p,xg);
+gemini3d.write.state(p.outdir,dat);

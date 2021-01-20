@@ -1,39 +1,33 @@
 %% A modest resolution grid to test the global run with
-dtheta=15;
-lp=128;
-lq=256;
-lphi=96;
-dphi=360-360/lphi;
-altmin=80e3;
-glat=42.45;
-glon=143.4;
-gridflag=1;
-flagsource=1;
+p.dtheta=15;
+p.lp=128;
+p.lq=256;
+p.lphi=96;
+p.dphi=360-360/lphi;
+p.altmin=80e3;
+p.glat=42.45;
+p.glon=143.4;
+p.gridflag=1;
+p.flagsource=1;
 
 
 %% MATLAB GRID GENERATION
 if ~exist('xg', 'var')
-    xg= gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg= gemini3d.grid.tilted_dipole3d(p);
 end %if
 
-
 %% Plot grid
-flagsource=0;
-neuinfo=struct();
-plot_mapgrid(xg,flagsource,neuinfo);
-
+gemini3d.plot.mapgrid(xg);
 
 %% GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT, THESE ACTUALLY DON'T MATTER MUCH SO YOU CAN MAKE UP STUFF
-p.UTsec0=5.75*3600;
-p.ymd=[2011,3,11];
+p.times = datetime(2011, 3, 11, 5.75, 0, 0);
 p.activ=[120,120,25];
 p.nmf=5e11;
 p.nme=2e11;
-[ns,Ts,vsx1]= gemini3d.model.eqICs(p,xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
-time = datetime([p.ymd, p.TUsec0/3600])
+dat = gemini3d.model.eqICs(p,xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
-p.simdir='../../../simulations/input/EIA_eq';
+p.outdir='~/simulations/input/EIA_eq';
 gemini3d.write.grid(p,xg);
-gemini3d.write.state(p.simdir,time,ns,vsx1,Ts);
+gemini3d.write.state(p.outdir,dat);

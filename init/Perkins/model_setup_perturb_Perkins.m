@@ -1,34 +1,32 @@
 
 %MOORE, OK GRID (FULL)
-dtheta=20;
-dphi=10;
-lp=350;
+p.dtheta=20;
+p.dphi=10;
+p.lp=350;
 %lq=384;
-lq=256;
+p.lq=256;
 %lphi=192;
-lphi=96;
-altmin=80e3;
-glat=39;
-glon=262.51;
-gridflag=0;
+p.lphi=96;
+p.altmin=80e3;
+p.glat=39;
+p.glon=262.51;
+p.gridflag=0;
 
 
 %MATLAB GRID GENERATION
 
 if ~exist('xg', 'var')
-  %xg=makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg= gemini3d.grid.makegrid_tilteddipole_varx2_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  % xg = gemini3d.grid.tilted_dipole3d(p);
+  xg= gemini3d.grid.makegrid_tilteddipole_varx2_3D(p);
 end
 
-eqdir=['~/simulations/Perkins_bridge_vn/'];
+p.eq_dir='~/simulations/Perkins_bridge_vn/';
 
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %INTERPOLATE ONTO THE NEW GRID
-%eqdir=[geminiscripts_root,filesep,'../simulations/Perkins_bridge/'];
-simID='Perkins';
-[nsi,vs1i,Tsi,xgin,ns,vs1,Ts]= gemini3d.model.eq2dist(eqdir,simID,xg, file_format);
+dat = gemini3d.model.eq2dist(p, xg);
 lsp=size(nsi,4);
 
 
@@ -62,11 +60,10 @@ end
 nsi=max(nsi,1e7);
 nsi(:,:,:,7)=sum(nsi(:,:,:,1:6),4);
 
+dint = struct("ns", nsi, "Ts", Tsi, "vs1", vs1i, "time", dat.time);
 
 %WRITE OUT THE RESULTS TO A NEW FILE
-outdir= fullfile(gemini_root,'../simulations/input/Perkins');
+p.outdir= '~/simulations/input/Perkins';
 
-gemini3d.write.grid(xg,outdir);
-time = datetime(2002,2,2);     %isn't used by GEMINI anyway...
-
-gemini3d.write.state(outdir, time,nsi,vs1i,Tsi);
+gemini3d.write.grid(p,xg)
+gemini3d.write.state(p.outdir, dint)

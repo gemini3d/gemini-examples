@@ -1,37 +1,33 @@
 %NEPAL 2015 GRID
-dtheta=10;
-dphi=16;
-lp=256;
-lq=750;
-lphi=1;
-altmin=80e3;
-glat=35.75;
-glon=84.73;
-gridflag=1;
-
+p.dtheta=10;
+p.dphi=16;
+p.lp=256;
+p.lq=750;
+p.lphi=1;
+p.altmin=80e3;
+p.glat=35.75;
+p.glon=84.73;
+p.gridflag=1;
 
 %MATLAB GRID GENERATION
-xg= gemini3d.grid.makegrid_tilteddipole_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-
+xg= gemini3d.grid.tilted_dipole3d(p);
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT
 %NEPAL, 2015
-activ=[136,125.6,0.5];
-dmy=[25,4,2015];
-t0=(6+11/60)*3600;
-UT=t0/3600;
+p.activ=[136,125.6,0.5];
 
-time = datetime([dmy, UT]);
+t0= 6+11/60;
 
+time = datetime(2015, 4, 25, t0, 0, 0);
 
 %USE OLD CODE FROM MATLAB MODEL
-nmf=5e11;
-nme=2e11;
-[ns,Ts,vsx1]= gemini3d.model.eqICs(xg, time, activ,nmf,nme);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+p.nmf=5e11;
+p.nme=2e11;
 
+dat = gemini3d.model.eqICs(p,xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 %WRITE THE GRID AND INITIAL CONDITIONS
-outdir='~/zettergmdata/simulations/input/nepal20152D_eq';
-gemini3d.write.grid(xg, outdir);
+p.outdir='~/zettergmdata/simulations/input/nepal20152D_eq';
+gemini3d.write.grid(p,xg)
 
-gemini3d.write.state(outdir,time,ns,vsx1,Ts);
+gemini3d.write.state(p.outdir, dat)

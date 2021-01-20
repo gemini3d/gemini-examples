@@ -1,30 +1,29 @@
 
 %MOORE, OK GRID (FULL)
-dtheta=25;
-dphi=35;
-lp=125;
-lq=200;
-lphi=40;
-altmin=80e3;
-glat=39;
-glon=262.51;
-gridflag=0;
+p.dtheta=25;
+p.dphi=35;
+p.lp=125;
+p.lq=200;
+p.lphi=40;
+p.altmin=80e3;
+p.glat=39;
+p.glon=262.51;
+p.gridflag=0;
 
 
 %MATLAB GRID GENERATION
-xg=gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+xg = gemini3d.grid.tilted_dipole3d(p);
 
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
-cfg.time = datetime(18,5,2013, 19, 45, 0);
-cfg.activ = [124.6,138.5,6.1];
-cfg.nmf=5e11;
-cfg.nme=2e11;
-[ns,Ts,vsx1] = gemini3d.model.eqICs(cfg, xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
+p.time = datetime(18,5,2013, 19, 45, 0);
+p.activ = [124.6,138.5,6.1];
+p.nmf=5e11;
+p.nme=2e11;
+ics = gemini3d.model.eqICs(p, xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS
-outdir = '../simulations/input/mooreOK3D_eq/';
-simlabel='mooreOK3D_eq';
-gemini3d.write.grid(xg,outdir);
-gemini3d.write.state(outdir,time,ns,vsx1,Ts,simlabel);
+p.outdir = '~/simulations/input/mooreOK3D_eq/';
+gemini3d.write.grid(p, xg);
+gemini3d.write.state(p.outdir,ics);

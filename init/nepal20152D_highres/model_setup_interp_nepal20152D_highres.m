@@ -1,35 +1,26 @@
 %NEPAL 2015 GRID
-dtheta=7.75;
-dphi=12;
-lp=2048;
-lq=2048;
-lphi=1;
-altmin=80e3;
-glat=35.75;
-glon=84.73;
-gridflag=1;
-
-
+p.dtheta=7.75;
+p.dphi=12;
+p.lp=2048;
+p.lq=2048;
+p.lphi=1;
+p.altmin=80e3;
+p.glat=35.75;
+p.glon=84.73;
+p.gridflag=1;
 
 %RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-  xg=gemini3d.grid.tilted_dipole3d(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
+  xg=gemini3d.grid.tilted_dipole3d(p);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
-
-%IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE
-simid='nepal20152D_highres'
-
-
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
-fprintf('Reading in source file...\n');
-ID='~/zettergmdata/simulations/nepal20152D_eq/'
-
+eq_dir ='~/zettergmdata/simulations/nepal20152D_eq/';
 
 %READ IN THE SIMULATION INFORMATION
-cfg = gemini3d.read.config(ID);
-xgin= gemini3d.read.grid(ID);
+cfg = gemini3d.read.config(eq_dir);
+xgin= gemini3d.read.grid(eq_dir);
 direc=ID;
 
 %LOAD THE FRAME
@@ -72,9 +63,10 @@ else
   end
 end
 
+dint = struct("ns", nsi, "Ts", Tsi, "vs1", vs1i, "time", cfg.times(end));
 
 %WRITE OUT THE GRID
-outdir='~/zettergmdata/simulations/input/nepal20152D_highres/'
+p.outdir='~/zettergmdata/simulations/input/nepal20152D_highres/';
 
-gemini3d.write.grid(xg,outdir);
-gemini3d.write.state(outdir,cfg.times(end),nsi,vs1i,Tsi)
+gemini3d.write.grid(p,xg);
+gemini3d.write.state(p.outdir,dint)
