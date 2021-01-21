@@ -1,7 +1,7 @@
 &base
 ymd = 2011,3,10               ! year, month, day
 UTsec0 = 20783.0              ! UTsec0:  start time in UT seconds
-tdur = 172800.0                  ! tdur:  duration of simulation in seconds
+tdur = 86400.0                  ! tdur:  duration of simulation in seconds
 dtout = 900.0                   ! dtout: how often to do file output
 activ = 120, 120, 25       ! activ:  f107a,f107,Ap
 tcfl = 0.9                    ! tcfl:  target cfl number
@@ -14,7 +14,7 @@ glon = 143.4
 dtheta = 15
 altmin = 80e3
 lp = 256
-lq = 384
+lq = 128
 lphi = 128
 gridflag = 1
 nme = 2e11
