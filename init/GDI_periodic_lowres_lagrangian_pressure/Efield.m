@@ -70,6 +70,7 @@ E.Vminx2ist = zeros(E.llat, Nt);
 E.Vmaxx2ist = zeros(E.llat, Nt);
 E.Vminx3ist = zeros(E.llon, Nt);
 E.Vmaxx3ist = zeros(E.llon, Nt);
+E.times=datetime(datevec(t));
 
 %% SAVE THESE DATA TO APPROPRIATE FILES
 % LEAVE THE SPATIAL AND TEMPORAL INTERPOLATION TO THE

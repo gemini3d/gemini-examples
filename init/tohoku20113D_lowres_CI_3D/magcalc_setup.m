@@ -1,6 +1,7 @@
-%SIMULATION LOCAITONS
-simname='arcs_angle_wide_nonuniform_large_highresx1/';
-basedir='~/simulations/';
+
+%SIMULATIONS LOCAITONS
+simname='tohoku20113D_lowres_test10/';
+basedir='~/simulations/'
 direc=[basedir,simname];
 mkdir([direc,'/magplots']);    %store output plots with the simulation data
 
@@ -15,12 +16,14 @@ cfg = gemini3d.read.config(direc);
 
 
 %TABULATE THE SOURCE LOCATION
-thdist=pi/2-cfg.sourcemlat*pi/180;    %zenith angle of source location
-phidist=cfg.sourcemlon*pi/180;
+mlatsrc=cfg.sourcemlat;
+mlonsrc=cfg.sourcemlon;
+thdist=pi/2-mlatsrc*pi/180;    %zenith angle of source location
+phidist=mlonsrc*pi/180;
 
 
 %ANGULAR RANGE TO COVER FOR THE CALCLUATIONS (THIS IS FOR THE FIELD POINTS - SOURCE POINTS COVER ENTIRE GRID)
-%dang=10;
+dang=5;
 
 
 %WE ALSO NEED TO LOAD THE GRID FILE
@@ -49,23 +52,18 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=64;
+ltheta=10;
 if (~flag2D)
-  lphi=64;
+  lphi=10;
 else
   lphi=1;
 end
 lr=1;
 
-%thmin=thdist-dang*pi/180;
-%thmax=thdist+dang*pi/180;
-%phimin=phidist-dang*pi/180;
-%phimax=phidist+dang*pi/180;
-thmin=min(xg.theta(:));
-thmax=max(xg.theta(:));
-phimin=min(xg.phi(:));
-phimax=max(xg.phi(:));
-
+thmin=thdist-dang*pi/180;
+thmax=thdist+dang*pi/180;
+phimin=phidist-dang*pi/180;
+phimax=phidist+dang*pi/180;
 
 theta=linspace(thmin,thmax,ltheta);
 if (~flag2D)
@@ -73,20 +71,12 @@ if (~flag2D)
 else
   phi=phidist;
 end
-r=(6370e3+500e3)*ones(ltheta,lphi);                          %use satellite orbital plane
+r=6370e3*ones(ltheta,lphi);                          %use ground level for altitude for all field points
 [phi,theta]=meshgrid(phi,theta);
 
 %CREATE AN INPUT FILE OF FIELD POINTS
-xmag.R=r(:);
-xmag.THETA=theta(:);
-xmag.PHI=phi(:);
-xmag.gridsize=[1,ltheta,lphi];
-%params.file_format="h5";
-indat_grid=strcat(direc,"/inputs/magfieldpoints.h5");
-gemini3d.write.maggrid(indat_grid,xmag)
-
-% fid=fopen([direc,'/inputs/magfieldpoints.dat'],'w');
-% fwrite(fid,numel(theta),'integer*4');
-% fwrite(fid,r(:),'real*8');
-% fwrite(fid,theta(:),'real*8');
-% fwrite(fid,phi(:),'real*8');
+fid=fopen('~/simulations/tohoku20113D_lowres_test10/inputs/magfieldpoints.dat','w');
+fwrite(fid,numel(theta),'integer*4');
+fwrite(fid,r(:),'real*8');
+fwrite(fid,theta(:),'real*8');
+fwrite(fid,phi(:),'real*8');

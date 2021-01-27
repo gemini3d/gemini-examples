@@ -51,13 +51,13 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=40;
+ltheta=128;
 if (~flag2D)
-  lphi=40;
+  lphi=128;
 else
   lphi=1;
 end
-lr=40;
+lr=128;
 
 thmin=min(xg.theta(:));
 thmax=max(xg.theta(:));
@@ -74,11 +74,20 @@ else
 end
 %r=(6370e3+500e3)*ones(ltheta,lphi);                          %use satellite orbital plane
 r=linspace(rmin,rmax,lr);
-[R,THETA,PHI]=ndgrid(r,theta,phi);
+[r,theta,phi]=ndgrid(r,theta,phi);
 
 %CREATE AN INPUT FILE OF FIELD POINTS
-fid=fopen([direc,'/inputs/magfieldpoints.dat'],'w');
-fwrite(fid,numel(THETA),'integer*4');
-fwrite(fid,R(:),'real*8');
-fwrite(fid,THETA(:),'real*8');
-fwrite(fid,PHI(:),'real*8');
+xmag.R=r(:);
+xmag.THETA=theta(:);
+xmag.PHI=phi(:);
+xmag.gridsize=[lr,ltheta,lphi];
+%params.file_format="h5";
+indat_grid=strcat(direc,"/inputs/magfieldpoints.h5");
+gemini3d.write.maggrid(indat_grid,xmag)
+
+% %CREATE AN INPUT FILE OF FIELD POINTS
+% fid=fopen([direc,'/inputs/magfieldpoints.dat'],'w');
+% fwrite(fid,numel(THETA),'integer*4');
+% fwrite(fid,R(:),'real*8');
+% fwrite(fid,THETA(:),'real*8');
+% fwrite(fid,PHI(:),'real*8');
