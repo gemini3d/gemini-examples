@@ -29,7 +29,7 @@ config
 
 5. Since config.nml can use relative paths to simulation grid, initial conditions, electric field and the precipitation files if used. Absolute path can also be used if desired, but this often is not necessary. Relative paths can make it easier to share scripts and config files.
 
-6. run the simulation from Matlab:
+6. run the simulation from Matlab or Python:
 
     ```matlab
     out_dir = '~/sims/gdi_periodic_lowres'

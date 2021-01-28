@@ -15,7 +15,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # trim ghost cells
     x1 = xg["x1"][2:-2]
     x2 = xg["x2"][2:-2]
-    
+
     # %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
     dat = gemini3d.read.data(cfg["indat_file"], var=["ns", "Ts", "vs1"])
     ns = dat["ns"]
@@ -24,26 +24,26 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # %% Choose a single profile from the center of the eq domain as a reference
     ix2 = xg["lx"][1] // 2
     ix3 = xg["lx"][2] // 2
-    
+
     nsscale = np.zeros_like(ns)
     for i in range(lsp):
         nprof = ns[i, :, ix2, ix3]
         for j in range(xg["lx"][1]):
             for k in range(xg["lx"][2]):
-                    nsscale[i, :, j, k] = nprof
-        
+                nsscale[i, :, j, k] = nprof
+
     # %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
     scalefact = 2.75 * 6 / 8
     for i in range(lsp - 1):
         nsscale[i, :, :, :] = scalefact * nsscale[i, :, :, :]
     nsscale[-1, :, :, :] = nsscale[:-1, :, :, :].sum(axis=0)
     # enforce quasineutrality
-    
+
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
-    ell = 5e3             # gradient scale length for patch/blob
-    x21 = -85e3           # location on one of the patch edges
-    x22 = -45e3           # other patch edge
-    nepatchfact = 10      # density increase factor over background
+    ell = 5e3  # gradient scale length for patch/blob
+    x21 = -85e3  # location on one of the patch edges
+    x22 = -45e3  # other patch edge
+    nepatchfact = 10  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):
@@ -66,7 +66,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     nsperturb = np.maximum(nsperturb, 1e4)
     # enforce a density floor (particularly need to pull out negative densities
     # which can occur when noise is applied)
-    nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)    # enforce quasineutrality
+    nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)  # enforce quasineutrality
 
     # %% KILL OFF THE E-REGION WHICH WILL DAMP THE INSTABILITY (AND USUALLY ISN'T PRESENT IN PATCHES)
     x1ref = 200e3
@@ -80,15 +80,11 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
 
     nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)
     # enforce quasineutrality
-    
-    breakpoint()
 
     # %% WRITE OUT THE RESULTS TO the same file
     gemini3d.write.state(
         cfg["indat_file"],
-        dat["time"],
+        dat,
         ns=nsperturb,
-        vs=dat["vs1"],
-        Ts=dat["Ts"],
         file_format=cfg["file_format"],
     )
