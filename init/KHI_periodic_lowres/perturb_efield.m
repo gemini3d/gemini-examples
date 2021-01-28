@@ -27,13 +27,16 @@ dat = gemini3d.read.frame3Dcurvnoelec(cfg.indat_file);
 nsscale = init_profile(xg, dat);
 
 %% Apply the denisty perturbation as a jump and specified plasma drift variation (Earth-fixed frame)
-nsperturb = perturb_density(xg, dat, nsscale, x1, x2, params);
+dat.ns = perturb_density(xg, dat, nsscale, x1, x2, params);
 
 %% compute initial potential, background
-Phitop = potential_bg(x2, lx2, lx3, params);
+dat.Phitop = potential_bg(x2, lx2, lx3, params);
+
+%% Write initial plasma state out to a file
+gemini3d.write.state(cfg.indat_file, dat, cfg.file_format)
 
 %% Electromagnetic parameter inputs
-create_Efield(cfg, xg, dat, nsperturb, Phitop, params)
+create_Efield(cfg, xg, params)
 
 end %function perturb_efield
 
@@ -138,7 +141,7 @@ Phitop=cumsum(E2top.*DX2,1);
 end % function potential_bg
 
 
-function create_Efield(cfg, xg, dat, nsperturb, Phitop, params)
+function create_Efield(cfg, xg, params)
 
 gemini3d.fileio.makedir(cfg.E0_dir)
 
@@ -222,10 +225,6 @@ for it=1:Nt
   E.Vmaxx2ist(:,it)=squeeze(Phislab(E.llon,:));
   E.Vminx2ist(:,it)=squeeze(Phislab(1,:));
 end
-
-
-%% Write initial plasma state out to a file
-gemini3d.write.state(cfg.indat_file, cfg.times(1) ,nsperturb, dat.vs1, dat.Ts, cfg.file_format, Phitop)
 
 %% Write electric field data to file
 gemini3d.write.Efield(E, cfg.E0_dir, cfg.file_format)
