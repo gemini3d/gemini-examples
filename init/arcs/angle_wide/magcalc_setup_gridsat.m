@@ -1,5 +1,5 @@
 %SIMULATION LOCAITONS
-simname='arcs_angle/';
+simname='arcs_angle_wide/';
 basedir='~/simulations/';
 direc=[basedir,simname];
 mkdir([direc,'/magplots']);    %store output plots with the simulation data
@@ -49,9 +49,9 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=48;
+ltheta=256;
 if (~flag2D)
-  lphi=48;
+  lphi=256;
 else
   lphi=1;
 end
@@ -77,8 +77,10 @@ r=(6370e3+500e3)*ones(ltheta,lphi);                          %use satellite orbi
 [phi,theta]=meshgrid(phi,theta);
 
 %CREATE AN INPUT FILE OF FIELD POINTS
-fid=fopen([direc,'/inputs/magfieldpoints.dat'],'w');
-fwrite(fid,numel(theta),'integer*4');
-fwrite(fid,r(:),'real*8');
-fwrite(fid,theta(:),'real*8');
-fwrite(fid,phi(:),'real*8');
+xmag.R=r(:);
+xmag.THETA=theta(:);
+xmag.PHI=phi(:);
+xmag.gridsize=[1,ltheta,lphi];
+%params.file_format="h5";
+indat_grid=strcat(direc,"/inputs/magfieldpoints.h5");
+gemini3d.write.maggrid(indat_grid,xmag)

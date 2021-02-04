@@ -49,9 +49,9 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=64;
+ltheta=256;
 if (~flag2D)
-  lphi=64;
+  lphi=256;
 else
   lphi=1;
 end

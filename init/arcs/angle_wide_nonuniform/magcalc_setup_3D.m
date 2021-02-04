@@ -51,9 +51,9 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=128;
+ltheta=256;
 if (~flag2D)
-  lphi=128;
+  lphi=256;
 else
   lphi=1;
 end
@@ -63,8 +63,8 @@ thmin=min(xg.theta(:));
 thmax=max(xg.theta(:));
 phimin=min(xg.phi(:));
 phimax=max(xg.phi(:));
-rmin=6370e3+100e3;
-rmax=6370e3+450e3;
+rmin=6370e3+80e3;
+rmax=6370e3+350e3;
 
 theta=linspace(thmin,thmax,ltheta);
 if (~flag2D)
