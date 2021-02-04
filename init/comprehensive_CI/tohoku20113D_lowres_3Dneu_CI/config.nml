@@ -23,17 +23,6 @@ indat_grid = '../../simulations/tohoku20113D_lowres/inputs/simgrid.h5'
 indat_file = '../../simulations/tohoku20113D_lowres/inputs/initial_conditions.h5'
 /
 
-!&neutral_perturb
-!flagdneu = 1
-!interptype = 1
-!sourcemlat = 29.0667
-!sourcemlon = 209.8501
-!dtneu = 4.0
-!drhon = 1000
-!dzn = 1000
-!source_dir = '../../simulations/input/tohoku_neutrals/'
-!/
-
 &neutral_perturb
 flagdneu = 1
 interptype = 3
