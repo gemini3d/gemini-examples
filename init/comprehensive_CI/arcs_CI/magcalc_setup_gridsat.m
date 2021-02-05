@@ -1,5 +1,5 @@
 %SIMULATION LOCAITONS
-simname='arcs_angle_wide_nonuniform_large_highresx1/';
+simname='arcs_CI/';
 basedir='~/simulations/';
 direc=[basedir,simname];
 mkdir([direc,'/magplots']);    %store output plots with the simulation data
@@ -49,9 +49,9 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=256;
+ltheta=128;
 if (~flag2D)
-  lphi=256;
+  lphi=128;
 else
   lphi=1;
 end
