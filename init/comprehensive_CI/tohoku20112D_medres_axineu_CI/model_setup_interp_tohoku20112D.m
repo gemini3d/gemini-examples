@@ -17,6 +17,8 @@ end
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 p.eq_dir= '~/simulations/tohoku20112D_eq/';
+cfg=gemini3d.read.config(p.eq_dir);
+p.times=cfg.times;
 p.outdir='~/simulations/tohoku20112D_lowres/';
 p.indat_size = '~/simulations/tohoku20112D_lowres/inputs/simsize.h5';
 p.indat_grid = '~/simulations/tohoku20112D_lowres/inputs/simgrid.h5';
