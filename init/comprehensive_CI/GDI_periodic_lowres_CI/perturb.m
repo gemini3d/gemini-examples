@@ -77,6 +77,8 @@ nsperturb(:,:,:,lsp) = sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
 %% WRITE OUT THE RESULTS TO the same file
-gemini3d.write.state(cfg.indat_file, dat.time, nsperturb, dat.vs1, dat.Ts, cfg.file_format)
+datout=dat;
+dat.ns=nsperturb;
+gemini3d.write.state(cfg.indat_file, datout, cfg.file_format)
 
 end % function
