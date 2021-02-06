@@ -1,4 +1,4 @@
-! 2D simulation of tohoku earthquake
+! Very low resolution simulation of 2011 Tohoku earthquake
 
 &base
 ymd = 2011,3,11               ! year, month, day
@@ -18,9 +18,9 @@ flagoutput = 2      ! 1 - full output
 
 &files
 file_format='h5'
-indat_size = '../../simulations/tohoku20112D_lowres/inputs/simsize.h5'
-indat_grid = '../../simulations/tohoku20112D_lowres/inputs/simgrid.h5'
-indat_file = '../../simulations/tohoku20112D_lowres/inputs/initial_conditions.h5'
+indat_size = '../../simulations/tohoku20113D_lowres/inputs/simsize.h5'
+indat_grid = '../../simulations/tohoku20113D_lowres/inputs/simgrid.h5'
+indat_file = '../../simulations/tohoku20113D_lowres/inputs/initial_conditions.h5'
 /
 
 &neutral_perturb
