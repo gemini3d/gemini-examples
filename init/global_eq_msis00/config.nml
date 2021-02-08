@@ -39,3 +39,7 @@ indat_file = 'inputs/initial_conditions.h5'
 flagEIA = .true.              ! toggles EIA calculation
 v0equator = 10.0              ! equatorial peak drift value
 /
+
+&neutral_BG
+msis_version = 0
+/
