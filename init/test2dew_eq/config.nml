@@ -35,3 +35,7 @@ Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
 /
+
+&neutral_BG
+msis_version = 0
+/
