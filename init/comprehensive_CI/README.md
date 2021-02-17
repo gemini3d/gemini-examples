@@ -198,7 +198,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 * runtime:  ???
 
 
-## cusp\_softprecip
+## cusp\_softprecip3D
 
 * 3D open dipole simulation with particle flux input 
 * corresponding eq simulation:  ./cusp_eq 
