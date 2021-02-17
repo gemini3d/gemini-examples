@@ -196,3 +196,27 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 ```
 
 * runtime:  ???
+
+
+## cusp\_softprecip
+
+* 3D open dipole simulation with particle flux input 
+* corresponding eq simulation:  ./cusp_eq 
+* tests field-resolved 2D potential solver with neutral inputs (2D Cartesian)
+* grid size:  192 x 132 x 64
+
+*Small workstation run:*
+
+```sh
+mpirun -np 4 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 2 2
+```
+
+* runtime:  60 mins.
+
+*Large workstation run:*
+
+```sh
+mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
+```
+
+* runtime:  ???

@@ -22,3 +22,8 @@ indat_size = './inputs/simsize.h5'
 indat_grid = './inputs/simgrid.h5'
 indat_file = './inputs/initial_conditions.h5'
 /
+
+&precip
+dtprec = 5.0
+prec_dir = 'inputs/precip/'
+/
