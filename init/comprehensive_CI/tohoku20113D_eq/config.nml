@@ -1,0 +1,25 @@
+! EQ simulation for the 2011 Tohoku earthquake
+
+&base
+ymd = 2011,3,11               ! year, month, day
+UTsec0 = 20783.0              ! start time in UT seconds
+tdur = 86400.0                  ! duration of simulation in seconds
+dtout = 1800.0                  ! how often to do file output
+activ = 104.7,129.5,37.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 1      ! 1 - full output
+/
+
+&files
+file_format='h5'
+indat_size = '../../simulations/tohoku20113D_eq_real32/inputs/simsize.h5'
+indat_grid = '../../simulations/tohoku20113D_eq_real32/inputs/simgrid.h5'
+indat_file = '../../simulations/tohoku20113D_eq_real32/inputs/initial_conditions.h5'
+/
+

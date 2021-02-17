@@ -81,6 +81,9 @@ for it=1:lt
 end
 
 
+%
+
+
 %% Error checking
 if any(~isfinite(precip.Qit)), error('particle_BCs:value_error', 'precipitation flux not finite'), end
 if any(~isfinite(precip.E0it)), error('particle_BCs:value_error', 'E0 not finite'), end

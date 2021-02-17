@@ -51,13 +51,13 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=256;
+ltheta=512;
 if (~flag2D)
-  lphi=256;
+  lphi=512;
 else
   lphi=1;
 end
-lr=128;
+lr=512;
 
 thmin=min(xg.theta(:));
 thmax=max(xg.theta(:));
