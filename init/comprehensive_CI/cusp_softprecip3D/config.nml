@@ -11,7 +11,7 @@ Teinf = 1500.0                ! exospheric electron temperature
 /
 
 &flags
-potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 0    ! whether periodic
 flagoutput = 2      ! 1 - full parameter output
 /
@@ -23,7 +23,13 @@ indat_grid = './inputs/simgrid.h5'
 indat_file = './inputs/initial_conditions.h5'
 /
 
+&efield
+dtE0 = 10.0                         ! time step between electric field file inputs
+E0_dir = 'inputs/fields/'
+/
+
 &precip
 dtprec = 5.0
 prec_dir = 'inputs/precip/'
 /
+

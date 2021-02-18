@@ -220,3 +220,37 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 ```
 
 * runtime:  ???
+
+
+## (broken) cusp\_softprecip3D\_glow
+
+* 3D open dipole simulation with particle flux input 
+* corresponding eq simulation:  ./cusp_eq 
+* tests field-resolved 2D potential solver with neutral inputs (2D Cartesian)
+* grid size:  192 x 132 x 64
+* non-finite output values for integrated volume emission rate...  Probably need to flip arrays back and forth to deal with curvilinear grid?  Could be a quick fix worth trying soon...  May also need to set inclination angle somewhere, as well.
+
+*Small workstation run:*
+
+```sh
+mpirun -np 4 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 2 2
+```
+
+* runtime:  60 mins.
+
+*Large workstation run:*
+
+```sh
+mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
+```
+
+* runtime:  ???
+
+
+## cusp\_FAC3D
+
+
+## cusp\_FAC2D
+
+
+## Time-dependent precipitation and fields???  ISINGLASS???
