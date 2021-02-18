@@ -17,11 +17,11 @@ end %if
 
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
-p.eq_dir="~/simulations/cusp_eq/";
+p.eq_dir="~/simulations/cusp2D_eq/";
 p.indat_grid="~/simulations/cusp_softprecip_2D/inputs/simgrid.h5";
 p.indat_size="~/simulations/cusp_softprecip_2D/inputs/simsize.h5";
 p.indat_file="~/simulations/cusp_softprecip_2D/inputs/initial_conditions.h5";
-p.outdir = '~/simulations/cusp_softprecip/';
+p.outdir = '~/simulations/cusp_softprecip_2D/';
 p.file_format="h5";
 ics=gemini3d.model.eq2dist(p,xg);
 system(strcat("cp config.nml ",p.outdir,"/inputs/"));
@@ -43,7 +43,7 @@ gemini3d.model.particles_BCs(pprec,xg);
 pE.Efield_latwidth=0.05;
 pE.Efield_lonwidth=0.05;
 pE.Jtarg=1.5e-6;
-pE.E0_dir="~/simulations/cusp_softprecip/inputs/fields/";
+pE.E0_dir="~/simulations/cusp_softprecip_2D/inputs/fields/";
 pE.times=cfg.times;
 pE.dtE0=10;
 pE.file_format="h5";
