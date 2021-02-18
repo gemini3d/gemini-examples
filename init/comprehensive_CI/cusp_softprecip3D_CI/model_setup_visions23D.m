@@ -41,8 +41,8 @@ gemini3d.model.particles_BCs(pprec,xg);
 
 % cusp FAC for top boundary
 pE.Efield_latwidth=0.05;
-pE.Efield_lonwidth=0.1;
-pE.Jtarg=1e-6;
+pE.Efield_lonwidth=0.05;
+pE.Jtarg=1.5e-6;
 pE.E0_dir="~/simulations/cusp_softprecip/inputs/fields/";
 pE.times=cfg.times;
 pE.dtE0=10;

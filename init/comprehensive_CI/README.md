@@ -198,11 +198,35 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 * runtime:  ???
 
 
-## cusp\_softprecip3D
+## cusp\_softprecip3D\_CI
 
-* 3D open dipole simulation with particle flux input 
+* 3D open dipole simulation with particle flux and FAC inputs
 * corresponding eq simulation:  ./cusp_eq 
-* tests field-resolved 2D potential solver with neutral inputs (2D Cartesian)
+* tests field-resolved 2D potential solver on an open dipole grid
+* grid size:  192 x 132 x 64
+
+*Small workstation run:*
+
+```sh
+mpirun -np 4 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 2 2
+```
+
+* runtime:  60 mins.
+
+*Large workstation run:*
+
+```sh
+mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
+```
+
+* runtime:  ???
+
+
+## cusp\_softprecip2D
+
+* 3D open dipole simulation with particle flux and FAC inputs
+* corresponding eq simulation:  ./cusp_eq 
+* tests field-resolved 2D potential solver on an open dipole grid
 * grid size:  192 x 132 x 64
 
 *Small workstation run:*
@@ -246,11 +270,6 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 
 * runtime:  ???
 
-
-## cusp\_FAC3D
-
-
-## cusp\_FAC2D
 
 
 ## Time-dependent precipitation and fields???  ISINGLASS???
