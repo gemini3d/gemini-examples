@@ -203,7 +203,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 * 3D open dipole simulation with particle flux and FAC inputs
 * corresponding eq simulation:  ./cusp_eq 
 * tests field-resolved 2D potential solver on an open dipole grid
-* grid size:  192 x 132 x 64
+* grid size:  160 x 120 x 64
 
 *Small workstation run:*
 
@@ -222,12 +222,12 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 * runtime:  ???
 
 
-## cusp\_softprecip2D
+## cusp\_softprecip2D\_CI
 
 * 3D open dipole simulation with particle flux and FAC inputs
 * corresponding eq simulation:  ./cusp_eq 
-* tests field-resolved 2D potential solver on an open dipole grid
-* grid size:  192 x 132 x 64
+* tests field-resolved 2D potential solver (field-resolved) on an open dipole grid
+* grid size:  160 x 120 x 64
 
 *Small workstation run:*
 

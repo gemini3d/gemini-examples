@@ -33,7 +33,6 @@ pprec.prec_dir="~/simulations/cusp_softprecip_2D/inputs/precip/";
 pprec.Qprecip=1;
 pprec.Qprecip_background=0.01;
 pprec.precip_latwidth=0.15;
-pprec.precip_lonwidth=0.25;
 pprec.times=cfg.times;
 pprec.dtprec=5;
 pprec.file_format="h5";
@@ -41,8 +40,8 @@ gemini3d.model.particles_BCs(pprec,xg);
 
 % cusp FAC for top boundary
 pE.Efield_latwidth=0.05;
-pE.Efield_lonwidth=0.05;
-pE.Jtarg=1.5e-6;
+%pE.Jtarg=1.5e-6;
+pE.Etarg=50e-3;
 pE.E0_dir="~/simulations/cusp_softprecip_2D/inputs/fields/";
 pE.times=cfg.times;
 pE.dtE0=10;
