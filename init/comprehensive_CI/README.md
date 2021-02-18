@@ -222,31 +222,31 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 * runtime:  ???
 
 
-## cusp\_softprecip2D\_CI
+## cusp\_softprecip2D\_Dirich\_CI
 
-* 3D open dipole simulation with particle flux and FAC inputs
+* 3D open dipole simulation with particle flux and potential boudary condition inputs (Dirichlet problem)
 * corresponding eq simulation:  ./cusp_eq 
 * tests field-resolved 2D potential solver (field-resolved) on an open dipole grid
-* grid size:  160 x 120 x 64
+* grid size:  160 x 128 x 64
 
 *Small workstation run:*
 
 ```sh
-mpirun -np 4 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 2 2
+mpirun -np 4 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 ```
 
-* runtime:  60 mins.
+* runtime:  5 mins.
 
 *Large workstation run:*
 
 ```sh
-mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
+mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 ```
 
 * runtime:  ???
 
 
-## (broken) cusp\_softprecip3D\_glow
+## (capability tbd) cusp\_softprecip3D\_glow
 
 * 3D open dipole simulation with particle flux input 
 * corresponding eq simulation:  ./cusp_eq 

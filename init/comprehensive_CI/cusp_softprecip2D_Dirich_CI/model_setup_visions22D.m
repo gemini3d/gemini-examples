@@ -1,7 +1,7 @@
 % Open dipole grid in the cusp (Svalbard)
 p.dtheta=11;
 p.dphi=19;
-p.lp=120;
+p.lp=128;
 p.lq=160;
 p.lphi=1;
 p.altmin=80e3;
@@ -26,7 +26,7 @@ p.file_format="h5";
 ics=gemini3d.model.eq2dist(p,xg);
 system(strcat("cp config.nml ",p.outdir,"/inputs/"));
 
-% cusp precipitaiton input files
+% cusp precipitation input files
 cfg=gemini3d.read.config(p.outdir);
 pprec.E0precip=300;
 pprec.prec_dir="~/simulations/cusp_softprecip_2D/inputs/precip/";
@@ -41,7 +41,7 @@ gemini3d.model.particles_BCs(pprec,xg);
 % cusp FAC for top boundary
 pE.Efield_latwidth=0.05;
 %pE.Jtarg=1.5e-6;
-pE.Etarg=50e-3;
+pE.Etarg=75e-3;
 pE.E0_dir="~/simulations/cusp_softprecip_2D/inputs/fields/";
 pE.times=cfg.times;
 pE.dtE0=10;
