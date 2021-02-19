@@ -20,10 +20,10 @@ end
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 p.eq_dir= '~/simulations/tohoku20113D_eq/';
-p.outdir='~/simulations/tohoku20113D_lowres/';
-p.indat_size = '~/simulations/tohoku20113D_lowres/inputs/simsize.h5';
-p.indat_grid = '~/simulations/tohoku20113D_lowres/inputs/simgrid.h5';
-p.indat_file = '~/simulations/tohoku20113D_lowres/inputs/initial_conditions.h5';
+p.outdir='~/simulations/tohoku20113D_lowres_2Daxisneu/';
+p.indat_size = '~/simulations/tohoku20113D_lowres_2Daxisneu/inputs/simsize.h5';
+p.indat_grid = '~/simulations/tohoku20113D_lowres_2Daxisneu/inputs/simgrid.h5';
+p.indat_file = '~/simulations/tohoku20113D_lowres_2Daxisneu/inputs/initial_conditions.h5';
 p.file_format="h5";
 
 dat = gemini3d.model.eq2dist(p,xg);
