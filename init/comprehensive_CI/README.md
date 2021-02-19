@@ -187,6 +187,12 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_axineu_CI
 * runtime:  ???
 
 
+## Restarting tohoku20112D\_medres\_axineu\_CI
+
+* The prior simulation may also be used to test the restart code for 2D simulations with neutral inputs.  There is a milestone on the 10th output.  By making a copy of the output and deleting the remaining outputs the same command can be run again to produce a restarted version of the calculations.
+* These restarted outputs should be compared against the output when the restart was not used to demonstrate consistency.  These comparisons can be restricted to the frames after the restart was conducted.  
+
+
 ## tohoku20112D\_medres\_2Dneu\_CI
 
 * 2D Dipole grid simulation using 2D Cartesian neutral perturbations as input. 
