@@ -201,7 +201,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 ## cusp\_softprecip3D\_CI
 
 * 3D open dipole simulation with particle flux and FAC inputs
-* corresponding eq simulation:  ./cusp_eq 
+* corresponding eq simulation:  ./cusp3D_eq 
 * tests field-resolved 2D potential solver on an open dipole grid
 * grid size:  160 x 120 x 64
 
@@ -225,8 +225,31 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 ## cusp\_softprecip2D\_Dirich\_CI
 
 * 3D open dipole simulation with particle flux and potential boudary condition inputs (Dirichlet problem)
-* corresponding eq simulation:  ./cusp_eq 
-* tests field-resolved 2D potential solver (field-resolved) on an open dipole grid
+* corresponding eq simulation:  ./cusp2D_eq 
+* grid size:  160 x 128 x 64
+
+*Small workstation run:*
+
+```sh
+mpirun -np 4 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
+```
+
+* runtime:  5 mins.
+
+*Large workstation run:*
+
+```sh
+mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
+```
+
+* runtime:  ???
+
+
+## cusp\_softprecip2D\_Neu\_CI
+
+* 3D open dipole simulation with particle flux and FAC boundary inputs (Nuemann problem)
+* corresponding eq simulation:  ./cusp2D_eq 
+* tests field-resolved 2D potential solver on an open dipole grid with Neumann conditions
 * grid size:  160 x 128 x 64
 
 *Small workstation run:*
@@ -249,7 +272,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 ## (capability tbd) cusp\_softprecip3D\_glow
 
 * 3D open dipole simulation with particle flux input 
-* corresponding eq simulation:  ./cusp_eq 
+* corresponding eq simulation:  ./cusp3D_eq 
 * tests field-resolved 2D potential solver with neutral inputs (2D Cartesian)
 * grid size:  192 x 132 x 64
 * non-finite output values for integrated volume emission rate...  Probably need to flip arrays back and forth to deal with curvilinear grid?  Could be a quick fix worth trying soon...  May also need to set inclination angle somewhere, as well.
