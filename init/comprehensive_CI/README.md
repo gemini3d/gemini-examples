@@ -1,6 +1,6 @@
 # Low-resolution, Comprehensive, Continuous Integration Tests
 
-This document collects together tests of various use cases for GEMINI demonstrating a rangeo of grids and solvers.  These can be useful reference cases to build off of or can be used to do comprehensive testing of a new deployment of GEMINI.  These tests are designed to all be runnable as a 24 hour batch job on one HPC node or a good workstation (~20-36 cores).  
+This document collects together tests of various use cases for GEMINI demonstrating a range of grids and solvers.  These can be useful reference cases to build off of or can be used to do comprehensive testing of a new deployment of GEMINI.  These tests are designed to all be runnable as a 24 hour batch job on one HPC node or a good workstation (~20-36 cores).  
 
 These tests are intended to *supplement* (not replace) those already conducted as part of the automatic CI.  because these are too computationally expensive to run on every push they are optional but highly recommended for verifcation.  
 
@@ -36,7 +36,6 @@ mpirun -np 16 ./gemini.bin ~/simulations/arcs_CI -manual_grid 4 4
 
 * Calculates magnetic field perturbations after the arcs\_CI example has been completed.
 * Test magnetic field calculations against an archived reference
-* 
 * (future work) Could also be further run using curl(H) script to validate magcalc...
 
 *Small workstation run:*

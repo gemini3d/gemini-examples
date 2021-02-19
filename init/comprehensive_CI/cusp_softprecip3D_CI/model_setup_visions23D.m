@@ -17,7 +17,7 @@ end %if
 
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
-p.eq_dir="~/simulations/cusp_eq/";
+p.eq_dir="~/simulations/cusp3D_eq/";
 p.indat_grid="~/simulations/cusp_softprecip/inputs/simgrid.h5";
 p.indat_size="~/simulations/cusp_softprecip/inputs/simsize.h5";
 p.indat_file="~/simulations/cusp_softprecip/inputs/initial_conditions.h5";
@@ -40,8 +40,8 @@ pprec.file_format="h5";
 gemini3d.model.particles_BCs(pprec,xg);
 
 % cusp FAC for top boundary
-pE.Efield_latwidth=0.05;
-pE.Efield_lonwidth=0.05;
+pE.Efield_latwidth=0.025;
+pE.Efield_lonwidth=0.025;
 pE.Jtarg=1.5e-6;
 pE.E0_dir="~/simulations/cusp_softprecip/inputs/fields/";
 pE.times=cfg.times;
