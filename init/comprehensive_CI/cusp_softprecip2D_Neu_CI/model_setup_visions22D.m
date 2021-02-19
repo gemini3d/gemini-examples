@@ -1,7 +1,7 @@
 % Open dipole grid in the cusp (Svalbard)
 p.dtheta=11;
 p.dphi=19;
-p.lp=120;
+p.lp=128;
 p.lq=160;
 p.lphi=1;
 p.altmin=80e3;
@@ -18,18 +18,18 @@ end %if
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
 p.eq_dir="~/simulations/cusp2D_eq/";
-p.indat_grid="~/simulations/cusp_softprecip_2D/inputs/simgrid.h5";
-p.indat_size="~/simulations/cusp_softprecip_2D/inputs/simsize.h5";
-p.indat_file="~/simulations/cusp_softprecip_2D/inputs/initial_conditions.h5";
-p.outdir = '~/simulations/cusp_softprecip_2D/';
+p.indat_grid="~/simulations/cusp_softprecip_2DN/inputs/simgrid.h5";
+p.indat_size="~/simulations/cusp_softprecip_2DN/inputs/simsize.h5";
+p.indat_file="~/simulations/cusp_softprecip_2DN/inputs/initial_conditions.h5";
+p.outdir = '~/simulations/cusp_softprecip_2DN/';
 p.file_format="h5";
 ics=gemini3d.model.eq2dist(p,xg);
 system(strcat("cp config.nml ",p.outdir,"/inputs/"));
 
-% cusp precipitaiton input files
+% cusp precipitation input files
 cfg=gemini3d.read.config(p.outdir);
 pprec.E0precip=300;
-pprec.prec_dir="~/simulations/cusp_softprecip_2D/inputs/precip/";
+pprec.prec_dir="~/simulations/cusp_softprecip_2DN/inputs/precip/";
 pprec.Qprecip=1;
 pprec.Qprecip_background=0.01;
 pprec.precip_latwidth=0.15;
@@ -39,10 +39,11 @@ pprec.file_format="h5";
 gemini3d.model.particles_BCs(pprec,xg);
 
 % cusp FAC for top boundary
-pE.Efield_latwidth=0.05;
-%pE.Jtarg=1.5e-6;
-pE.Etarg=50e-3;
-pE.E0_dir="~/simulations/cusp_softprecip_2D/inputs/fields/";
+pE.Efield_latwidth=0.025;
+pE.Efield_lonwidth=0.025;
+pE.Jtarg=1e-6;
+%pE.Etarg=75e-3;
+pE.E0_dir="~/simulations/cusp_softprecip_2DN/inputs/fields/";
 pE.times=cfg.times;
 pE.dtE0=10;
 pE.file_format="h5";
