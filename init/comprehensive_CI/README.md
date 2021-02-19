@@ -14,6 +14,7 @@ For each example there are sample commands showing how to run the exmaple using 
 * Tests non-uniform 3D Cartesian mesh capabilities
 * corresponding eq simulation:  ./arcs_eq
 * grid size:  98 x 96 x 96
+* (future work) validation of currents using MATLAB scripts
 
 *Small workstation run:*
 
@@ -34,8 +35,9 @@ mpirun -np 16 ./gemini.bin ~/simulations/arcs_CI -manual_grid 4 4
 ## arcs\_CI magnetic fields
 
 * Calculates magnetic field perturbations after the arcs\_CI example has been completed.
-* Test magnetic field calculations
-* Can be run using curl(H) script to validate magcalc
+* Test magnetic field calculations against an archived reference
+* 
+* (future work) Could also be further run using curl(H) script to validate magcalc...
 
 *Small workstation run:*
 
@@ -43,7 +45,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/arcs_CI -manual_grid 4 4
 mpirun -np 4 ./magcalc.bin ~/simulations/arcs_CI -manual_grid 2 2 -debug -start_time 2017 3 2 27270 -end_time 2017 3 2 27300
 ```
 
-* runtime:  10 mins. (single time frame)
+* runtime:  15 mins. (one time frame)
 
 *Large workstation run:*
 
@@ -77,6 +79,15 @@ mpirun -np 16 ./gemini.bin ~/simulations/GDI_CI -manual_grid 4 4
 ```
 
 * runtime:  ???
+
+Testing restart with GDI example:  
+
+
+
+## Restarting GDI\_periodic\_lowres\_CI
+
+* The prior simulation may also be used to test the restart code for 3D simulations.  There is a milestone on the 6th (of 8th output).  By making a copy of the output and deleting the 7-8th outputs the same command can be run again to produce a restarted 7,8th output.
+* These restarted outputs should be compared against the output when the restart was not used to demonstrate consistency.
 
 
 ## KHI\_periodic\_lowres\_CI
