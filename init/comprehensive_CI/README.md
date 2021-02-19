@@ -1,6 +1,8 @@
-# Low-resolution, detailed CI tests
+# Low-resolution, Comprehensive, Continuous Integration Tests
 
 This document collects together tests of various use cases for GEMINI demonstrating a rangeo of grids and solvers.  These can be useful reference cases to build off of or can be used to do comprehensive testing of a new deployment of GEMINI.  These tests are designed to all be runnable as a 24 hour batch job on one HPC node or a good workstation (~20-36 cores).  
+
+These tests are intended to *supplement* (not replace) those already conducted as part of the automatic CI.  because these are too computationally expensive to run on every push they are optional but highly recommended for verifcation.  
 
 For each example there are sample commands showing how to run the exmaple using ```mpirun``` on either a small workstation (4 cores) or a large workstation (16 cores).  MPI image splits can be adjusted accordingly to best leverage whatever system one runs from.  Each test description below also briefly describes the specific GEMINI features that the example in intended to test/verify.  
 
@@ -226,7 +228,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 
 * 3D open dipole simulation with particle flux and potential boudary condition inputs (Dirichlet problem)
 * corresponding eq simulation:  ./cusp2D_eq 
-* grid size:  160 x 128 x 64
+* grid size:  160 x 128 x 1
 
 *Small workstation run:*
 
@@ -234,7 +236,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 mpirun -np 4 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 ```
 
-* runtime:  5 mins.
+* runtime:  15 mins.
 
 *Large workstation run:*
 
@@ -250,7 +252,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 * 3D open dipole simulation with particle flux and FAC boundary inputs (Nuemann problem)
 * corresponding eq simulation:  ./cusp2D_eq 
 * tests field-resolved 2D potential solver on an open dipole grid with Neumann conditions
-* grid size:  160 x 128 x 64
+* grid size:  160 x 128 x 1
 
 *Small workstation run:*
 
@@ -258,7 +260,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 mpirun -np 4 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 ```
 
-* runtime:  5 mins.
+* runtime:  15 mins.
 
 *Large workstation run:*
 
@@ -269,7 +271,11 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 * runtime:  ???
 
 
-## (capability tbd) cusp\_softprecip3D\_glow
+# Planned Capabilities and Associated Tests
+
+Future extension to GEMINI will also require further tests to insure the code is deployed successfully.  
+
+## cusp\_softprecip3D\_glow
 
 * 3D open dipole simulation with particle flux input 
 * corresponding eq simulation:  ./cusp3D_eq 
