@@ -19,10 +19,10 @@ end
 p.eq_dir= '~/simulations/tohoku20112D_eq/';
 cfg=gemini3d.read.config(p.eq_dir);
 p.times=cfg.times;
-p.outdir='~/simulations/tohoku20112D_lowres/';
-p.indat_size = '~/simulations/tohoku20112D_lowres/inputs/simsize.h5';
-p.indat_grid = '~/simulations/tohoku20112D_lowres/inputs/simgrid.h5';
-p.indat_file = '~/simulations/tohoku20112D_lowres/inputs/initial_conditions.h5';
+p.outdir='~/simulations/tohoku20112D_medres/';
+p.indat_size = '~/simulations/tohoku20112D_medres/inputs/simsize.h5';
+p.indat_grid = '~/simulations/tohoku20112D_medres/inputs/simgrid.h5';
+p.indat_file = '~/simulations/tohoku20112D_medres/inputs/initial_conditions.h5';
 p.file_format="h5";
 
 dat = gemini3d.model.eq2dist(p,xg);

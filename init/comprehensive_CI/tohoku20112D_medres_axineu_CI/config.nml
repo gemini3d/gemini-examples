@@ -19,9 +19,9 @@ flagoutput = 2      ! 1 - full output
 
 &files
 file_format='h5'
-indat_size = '../../simulations/tohoku20112D_lowres/inputs/simsize.h5'
-indat_grid = '../../simulations/tohoku20112D_lowres/inputs/simgrid.h5'
-indat_file = '../../simulations/tohoku20112D_lowres/inputs/initial_conditions.h5'
+indat_size = '../../simulations/tohoku20112D_medres/inputs/simsize.h5'
+indat_grid = '../../simulations/tohoku20112D_medres/inputs/simgrid.h5'
+indat_file = '../../simulations/tohoku20112D_medres/inputs/initial_conditions.h5'
 /
 
 &neutral_perturb
@@ -35,8 +35,7 @@ dzn = 5000.0
 drhon = 8333.3
 !dzn = 1000.0
 !drhon = 1000.0
-source_dir = '../../simulations/input/acoustic2D_axisymmetric_neutrals/'
-!source_dir = '../../simulations/input/tohoku_neutrals/'
+source_dir = '../../simulations/input/acoustic2D_axisymmetric_neutrals_GEMINI/'
 /
 
 &milestone
