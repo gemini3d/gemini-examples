@@ -81,8 +81,10 @@ for isp=1:lsp-1
 end
 nsi(:,:,:,end)=sum(nsi(:,:,:,1:lsp-1),4);
 
-
+dat.ns = nsi;
+dat.vs1 = vs1i;
+dat.Ts = Tsi;
 %WRITE OUT THE GRID
 outdir=ID;
 gemini3d.write.grid(xg,outdir);
-gemini3d.write.state(outdir,cfg.times(end),nsi,vs1i,Tsi);
+gemini3d.write.state(outdir, dat);

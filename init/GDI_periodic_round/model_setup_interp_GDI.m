@@ -9,7 +9,7 @@ gridflag=0;
 I=90;
 
 %RUN THE GRID GENERATION CODE
-if (~exist('xg'))
+if ~exist('xg', 'var')
   xg= gemini3d.grid.makegrid_cart_3D_lowresx1(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -66,8 +66,12 @@ else
   end
 end
 
+dat.ns = nsi;
+dat.vs1 = vs1i;
+dat.Ts = Tsi;
+
 
 %WRITE OUT THE GRID
 outdir= fullfile(gemini_root,'../simulations/input/GDI_periodic_round/');
 gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
-gemini3d.write.state(outdir, cfg.times(end),nsi,vs1i,Tsi);
+gemini3d.write.state(outdir, dat)

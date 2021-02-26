@@ -72,12 +72,15 @@ else
   end
 end
 
+dat.ns = nsi;
+dat.vs1 = vs1i;
+dat.Ts = Tsi;
 
 %WRITE OUT THE GRID
 outdir='~/zettergmdata/simulations/input/isinglass/'
 gemini3d.write.grid(xg, outdir);
 
-gemini3d.write.state(outdir, cfg.times(end),nsi,vs1i,Tsi);
+gemini3d.write.state(outdir, dat);
 
 
 %MAKE A SAMPLE PLOT OF INTERPOLATED DATA

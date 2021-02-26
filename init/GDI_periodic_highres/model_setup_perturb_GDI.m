@@ -78,8 +78,10 @@ for isp=1:lsp
 end
 %}
 
+dat.ns = nsperturb;
+
 
 %WRITE OUT THE RESULTS TO A NEW FILE
 outdir=ID;
 time = datetime(simdate(1:4));
-gemini3d.write.state(outdir, time,nsperturb,vs1,Ts);
+gemini3d.write.state(outdir, dat);

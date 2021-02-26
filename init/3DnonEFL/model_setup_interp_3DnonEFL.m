@@ -71,9 +71,12 @@ else
   end
 end
 
+dat.ns = nsi;
+dat.vs1 = vs1i;
+dat.Ts = Tsi;
 
 %WRITE OUT THE GRID
 outdir= fullfile(gemini_root,'../simulations/input/3DnonEFL/');
 gemini3d.write.grid(xg,outdir);
 
-gemini3d.write.state(outdir, dat.time,nsi,vs1i,Tsi);
+gemini3d.write.state(outdir, dat);

@@ -38,9 +38,10 @@ end %for
 nsperturb = max(nsperturb,1e4);                        %enforce a density floor (particularly need to pull out negative densities which can occur when noise is applied)
 nsperturb(:,:,:,lsp) = sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
+dat.ns = nsperturb;
 
 %% WRITE OUT THE RESULTS TO A NEW FILE
-gemini3d.write.state(cfg.indat_file,dat.time,nsperturb,vs1,Ts);
+gemini3d.write.state(cfg.indat_file,dat);
 
 
 %% Visualize

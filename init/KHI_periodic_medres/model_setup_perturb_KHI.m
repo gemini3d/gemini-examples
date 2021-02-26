@@ -56,8 +56,6 @@ for isp=1:lsp-1
 end %for
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
+dat.ns = nsperturb;
 
-%% WRITE OUT THE RESULTS
-outdir=ID;
-
-gemini3d.write.state(cfg.indat_file,dat.time,nsperturb,vs1,Ts);
+gemini3d.write.state(cfg.indat_file, dat);

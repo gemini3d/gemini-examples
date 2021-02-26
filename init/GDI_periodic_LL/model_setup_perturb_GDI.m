@@ -61,6 +61,7 @@ end %for
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
 
+dat.ns = nsperturb;
 %% WRITE OUT THE RESULTS TO A NEW FILE
 
-gemini3d.write.state(outdir,dat.time,nsperturb,vs1,Ts);
+gemini3d.write.state(outdir,dat);

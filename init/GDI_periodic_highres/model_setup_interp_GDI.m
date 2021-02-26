@@ -67,9 +67,12 @@ else
   end
 end
 
+dat.ns = nsi;
+dat.vs1 = vs1i;
+dat.Ts = Tsi;
 
 %WRITE OUT THE GRID
 outdir='~/zettergmdata/simulations/input/GDI_periodic_highres_fileinput/'
 gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
 
-gemini3d.write.state(outdir, cfg.times(end),nsi,vs1i,Tsi);
+gemini3d.write.state(outdir, dat);

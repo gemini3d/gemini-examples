@@ -57,5 +57,6 @@ nsperturb(:,:,:,1)=n1perturb;
 nsperturb(:,:,:,7)=sum(nsperturb(:,:,:,1:6),4);
 
 
+dat.ns = nsperturb;
 %% WRITE OUT THE RESULTS TO A NEW FILE
-gemini3d.write.state(cfg.indat_file,dat.time,nsperturb,vs1,Ts);
+gemini3d.write.state(cfg.indat_file,dat);

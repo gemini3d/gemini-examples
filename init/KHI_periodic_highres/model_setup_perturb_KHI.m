@@ -32,7 +32,8 @@ for isp=1:lsp
   end
 end
 
+dat.ns = nsperturb;
 
 %% WRITE OUT THE RESULTS
 
-gemini3d.write.state(cfg.indat_file, dat.time,nsperturb,vs1,Ts);
+gemini3d.write.state(cfg.indat_file, dat);

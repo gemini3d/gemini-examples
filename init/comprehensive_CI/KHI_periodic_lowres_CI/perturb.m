@@ -62,9 +62,9 @@ for isp=1:lsp-1
 end %for
 nsperturb(:,:,:,lsp)=sum(nsperturb(:,:,:,1:6),4);    %enforce quasineutrality
 
-
+dat.ns = nsperturb;
 %% Write initial plasma state out to a file
-gemini3d.write.state(cfg.indat_file, dat.time, nsperturb, dat.vs1, dat.Ts, cfg.file_format);
+gemini3d.write.state(cfg.indat_file, dat);
 
 
 end % function

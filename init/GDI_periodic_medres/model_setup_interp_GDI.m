@@ -65,8 +65,11 @@ else
   end
 end
 
+dat.ns = nsi;
+dat.vs1 = vs1i;
+dat.Ts = Tsi;
 
 %% WRITE OUT THE GRID AND INITIAL CONDITIONS
 outdir = fullfile(gemini_root,'../simulations/input/GDI_periodic_medres/');
 gemini3d.write.grid(xg,outdir);    %just put it in pwd for now
-gemini3d.write.state(outdir, cfg.times(end),nsi,vs1i,Tsi);
+gemini3d.write.state(outdir, dat);
