@@ -2,6 +2,10 @@
 
 This document collects together tests of various use cases for GEMINI demonstrating a range of grids and solvers.  These can be useful reference cases to build off of or can be used to do comprehensive testing of a new deployment of GEMINI.  These tests are designed to all be runnable as a 24 hour batch job on one HPC node or a good workstation (~20-36 cores).
 
+These test cases are too long-running to be used on every Git push.
+We choose to use CMake to orchestrate these tests as CMake is a common demoninator for Gemini, and is easier and more robust for this type of task.
+This taski is within the main use cases of CMake, versus a data analysis language like Matlab or Python.
+
 These tests are intended to *supplement* (not replace) those already conducted as part of the automatic CI.  because these are too computationally expensive to run on every push they are optional but highly recommended for verifcation.
 
 For each example there are sample commands showing how to run the exmaple using ```mpirun``` on either a small workstation (4 cores) or a large workstation (16 cores).  MPI image splits can be adjusted accordingly to best leverage whatever system one runs from.  Each test description below also briefly describes the specific GEMINI features that the example in intended to test/verify.
