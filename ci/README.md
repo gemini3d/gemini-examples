@@ -4,7 +4,13 @@ This document collects together tests of various use cases for GEMINI demonstrat
 
 These test cases are too long-running to be used on every Git push.
 We choose to use CMake to orchestrate these tests as CMake is a common demoninator for Gemini, and is easier and more robust for this type of task.
-This taski is within the main use cases of CMake, versus a data analysis language like Matlab or Python.
+This task is within the main use cases of CMake, versus a data analysis language like Matlab or Python.
+
+```sh
+cmake -B build
+cd build
+ctest
+```
 
 These tests are intended to *supplement* (not replace) those already conducted as part of the automatic CI.  because these are too computationally expensive to run on every push they are optional but highly recommended for verifcation.
 
