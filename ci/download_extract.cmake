@@ -19,6 +19,10 @@ if(NOT EXISTS ${eq_zip})
 endif()
 
 message(STATUS "${eq_zip} => ${eq_dir}")
-file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_dir})
+if(CMAKE_VERSION VERSION_LESS 3.18)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf ${eq_zip} WORKING_DIRECTORY ${eq_dir})
+else()
+  file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_dir})
+endif()
 
 endfunction(download_extract)

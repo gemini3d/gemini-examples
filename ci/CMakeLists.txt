@@ -1,7 +1,7 @@
 # This project assumes an "installed" Gemini3D that is a particular
 # version and/or Git tag that we wish to use as a milestone.
 
-cmake_minimum_required(VERSION 3.18...3.20)
+cmake_minimum_required(VERSION 3.13...3.20)
 
 project(GeminiCI LANGUAGES NONE
 HOMEPAGE_URL https://github.com/gemini3d/gemini-examples
