@@ -120,7 +120,7 @@ for it=1:Nt
     else
       E.Vmaxx1it(:,:,it)=zeros(E.llon,E.llat);
     end %if
-end %for 
+end %for
 
 end % function
 

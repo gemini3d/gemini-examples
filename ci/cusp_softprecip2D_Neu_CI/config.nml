@@ -32,4 +32,3 @@ E0_dir = 'inputs/fields/'
 dtprec = 5.0
 prec_dir = 'inputs/precip/'
 /
-

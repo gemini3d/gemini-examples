@@ -1,10 +1,10 @@
 # Low-resolution, Comprehensive, Continuous Integration Tests
 
-This document collects together tests of various use cases for GEMINI demonstrating a range of grids and solvers.  These can be useful reference cases to build off of or can be used to do comprehensive testing of a new deployment of GEMINI.  These tests are designed to all be runnable as a 24 hour batch job on one HPC node or a good workstation (~20-36 cores).  
+This document collects together tests of various use cases for GEMINI demonstrating a range of grids and solvers.  These can be useful reference cases to build off of or can be used to do comprehensive testing of a new deployment of GEMINI.  These tests are designed to all be runnable as a 24 hour batch job on one HPC node or a good workstation (~20-36 cores).
 
-These tests are intended to *supplement* (not replace) those already conducted as part of the automatic CI.  because these are too computationally expensive to run on every push they are optional but highly recommended for verifcation.  
+These tests are intended to *supplement* (not replace) those already conducted as part of the automatic CI.  because these are too computationally expensive to run on every push they are optional but highly recommended for verifcation.
 
-For each example there are sample commands showing how to run the exmaple using ```mpirun``` on either a small workstation (4 cores) or a large workstation (16 cores).  MPI image splits can be adjusted accordingly to best leverage whatever system one runs from.  Each test description below also briefly describes the specific GEMINI features that the example in intended to test/verify.  
+For each example there are sample commands showing how to run the exmaple using ```mpirun``` on either a small workstation (4 cores) or a large workstation (16 cores).  MPI image splits can be adjusted accordingly to best leverage whatever system one runs from.  Each test description below also briefly describes the specific GEMINI features that the example in intended to test/verify.
 
 ##  arcs\_CI
 
@@ -19,7 +19,7 @@ For each example there are sample commands showing how to run the exmaple using 
 *Small workstation run:*
 
 ```sh
-mpirun -np 4 ./gemini.bin ~/simulations/arcs_CI -manual_grid 2 2 
+mpirun -np 4 ./gemini.bin ~/simulations/arcs_CI -manual_grid 2 2
 ```
 
 * runtime:  about 60 mins.
@@ -66,7 +66,7 @@ mpirun -np 16 ./magcalc.bin ~/simulations/arcs_CI -manual_grid 4 4 -debug -start
 *Small workstation run:*
 
 ```sh
-mpirun -np 4 ./gemini.bin ~/simulations/GDI_CI -manual_grid 2 2 
+mpirun -np 4 ./gemini.bin ~/simulations/GDI_CI -manual_grid 2 2
 ```
 
 * runtime:  25 mins.
@@ -74,12 +74,12 @@ mpirun -np 4 ./gemini.bin ~/simulations/GDI_CI -manual_grid 2 2
 *Large workstation run:*
 
 ```sh
-mpirun -np 16 ./gemini.bin ~/simulations/GDI_CI -manual_grid 4 4 
+mpirun -np 16 ./gemini.bin ~/simulations/GDI_CI -manual_grid 4 4
 ```
 
 * runtime:  ???
 
-Testing restart with GDI example:  
+Testing restart with GDI example:
 
 
 
@@ -99,7 +99,7 @@ Testing restart with GDI example:
 *Small workstation run:*
 
 ```sh
-mpirun -np 4 ./gemini.bin ~/simulations/KHI_CI -manual_grid 2 2 
+mpirun -np 4 ./gemini.bin ~/simulations/KHI_CI -manual_grid 2 2
 ```
 
 * runtime:  80 mins.
@@ -107,7 +107,7 @@ mpirun -np 4 ./gemini.bin ~/simulations/KHI_CI -manual_grid 2 2
 *Large workstation run:*
 
 ```sh
-mpirun -np 16 ./gemini.bin ~/simulations/KHI_CI -manual_grid 4 4 
+mpirun -np 16 ./gemini.bin ~/simulations/KHI_CI -manual_grid 4 4
 ```
 
 * runtime:  ???
@@ -124,7 +124,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/KHI_CI -manual_grid 4 4
 *Small workstation run:*
 
 ```sh
-mpirun -np 4 ./gemini.bin ~/simulations/tohoku20113D_lowres_3Dneu_CI -manual_grid 2 2 
+mpirun -np 4 ./gemini.bin ~/simulations/tohoku20113D_lowres_3Dneu_CI -manual_grid 2 2
 ```
 
 * runtime:  240 mins.
@@ -132,7 +132,7 @@ mpirun -np 4 ./gemini.bin ~/simulations/tohoku20113D_lowres_3Dneu_CI -manual_gri
 *Large workstation run:*
 
 ```sh
-mpirun -np 16 ./gemini.bin ~/simulations/tohoku20113D_lowres_3Dneu_CI -manual_grid 4 4 
+mpirun -np 16 ./gemini.bin ~/simulations/tohoku20113D_lowres_3Dneu_CI -manual_grid 4 4
 ```
 
 * runtime:  ???
@@ -148,7 +148,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20113D_lowres_3Dneu_CI -manual_gr
 *Small workstation run:*
 
 ```sh
-mpirun -np 4 ./gemini.bin ~/simulations/tohoku20113D_lowres_axineu_CI -manual_grid 2 2 
+mpirun -np 4 ./gemini.bin ~/simulations/tohoku20113D_lowres_axineu_CI -manual_grid 2 2
 ```
 
 * runtime:  240 mins.
@@ -156,7 +156,7 @@ mpirun -np 4 ./gemini.bin ~/simulations/tohoku20113D_lowres_axineu_CI -manual_gr
 *Large workstation run:*
 
 ```sh
-mpirun -np 16 ./gemini.bin ~/simulations/tohoku20113D_lowres_axineu_CI -manual_grid 4 4 
+mpirun -np 16 ./gemini.bin ~/simulations/tohoku20113D_lowres_axineu_CI -manual_grid 4 4
 ```
 
 * runtime:  ???
@@ -164,7 +164,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20113D_lowres_axineu_CI -manual_g
 
 ## tohoku20112D\_medres\_axineu\_CI
 
-* 2D Dipole grid simulation using axisymmetric neutral perturbations as input. 
+* 2D Dipole grid simulation using axisymmetric neutral perturbations as input.
 * corresponding eq simulation:  ./tohoku20112D_eq
 * tests field-resolved 2D potential solver with neutral inputs (axisymmetric)
 * grid size:  512 x 512 x 1
@@ -172,7 +172,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20113D_lowres_axineu_CI -manual_g
 *Small workstation run:*
 
 ```sh
-mpirun -np 4 ./gemini.bin ~/simulations/tohoku20112D_medres_axineu_CI 
+mpirun -np 4 ./gemini.bin ~/simulations/tohoku20112D_medres_axineu_CI
 ```
 
 * runtime:  45 mins.
@@ -180,7 +180,7 @@ mpirun -np 4 ./gemini.bin ~/simulations/tohoku20112D_medres_axineu_CI
 *Large workstation run:*
 
 ```sh
-mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_axineu_CI 
+mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_axineu_CI
 ```
 
 * runtime:  ???
@@ -189,20 +189,20 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_axineu_CI
 ## Restarting tohoku20112D\_medres\_axineu\_CI
 
 * The prior simulation may also be used to test the restart code for 2D simulations with neutral inputs.  There is a milestone on the 10th output.  By making a copy of the output and deleting the remaining outputs the same command can be run again to produce a restarted version of the calculations.
-* These restarted outputs should be compared against the output when the restart was not used to demonstrate consistency.  These comparisons can be restricted to the frames after the restart was conducted.  
+* These restarted outputs should be compared against the output when the restart was not used to demonstrate consistency.  These comparisons can be restricted to the frames after the restart was conducted.
 
 
 ## tohoku20112D\_medres\_2Dneu\_CI
 
-* 2D Dipole grid simulation using 2D Cartesian neutral perturbations as input. 
-* corresponding eq simulation:  ./tohoku20112D_eq 
+* 2D Dipole grid simulation using 2D Cartesian neutral perturbations as input.
+* corresponding eq simulation:  ./tohoku20112D_eq
 * tests field-resolved 2D potential solver with neutral inputs (2D Cartesian)
 * grid size:  512 x 512 x 1
 
 *Small workstation run:*
 
 ```sh
-mpirun -np 4 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI 
+mpirun -np 4 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 ```
 
 * runtime:  45 mins.
@@ -210,7 +210,7 @@ mpirun -np 4 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 *Large workstation run:*
 
 ```sh
-mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI 
+mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 ```
 
 * runtime:  ???
@@ -219,7 +219,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/tohoku20112D_medres_2Dneu_CI
 ## cusp\_softprecip3D\_CI
 
 * 3D open dipole simulation with particle flux and FAC inputs
-* corresponding eq simulation:  ./cusp3D_eq 
+* corresponding eq simulation:  ./cusp3D_eq
 * tests field-resolved 2D potential solver on an open dipole grid
 * grid size:  160 x 120 x 64
 
@@ -243,7 +243,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid 4 4
 ## cusp\_softprecip2D\_Dirich\_CI
 
 * 3D open dipole simulation with particle flux and potential boudary condition inputs (Dirichlet problem)
-* corresponding eq simulation:  ./cusp2D_eq 
+* corresponding eq simulation:  ./cusp2D_eq
 * grid size:  160 x 128 x 1
 
 *Small workstation run:*
@@ -266,7 +266,7 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 ## cusp\_softprecip2D\_Neu\_CI
 
 * 3D open dipole simulation with particle flux and FAC boundary inputs (Nuemann problem)
-* corresponding eq simulation:  ./cusp2D_eq 
+* corresponding eq simulation:  ./cusp2D_eq
 * tests field-resolved 2D potential solver on an open dipole grid with Neumann conditions
 * grid size:  160 x 128 x 1
 
@@ -289,12 +289,12 @@ mpirun -np 16 ./gemini.bin ~/simulations/cusp_softprecip -manual_grid
 
 # Planned Capabilities and Associated Tests
 
-Future extension to GEMINI will also require further tests to insure the code is deployed successfully.  
+Future extension to GEMINI will also require further tests to insure the code is deployed successfully.
 
 ## cusp\_softprecip3D\_glow
 
-* 3D open dipole simulation with particle flux input 
-* corresponding eq simulation:  ./cusp3D_eq 
+* 3D open dipole simulation with particle flux input
+* corresponding eq simulation:  ./cusp3D_eq
 * tests field-resolved 2D potential solver with neutral inputs (2D Cartesian)
 * grid size:  192 x 132 x 64
 * non-finite output values for integrated volume emission rate...  Probably need to flip arrays back and forth to deal with curvilinear grid?  Could be a quick fix worth trying soon...  May also need to set inclination angle somewhere, as well.
