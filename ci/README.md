@@ -3,18 +3,20 @@
 This document collects together tests of various use cases for GEMINI demonstrating a range of grids and solvers.  These can be useful reference cases to build off of or can be used to do comprehensive testing of a new deployment of GEMINI.  These tests are designed to all be runnable as a 24 hour batch job on one HPC node or a good workstation (~20-36 cores).
 
 These test cases are too long-running to be used on every Git push.
-We choose to use CMake to orchestrate these tests as CMake is a common demoninator for Gemini, and is easier and more robust for this type of task.
+We choose to use CMake to orchestrate these tests as CMake is a common denominator for Gemini, and is easier and more robust for this type of task.
 This task is within the main use cases of CMake, versus a data analysis language like Matlab or Python.
 
 ```sh
-cmake -B build
-cd build
-ctest
+ctest -S ci.cmake -VV
 ```
 
-These tests are intended to *supplement* (not replace) those already conducted as part of the automatic CI.  because these are too computationally expensive to run on every push they are optional but highly recommended for verifcation.
+The `-VV` is optional to show verbose test status in the terminal; it can be omitted.
+The non-MPI tests run in parallel, while the MPI-based tests run one at a time to avoid oversubscribing the CPU.
+The HWLOC library is used when available to maximum CPU usage for MPI-based tests.
 
-For each example there are sample commands showing how to run the exmaple using ```mpirun``` on either a small workstation (4 cores) or a large workstation (16 cores).  MPI image splits can be adjusted accordingly to best leverage whatever system one runs from.  Each test description below also briefly describes the specific GEMINI features that the example in intended to test/verify.
+These tests are intended to *supplement* (not replace) those already conducted as part of the automatic CI.  because these are too computationally expensive to run on every push they are optional but highly recommended for verification.
+
+For each example there are sample commands showing how to run the example using ```mpirun``` on either a small workstation (4 cores) or a large workstation (16 cores).  MPI image splits can be adjusted accordingly to best leverage whatever system one runs from.  Each test description below also briefly describes the specific GEMINI features that the example in intended to test/verify.
 
 ##  arcs\_CI
 
@@ -67,10 +69,10 @@ mpirun -np 16 ./magcalc.bin ~/simulations/arcs_CI -manual_grid 4 4 -debug -start
 
 ## GDI\_periodic\_lowres\_CI
 
-* Simulation of gradient-drift instability on a nonuniform, periodic, lagrangian mesh
+* Simulation of gradient-drift instability on a nonuniform, periodic, Lagrangian mesh
 * corresponding eq simulation:  ./GDIKHI_eq
 * tests field integrated solver with FAC boundary condition and background field; ionospheric capacitance option
-* tests lagrangian mesh features
+* tests Lagrangian mesh features
 * grid size:  34 x 184 x 48
 
 *Small workstation run:*
