@@ -10,6 +10,9 @@ VERSION 0.1.0)
 
 include(CTest)
 
+include(${PROJECT_SOURCE_DIR}/../cmake/options.cmake)
+include(${PROJECT_SOURCE_DIR}/../cmake/libraries.cmake)
+
 find_program(run_exe
   NAMES gemini3d.run
   HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
@@ -32,18 +35,20 @@ message(VERBOSE "gemini3d.run FOUND: ${run_exe}")
 # --- get PyGemini
 find_package(Python COMPONENTS Interpreter)
 
-if(NOT DEFINED py_ok)
+if(python AND NOT DEFINED py_ok)
   execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d.model"
     RESULT_VARIABLE e)
   if(e EQUAL 0)
     set(py_ok true CACHE BOOL "PyGemini detected.")
   else()
-    message(FATAL_ERROR "PyGemini is not setup: https://github.com/gemini3d/pygemini")
+    message(WARNING "PyGemini is not setup: https://github.com/gemini3d/pygemini")
   endif()
 endif()
 
 # --- get MatGemini
-# find_package(Matlab COMPONENTS MAIN_PROGRAM)
+if(NOT py_ok)
+  include(${PROJECT_SOURCE_DIR}/../cmake/matlab.cmake)
+endif()
 
 # --- discover tests
 
@@ -68,6 +73,8 @@ if(NOT eq_dir)
 endif()
 get_filename_component(eq_dir ${eq_dir} ABSOLUTE)
 
+set(in_files ${eq_dir}/inputs/config.nml ${eq_dir}/inputs/simsize.h5)
+
 if(NOT IS_DIRECTORY ${eq_dir})
   # add_test(NAME "setup:download:${name}"
   #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${PROJECT_SOURCE_DIR}/../cmake/download_extract.cmake)
@@ -78,7 +85,7 @@ if(NOT IS_DIRECTORY ${eq_dir})
   download_extract(${nml_file})
 endif()
 
-set(plan_cpu 1)
+set(plan_cpu)
 if(NOT run_disabled)
 
   cmake_host_system_information(RESULT sys_info QUERY OS_NAME OS_PLATFORM)
@@ -90,6 +97,8 @@ if(NOT run_disabled)
     math(EXPR plan_cpu "${Nhybrid} / 2")  # use only fast cores, else MPI tests very slow
   else()
     # non-hybrid CPU
+    file(COPY ${in_files} DESTINATION ${out_dir}/inputs/)
+
     execute_process(COMMAND ${run_exe} ${out_dir} -plan
       OUTPUT_VARIABLE plan_out
       ERROR_VARIABLE plan_err
@@ -110,29 +119,27 @@ endif()
 # setup model
 if(py_ok)
 
-add_test(NAME "setup:python:${name}"
-  COMMAND ${Python_EXECUTABLE} -m gemini3d.model ${in_dir} ${out_dir}
-  WORKING_DIRECTORY ${in_dir})
-set_tests_properties("setup:python:${name}" PROPERTIES
-  LABELS "setup;python"
-  FIXTURES_SETUP ${name}:run_fxt
-  # FIXTURES_REQUIRED ${name}:download_fxt
-  TIMEOUT 300)
+  add_test(NAME "setup:python:${name}"
+    COMMAND ${Python_EXECUTABLE} -m gemini3d.model ${in_dir} ${out_dir}
+    WORKING_DIRECTORY ${in_dir})
 
-endif(py_ok)
+  set_tests_properties("setup:python:${name}" PROPERTIES
+    LABELS "setup;python"
+    FIXTURES_SETUP ${name}:run_fxt
+    # FIXTURES_REQUIRED ${name}:download_fxt
+    TIMEOUT 300)
 
-if(Matlab_FOUND)
+elseif(Matlab_FOUND)
 
-add_test(NAME "setup:matlab:${name}"
-  COMMAND ${Matlab_MAIN_PROGRAM} -batch "gemini3d.model.setup('${in_dir}', '${out_dir}')"
-  WORKING_DIRECTORY ${in_dir})
-set_tests_properties("setup:matlab:${name}" PROPERTIES
-  LABELS "setup;matlab"
-  FIXTURES_SETUP ${name}:run_fxt
-  # FIXTURES_REQUIRED ${name}:download_fxt
-  TIMEOUT 300)
+  add_matlab_test("setup:matlab:${name}" "addpath('${in_dir}'); gemini3d.model.setup('${in_dir}', '${out_dir}')")
 
-endif(Matlab_FOUND)
+  set_tests_properties("setup:matlab:${name}" PROPERTIES
+    LABELS "setup;matlab"
+    FIXTURES_SETUP ${name}:run_fxt
+    # FIXTURES_REQUIRED ${name}:download_fxt
+    TIMEOUT 300)
+
+endif()
 
 # run
 add_test(NAME "run:${name}"
@@ -149,23 +156,23 @@ set_tests_properties("run:${name}" PROPERTIES
 # plot
 if(py_ok)
 
-add_test(NAME "plot:python:${name}"
-  COMMAND ${Python_EXECUTABLE} -m gemini3d.plot ${out_dir} all)
-set_tests_properties("plot:python:${name}" PROPERTIES
-  LABELS "plot;python"
-  FIXTURES_CLEANUP ${name}:run_fxt
-  TIMEOUT 600)
-endif(py_ok)
+  add_test(NAME "plot:python:${name}"
+    COMMAND ${Python_EXECUTABLE} -m gemini3d.plot ${out_dir} all)
 
-if(Matlab_FOUND)
+  set_tests_properties("plot:python:${name}" PROPERTIES
+    LABELS "plot;python"
+    FIXTURES_CLEANUP ${name}:run_fxt
+    TIMEOUT 600)
 
-add_test(NAME "plot:matlab:${name}"
-  COMMAND ${Matlab_MAIN_PROGRAM} -batch "gemini3d.plot.plotall('${out_dir}', 'png')")
-set_tests_properties("plot:matlab:${name}" PROPERTIES
-  LABELS "plot;matlab"
-  FIXTURES_CLEANUP ${name}:run_fxt
-  TIMEOUT 600)
+elseif(Matlab_FOUND)
 
-endif(Matlab_FOUND)
+  add_matlab_test("plot:matlab:${name}" "gemini3d.plot.plotall('${out_dir}', 'png')")
+
+  set_tests_properties("plot:matlab:${name}" PROPERTIES
+    LABELS "plot;matlab"
+    FIXTURES_CLEANUP ${name}:run_fxt
+    TIMEOUT 600)
+
+endif()
 
 endforeach()

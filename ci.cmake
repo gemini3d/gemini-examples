@@ -77,13 +77,15 @@ function(cmake_cpu_count)
 endfunction(cmake_cpu_count)
 cmake_cpu_count()
 
-# -- CTest Dashboard
+# --- CTest Dashboard
+
 set(CTEST_NOTES_FILES "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")
 set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=Gemini3Dproject")
 set(CTEST_SUBMIT_RETRY_COUNT 3)
+set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 
 ctest_start("Experimental" "${CTEST_SOURCE_DIRECTORY}" "${CTEST_BINARY_DIRECTORY}")
-ctest_submit(PARTS Notes)
+# ctest_submit(PARTS Notes)
 
 ctest_configure(
   RETURN_VALUE _ret
