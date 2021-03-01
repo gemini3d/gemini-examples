@@ -7,6 +7,8 @@ We choose to use CMake to orchestrate these tests as CMake is a common denominat
 This task is within the main use cases of CMake, versus a data analysis language like Matlab or Python.
 
 ```sh
+cd gemini-examples/
+
 ctest -S ci.cmake -VV
 ```
 

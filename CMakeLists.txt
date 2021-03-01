@@ -10,13 +10,15 @@ VERSION 0.1.0)
 
 include(CTest)
 
-include(${PROJECT_SOURCE_DIR}/../cmake/options.cmake)
-include(${PROJECT_SOURCE_DIR}/../cmake/libraries.cmake)
+include(cmake/options.cmake)
+include(cmake/libraries.cmake)
+
+set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
 
 find_program(run_exe
   NAMES gemini3d.run
   HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-  PATHS ${PROJECT_SOURCE_DIR}/../../gemini3d
+  PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
   PATH_SUFFIXES build bin
   DOC "Gemini3d.run Fortran front-end")
 
@@ -47,19 +49,19 @@ endif()
 
 # --- get MatGemini
 if(NOT py_ok)
-  include(${PROJECT_SOURCE_DIR}/../cmake/matlab.cmake)
+  include(cmake/matlab.cmake)
 endif()
 
 # --- discover tests
 
-file(GLOB names LIST_DIRECTORIES true RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*")
+file(GLOB names LIST_DIRECTORIES true RELATIVE ${ci_root} "${ci_root}/*")
 
-include(${PROJECT_SOURCE_DIR}/../cmake/parse_nml.cmake)
-include(${PROJECT_SOURCE_DIR}/../cmake/download_extract.cmake)
+include(cmake/parse_nml.cmake)
+include(cmake/download_extract.cmake)
 
 foreach(name ${names})
 
-set(in_dir ${CMAKE_CURRENT_SOURCE_DIR}/${name})
+set(in_dir ${ci_root}/${name})
 set(out_dir ${PROJECT_BINARY_DIR}/${name})
 set(nml_file ${in_dir}/config.nml)
 
@@ -77,7 +79,7 @@ set(in_files ${eq_dir}/inputs/config.nml ${eq_dir}/inputs/simsize.h5)
 
 if(NOT IS_DIRECTORY ${eq_dir})
   # add_test(NAME "setup:download:${name}"
-  #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${PROJECT_SOURCE_DIR}/../cmake/download_extract.cmake)
+  #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${PROJECT_SOURCE_DIR}/cmake/download_extract.cmake)
   # set_tests_properties("setup:download:${name}" PROPERTIES
   #   LABELS "setup;download"
   #   TIMEOUT 300

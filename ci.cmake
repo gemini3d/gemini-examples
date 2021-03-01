@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14...3.20)
 
 set(CTEST_OUTPUT_ON_FAILURE true)
 
-set(CTEST_SOURCE_DIRECTORY ${CTEST_SCRIPT_DIRECTORY}/ci)
+set(CTEST_SOURCE_DIRECTORY ${CTEST_SCRIPT_DIRECTORY})
 if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   set(CTEST_BINARY_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/build)
 endif()
@@ -24,7 +24,7 @@ if(NOT DEFINED CTEST_BUILD_NAME)
     find_program(run_exe
       NAMES gemini3d.run
       HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-      PATHS ${PROJECT_SOURCE_DIR}/../../gemini3d
+      PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
       PATH_SUFFIXES build bin
       DOC "Gemini3d.run Fortran front-end")
     if(run_exe)
