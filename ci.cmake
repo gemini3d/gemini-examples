@@ -1,6 +1,8 @@
+cmake_minimum_required(VERSION 3.14...3.20)
+
 set(CTEST_OUTPUT_ON_FAILURE true)
 
-set(CTEST_SOURCE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/ci)
+set(CTEST_SOURCE_DIRECTORY ${CTEST_SCRIPT_DIRECTORY}/ci)
 if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   set(CTEST_BINARY_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/build)
 endif()
@@ -9,7 +11,7 @@ if(NOT DEFINED CTEST_SITE)
   if(DEFINED ENV{CTEST_SITE})
     set(CTEST_SITE $ENV{CTEST_SITE})
   else()
-    cmake_host_system_information(RESULT sys_name QUERY OS_NAME OS_VERSION)
+    cmake_host_system_information(RESULT sys_name QUERY OS_NAME OS_RELEASE OS_VERSION)
     string(REPLACE ";" " " sys_name ${sys_name})
     set(CTEST_SITE ${sys_name})
   endif()
@@ -76,23 +78,24 @@ endfunction(cmake_cpu_count)
 cmake_cpu_count()
 
 # -- CTest Dashboard
-ctest_start("Experimental" ${CTEST_SOURCE_DIRECTORY} ${CTEST_BINARY_DIRECTORY})
+set(CTEST_NOTES_FILES "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")
+set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=Gemini3Dproject")
+set(CTEST_SUBMIT_RETRY_COUNT 3)
+
+ctest_start("Experimental" "${CTEST_SOURCE_DIRECTORY}" "${CTEST_BINARY_DIRECTORY}")
+ctest_submit(PARTS Notes)
 
 ctest_configure(
   RETURN_VALUE _ret
   CAPTURE_CMAKE_ERROR _err)
+ctest_submit(PARTS Configure)
 if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
-  message(SEND_ERROR "Configure failed.")
+  message(FATAL_ERROR "Configure failed.")
 endif()
 
 # there is no ctest_build as we're testing already built external packages
 
-ctest_test(
-  PARALLEL_LEVEL ${Ncpu}
-  RETURN_VALUE _ret
-  CAPTURE_CMAKE_ERROR _err)
-if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
-  message(SEND_ERROR "Test failed.")
-endif()
+ctest_test(PARALLEL_LEVEL ${Ncpu})
+ctest_submit(PARTS Test)
 
-ctest_submit()
+ctest_submit(PARTS Done)

@@ -73,25 +73,36 @@ if(NOT IS_DIRECTORY ${eq_dir})
   #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${PROJECT_SOURCE_DIR}/../cmake/download_extract.cmake)
   # set_tests_properties("setup:download:${name}" PROPERTIES
   #   TIMEOUT 300
-  #   FIXTURES_SETUP download_fxt)
+  #   FIXTURES_SETUP ${name}:download_fxt)
   download_extract(${nml_file})
 endif()
 
 set(plan_cpu 1)
 if(NOT run_disabled)
-  execute_process(COMMAND ${run_exe} ${out_dir} -plan
-    OUTPUT_VARIABLE plan_out
-    ERROR_VARIABLE plan_err
-    RESULT_VARIABLE _err
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
-  if(_err EQUAL 0)
-    string(REGEX MATCH "MPI images: ([0-9]+)" m ${plan_out})
-    if(m)
-      set(plan_cpu ${CMAKE_MATCH_1})
-    endif()
+
+  cmake_host_system_information(RESULT sys_info QUERY OS_NAME OS_PLATFORM)
+  if(sys_info STREQUAL "macOS;arm64")
+    # Apple Silicon M1 workaround for hwloc et al:
+    # https://github.com/open-mpi/hwloc/issues/454
+    cmake_host_system_information(RESULT Nhybrid QUERY NUMBER_OF_PHYSICAL_CORES)
+
+    math(EXPR plan_cpu "${Nhybrid} / 2")  # use only fast cores, else MPI tests very slow
   else()
-    message(WARNING "gemini3d.run: ${name} plan failed, disabling: ${plan_err}")
-    set(run_disabled true)
+    # non-hybrid CPU
+    execute_process(COMMAND ${run_exe} ${out_dir} -plan
+      OUTPUT_VARIABLE plan_out
+      ERROR_VARIABLE plan_err
+      RESULT_VARIABLE _err
+      OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if(_err EQUAL 0)
+      string(REGEX MATCH "MPI images: ([0-9]+)" m ${plan_out})
+      if(m)
+        set(plan_cpu ${CMAKE_MATCH_1})
+      endif()
+    else()
+      message(WARNING "gemini3d.run: ${name} plan failed, disabling: ${plan_err}")
+      set(run_disabled true)
+    endif()
   endif()
 endif()
 
@@ -102,8 +113,8 @@ add_test(NAME "setup:python:${name}"
   COMMAND ${Python_EXECUTABLE} -m gemini3d.model ${in_dir} ${out_dir}
   WORKING_DIRECTORY ${in_dir})
 set_tests_properties("setup:python:${name}" PROPERTIES
-  FIXTURES_SETUP run_fxt
-  # FIXTURES_REQUIRED download_fxt
+  FIXTURES_SETUP ${name}:run_fxt
+  # FIXTURES_REQUIRED ${name}:download_fxt
   TIMEOUT 300)
 
 endif(py_ok)
@@ -114,19 +125,19 @@ add_test(NAME "setup:matlab:${name}"
   COMMAND ${Matlab_MAIN_PROGRAM} -batch "gemini3d.model.setup('${in_dir}', '${out_dir}')"
   WORKING_DIRECTORY ${in_dir})
 set_tests_properties("setup:matlab:${name}" PROPERTIES
-  FIXTURES_SETUP run_fxt
-  # FIXTURES_REQUIRED download_fxt
+  FIXTURES_SETUP ${name}:run_fxt
+  # FIXTURES_REQUIRED ${name}:download_fxt
   TIMEOUT 300)
 
 endif(Matlab_FOUND)
 
 # run
 add_test(NAME "run:${name}"
-  COMMAND ${run_exe} ${out_dir}
+  COMMAND ${run_exe} ${out_dir} -n ${plan_cpu}
   WORKING_DIRECTORY ${run_parent})
 set_tests_properties("run:${name}" PROPERTIES
   DISABLED ${run_disabled}
-  FIXTURES_REQUIRED run_fxt
+  FIXTURES_REQUIRED ${name}:run_fxt
   TIMEOUT 43200
   PROCESSORS ${plan_cpu}
   RESOURCE_LOCK cpu_mpi)
@@ -137,7 +148,7 @@ if(py_ok)
 add_test(NAME "plot:python:${name}"
   COMMAND ${Python_EXECUTABLE} -m gemini3d.plot ${out_dir} all)
 set_tests_properties("plot:python:${name}" PROPERTIES
-  FIXTURES_CLEANUP run_fxt
+  FIXTURES_CLEANUP ${name}:run_fxt
   TIMEOUT 600)
 endif(py_ok)
 
@@ -146,7 +157,7 @@ if(Matlab_FOUND)
 add_test(NAME "plot:matlab:${name}"
   COMMAND ${Matlab_MAIN_PROGRAM} -batch "gemini3d.plot.plotall('${out_dir}', 'png')")
 set_tests_properties("plot:matlab:${name}" PROPERTIES
-  FIXTURES_CLEANUP run_fxt
+  FIXTURES_CLEANUP ${name}:run_fxt
   TIMEOUT 600)
 
 endif(Matlab_FOUND)
