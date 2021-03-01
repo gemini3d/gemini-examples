@@ -77,6 +77,24 @@ if(NOT IS_DIRECTORY ${eq_dir})
   download_extract(${nml_file})
 endif()
 
+set(plan_cpu 1)
+if(NOT run_disabled)
+  execute_process(COMMAND ${run_exe} ${out_dir} -plan
+    OUTPUT_VARIABLE plan_out
+    ERROR_VARIABLE plan_err
+    RESULT_VARIABLE _err
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+  if(_err EQUAL 0)
+    string(REGEX MATCH "MPI images: ([0-9]+)" m ${plan_out})
+    if(m)
+      set(plan_cpu ${CMAKE_MATCH_1})
+    endif()
+  else()
+    message(WARNING "gemini3d.run: ${name} plan failed, disabling: ${plan_err}")
+    set(run_disabled true)
+  endif()
+endif()
+
 # setup model
 if(py_ok)
 
@@ -85,7 +103,7 @@ add_test(NAME "setup:python:${name}"
   WORKING_DIRECTORY ${in_dir})
 set_tests_properties("setup:python:${name}" PROPERTIES
   FIXTURES_SETUP run_fxt
-  FIXTURES_REQUIRED download_fxt
+  # FIXTURES_REQUIRED download_fxt
   TIMEOUT 300)
 
 endif(py_ok)
@@ -97,7 +115,7 @@ add_test(NAME "setup:matlab:${name}"
   WORKING_DIRECTORY ${in_dir})
 set_tests_properties("setup:matlab:${name}" PROPERTIES
   FIXTURES_SETUP run_fxt
-  FIXTURES_REQUIRED download_fxt
+  # FIXTURES_REQUIRED download_fxt
   TIMEOUT 300)
 
 endif(Matlab_FOUND)
@@ -109,7 +127,8 @@ add_test(NAME "run:${name}"
 set_tests_properties("run:${name}" PROPERTIES
   DISABLED ${run_disabled}
   FIXTURES_REQUIRED run_fxt
-  TIMEOUT 7200
+  TIMEOUT 43200
+  PROCESSORS ${plan_cpu}
   RESOURCE_LOCK cpu_mpi)
 
 # plot
