@@ -26,11 +26,15 @@ if(NOT DEFINED CTEST_BUILD_NAME)
     if(run_exe)
       execute_process(COMMAND ${run_exe} -compiler_version
         OUTPUT_VARIABLE _compiler_version
-        RESULT_VARIABLE _err)
+        RESULT_VARIABLE _err
+        TIMEOUT 5
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
       if(_err EQUAL 0)
         execute_process(COMMAND ${run_exe} -git
           OUTPUT_VARIABLE _git_version
-          RESULT_VARIABLE _err)
+          RESULT_VARIABLE _err
+          TIMEOUT 5
+          OUTPUT_STRIP_TRAILING_WHITESPACE)
       endif()
       if(_err EQUAL 0)
         set(CTEST_BUILD_NAME "${_compiler_version}  ${_git_version}")
