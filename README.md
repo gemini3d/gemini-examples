@@ -11,6 +11,8 @@ These are not all kept up-to-date with the latest GEMINI releases but many are a
 The [init/](./init) directories contain a mix of Matlab and Python scripts.
 Some of the popular examples have scripts for both languages.
 
+The [ci](./ci) directories contain several minutes to hours simulations that can run as a daily CI job on a powerful workstation or HPC.
+
 ### Python
 
 The Python scripts use [PyGemini](https://github.com/gemini3d/pygemini).

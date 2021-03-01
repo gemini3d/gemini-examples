@@ -129,7 +129,7 @@ if(py_ok)
     # FIXTURES_REQUIRED ${name}:download_fxt
     TIMEOUT 300)
 
-elseif(Matlab_FOUND)
+elseif(MATGEMINI_DIR)
 
   add_matlab_test("setup:matlab:${name}" "addpath('${in_dir}'); gemini3d.model.setup('${in_dir}', '${out_dir}')")
 
@@ -164,7 +164,7 @@ if(py_ok)
     FIXTURES_CLEANUP ${name}:run_fxt
     TIMEOUT 600)
 
-elseif(Matlab_FOUND)
+elseif(MATGEMINI_DIR)
 
   add_matlab_test("plot:matlab:${name}" "gemini3d.plot.plotall('${out_dir}', 'png')")
 
