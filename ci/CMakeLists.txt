@@ -49,8 +49,8 @@ endif()
 
 file(GLOB names LIST_DIRECTORIES true RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*")
 
-include(parse_nml.cmake)
-include(download_extract.cmake)
+include(${PROJECT_SOURCE_DIR}/../cmake/parse_nml.cmake)
+include(${PROJECT_SOURCE_DIR}/../cmake/download_extract.cmake)
 
 foreach(name ${names})
 
@@ -70,7 +70,7 @@ get_filename_component(eq_dir ${eq_dir} ABSOLUTE)
 
 if(NOT IS_DIRECTORY ${eq_dir})
   # add_test(NAME "setup:download:${name}"
-  #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${CMAKE_CURRENT_SOURCE_DIR}/download_extract.cmake)
+  #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${PROJECT_SOURCE_DIR}/../cmake/download_extract.cmake)
   # set_tests_properties("setup:download:${name}" PROPERTIES
   #   TIMEOUT 300
   #   FIXTURES_SETUP download_fxt)
