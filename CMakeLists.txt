@@ -53,15 +53,21 @@ if(NOT py_ok)
 endif()
 
 # --- discover tests
+set(hourly_root ${ci_root}/hourly)
+file(GLOB hourly_dirs LIST_DIRECTORIES true "${hourly_root}/*")
 
-file(GLOB names LIST_DIRECTORIES true RELATIVE ${ci_root} "${ci_root}/*")
+set(daily_root ${ci_root}/daily)
+file(GLOB daily_dirs LIST_DIRECTORIES true "${daily_root}/*")
 
 include(cmake/parse_nml.cmake)
 include(cmake/download_extract.cmake)
 
-foreach(name ${names})
+foreach(in_dir ${hourly_dirs} ${daily_dirs})
 
-set(in_dir ${ci_root}/${name})
+get_filename_component(name ${in_dir} NAME)
+get_filename_component(_t ${in_dir} DIRECTORY)
+get_filename_component(type_label ${_t} NAME)
+
 set(out_dir ${PROJECT_BINARY_DIR}/${name})
 set(nml_file ${in_dir}/config.nml)
 
@@ -81,7 +87,7 @@ if(NOT IS_DIRECTORY ${eq_dir})
   # add_test(NAME "setup:download:${name}"
   #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${PROJECT_SOURCE_DIR}/cmake/download_extract.cmake)
   # set_tests_properties("setup:download:${name}" PROPERTIES
-  #   LABELS "setup;download"
+  #   LABELS "setup;download;${type_label}"
   #   TIMEOUT 300
   #   FIXTURES_SETUP ${name}:download_fxt)
   download_extract(${nml_file})
@@ -126,7 +132,7 @@ if(py_ok)
     WORKING_DIRECTORY ${in_dir})
 
   set_tests_properties("setup:python:${name}" PROPERTIES
-    LABELS "setup;python"
+    LABELS "setup;python;${type_label}"
     FIXTURES_SETUP ${name}:run_fxt
     # FIXTURES_REQUIRED ${name}:download_fxt
     TIMEOUT 300)
@@ -136,7 +142,7 @@ elseif(MATGEMINI_DIR)
   add_matlab_test("setup:matlab:${name}" "addpath('${in_dir}'); gemini3d.model.setup('${in_dir}', '${out_dir}')")
 
   set_tests_properties("setup:matlab:${name}" PROPERTIES
-    LABELS "setup;matlab"
+    LABELS "setup;matlab;${type_label}"
     FIXTURES_SETUP ${name}:run_fxt
     # FIXTURES_REQUIRED ${name}:download_fxt
     TIMEOUT 300)
@@ -149,7 +155,7 @@ add_test(NAME "run:${name}"
   WORKING_DIRECTORY ${run_parent})
 set_tests_properties("run:${name}" PROPERTIES
   DISABLED ${run_disabled}
-  LABELS "run"
+  LABELS "run;${type_label}"
   FIXTURES_REQUIRED ${name}:run_fxt
   TIMEOUT 43200
   PROCESSORS ${plan_cpu}
@@ -162,7 +168,7 @@ if(py_ok)
     COMMAND ${Python_EXECUTABLE} -m gemini3d.plot ${out_dir} all)
 
   set_tests_properties("plot:python:${name}" PROPERTIES
-    LABELS "plot;python"
+    LABELS "plot;python;${type_label}"
     FIXTURES_CLEANUP ${name}:run_fxt
     TIMEOUT 600)
 
@@ -171,7 +177,7 @@ elseif(MATGEMINI_DIR)
   add_matlab_test("plot:matlab:${name}" "gemini3d.plot.plotall('${out_dir}', 'png')")
 
   set_tests_properties("plot:matlab:${name}" PROPERTIES
-    LABELS "plot;matlab"
+    LABELS "plot;matlab;${type_label}"
     FIXTURES_CLEANUP ${name}:run_fxt
     TIMEOUT 600)
 
