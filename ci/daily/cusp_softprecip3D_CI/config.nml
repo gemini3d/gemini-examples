@@ -16,11 +16,34 @@ flagperiodic = 0    ! whether periodic
 flagoutput = 2      ! 1 - full parameter output
 /
 
+&setup
+dtheta=11
+dphi=19
+lp=120
+lq=160
+lphi=64
+altmin=80e3
+glat=78.22
+glon=15.6
+gridflag=0
+
+E0precip=300
+Qprecip=1
+Qprecip_background=0.01
+precip_latwidth=0.15
+precip_lonwidth=0.25
+
+Efield_latwidth=0.025
+Efield_lonwidth=0.025
+Jtarg=1.5e-6
+
+eq_dir = '../cusp3d_eq'
+/
+
 &files
-file_format='h5'
-indat_size = './inputs/simsize.h5'
-indat_grid = './inputs/simgrid.h5'
-indat_file = './inputs/initial_conditions.h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
 /
 
 &efield

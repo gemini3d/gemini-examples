@@ -15,6 +15,16 @@ include(cmake/libraries.cmake)
 
 set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
 
+if(NOT DEFINED eq_root)
+  foreach(d "~/sims" "~/simulations")
+    get_filename_component(d ${d} ABSOLUTE)
+    if(IS_DIRECTORY ${d})
+      set(eq_root ${d})
+      break()
+    endif()
+  endforeach()
+endif()
+
 find_program(run_exe
   NAMES gemini3d.run
   HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
@@ -35,9 +45,9 @@ endif()
 message(VERBOSE "gemini3d.run FOUND: ${run_exe}")
 
 # --- get PyGemini
-find_package(Python COMPONENTS Interpreter)
-
 if(python AND NOT DEFINED py_ok)
+  find_package(Python COMPONENTS Interpreter)
+
   execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d.model"
     RESULT_VARIABLE e)
   if(e EQUAL 0)
@@ -53,6 +63,7 @@ if(NOT py_ok)
 endif()
 
 # --- discover tests
+
 set(hourly_root ${ci_root}/hourly)
 file(GLOB hourly_dirs LIST_DIRECTORIES true "${hourly_root}/*")
 
@@ -79,7 +90,7 @@ parse_nml(${nml_file} "eq_dir")
 if(NOT eq_dir)
   continue()
 endif()
-get_filename_component(eq_dir ${eq_dir} ABSOLUTE)
+get_filename_component(eq_dir ${eq_root}/${name}/${eq_dir} ABSOLUTE)
 
 set(in_files ${eq_dir}/inputs/config.nml ${eq_dir}/inputs/simsize.h5)
 
@@ -91,6 +102,11 @@ if(NOT IS_DIRECTORY ${eq_dir})
   #   TIMEOUT 300
   #   FIXTURES_SETUP ${name}:download_fxt)
   download_extract(${nml_file})
+
+  if(NOT EXISTS ${eq_dir}/inputs/config.nml)
+    continue()
+  endif()
+
 endif()
 
 set(plan_cpu)
@@ -158,8 +174,10 @@ set_tests_properties("run:${name}" PROPERTIES
   LABELS "run;${type_label}"
   FIXTURES_REQUIRED ${name}:run_fxt
   TIMEOUT 43200
-  PROCESSORS ${plan_cpu}
   RESOURCE_LOCK cpu_mpi)
+if(NOT run_disabled)
+  set_tests_properties("run:${name}" PROPERTIES PROCESSORS ${plan_cpu})
+endif()
 
 # plot
 if(py_ok)

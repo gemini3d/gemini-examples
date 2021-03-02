@@ -1,10 +1,5 @@
-option(python "use Python for tests" on)
-option(matlab "use Matlab instead of Python")
-
-if(matlab)
-  set(python false)
-endif()
-
+option(python "use Python for tests" off)
+option(matlab "use Matlab instead of Python" on)
 
 
 if(dev)

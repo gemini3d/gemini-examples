@@ -1,9 +1,8 @@
-! 2D simulation of tohoku earthquake
+! Very low resolution simulation of 2011 Tohoku earthquake
 
 &base
 ymd = 2011,3,11               ! year, month, day
 UTsec0 = 35100.0              ! start time in UT seconds
-!UTsec0=20783.0
 tdur = 1795.0                  ! duration of simulation in seconds
 dtout = 125.0                  ! how often to do file output
 activ = 104.7,129.5,37.0       ! f107a,f107,Ap
@@ -18,24 +17,21 @@ flagoutput = 2      ! 1 - full output
 /
 
 &files
-file_format='h5'
-indat_size = '../../simulations/tohoku20112D_medres/inputs/simsize.h5'
-indat_grid = '../../simulations/tohoku20112D_medres/inputs/simgrid.h5'
-indat_file = '../../simulations/tohoku20112D_medres/inputs/initial_conditions.h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
 /
 
 &neutral_perturb
 flagdneu = 1
-interptype = 1
+interptype = 3
 sourcemlat = 29.0667
 sourcemlon = 209.8501
 dtneu = 5.0
-!dtneu = 4.0
+dxn = 9375.0
 dzn = 5000.0
 drhon = 8333.3
-!dzn = 1000.0
-!drhon = 1000.0
-source_dir = '../../simulations/input/acoustic2D_axisymmetric_neutrals_GEMINI/'
+source_dir = '../../simulations/input/acoustic3D_cartesian_neutrals_GEMINI/'
 /
 
 &milestone

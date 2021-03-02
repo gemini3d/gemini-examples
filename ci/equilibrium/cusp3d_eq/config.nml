@@ -5,7 +5,7 @@ ymd = 2016,3,3               ! year, month, day
 UTsec0 = 4500.0              ! start time in UT seconds
 tdur = 10800.0                  ! duration of simulation in seconds
 dtout = 600.0                  ! how often to do file output
-activ = 150.0,150.0,4.0       ! f107a,f107,Ap
+activ = 124.6,138.5,6.1      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
 /
@@ -16,9 +16,23 @@ flagperiodic = 0    ! whether periodic
 flagoutput = 1      ! 1 - full output
 /
 
+&setup
+dtheta=12
+dphi=20
+lp=96
+lq=128
+lphi=54
+altmin=80e3
+glat=78.22
+glon=15.6
+gridflag=0
+
+nmf=5e11
+nme=2e11
+/
+
 &files
-file_format='h5'
-indat_size = '~/simulations/cusp2D_eq/inputs/simsize.h5'
-indat_grid = '~/simulations/cusp2D_eq/inputs/simgrid.h5'
-indat_file = '~/simulations/cusp2D_eq/inputs/initial_conditions.h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
 /

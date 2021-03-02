@@ -18,11 +18,17 @@ repository.
 Select the MATLAB script to set up some initial conditions (arbitrary) and store the grid, etc.,  for the simulation
 
 ```sh
-cd gemini-examples/init/tohoku20113D_eq
+cd gemini-examples/ci/equilibrium/tohoku3d_eq
 ```
 
 Create equilibrium simulation input data and compute the desired equilibrium state from Matlab:
 
 ```matlab
-gemini3d.run(out_dir, path/to/config.nml)
+gemini3d.model.setup('.', '~/sims/tohoku3d_eq')
+```
+
+from the terminal gemini3d/build/ directory
+
+```sh
+./gemini3d.run ~/sims/tohoku3d_eq
 ```

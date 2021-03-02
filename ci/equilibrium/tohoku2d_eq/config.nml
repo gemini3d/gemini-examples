@@ -1,0 +1,37 @@
+&base
+ymd = 2011,10,3
+UTsec0 = 20783.0
+tdur = 86400
+dtout = 1800.0                          !dtout: how often to do output
+activ=104.7,129.5,37.0              !activ:  f107a,f107,Ap
+tcfl=0.9                           !tcfl:  target cfl number
+Teinf=1500.0                        !Teinf:  exospheric electron temperature
+/
+
+&flags
+potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 1      ! 1 - full parameter output
+/
+
+&setup
+dtheta=10
+dphi=12
+glat=42.45
+glon=143.40
+lp=256
+lq=750
+lphi=1
+altmin=80e3
+gridflag=1
+
+nmf=5e11
+nme=2e11
+/
+
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/

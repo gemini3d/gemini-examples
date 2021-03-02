@@ -12,7 +12,7 @@ end
 setup_file = fullfile(gemini_matlab, "setup.m");
 
 if ~isfile(setup_file)
-  meta = jsondecode(fileread(fullfile(cwd, "libraries.json")));
+  meta = jsondecode(fileread(fullfile(cwd, "cmake/libraries.json")));
 
   cmd = "git -C " + fullfile(cwd, "..") + " clone --recurse-submodules " + meta.matgemini.git;
   ret = system(cmd);

@@ -33,7 +33,7 @@ Jtarg = 15e-6               ! A/m2
 Efield_lonwidth = 0.15
 Efield_latwidth = 0.025
 
-eq_dir = '~/simulations/arcs_eq_large/'
+eq_dir = '../arcs_eq'
 
 setup_functions = 'Efield_BCs_angle_wide', 'particles_BCs_angle_wide'
 Eyit=25e-3
