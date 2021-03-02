@@ -102,12 +102,18 @@ if(NOT IS_DIRECTORY ${eq_dir})
   #   TIMEOUT 300
   #   FIXTURES_SETUP ${name}:download_fxt)
   download_extract(${nml_file})
-
-  if(NOT EXISTS ${eq_dir}/inputs/config.nml)
-    continue()
-  endif()
-
 endif()
+
+if(NOT EXISTS ${eq_dir}/inputs/config.nml)
+  continue()
+endif()
+
+file(GLOB _out_files LIST_DIRECTORIES false "${eq_dir}/*.h5")
+if(NOT _out_files)
+  message(STATUS "SKIP: ${name}: ${eq_dir} present, but simulation was not yet run")
+  continue()
+endif()
+
 
 set(plan_cpu)
 if(NOT run_disabled)
