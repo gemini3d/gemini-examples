@@ -19,6 +19,9 @@ set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
 
 include(cmake/find_gemini.cmake)
 
+include(cmake/parse_nml.cmake)
+include(cmake/download_extract.cmake)
+
 # --- PyGemini
 if(python AND NOT DEFINED py_ok)
   include(cmake/python.cmake)
@@ -30,19 +33,28 @@ if(matlab)
 endif()
 
 # --- discover tests
-set(hourly_root ${ci_root}/hourly)
-file(GLOB hourly_dirs LIST_DIRECTORIES true "${hourly_root}/*")
+if(equil)
+  file(GLOB sim_dirs LIST_DIRECTORIES true "${ci_root}/equilibrium/*")
+else(equil)
+  file(GLOB hourly_dirs LIST_DIRECTORIES true "${ci_root}/hourly/*")
+  file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
+  set(sim_dirs ${hourly_dirs} ${daily_dirs})
+endif(equil)
 
-set(daily_root ${ci_root}/daily)
-file(GLOB daily_dirs LIST_DIRECTORIES true "${daily_root}/*")
+# --- MacOS ARM64 workaround
 
-include(cmake/parse_nml.cmake)
-include(cmake/download_extract.cmake)
-include(cmake/get_plan_cpu.cmake)
+cmake_host_system_information(RESULT sys_info QUERY OS_NAME OS_PLATFORM)
+if(sys_info STREQUAL "macOS;arm64")
+  # Apple Silicon M1 workaround for hwloc et al:
+  # https://github.com/open-mpi/hwloc/issues/454
+  cmake_host_system_information(RESULT Nhybrid QUERY NUMBER_OF_PHYSICAL_CORES)
+
+  math(EXPR plan_cpu "${Nhybrid} / 2")  # use only fast cores, else MPI very slow
+endif()
 
 # --- main loop
 
-foreach(in_dir ${hourly_dirs} ${daily_dirs})
+foreach(in_dir ${sim_dirs})
 
 set(nml_file ${in_dir}/config.nml)
 
@@ -50,40 +62,50 @@ if(NOT EXISTS ${nml_file})
   continue()
 endif()
 
-parse_nml(${nml_file} "eq_dir")
-if(NOT eq_dir)
-  continue()
+if(NOT equil)
+  parse_nml(${nml_file} "eq_dir")
+  if(NOT eq_dir)
+    continue()
+  endif()
 endif()
-
-get_filename_component(name ${in_dir} NAME)
-set(out_dir ${sim_root}/${name})
-get_filename_component(eq_dir ${out_dir}/${eq_dir} ABSOLUTE)
 
 get_filename_component(_t ${in_dir} DIRECTORY)
 get_filename_component(type_label ${_t} NAME)
 
-if(NOT IS_DIRECTORY ${eq_dir})
-  # add_test(NAME "setup:download:${name}"
-  #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${PROJECT_SOURCE_DIR}/cmake/download_extract.cmake)
-  # set_tests_properties("setup:download:${name}" PROPERTIES
-  #   LABELS "setup;download;${type_label}"
-  #   TIMEOUT 300
-  #   FIXTURES_SETUP ${name}:download_fxt)
-  download_extract(${nml_file})
-endif()
+get_filename_component(name ${in_dir} NAME)
+set(out_dir ${sim_root}/${name})
 
-if(NOT EXISTS ${eq_dir}/inputs/config.nml)
-  continue()
-endif()
+if(equil)
+  if(IS_DIRECTORY ${out_dir})
+    message(STATUS "SKIP: ${name}: existing equilibrium ${out_dir}")
+    continue()
+  endif()
 
-file(GLOB _out_files LIST_DIRECTORIES false "${eq_dir}/*.h5")
-if(NOT _out_files)
-  message(STATUS "SKIP: ${name}: ${eq_dir} present, but simulation was not yet run")
-  continue()
-endif()
+  set(plan_dir ${out_dir})
+else(equil)
+  get_filename_component(eq_dir ${out_dir}/${eq_dir} ABSOLUTE)
 
-if(NOT run_disabled)
-  get_plan_cpu(${eq_dir} ${out_dir})
+  if(NOT IS_DIRECTORY ${eq_dir})
+    # add_test(NAME "setup:download:${name}"
+    #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${PROJECT_SOURCE_DIR}/cmake/download_extract.cmake)
+    # set_tests_properties("setup:download:${name}" PROPERTIES
+    #   LABELS "setup;download;${type_label}"
+    #   TIMEOUT 300
+    #   FIXTURES_SETUP ${name}:download_fxt)
+    download_extract(${nml_file})
+  endif()
+
+  if(NOT EXISTS ${eq_dir}/inputs/config.nml)
+    continue()
+  endif()
+
+  file(GLOB _out_files LIST_DIRECTORIES false "${eq_dir}/*.h5")
+  if(NOT _out_files)
+    message(STATUS "SKIP: ${name}: ${eq_dir} present, but simulation was not yet run")
+    continue()
+  endif()
+
+  set(plan_dir ${eq_dir})
 endif()
 
 # setup model
@@ -112,17 +134,20 @@ elseif(MATGEMINI_DIR)
 endif()
 
 # run
+set(cmd ${run_exe} ${out_dir})
+if(plan_cpu)
+  list(APPEND cmd -n ${plan_cpu})
+endif()
 add_test(NAME "run:${name}"
-  COMMAND ${run_exe} ${out_dir} -n ${plan_cpu}
+  COMMAND ${cmd}
   WORKING_DIRECTORY ${run_parent})
 
 set_tests_properties("run:${name}" PROPERTIES
-  DISABLED $<OR:${run_disabled},$<EQUAL:0,${plan_cpu}>>
+  DISABLED ${run_disabled}
   LABELS "run;${type_label}"
   FIXTURES_REQUIRED ${name}:run_fxt
   TIMEOUT 43200
-  RESOURCE_LOCK cpu_mpi
-  PROCESSORS ${plan_cpu})
+  RESOURCE_LOCK cpu_mpi)
 
 # plot
 if(py_ok)

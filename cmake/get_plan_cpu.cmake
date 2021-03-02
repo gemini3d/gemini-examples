@@ -1,7 +1,7 @@
-function(get_plan_cpu eq_dir out_dir)
+function(get_plan_cpu plan_dir out_dir)
 
 # gemini3d.run -plan needs these files to do the planning
-foreach(f ${eq_dir}/inputs/config.nml ${eq_dir}/inputs/simsize.h5)
+foreach(f ${plan_dir}/inputs/config.nml ${plan_dir}/inputs/simsize.h5)
   if(NOT EXISTS ${out_dir}/inputs/${f})
     file(COPY ${f} DESTINATION ${out_dir}/inputs/)
   endif()
