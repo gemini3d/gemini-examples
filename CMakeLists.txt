@@ -13,36 +13,11 @@ include(CTest)
 include(cmake/options.cmake)
 include(cmake/libraries.cmake)
 
+include(cmake/get_simroot.cmake)
+
 set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
 
-if(NOT DEFINED eq_root)
-  foreach(d "~/sims" "~/simulations")
-    get_filename_component(d ${d} ABSOLUTE)
-    if(IS_DIRECTORY ${d})
-      set(eq_root ${d})
-      break()
-    endif()
-  endforeach()
-endif()
-
-find_program(run_exe
-  NAMES gemini3d.run
-  HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-  PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
-  PATH_SUFFIXES build bin
-  DOC "Gemini3d.run Fortran front-end")
-
-if(run_exe)
-  set(run_disabled false)
-  get_filename_component(run_parent ${run_exe} DIRECTORY)  # for MSIS 2.0 and similar
-else()
-  set(run_disabled true)
-  message(WARNING "Please specify the top-level install path of gemini3d.run like
-    cmake -DGEMINI_ROOT=~/code/gemini3d -B build
-or specify in environment variable GEMINI_ROOT")
-endif()
-
-message(VERBOSE "gemini3d.run FOUND: ${run_exe}")
+include(cmake/find_gemini.cmake)
 
 # --- get PyGemini
 if(python AND NOT DEFINED py_ok)
@@ -72,6 +47,9 @@ file(GLOB daily_dirs LIST_DIRECTORIES true "${daily_root}/*")
 
 include(cmake/parse_nml.cmake)
 include(cmake/download_extract.cmake)
+include(cmake/get_plan_cpu.cmake)
+
+# --- main loop
 
 foreach(in_dir ${hourly_dirs} ${daily_dirs})
 
@@ -91,8 +69,6 @@ if(NOT eq_dir)
   continue()
 endif()
 get_filename_component(eq_dir ${eq_root}/${name}/${eq_dir} ABSOLUTE)
-
-set(in_files ${eq_dir}/inputs/config.nml ${eq_dir}/inputs/simsize.h5)
 
 if(NOT IS_DIRECTORY ${eq_dir})
   # add_test(NAME "setup:download:${name}"
@@ -114,37 +90,7 @@ if(NOT _out_files)
   continue()
 endif()
 
-
-set(plan_cpu)
-if(NOT run_disabled)
-
-  cmake_host_system_information(RESULT sys_info QUERY OS_NAME OS_PLATFORM)
-  if(sys_info STREQUAL "macOS;arm64")
-    # Apple Silicon M1 workaround for hwloc et al:
-    # https://github.com/open-mpi/hwloc/issues/454
-    cmake_host_system_information(RESULT Nhybrid QUERY NUMBER_OF_PHYSICAL_CORES)
-
-    math(EXPR plan_cpu "${Nhybrid} / 2")  # use only fast cores, else MPI tests very slow
-  else()
-    # non-hybrid CPU
-    file(COPY ${in_files} DESTINATION ${out_dir}/inputs/)
-
-    execute_process(COMMAND ${run_exe} ${out_dir} -plan
-      OUTPUT_VARIABLE plan_out
-      ERROR_VARIABLE plan_err
-      RESULT_VARIABLE _err
-      OUTPUT_STRIP_TRAILING_WHITESPACE)
-    if(_err EQUAL 0)
-      string(REGEX MATCH "MPI images: ([0-9]+)" m ${plan_out})
-      if(m)
-        set(plan_cpu ${CMAKE_MATCH_1})
-      endif()
-    else()
-      message(WARNING "gemini3d.run: ${name} plan failed, disabling: ${plan_err}")
-      set(run_disabled true)
-    endif()
-  endif()
-endif()
+get_plan_cpu(${eq_dir} ${out_dir} ${run_disabled})
 
 # setup model
 if(py_ok)
