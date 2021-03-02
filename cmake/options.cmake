@@ -1,6 +1,8 @@
 option(python "use Python for tests" off)
 option(matlab "use Matlab instead of Python" on)
 
+option(dev "dev mode")
+
 
 if(dev)
   set(FETCHCONTENT_SOURCE_DIR_PYGEMINI ${PROJECT_SOURCE_DIR}/../pygemini CACHE PATH "PyGemini developer path")

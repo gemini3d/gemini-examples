@@ -4,7 +4,7 @@ function(download_extract nml_file)
 
 parse_nml("${nml_file}" "eq_url")
 if(NOT eq_url)
-  message(WARNING "${nml_file} does not define eq_url, and ${eq_dir} is not a directory.")
+  message(STATUS "SKIP: ${name}: ${nml_file} does not define eq_url, and ${eq_dir} is not a directory.")
   return()
 endif()
 
@@ -23,11 +23,7 @@ endif()
 message(STATUS "${eq_zip} => ${eq_dir}")
 get_filename_component(eq_root ${eq_dir} DIRECTORY)
 
-if(CMAKE_VERSION VERSION_LESS 3.18)
-  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf ${eq_zip} WORKING_DIRECTORY ${eq_root})
-else()
-  file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_root})
-endif()
+file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_root})
 
 endfunction(download_extract)
 

@@ -21,5 +21,6 @@ endif()
 
 if(NOT IS_DIRECTORY ${sim_root})
   file(MAKE_DIRECTORY ${sim_root})
-  message(STATUS "]Created simulation directory ${sim_root}")
 endif()
+
+message(STATUS "using simulation root directory ${sim_root}")

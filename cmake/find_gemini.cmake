@@ -7,10 +7,10 @@ find_program(run_exe
   DOC "Gemini3d.run Fortran front-end")
 
 if(run_exe)
-  set(run_disabled false)
+  set(run_disabled 0)
   get_filename_component(run_parent ${run_exe} DIRECTORY)  # for MSIS 2.0 and similar
 else()
-  set(run_disabled true)
+  set(run_disabled 1)
   message(WARNING "Please specify the top-level install path of gemini3d.run like
     cmake -DGEMINI_ROOT=~/code/gemini3d -B build
 or specify in environment variable GEMINI_ROOT")

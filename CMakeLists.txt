@@ -1,7 +1,7 @@
 # This project assumes an "installed" Gemini3D that is a particular
 # version and/or Git tag that we wish to use as a milestone.
 
-cmake_minimum_required(VERSION 3.13...3.20)
+cmake_minimum_required(VERSION 3.19...3.20)
 
 project(GeminiCI LANGUAGES NONE
 HOMEPAGE_URL https://github.com/gemini3d/gemini-examples
@@ -19,26 +19,17 @@ set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
 
 include(cmake/find_gemini.cmake)
 
-# --- get PyGemini
+# --- PyGemini
 if(python AND NOT DEFINED py_ok)
-  find_package(Python COMPONENTS Interpreter)
-
-  execute_process(COMMAND ${Python_EXECUTABLE} -c "import gemini3d.model"
-    RESULT_VARIABLE e)
-  if(e EQUAL 0)
-    set(py_ok true CACHE BOOL "PyGemini detected.")
-  else()
-    message(WARNING "PyGemini is not setup: https://github.com/gemini3d/pygemini")
-  endif()
+  include(cmake/python.cmake)
 endif()
 
-# --- get MatGemini
-if(NOT py_ok)
+# --- MatGemini
+if(matlab)
   include(cmake/matlab.cmake)
 endif()
 
 # --- discover tests
-
 set(hourly_root ${ci_root}/hourly)
 file(GLOB hourly_dirs LIST_DIRECTORIES true "${hourly_root}/*")
 
@@ -53,11 +44,6 @@ include(cmake/get_plan_cpu.cmake)
 
 foreach(in_dir ${hourly_dirs} ${daily_dirs})
 
-get_filename_component(name ${in_dir} NAME)
-get_filename_component(_t ${in_dir} DIRECTORY)
-get_filename_component(type_label ${_t} NAME)
-
-set(out_dir ${PROJECT_BINARY_DIR}/${name})
 set(nml_file ${in_dir}/config.nml)
 
 if(NOT EXISTS ${nml_file})
@@ -68,7 +54,13 @@ parse_nml(${nml_file} "eq_dir")
 if(NOT eq_dir)
   continue()
 endif()
-get_filename_component(eq_dir ${eq_root}/${name}/${eq_dir} ABSOLUTE)
+
+get_filename_component(name ${in_dir} NAME)
+set(out_dir ${sim_root}/${name})
+get_filename_component(eq_dir ${out_dir}/${eq_dir} ABSOLUTE)
+
+get_filename_component(_t ${in_dir} DIRECTORY)
+get_filename_component(type_label ${_t} NAME)
 
 if(NOT IS_DIRECTORY ${eq_dir})
   # add_test(NAME "setup:download:${name}"
@@ -90,7 +82,9 @@ if(NOT _out_files)
   continue()
 endif()
 
-get_plan_cpu(${eq_dir} ${out_dir} ${run_disabled})
+if(NOT run_disabled)
+  get_plan_cpu(${eq_dir} ${out_dir})
+endif()
 
 # setup model
 if(py_ok)
@@ -121,15 +115,14 @@ endif()
 add_test(NAME "run:${name}"
   COMMAND ${run_exe} ${out_dir} -n ${plan_cpu}
   WORKING_DIRECTORY ${run_parent})
+
 set_tests_properties("run:${name}" PROPERTIES
-  DISABLED ${run_disabled}
+  DISABLED $<OR:${run_disabled},$<EQUAL:0,${plan_cpu}>>
   LABELS "run;${type_label}"
   FIXTURES_REQUIRED ${name}:run_fxt
   TIMEOUT 43200
-  RESOURCE_LOCK cpu_mpi)
-if(NOT run_disabled)
-  set_tests_properties("run:${name}" PROPERTIES PROCESSORS ${plan_cpu})
-endif()
+  RESOURCE_LOCK cpu_mpi
+  PROCESSORS ${plan_cpu})
 
 # plot
 if(py_ok)
