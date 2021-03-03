@@ -33,13 +33,10 @@ if(matlab)
 endif()
 
 # --- discover tests
-if(equil)
-  file(GLOB sim_dirs LIST_DIRECTORIES true "${ci_root}/equilibrium/*")
-else(equil)
-  file(GLOB hourly_dirs LIST_DIRECTORIES true "${ci_root}/hourly/*")
-  file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
-  set(sim_dirs ${hourly_dirs} ${daily_dirs})
-endif(equil)
+
+file(GLOB equilibrium_dirs LIST_DIRECTORIES true "${ci_root}/equilibrium/*")
+file(GLOB hourly_dirs LIST_DIRECTORIES true "${ci_root}/hourly/*")
+file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 
 # --- MacOS ARM64 workaround
 
@@ -54,7 +51,12 @@ endif()
 
 # --- main loop
 
-foreach(in_dir ${sim_dirs})
+foreach(in_dir ${hourly_dirs} ${daily_dirs} ${equilibrium_dirs})
+
+set(equil)
+if(${in_dir} IN_LIST equilibrium_dirs)
+  set(equil true)
+endif()
 
 set(nml_file ${in_dir}/config.nml)
 
@@ -119,7 +121,7 @@ if(py_ok)
     LABELS "setup;python;${type_label}"
     FIXTURES_SETUP ${name}:run_fxt
     # FIXTURES_REQUIRED ${name}:download_fxt
-    TIMEOUT 300)
+    TIMEOUT 900)
 
 elseif(MATGEMINI_DIR)
 
@@ -129,7 +131,7 @@ elseif(MATGEMINI_DIR)
     LABELS "setup;matlab;${type_label}"
     FIXTURES_SETUP ${name}:run_fxt
     # FIXTURES_REQUIRED ${name}:download_fxt
-    TIMEOUT 300)
+    TIMEOUT 900)
 
 endif()
 
@@ -158,7 +160,7 @@ if(py_ok)
   set_tests_properties("plot:python:${name}" PROPERTIES
     LABELS "plot;python;${type_label}"
     FIXTURES_CLEANUP ${name}:run_fxt
-    TIMEOUT 600)
+    TIMEOUT 1800)
 
 elseif(MATGEMINI_DIR)
 
@@ -167,7 +169,7 @@ elseif(MATGEMINI_DIR)
   set_tests_properties("plot:matlab:${name}" PROPERTIES
     LABELS "plot;matlab;${type_label}"
     FIXTURES_CLEANUP ${name}:run_fxt
-    TIMEOUT 600)
+    TIMEOUT 1800)
 
 endif()
 

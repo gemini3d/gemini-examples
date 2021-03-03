@@ -1,8 +1,6 @@
 option(python "use Python for tests" off)
 option(matlab "use Matlab instead of Python" on)
 
-option(equil "equilibrium only")
-
 option(dev "dev mode")
 
 
