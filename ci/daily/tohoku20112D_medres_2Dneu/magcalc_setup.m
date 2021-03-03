@@ -27,28 +27,27 @@ dang=5;
 
 
 %WE ALSO NEED TO LOAD THE GRID FILE
-if (~exist('xg','var'))
-  fprintf('Reading grid...\n');
+if ~exist('xg','var')
   xg=gemini3d.read.grid(direc);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   lh=lx1;   %possibly obviated in this version - need to check
   if (lx3==1)
     flag2D=1;
-    fprintf('2D meshgrid...\n')
+    disp('2D meshgrid...')
     x1=xg.x1(3:end-2);
     x2=xg.x2(3:end-2);
     x3=xg.x3(3:end-2);
     [X2,X1]=meshgrid(x2(:),x1(1:lh)');
   else
     flag2D=0;
-    fprintf('3D meshgrid...\n')
+    disp('3D meshgrid...')
     x1=xg.x1(3:end-2);
     x2=xg.x2(3:end-2);
     x3=xg.x3(3:end-2);
     [X2,X1,X3]=meshgrid(x2(:),x1(1:lh)',x3(:));   %loadframe overwrites this (sloppy!) so redefine eeach time step
   end
 end
-fprintf('Grid loaded...\n');
+disp('Grid loaded...')
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)

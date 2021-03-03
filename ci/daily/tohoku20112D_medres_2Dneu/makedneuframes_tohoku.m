@@ -25,7 +25,6 @@ end
 
 
 %CREATE A SEQUENCE OF BINBARY OUTPUT FILES THAT CONTAIN A FRAME OF DATA EACH
-system(['rm -rf ',outdir,'/*.dat'])
 filename=[outdir,'simsize.dat']
 fid=fopen(filename,'w');
 fwrite(fid,lrho,'integer*4');
