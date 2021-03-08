@@ -43,7 +43,7 @@ indat_file = 'inputs/initial_conditions.h5'
 
 &neutral_perturb
 flagdneu = 1
-interptype = 3
+interptype = 1
 sourcemlat = 29.0667
 sourcemlon = 209.8501
 dtneu = 5.0
