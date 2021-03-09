@@ -1,7 +1,9 @@
 option(python "use Python for tests" off)
 option(matlab "use Matlab instead of Python" on)
 
-option(dev "dev mode")
+option(dev "dev mode" on)
+
+option(plot "save plots" off)
 
 
 if(dev)

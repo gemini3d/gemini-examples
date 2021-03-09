@@ -137,6 +137,11 @@ set_tests_properties("run:${name}" PROPERTIES
   RESOURCE_LOCK cpu_mpi)
 
 # plot
+if(NOT plot)
+  continue()
+endif()
+
+
 if(py_ok)
 
   add_test(NAME "plot:python:${name}"
@@ -159,3 +164,10 @@ elseif(MATGEMINI_DIR)
 endif()
 
 endforeach()
+
+# ---
+include(FeatureSummary)
+
+add_feature_info(plot plot "save plots")
+
+feature_summary(WHAT ALL)
