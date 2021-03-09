@@ -38,17 +38,6 @@ file(GLOB equilibrium_dirs LIST_DIRECTORIES true "${ci_root}/equilibrium/*")
 file(GLOB hourly_dirs LIST_DIRECTORIES true "${ci_root}/hourly/*")
 file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 
-# --- MacOS ARM64 workaround
-
-cmake_host_system_information(RESULT sys_info QUERY OS_NAME OS_PLATFORM)
-if(sys_info STREQUAL "macOS;arm64")
-  # Apple Silicon M1 workaround for hwloc et al:
-  # https://github.com/open-mpi/hwloc/issues/454
-  cmake_host_system_information(RESULT Nhybrid QUERY NUMBER_OF_PHYSICAL_CORES)
-
-  math(EXPR plan_cpu "${Nhybrid} / 2")  # use only fast cores, else MPI very slow
-endif()
-
 # --- main loop
 
 foreach(in_dir ${hourly_dirs} ${daily_dirs} ${equilibrium_dirs})
@@ -137,9 +126,7 @@ endif()
 
 # run
 set(cmd ${run_exe} ${out_dir})
-if(plan_cpu)
-  list(APPEND cmd -n ${plan_cpu})
-endif()
+
 add_test(NAME "run:${name}"
   COMMAND ${cmd}
   WORKING_DIRECTORY ${run_parent})
