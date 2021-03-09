@@ -155,13 +155,11 @@ set_tests_properties("compare:${name}" PROPERTIES
   DISABLED $<NOT:$<BOOL:${compare_exe}>>
   LABELS "compare;${type_label}"
   FIXTURES_REQUIRED ${name}:compare_fxt
+  FIXTURES_SETUP ${name}:package_fxt
   TIMEOUT 300)
 endif(compare)
 # --- plot
-if(NOT plot)
-  continue()
-endif()
-
+if(plot)
 
 if(py_ok)
 
@@ -171,6 +169,7 @@ if(py_ok)
   set_tests_properties("plot:python:${name}" PROPERTIES
     LABELS "plot;python;${type_label}"
     FIXTURES_CLEANUP ${name}:run_fxt
+    FIXTURES_SETUP ${name}:package_fxt
     TIMEOUT 1800)
 
 elseif(MATGEMINI_DIR)
@@ -180,9 +179,24 @@ elseif(MATGEMINI_DIR)
   set_tests_properties("plot:matlab:${name}" PROPERTIES
     LABELS "plot;matlab;${type_label}"
     FIXTURES_CLEANUP ${name}:run_fxt
+    FIXTURES_SETUP ${name}:package_fxt
     TIMEOUT 1800)
 
 endif()
+
+endif(plot)
+
+# --- package upload
+if(package)
+
+file(MAKE_DIRECTORY ${sim_root}/upload)
+set(new_zip ${sim_root}/upload/${name}.zip)
+add_test(NAME "package:${name}"
+  COMMAND ${CMAKE_COMMAND} -Dout_dir:PATH=${out_dir} -Dnew_zip:FILEPATH=${new_zip} -P cmake/zip.cmake)
+set_tests_properties("package:${name}" PROPERTIES
+  FIXTURES_REQUIRED ${name}:package_fxt)
+
+endif(package)
 
 endforeach()
 
@@ -190,5 +204,7 @@ endforeach()
 include(FeatureSummary)
 
 add_feature_info(plot plot "save plots")
+add_feature_info(package package "package new reference .zip")
+add_feature_info(compare compare "compare gemini3d output")
 
 feature_summary(WHAT ALL)

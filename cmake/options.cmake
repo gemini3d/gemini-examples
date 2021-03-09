@@ -3,6 +3,8 @@ option(matlab "use Matlab instead of Python" on)
 
 option(dev "dev mode" on)
 
+option(compare "compare Gemini output")
+option(package "package new reference .zip")
 option(plot "save plots" off)
 
 
