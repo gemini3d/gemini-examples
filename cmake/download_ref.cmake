@@ -13,11 +13,11 @@ endif()
 endfunction(download_archive)
 
 
-function(download_ref name)
+function(download_ref name ref_root)
 
 # sanity check to avoid making mess
-if(NOT refroot)
-  message(FATAL_ERROR "must provide 'refroot' e.g. \${PROJECT_SOURCE_DIR}/test_data")
+if(NOT IS_DIRECTORY ${ref_root})
+  message(FATAL_ERROR "must provide 'ref_root' e.g. ~/simulations/ref_data")
 endif()
 
 file(READ ${CMAKE_CURRENT_LIST_DIR}/gemini3d_url.json _refj)
