@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18...3.20)
 
 include(${CMAKE_CURRENT_LIST_DIR}/parse_nml.cmake)
 
-function(download_extract nml_file eq_dir)
+function(download_eq nml_file eq_dir)
 
 parse_nml(${nml_file} "eq_url")
 if(NOT eq_url)
@@ -26,6 +26,6 @@ get_filename_component(eq_root ${eq_dir} DIRECTORY)
 message(STATUS "${eq_zip} => ${eq_root}")
 file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_root})
 
-endfunction(download_extract)
+endfunction(download_eq)
 
-download_extract(${nml_file} ${eq_dir})
+download_eq(${nml_file} ${eq_dir})

@@ -76,12 +76,12 @@ else(equil)
   get_filename_component(eq_dir ${out_dir}/${eq_dir} ABSOLUTE)
 
   if(NOT IS_DIRECTORY ${eq_dir})
-    add_test(NAME "setup:download:${name}"
-      COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -Deq_dir:PATH=${eq_dir} -P ${PROJECT_SOURCE_DIR}/cmake/download_extract.cmake)
-    set_tests_properties("setup:download:${name}" PROPERTIES
+    add_test(NAME "setup:download_eq:${name}"
+      COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -Deq_dir:PATH=${eq_dir} -P ${PROJECT_SOURCE_DIR}/cmake/download_eq.cmake)
+    set_tests_properties("setup:download_eq:${name}" PROPERTIES
       LABELS "setup;download;${type_label}"
       TIMEOUT 300
-      FIXTURES_SETUP ${name}:download_fxt)
+      FIXTURES_SETUP ${name}:eq_fxt)
   endif()
 
   if(NOT EXISTS ${eq_dir}/inputs/config.nml)
@@ -107,7 +107,7 @@ if(py_ok)
   set_tests_properties("setup:python:${name}" PROPERTIES
     LABELS "setup;python;${type_label}"
     FIXTURES_SETUP ${name}:run_fxt
-    FIXTURES_REQUIRED ${name}:download_fxt
+    FIXTURES_REQUIRED ${name}:eq_fxt
     TIMEOUT 900)
 
 elseif(MATGEMINI_DIR)
@@ -117,26 +117,47 @@ elseif(MATGEMINI_DIR)
   set_tests_properties("setup:matlab:${name}" PROPERTIES
     LABELS "setup;matlab;${type_label}"
     FIXTURES_SETUP ${name}:run_fxt
-    FIXTURES_REQUIRED ${name}:download_fxt
+    FIXTURES_REQUIRED ${name}:eq_fxt
     TIMEOUT 900)
 
 endif()
 
-# run
-set(cmd ${run_exe} ${out_dir})
+# --- run
+set(run_cmd ${run_exe} ${out_dir})
 
 add_test(NAME "run:${name}"
-  COMMAND ${cmd}
+  COMMAND ${run_cmd}
   WORKING_DIRECTORY ${run_parent})
 
 set_tests_properties("run:${name}" PROPERTIES
-  DISABLED ${run_disabled}
+  DISABLED $<NOT:$<BOOL:${run_exe}>>
   LABELS "run;${type_label}"
   FIXTURES_REQUIRED ${name}:run_fxt
   TIMEOUT 43200
   RESOURCE_LOCK cpu_mpi)
 
-# plot
+# --- compare
+if(compare)
+set(ref_dir ${ref_root}/test${name})
+
+add_test(NAME compare:download:${name}
+  COMMAND ${CMAKE_COMMAND} -Dtestname=${name} -Doutdir:PATH=${out_dir} -Drefroot:PATH=${ref_root} -P cmake/download_ref.cmake)
+set_tests_properties(compare:download:${name} PROPERTIES
+  FIXTURES_SETUP ${name}:compare_fxt
+  FIXTURES_REQUIRED ${name}:run_fxt
+  TIMEOUT 180)
+
+set(compare_cmd ${compare_exe} ${out_dir} ${ref_dir})
+
+add_test(NAME "compare:${name}" COMMAND ${compare_cmd})
+
+set_tests_properties("compare:${name}" PROPERTIES
+  DISABLED $<NOT:$<BOOL:${compare_exe}>>
+  LABELS "compare;${type_label}"
+  FIXTURES_REQUIRED ${name}:compare_fxt
+  TIMEOUT 300)
+endif(compare)
+# --- plot
 if(NOT plot)
   continue()
 endif()

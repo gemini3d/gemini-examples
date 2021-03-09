@@ -19,8 +19,14 @@ if(NOT sim_root)
   set(sim_root "${d}")
 endif()
 
+set(ref_root ${sim_root}/test_ref)
+
 if(NOT IS_DIRECTORY ${sim_root})
   file(MAKE_DIRECTORY ${sim_root})
+endif()
+
+if(NOT IS_DIRECTORY ${ref_root})
+  file(MAKE_DIRECTORY ${ref_root})
 endif()
 
 message(STATUS "using simulation root directory ${sim_root}")
