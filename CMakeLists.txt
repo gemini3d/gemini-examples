@@ -20,7 +20,6 @@ set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
 include(cmake/find_gemini.cmake)
 
 include(cmake/parse_nml.cmake)
-include(cmake/download_extract.cmake)
 
 # --- PyGemini
 if(python AND NOT DEFINED py_ok)
@@ -77,13 +76,12 @@ else(equil)
   get_filename_component(eq_dir ${out_dir}/${eq_dir} ABSOLUTE)
 
   if(NOT IS_DIRECTORY ${eq_dir})
-    # add_test(NAME "setup:download:${name}"
-    #   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -P ${PROJECT_SOURCE_DIR}/cmake/download_extract.cmake)
-    # set_tests_properties("setup:download:${name}" PROPERTIES
-    #   LABELS "setup;download;${type_label}"
-    #   TIMEOUT 300
-    #   FIXTURES_SETUP ${name}:download_fxt)
-    download_extract(${nml_file})
+    add_test(NAME "setup:download:${name}"
+      COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -Deq_dir:PATH=${eq_dir} -P ${PROJECT_SOURCE_DIR}/cmake/download_extract.cmake)
+    set_tests_properties("setup:download:${name}" PROPERTIES
+      LABELS "setup;download;${type_label}"
+      TIMEOUT 300
+      FIXTURES_SETUP ${name}:download_fxt)
   endif()
 
   if(NOT EXISTS ${eq_dir}/inputs/config.nml)
@@ -109,7 +107,7 @@ if(py_ok)
   set_tests_properties("setup:python:${name}" PROPERTIES
     LABELS "setup;python;${type_label}"
     FIXTURES_SETUP ${name}:run_fxt
-    # FIXTURES_REQUIRED ${name}:download_fxt
+    FIXTURES_REQUIRED ${name}:download_fxt
     TIMEOUT 900)
 
 elseif(MATGEMINI_DIR)
@@ -119,7 +117,7 @@ elseif(MATGEMINI_DIR)
   set_tests_properties("setup:matlab:${name}" PROPERTIES
     LABELS "setup;matlab;${type_label}"
     FIXTURES_SETUP ${name}:run_fxt
-    # FIXTURES_REQUIRED ${name}:download_fxt
+    FIXTURES_REQUIRED ${name}:download_fxt
     TIMEOUT 900)
 
 endif()
