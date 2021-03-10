@@ -16,6 +16,7 @@ include(cmake/options.cmake)
 include(cmake/libraries.cmake)
 
 include(cmake/get_simroot.cmake)
+include(cmake/parse_nml.cmake)
 
 find_package(Gemini3D REQUIRED)
 
@@ -28,7 +29,7 @@ include(cmake/GeminiPlot.cmake)
 
 set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
 
-include(cmake/parse_nml.cmake)
+
 
 # --- PyGemini
 if(python AND NOT DEFINED py_ok)

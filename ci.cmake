@@ -92,6 +92,16 @@ function(cmake_cpu_count)
 endfunction(cmake_cpu_count)
 cmake_cpu_count()
 
+# setup/plotting can use a lot of RAM for big sims
+cmake_host_system_information(RESULT ram QUERY TOTAL_PHYSICAL_MEMORY)
+if(ram LESS 16000 AND Ncpu GREATER 2)
+  message(STATUS "set max parallel tests to 2 due to RAM < 16 GB.")
+  set(Ncpu 2)
+elseif(ram LESS 32000 AND Ncpu GREATER 4)
+  message(STATUS "set max parallel tests to 4 due to RAM < 32 GB.")
+  set(Ncpu 4)
+endif()
+
 # --- CTest Dashboard
 
 set(CTEST_NOTES_FILES "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")
