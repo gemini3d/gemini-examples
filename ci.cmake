@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14...3.20)
+cmake_minimum_required(VERSION 3.17...3.20)
 
 set(CTEST_OUTPUT_ON_FAILURE true)
 
@@ -52,7 +52,22 @@ endif()
 if(NOT DEFINED CTEST_CMAKE_GENERATOR)
   if(DEFINED ENV{CMAKE_GENERATOR})
     set(CTEST_CMAKE_GENERATOR $ENV{CMAKE_GENERATOR})
-  elseif(WIN32)
+  endif()
+endif()
+if(NOT DEFINED CTEST_CMAKE_GENERATOR)
+  find_program(ninja NAMES ninja ninja-build samu)
+  if(ninja)
+    execute_process(COMMAND ${ninja} --version
+      OUTPUT_VARIABLE ninja_version
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      RESULT_VARIABLE err)
+    if(err EQUAL 0 AND ${ninja_version} VERSION_GREATER_EQUAL 1.10)
+      set(CTEST_CMAKE_GENERATOR Ninja)
+    endif()
+  endif()
+endif()
+if(NOT DEFINED CTEST_CMAKE_GENERATOR)
+  if(WIN32)
     set(CTEST_CMAKE_GENERATOR "MinGW Makefiles")
   else()
     set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
