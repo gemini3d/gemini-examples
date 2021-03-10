@@ -26,6 +26,7 @@ include(cmake/ModelSetup.cmake)
 include(cmake/GeminiRun.cmake)
 include(cmake/GeminiCompare.cmake)
 include(cmake/GeminiPlot.cmake)
+include(cmake/GeminiPackage.cmake)
 
 set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
 
@@ -78,26 +79,16 @@ if(compare)
 endif(compare)
 
 # --- plot
-gemini_plot()
+gemini_plot(${out_dir} ${name} ${type_label})
 
 # --- package upload
-if(package)
-
-file(MAKE_DIRECTORY ${sim_root}/upload)
-set(new_zip ${sim_root}/upload/${name}.zip)
-add_test(NAME "package:${name}"
-  COMMAND ${CMAKE_COMMAND} -Dout_dir:PATH=${out_dir} -Dnew_zip:FILEPATH=${new_zip} -P cmake/zip.cmake)
-set_tests_properties("package:${name}" PROPERTIES
-  FIXTURES_REQUIRED ${name}:package_fxt)
-
-endif(package)
+gemini_package(${sim_root} ${out_dir} ${name} ${type_label})
 
 endforeach()
 
 # ---
 include(FeatureSummary)
 
-add_feature_info(package package "package new reference .zip")
 add_feature_info(compare compare "compare gemini3d output")
 
 feature_summary(WHAT ALL)
