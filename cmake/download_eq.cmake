@@ -7,22 +7,28 @@ function(download_eq in_dir name out_dir)
 
 set(nml_file ${in_dir}/config.nml)
 
-parse_nml(${nml_file} "eq_dir")
+parse_nml(${nml_file} "eq_dir" "path")
 if(NOT eq_dir)
   message(FATAL_ERROR "${name}: ${nml_file} does not specify eq_dir")
 endif()
 
 get_filename_component(eq_dir ${out_dir}/${eq_dir} ABSOLUTE)
 if(EXISTS ${eq_dir}/inputs/config.nml)
-  return()
+  # does it have output also?
+  file(GLOB fout LIST_DIRECTORIES false "*.h5")
+  if(fout)
+    return()
+  else()
+    message(FATAL_ERROR "${name}: ${eq_dir} exists, but output data is missing.")
+  endif()
 endif()
 
-parse_nml(${nml_file} "eq_url")
+parse_nml(${nml_file} "eq_url" "path")
 if(NOT eq_url)
   message(FATAL_ERROR "${name}: ${nml_file} does not define eq_url, and ${eq_dir} is not a directory.")
 endif()
 
-parse_nml(${nml_file} "eq_zip")
+parse_nml(${nml_file} "eq_zip" "path")
 if(NOT eq_zip)
   get_filename_component(eq_zip ${eq_dir} NAME)
   set(eq_zip ${eq_zip}.zip)

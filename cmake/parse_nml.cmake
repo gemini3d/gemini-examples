@@ -1,13 +1,30 @@
-function(parse_nml nml_file var)
+function(parse_nml nml_file var type)
 # get alphanumeric variable such as a file path from Fortran namelist .nml file
 
-file(STRINGS ${nml_file} m REGEX "${var}[ ]*=[ ]*\'?\"?([~/:\.\?\&=A-Za-z0-9_]+)" LIMIT_COUNT 1)
+set(pre "${var}[ ]*=[ ]*")
+
+if(type STREQUAL "path")
+  set(pat1 "${pre}\'?\"?([~/:\.\?\&=A-Za-z0-9_]+)")
+  set(pat2 "${pre}\'?\"?([~/:\.\?\&=A-Za-z0-9_]+)\'?\"?")
+elseif(type STREQUAL "array")
+  set(pat1 "${pre}([0-9]+),([0-9]+),([0-9]+)")
+  set(pat2 ${pat1})
+elseif(type STREQUAL "number")
+  set(pat1 "${pre}([0-9]+)")
+  set(pat2 ${pat1})
+else()
+  message(FATAL_ERROR "unknown NML type ${type}")
+endif()
+
+file(STRINGS ${nml_file} m REGEX ${pat1} LIMIT_COUNT 1)
 if(NOT m)
   set(${var} PARENT_SCOPE)
   return()
 endif()
 
-string(REGEX MATCH "${var}[ ]*=[ ]*\'?\"?([~/:\.\?\&=A-Za-z0-9_]+)\'?\"?" n ${m})
+string(REGEX MATCH ${pat2} n ${m})
+# file(STRINGS REGEX) doesn't populate CMAKE_MATCH_*
+
 set(${var} ${CMAKE_MATCH_1} PARENT_SCOPE)
 
 endfunction(parse_nml)
