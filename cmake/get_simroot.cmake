@@ -6,7 +6,7 @@ if(NOT sim_root AND DEFINED ENV{GEMINI_SIMROOT})
 endif()
 
 if(NOT sim_root)
-  foreach(d "~/simulations" "~/sims")
+  foreach(d ~/simulations ~/sims)
     get_filename_component(d ${d} ABSOLUTE)
     if(IS_DIRECTORY ${d})
       set(sim_root ${d})
@@ -16,7 +16,7 @@ if(NOT sim_root)
 endif()
 
 if(NOT sim_root)
-  set(sim_root "${d}")
+  set(sim_root ~/sims)
 endif()
 
 set(ref_root ${sim_root}/test_ref)
