@@ -49,12 +49,14 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=128;
-if (~flag2D)
-  lphi=128;
-else
-  lphi=1;
-end
+% ltheta=128;
+% if (~flag2D)
+%   lphi=128;
+% else
+%   lphi=1;
+% end
+ltheta=xg.lx(3);
+lphi=xg.lx(2);
 lr=1;
 
 %thmin=thdist-dang*pi/180;
@@ -67,12 +69,14 @@ phimin=min(xg.phi(:));
 phimax=max(xg.phi(:));
 
 
-theta=linspace(thmin,thmax,ltheta);
-if (~flag2D)
-  phi=linspace(phimin,phimax,lphi);
-else
-  phi=phidist;
-end
+%theta=linspace(thmin,thmax,ltheta);
+%if (~flag2D)
+%  phi=linspace(phimin,phimax,lphi);
+%else
+%  phi=phidist;
+%end
+theta=squeeze(xg.theta(1,1,:));
+phi=squeeze(xg.phi(1,:,1));
 r=(6370e3+500e3)*ones(ltheta,lphi);                          %use satellite orbital plane
 [phi,theta]=meshgrid(phi,theta);
 
