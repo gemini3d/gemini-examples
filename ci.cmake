@@ -1,10 +1,24 @@
-cmake_minimum_required(VERSION 3.17...3.20)
+cmake_minimum_required(VERSION 3.19...3.20)
 
+set(CTEST_PROJECT_NAME "Gemini3Dproject")
+set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
+set(CTEST_MODEL "Experimental")
+set(CTEST_GROUP "GeminiProjectCI")
+set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=${CTEST_PROJECT_NAME}")
+
+set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
+
+# --- boilerplate follows
+set(CTEST_TEST_TIMEOUT 10)
 set(CTEST_OUTPUT_ON_FAILURE true)
 
 set(CTEST_SOURCE_DIRECTORY ${CTEST_SCRIPT_DIRECTORY})
 if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   set(CTEST_BINARY_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/build)
+endif()
+
+if(NOT DEFINED CTEST_BUILD_CONFIGURATION)
+  set(CTEST_BUILD_CONFIGURATION "Release")
 endif()
 
 if(NOT DEFINED CTEST_SITE)
@@ -24,21 +38,20 @@ if(NOT DEFINED CTEST_BUILD_NAME)
     find_program(run_exe
       NAMES gemini3d.run
       HINTS ${GEMINI_ROOT} ENV GEMINI_ROOT
-      PATHS ${PROJECT_SOURCE_DIR}/../gemini3d
+      PATHS ${CTEST_SOURCE_DIRECTORY}/../gemini3d
       PATH_SUFFIXES build bin
-      DOC "Gemini3d.run Fortran front-end")
+      DOC "Gemini3d.run Fortran front-end"
+      REQUIRED)
     if(run_exe)
       execute_process(COMMAND ${run_exe} -compiler_version
-        OUTPUT_VARIABLE _compiler_version
+        OUTPUT_VARIABLE _compiler_version OUTPUT_STRIP_TRAILING_WHITESPACE
         RESULT_VARIABLE _err
-        TIMEOUT 5
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+        TIMEOUT 5)
       if(_err EQUAL 0)
         execute_process(COMMAND ${run_exe} -git
-          OUTPUT_VARIABLE _git_version
+          OUTPUT_VARIABLE _git_version OUTPUT_STRIP_TRAILING_WHITESPACE
           RESULT_VARIABLE _err
-          TIMEOUT 5
-          OUTPUT_STRIP_TRAILING_WHITESPACE)
+          TIMEOUT 5)
       endif()
       if(_err EQUAL 0)
         set(CTEST_BUILD_NAME "${_compiler_version}  ${_git_version}")
@@ -47,26 +60,26 @@ if(NOT DEFINED CTEST_BUILD_NAME)
   endif()
 endif()
 
-# --- CTEST_CMAKE_GENERATOR
-# must always be defined, despite not building here
-if(NOT DEFINED CTEST_CMAKE_GENERATOR)
-  if(DEFINED ENV{CMAKE_GENERATOR})
-    set(CTEST_CMAKE_GENERATOR $ENV{CMAKE_GENERATOR})
-  endif()
-endif()
+# for subproject labels
+set(CTEST_USE_LAUNCHERS 1)
+set(ENV{CTEST_USE_LAUNCHERS_DEFAULT} 1)
+
+# CTEST_CMAKE_GENERATOR must always be defined
 if(NOT DEFINED CTEST_CMAKE_GENERATOR)
   find_program(ninja NAMES ninja ninja-build samu)
   if(ninja)
     execute_process(COMMAND ${ninja} --version
       OUTPUT_VARIABLE ninja_version
       OUTPUT_STRIP_TRAILING_WHITESPACE
-      RESULT_VARIABLE err)
-    if(err EQUAL 0 AND ${ninja_version} VERSION_GREATER_EQUAL 1.10)
+      RESULT_VARIABLE err
+      TIMEOUT 10)
+    if(err EQUAL 0 AND ninja_version VERSION_GREATER_EQUAL 1.10)
       set(CTEST_CMAKE_GENERATOR Ninja)
     endif()
-  endif()
+  endif(ninja)
 endif()
 if(NOT DEFINED CTEST_CMAKE_GENERATOR)
+  set(CTEST_BUILD_FLAGS -j)  # not --parallel as this goes to generator directly
   if(WIN32)
     set(CTEST_CMAKE_GENERATOR "MinGW Makefiles")
   else()
@@ -105,11 +118,9 @@ endif()
 # --- CTest Dashboard
 
 set(CTEST_NOTES_FILES "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")
-set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=Gemini3Dproject")
 set(CTEST_SUBMIT_RETRY_COUNT 3)
-set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 
-ctest_start("Experimental" "${CTEST_SOURCE_DIRECTORY}" "${CTEST_BINARY_DIRECTORY}")
+ctest_start(${CTEST_MODEL} GROUP ${CTEST_GROUP})
 # ctest_submit(PARTS Notes)
 
 ctest_configure(
