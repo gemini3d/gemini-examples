@@ -4,6 +4,15 @@ set(nml_file ${in_dir}/config.nml)
 
 parse_nml(${nml_file} "eq_dir" "path")
 
+set(eq_name)
+if(eq_dir)
+  get_filename_component(eq_name ${eq_dir} NAME)
+  if(TEST run:${eq_name})
+    # don't try to download equil we're going to run
+    return()
+  endif()
+endif()
+
 add_test(NAME "setup:download_eq:${name}"
   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -Deq_dir:PATH=${eq_dir} -Dname=${name} -Dout_dir:PATH=${out_dir} -P ${CMAKE_CURRENT_LIST_DIR}/cmake/download_eq.cmake)
 set_tests_properties("setup:download_eq:${name}" PROPERTIES
