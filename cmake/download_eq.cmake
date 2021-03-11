@@ -3,14 +3,7 @@ cmake_minimum_required(VERSION 3.18...3.20)
 include(${CMAKE_CURRENT_LIST_DIR}/parse_nml.cmake)
 
 
-function(download_eq in_dir name out_dir)
-
-set(nml_file ${in_dir}/config.nml)
-
-parse_nml(${nml_file} "eq_dir" "path")
-if(NOT eq_dir)
-  message(FATAL_ERROR "${name}: ${nml_file} does not specify eq_dir")
-endif()
+function(download_eq nml_file eq_dir name out_dir)
 
 get_filename_component(eq_dir ${out_dir}/${eq_dir} ABSOLUTE)
 if(EXISTS ${eq_dir}/inputs/config.nml)
@@ -47,4 +40,4 @@ file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_root})
 endfunction(download_eq)
 
 
-download_eq(${in_dir} ${name} ${out_dir})
+download_eq(${nml_file} ${eq_dir} ${name} ${out_dir})

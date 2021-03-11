@@ -50,7 +50,7 @@ file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 
 # --- main loop
 
-foreach(in_dir ${hourly_dirs} ${daily_dirs} ${equilibrium_dirs})
+foreach(in_dir ${equilibrium_dirs} ${hourly_dirs} ${daily_dirs})
 
 if(CMAKE_VERSION VERSION_LESS 3.20)
   get_filename_component(_t ${in_dir} DIRECTORY)
@@ -65,10 +65,12 @@ endif()
 set(out_dir ${sim_root}/${name})
 
 # equilibrium (creation or download)
-equil_setup(${in_dir} "${equilibrium_dirs}" ${out_dir})
+if(NOT type_label STREQUAL equilibrium)
+  equil_setup(${in_dir} ${out_dir})
+endif()
 
 # setup model
-model_setup()
+model_setup(${in_dir} ${out_dir} ${name} ${type_label})
 
 # --- run
 gemini_run(${GEMINI_RUN} ${out_dir} ${name} ${type_label})
