@@ -3,12 +3,11 @@ cmake_minimum_required(VERSION 3.18...3.20)
 include(${CMAKE_CURRENT_LIST_DIR}/parse_nml.cmake)
 
 
-function(download_eq nml_file eq_dir name out_dir GEMINI_SIMROOT)
+function(download_eq nml_file eq_dir name GEMINI_SIMROOT)
 
-get_filename_component(eq_dir ${out_dir}/${eq_dir} ABSOLUTE)
 if(EXISTS ${eq_dir}/inputs/config.nml)
   # does it have output also?
-  file(GLOB fout LIST_DIRECTORIES false "*.h5")
+  file(GLOB fout LIST_DIRECTORIES false "${eq_dir}/*.h5")
   if(fout)
     return()
   else()
@@ -40,4 +39,4 @@ file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_root})
 endfunction(download_eq)
 
 
-download_eq(${nml_file} ${eq_dir} ${name} ${out_dir} ${GEMINI_SIMROOT})
+download_eq(${nml_file} ${eq_dir} ${name} ${GEMINI_SIMROOT})
