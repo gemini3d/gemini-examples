@@ -16,7 +16,8 @@ if(py_ok)
   set_tests_properties("setup:python:${name}" PROPERTIES
     LABELS "setup;python;${label}"
     FIXTURES_SETUP ${name}:run_fxt
-    TIMEOUT 900)
+    TIMEOUT 900
+    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
   if(eq_name)
     set_tests_properties("setup:python:${name}" PROPERTIES FIXTURES_REQUIRED "${eq_name}:run_fxt;${name}:eq_fxt")
@@ -31,7 +32,8 @@ elseif(MATGEMINI_DIR)
   set_tests_properties("setup:matlab:${name}" PROPERTIES
     LABELS "setup;matlab;${label}"
     FIXTURES_SETUP ${name}:run_fxt
-    TIMEOUT 900)
+    TIMEOUT 900
+    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
   if(eq_name)
     set_tests_properties("setup:matlab:${name}" PROPERTIES FIXTURES_REQUIRED "${eq_name}:run_fxt;${name}:eq_fxt")

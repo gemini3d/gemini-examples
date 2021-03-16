@@ -16,7 +16,7 @@ endif()
 message(STATUS "${name}: ${eq_dir}")
 
 add_test(NAME "setup:download_eq:${name}"
-  COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -Deq_dir:PATH=${eq_dir} -Dname=${name} -Dout_dir:PATH=${out_dir} -DGEMINI_SIMROOT:PATH=${GEMINI_SIMROOT} -P ${CMAKE_CURRENT_LIST_DIR}/cmake/download_eq.cmake)
+  COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -Deq_dir:PATH=${eq_dir} -Dname=${name} -Dout_dir:PATH=${out_dir} -DGEMINI_SIMROOT:PATH=${GEMINI_SIMROOT} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_eq.cmake)
 set_tests_properties("setup:download_eq:${name}" PROPERTIES
   LABELS "download;${label}"
   REQUIRED_FILES ${in_dir}/config.nml

@@ -27,8 +27,6 @@ if(NOT IS_DIRECTORY ${GEMINI_SIMROOT})
   file(MAKE_DIRECTORY ${GEMINI_SIMROOT})
 endif()
 
-set(ENV{GEMINI_SIMROOT} ${GEMINI_SIMROOT})
-
 if(NOT IS_DIRECTORY ${ref_root})
   file(MAKE_DIRECTORY ${ref_root})
 endif()

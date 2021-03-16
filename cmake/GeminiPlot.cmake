@@ -9,7 +9,8 @@ if(py_ok)
     LABELS "plot;python;${label}"
     FIXTURES_CLEANUP ${name}:run_fxt
     FIXTURES_SETUP ${name}:package_fxt
-    TIMEOUT 1800)
+    TIMEOUT 1800
+    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
 elseif(MATGEMINI_DIR)
 
@@ -19,7 +20,8 @@ elseif(MATGEMINI_DIR)
     LABELS "plot;matlab;${label}"
     FIXTURES_CLEANUP ${name}:run_fxt
     FIXTURES_SETUP ${name}:package_fxt
-    TIMEOUT 1800)
+    TIMEOUT 1800
+    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
 endif()
 
