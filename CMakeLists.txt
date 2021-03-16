@@ -3,7 +3,8 @@
 
 cmake_minimum_required(VERSION 3.19...3.20)
 
-project(GeminiCI LANGUAGES NONE
+project(GeminiCI
+LANGUAGES NONE
 HOMEPAGE_URL https://github.com/gemini3d/gemini-examples
 DESCRIPTION "Long-running Gemini3D test cases"
 VERSION 0.1.0)
@@ -62,7 +63,7 @@ else()
   cmake_path(GET in_dir FILENAME name)
 endif()
 
-set(out_dir ${sim_root}/${name})
+set(out_dir ${GEMINI_SIMROOT}/${name})
 
 # equilibrium (creation or download)
 if(NOT type_label STREQUAL equilibrium)
@@ -84,7 +85,7 @@ endif(compare)
 gemini_plot(${out_dir} ${name} ${type_label})
 
 # --- package upload
-gemini_package(${sim_root} ${out_dir} ${name} ${type_label})
+gemini_package(${GEMINI_SIMROOT} ${out_dir} ${name} ${type_label})
 
 endforeach()
 

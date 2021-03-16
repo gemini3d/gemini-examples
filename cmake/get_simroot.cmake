@@ -1,32 +1,36 @@
 # the directory where all simulation output dirs are under.
 # Since we use one sim to drive another, and we don't want to
 # erase long runs
-if(NOT sim_root AND DEFINED ENV{GEMINI_SIMROOT})
-  set(sim_root $ENV{GEMINI_SIMROOT})
+if(NOT GEMINI_SIMROOT AND DEFINED ENV{GEMINI_SIMROOT})
+  set(GEMINI_SIMROOT $ENV{GEMINI_SIMROOT})
 endif()
 
-if(NOT sim_root)
+if(NOT GEMINI_SIMROOT)
   foreach(d ~/simulations ~/sims)
     get_filename_component(d ${d} ABSOLUTE)
     if(IS_DIRECTORY ${d})
-      set(sim_root ${d})
+      set(GEMINI_SIMROOT ${d})
       break()
     endif()
   endforeach()
 endif()
 
-if(NOT sim_root)
-  set(sim_root ~/sims)
+if(NOT GEMINI_SIMROOT)
+  set(GEMINI_SIMROOT ~/sims)
 endif()
 
-set(ref_root ${sim_root}/test_ref)
+get_filename_component(GEMINI_SIMROOT ${GEMINI_SIMROOT} ABSOLUTE)
 
-if(NOT IS_DIRECTORY ${sim_root})
-  file(MAKE_DIRECTORY ${sim_root})
+set(ref_root ${GEMINI_SIMROOT}/test_ref)
+
+if(NOT IS_DIRECTORY ${GEMINI_SIMROOT})
+  file(MAKE_DIRECTORY ${GEMINI_SIMROOT})
 endif()
+
+set(ENV{GEMINI_SIMROOT} ${GEMINI_SIMROOT})
 
 if(NOT IS_DIRECTORY ${ref_root})
   file(MAKE_DIRECTORY ${ref_root})
 endif()
 
-message(STATUS "using simulation root directory ${sim_root}")
+message(STATUS "using simulation root directory ${GEMINI_SIMROOT}")

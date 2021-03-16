@@ -37,7 +37,7 @@ Efield_lonwidth=0.025
 Jtarg=1e-6
 ! Etarg=75e-3
 
-eq_dir = '../cusp2d_eq'
+eq_dir = '@GEMINI_SIMROOT@/cusp2d_eq'
 /
 
 &files

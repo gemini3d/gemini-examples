@@ -31,7 +31,7 @@ flagsource=1
 nmf=5e11
 nme=2e11
 
-eq_dir = '../tohoku3d_eq'
+eq_dir = '@GEMINI_SIMROOT@/tohoku3d_eq'
 /
 
 &files

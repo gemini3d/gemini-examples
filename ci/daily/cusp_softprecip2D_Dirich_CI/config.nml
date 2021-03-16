@@ -27,7 +27,7 @@ lq = 160
 lphi = 1
 altmin = 80e3
 gridflag = 0
-eq_dir = '../cusp2d_eq'
+eq_dir = '@GEMINI_SIMROOT@/cusp2d_eq'
 
 E0precip = 300
 Qprecip = 1

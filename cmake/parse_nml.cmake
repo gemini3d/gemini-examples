@@ -4,8 +4,8 @@ function(parse_nml nml_file var type)
 set(pre "${var}[ ]*=[ ]*")
 
 if(type STREQUAL "path")
-  set(pat1 "${pre}\'?\"?([~/:\.\?\&=A-Za-z0-9_]+)")
-  set(pat2 "${pre}\'?\"?([~/:\.\?\&=A-Za-z0-9_]+)\'?\"?")
+  set(pat1 "${pre}\'?\"?([@~/:\.\?\&=A-Za-z0-9_]+)")
+  set(pat2 "${pre}\'?\"?([@~/:\.\?\&=A-Za-z0-9_]+)\'?\"?")
 elseif(type STREQUAL "array")
   set(pat1 "${pre}([0-9]+),([0-9]+),([0-9]+)")
   set(pat2 ${pat1})
@@ -25,6 +25,11 @@ endif()
 string(REGEX MATCH ${pat2} n ${m})
 # file(STRINGS REGEX) doesn't populate CMAKE_MATCH_*
 
-set(${var} ${CMAKE_MATCH_1} PARENT_SCOPE)
+set(v ${CMAKE_MATCH_1})
+if(type STREQUAL path)
+  string(CONFIGURE ${v} v @ONLY)
+endif()
+
+set(${var} ${v} PARENT_SCOPE)
 
 endfunction(parse_nml)

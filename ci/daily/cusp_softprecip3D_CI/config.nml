@@ -37,7 +37,7 @@ Efield_latwidth=0.025
 Efield_lonwidth=0.025
 Jtarg=1.5e-6
 
-eq_dir = '../cusp3d_eq'
+eq_dir = '@GEMINI_SIMROOT@/cusp3d_eq'
 /
 
 &files

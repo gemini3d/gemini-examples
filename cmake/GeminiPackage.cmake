@@ -1,8 +1,8 @@
-function(gemini_package sim_root out_dir name label)
+function(gemini_package GEMINI_SIMROOT out_dir name label)
 
 string(TIMESTAMP ts "%Y-%m-%d" UTC)
 
-set(upload_root ${sim_root}/upload-${ts})
+set(upload_root ${GEMINI_SIMROOT}/upload-${ts})
 
 file(MAKE_DIRECTORY ${upload_root})
 
