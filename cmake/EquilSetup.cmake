@@ -13,8 +13,6 @@ if(eq_dir)
   endif()
 endif()
 
-message(STATUS "${name}: ${eq_dir}")
-
 add_test(NAME "setup:download_eq:${name}"
   COMMAND ${CMAKE_COMMAND} -Dnml_file:FILEPATH=${nml_file} -Deq_dir:PATH=${eq_dir} -Dname=${name} -DGEMINI_SIMROOT:PATH=${GEMINI_SIMROOT} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_eq.cmake)
 set_tests_properties("setup:download_eq:${name}" PROPERTIES
