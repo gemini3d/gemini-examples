@@ -7,6 +7,7 @@ add_test(NAME compare:download:${name}
 set_tests_properties(compare:download:${name} PROPERTIES
   FIXTURES_SETUP ${name}:compare_fxt
   FIXTURES_REQUIRED ${name}:run_fxt
+  REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
   LABELS "download;${label}"
   TIMEOUT 180)
 

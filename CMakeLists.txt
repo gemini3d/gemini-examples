@@ -1,6 +1,7 @@
 # This project assumes an "installed" Gemini3D that is a particular
 # version and/or Git tag that we wish to use as a milestone.
 
+# We use a lot of recent CMake features for CI.
 cmake_minimum_required(VERSION 3.19...3.20)
 
 project(GeminiCI
@@ -75,7 +76,7 @@ message(VERBOSE "${name}: ${type_label}")
 
 set(out_dir ${GEMINI_SIMROOT}/${name})
 
-# equilibrium (creation or download)
+# equilibrium download (if not an equilibrium itself)
 if(NOT type_label STREQUAL equilibrium)
   equil_setup(${in_dir} ${out_dir} ${type_label})
 endif()
