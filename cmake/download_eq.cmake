@@ -1,5 +1,7 @@
 include(${CMAKE_CURRENT_LIST_DIR}/parse_nml.cmake)
 
+set(ARC_TYPE zstd)
+
 
 function(download_eq nml_file eq_dir name GEMINI_SIMROOT)
 
@@ -16,7 +18,7 @@ endif()
 parse_nml(${nml_file} "eq_zip" "path")
 if(NOT eq_zip)
   get_filename_component(eq_zip ${eq_dir} NAME)
-  set(eq_zip ${eq_zip}.zip)
+  set(eq_zip ${eq_zip}.${ARC_TYPE})
 endif()
 get_filename_component(eq_zip ${eq_zip} ABSOLUTE)
 

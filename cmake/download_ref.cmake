@@ -1,14 +1,9 @@
-cmake_minimum_required(VERSION 3.19...3.20)
+set(ARC_TYPE zstd)
 
 function(download_archive url archive)
 
-if(md5)
-  message(STATUS "download ${archive}  MD5: ${md5}")
-  file(DOWNLOAD ${url} ${archive} TLS_VERIFY ON EXPECTED_HASH MD5=${md5})
-else()
-  message(STATUS "download ${archive}")
-  file(DOWNLOAD ${url} ${archive} TLS_VERIFY ON)
-endif()
+message(STATUS "download ${archive}")
+file(DOWNLOAD ${url} ${archive} TLS_VERIFY ON)
 
 endfunction(download_archive)
 
@@ -27,7 +22,7 @@ string(JSON url GET ${_refj} ${name} url)
 # optional checksum
 string(JSON md5 ERROR_VARIABLE e GET ${_refj} ${name} md5)
 
-set(archive_name test${name}.zip)
+set(archive_name test${name}.${ARC_TYPE})
 set(ref_dir ${refroot}/test${name})
 set(archive ${refroot}/${archive_name})
 
@@ -43,7 +38,7 @@ elseif(IS_DIRECTORY ${ref_dir})
   return()
 endif()
 
-# check if archive .zip up to date
+# check if archive up to date
 if(NOT EXISTS ${archive})
   download_archive(${url} ${archive})
 endif()
