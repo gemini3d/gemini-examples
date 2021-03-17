@@ -1,7 +1,5 @@
 include(${CMAKE_CURRENT_LIST_DIR}/parse_nml.cmake)
 
-set(ARC_TYPE zstd)
-
 
 function(download_eq nml_file eq_dir name GEMINI_SIMROOT)
 
@@ -17,8 +15,7 @@ endif()
 
 parse_nml(${nml_file} "eq_zip" "path")
 if(NOT eq_zip)
-  get_filename_component(eq_zip ${eq_dir} NAME)
-  set(eq_zip ${GEMINI_SIMROOT}/${eq_zip}.${ARC_TYPE})
+  message(FATAL_ERROR "${name}: ${nml_file} does not define eq_zip, which is needed to extract download from ${eq_url}")
 endif()
 
 if(NOT EXISTS ${eq_zip})

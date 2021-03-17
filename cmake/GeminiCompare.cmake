@@ -3,7 +3,7 @@ function(gemini_compare compare_exe out_dir ref_root name label)
 set(ref_dir ${ref_root}/test${name})
 
 add_test(NAME compare:download:${name}
-  COMMAND ${CMAKE_COMMAND} -Dtestname=${name} -Doutdir:PATH=${out_dir} -Drefroot:PATH=${ref_root} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_ref.cmake)
+  COMMAND ${CMAKE_COMMAND} -Dname=${name} -Dref_root:PATH=${ref_root} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_ref.cmake)
 set_tests_properties(compare:download:${name} PROPERTIES
   FIXTURES_SETUP ${name}:compare_fxt
   FIXTURES_REQUIRED ${name}:run_fxt
