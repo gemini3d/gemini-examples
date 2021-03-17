@@ -52,7 +52,7 @@ dzn = 5000.0
 drhon = 8333.3
 !dzn = 1000.0
 !drhon = 1000.0
-source_dir = '../acoustic2d_axisymmetric_neutral'
+source_dir = '../acoustic2D_axisymmetric_neutrals_GEMINI'
 /
 
 &milestone
