@@ -1,10 +1,9 @@
-function(gemini_package GEMINI_SIMROOT name label)
-
 string(TIMESTAMP ts "%Y-%m-%d" UTC)
-
 set(upload_root ${GEMINI_SIMROOT}/upload-${ts})
-
 file(MAKE_DIRECTORY ${upload_root})
+
+
+function(gemini_package GEMINI_SIMROOT name label)
 
 set(archive ${upload_root}/${name}.zstd)
 set(data_dir ${GEMINI_SIMROOT}/${name})
