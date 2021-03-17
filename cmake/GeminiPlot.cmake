@@ -10,6 +10,7 @@ if(py_ok)
     FIXTURES_REQUIRED ${name}:run_fxt
     FIXTURES_SETUP ${name}:package_fxt
     TIMEOUT 7200
+    REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
     ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
 elseif(MATGEMINI_DIR)
@@ -21,6 +22,7 @@ elseif(MATGEMINI_DIR)
     FIXTURES_REQUIRED ${name}:run_fxt
     FIXTURES_SETUP ${name}:package_fxt
     TIMEOUT 7200
+    REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
     ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
 endif()
