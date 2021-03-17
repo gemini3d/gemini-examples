@@ -12,8 +12,9 @@ get_filename_component(out ${out} ABSOLUTE)
 #   COMPRESSION_LEVEL 3)
 
 # need working_directory ${in} to avoid computer-specific relative paths
+# use . not ${in} as last argument to avoid more relative path issues
 execute_process(
-  COMMAND ${CMAKE_COMMAND} -E tar c ${out} --zstd -- ${in}
+  COMMAND ${CMAKE_COMMAND} -E tar c ${out} --zstd .
   WORKING_DIRECTORY ${in}
 )
 
