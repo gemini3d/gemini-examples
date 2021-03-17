@@ -3,7 +3,7 @@ function(gemini_run run_exe out_dir name label)
 get_filename_component(run_parent ${run_exe} DIRECTORY)
 # for MSIS 2.0 and similar
 
-set(run_cmd ${run_exe} ${out_dir})
+set(run_cmd ${run_exe} ${out_dir} -mpiexec ${MPIEXEC_EXECUTABLE})
 
 add_test(NAME "run:${name}"
   COMMAND ${run_cmd}

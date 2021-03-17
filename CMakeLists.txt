@@ -21,6 +21,12 @@ include(cmake/parse_nml.cmake)
 
 find_package(Gemini3D REQUIRED)
 
+find_program(MPIEXEC_EXECUTABLE
+  NAMES mpiexec
+  HINTS MPI_ROOT ENV MPI_ROOT
+  PATH_SUFFIXES bin
+  REQUIRED)
+
 # helper functions
 include(cmake/EquilSetup.cmake)
 include(cmake/ModelSetup.cmake)
