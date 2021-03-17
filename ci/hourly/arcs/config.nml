@@ -34,6 +34,7 @@ Efield_lonwidth = 0.15
 Efield_latwidth = 0.025
 
 eq_dir = '@GEMINI_SIMROOT@/arcs_eq'
+eq_url = 'https://zenodo.org/record/4613594/files/arcs_eq.zstd?download=1'
 
 setup_functions = 'Efield_BCs_angle_wide', 'particles_BCs_angle_wide'
 Eyit=25e-3

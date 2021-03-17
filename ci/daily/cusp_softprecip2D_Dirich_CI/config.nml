@@ -27,7 +27,9 @@ lq = 160
 lphi = 1
 altmin = 80e3
 gridflag = 0
+
 eq_dir = '@GEMINI_SIMROOT@/cusp2d_eq'
+eq_url = 'https://zenodo.org/record/4613594/files/cusp2d_eq.zstd?download=1'
 
 E0precip = 300
 Qprecip = 1
