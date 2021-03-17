@@ -1,18 +1,11 @@
-cmake_minimum_required(VERSION 3.18...3.20)
-
 include(${CMAKE_CURRENT_LIST_DIR}/parse_nml.cmake)
 
 
 function(download_eq nml_file eq_dir name GEMINI_SIMROOT)
 
-if(EXISTS ${eq_dir}/inputs/config.nml)
-  # does it have output also?
-  file(GLOB fout LIST_DIRECTORIES false "${eq_dir}/*.h5")
-  if(fout)
-    return()
-  else()
-    message(FATAL_ERROR "${name}: ${eq_dir} exists, but output data is missing.")
-  endif()
+if(EXISTS ${eq_dir}/inputs/config.nml AND EXISTS ${eq_dir}/output.nml)
+  # already present
+  return()
 endif()
 
 parse_nml(${nml_file} "eq_url" "path")
