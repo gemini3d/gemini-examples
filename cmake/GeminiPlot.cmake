@@ -7,9 +7,9 @@ if(py_ok)
 
   set_tests_properties("plot:python:${name}" PROPERTIES
     LABELS "plot;python;${label}"
-    FIXTURES_CLEANUP ${name}:run_fxt
+    FIXTURES_REQUIRED ${name}:run_fxt
     FIXTURES_SETUP ${name}:package_fxt
-    TIMEOUT 1800
+    TIMEOUT 7200
     ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
 elseif(MATGEMINI_DIR)
@@ -18,9 +18,9 @@ elseif(MATGEMINI_DIR)
 
   set_tests_properties("plot:matlab:${name}" PROPERTIES
     LABELS "plot;matlab;${label}"
-    FIXTURES_CLEANUP ${name}:run_fxt
+    FIXTURES_REQUIRED ${name}:run_fxt
     FIXTURES_SETUP ${name}:package_fxt
-    TIMEOUT 1800
+    TIMEOUT 7200
     ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
 endif()

@@ -12,7 +12,8 @@ add_test(NAME "run:${name}"
 set_tests_properties("run:${name}" PROPERTIES
   DISABLED $<NOT:$<BOOL:${run_exe}>>
   LABELS "run;${label}"
-  FIXTURES_REQUIRED ${name}:run_fxt
+  FIXTURES_SETUP ${name}:run_fxt
+  FIXTURES_REQUIRED ${name}:setup_fxt
   TIMEOUT 43200
   RESOURCE_LOCK cpu_mpi
   ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
