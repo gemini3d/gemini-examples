@@ -38,6 +38,7 @@ Jtarg=1e-6
 ! Etarg=75e-3
 
 eq_dir = '@GEMINI_SIMROOT@/cusp2d_eq'
+eq_zip = '@GEMINI_SIMROOT@/cusp2d_eq.zstd'
 eq_url = 'https://zenodo.org/record/4613594/files/cusp2d_eq.zstd?download=1'
 /
 

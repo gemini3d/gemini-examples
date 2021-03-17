@@ -27,6 +27,7 @@ alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -25e-3
 
 eq_dir = '@GEMINI_SIMROOT@/GDI_KHI_eq/'
+eq_zip = '@GEMINI_SIMROOT@/GDI_KHI_eq.zstd'
 eq_url = 'https://zenodo.org/record/4613594/files/GDI_KHI_eq.zstd?download=1'
 
 setup_functions = 'perturb', 'gemini3d.model.Efield_BCs'
