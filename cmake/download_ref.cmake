@@ -27,7 +27,7 @@ endif()
 
 
 message(STATUS "EXTRACT: ${archive} => ${ref_dir}")
-file(ARCHIVE_EXTRACT INPUT ${archive} DESTINATION ${ref_root})
+file(ARCHIVE_EXTRACT INPUT ${archive} DESTINATION ${ref_dir})
 
 file(MD5 ${archive} _md5)
 file(WRITE ${ref_dir}/md5sum.txt ${_md5})

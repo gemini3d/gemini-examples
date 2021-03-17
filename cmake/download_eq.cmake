@@ -23,9 +23,8 @@ if(NOT EXISTS ${eq_zip})
   file(DOWNLOAD ${eq_url} ${eq_zip} TLS_VERIFY ON)
 endif()
 
-get_filename_component(eq_root ${eq_dir} DIRECTORY)
-message(STATUS "EXTRACT: ${eq_zip} => ${eq_root}")
-file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_root})
+message(STATUS "EXTRACT: ${eq_zip} => ${eq_dir}")
+file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_dir})
 
 endfunction(download_eq)
 
