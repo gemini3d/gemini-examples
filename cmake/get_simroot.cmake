@@ -30,5 +30,3 @@ endif()
 if(NOT IS_DIRECTORY ${ref_root})
   file(MAKE_DIRECTORY ${ref_root})
 endif()
-
-message(STATUS "using simulation root directory ${GEMINI_SIMROOT}")

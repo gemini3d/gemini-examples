@@ -17,6 +17,8 @@ include(cmake/options.cmake)
 include(cmake/libraries.cmake)
 
 include(cmake/get_simroot.cmake)
+message(STATUS "simulation root directory ${GEMINI_SIMROOT}")
+
 include(cmake/parse_nml.cmake)
 
 find_package(Gemini3D REQUIRED)
@@ -69,11 +71,13 @@ else()
   cmake_path(GET in_dir FILENAME name)
 endif()
 
+message(VERBOSE "${name}: ${type_label}")
+
 set(out_dir ${GEMINI_SIMROOT}/${name})
 
 # equilibrium (creation or download)
 if(NOT type_label STREQUAL equilibrium)
-  equil_setup(${in_dir} ${out_dir})
+  equil_setup(${in_dir} ${out_dir} ${type_label})
 endif()
 
 # setup model

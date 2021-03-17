@@ -1,4 +1,4 @@
-function(equil_setup in_dir out_dir)
+function(equil_setup in_dir out_dir label)
 
 set(nml_file ${in_dir}/config.nml)
 
