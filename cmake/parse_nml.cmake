@@ -1,3 +1,6 @@
+# need this here to keep modern syntax handling
+cmake_minimum_required(VERSION 3.19...3.20)
+
 function(parse_nml nml_file var type)
 # get alphanumeric variable such as a file path from Fortran namelist .nml file
 
