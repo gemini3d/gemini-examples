@@ -156,19 +156,13 @@ else()
   endif()
 endif()
 
-# limit RAM use with Matlab/Python in parallel can use a lot of RAM with 3D grids
-cmake_host_system_information(RESULT ram_avail QUERY AVAILABLE_PHYSICAL_MEMORY)
-if(ram_avail LESS 4000)
-  if(Ncpu GREATER 1)
-    set(Ncpu 1)
-  endif()
-elseif(ram_avail LESS 6000)
+# limit RAM use as Matlab/Python in parallel can use a lot of RAM with 3D grids
+cmake_host_system_information(RESULT ram QUERY TOTAL_PHYSICAL_MEMORY)
+set(low_ram false)
+if(ram LESS 10000)  # 10 GB
+  set(low_ram true)
   if(Ncpu GREATER 2)
     set(Ncpu 2)
-  endif()
-elseif(ram_avail LESS 8000)
-  if(Ncpu GREATER 3)
-    set(Ncpu 3)
   endif()
 endif()
 

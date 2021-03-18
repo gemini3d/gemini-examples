@@ -10,9 +10,12 @@ if(py_ok)
     LABELS "setup;python;${label}"
     FIXTURES_SETUP ${name}:setup_fxt
     TIMEOUT 900
-    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
+    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT}
+    FIXTURES_REQUIRED "${name}:eq_fxt")
 
-  set_tests_properties("setup:python:${name}" PROPERTIES FIXTURES_REQUIRED "${name}:eq_fxt")
+  if(low_ram)
+    set_tests_properties("setup:python:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)
+  endif()
 
 elseif(MATGEMINI_DIR)
 
@@ -22,9 +25,12 @@ elseif(MATGEMINI_DIR)
     LABELS "setup;matlab;${label}"
     FIXTURES_SETUP ${name}:setup_fxt
     TIMEOUT 900
-    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
+    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT}
+    FIXTURES_REQUIRED "${name}:eq_fxt")
 
-  set_tests_properties("setup:matlab:${name}" PROPERTIES FIXTURES_REQUIRED "${name}:eq_fxt")
+  if(low_ram)
+    set_tests_properties("setup:matlab:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)
+  endif()
 
 endif()
 
