@@ -5,6 +5,13 @@ option(dev "dev mode" on)
 
 option(compare "compare Gemini output")
 
+if(NOT DEFINED low_ram)
+  cmake_host_system_information(RESULT ram QUERY TOTAL_PHYSICAL_MEMORY)
+  set(low_ram false)
+  if(ram LESS 10000)  # 10 GB
+    set(low_ram true)
+  endif()
+endif()
 
 if(dev)
   set(FETCHCONTENT_SOURCE_DIR_PYGEMINI ${PROJECT_SOURCE_DIR}/../pygemini CACHE PATH "PyGemini developer path")
