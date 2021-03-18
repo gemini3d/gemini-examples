@@ -8,7 +8,8 @@ option(compare "compare Gemini output")
 if(NOT DEFINED low_ram)
   cmake_host_system_information(RESULT ram QUERY TOTAL_PHYSICAL_MEMORY)
   set(low_ram false)
-  if(ram LESS 10000)  # 10 GB
+  if(ram LESS 18000)
+    # 18 GB: the 3D Matlab plots use 9GB RAM each
     set(low_ram true)
   endif()
 endif()

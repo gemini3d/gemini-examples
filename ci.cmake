@@ -159,7 +159,8 @@ endif()
 # limit RAM use as Matlab/Python in parallel can use a lot of RAM with 3D grids
 cmake_host_system_information(RESULT ram QUERY TOTAL_PHYSICAL_MEMORY)
 set(low_ram false)
-if(ram LESS 10000)  # 10 GB
+if(ram LESS 18000)
+  # 18 GB: the 3D Matlab plots use 9GB RAM each
   set(low_ram true)
   if(Ncpu GREATER 2)
     set(Ncpu 2)
