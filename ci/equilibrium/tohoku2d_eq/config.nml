@@ -16,11 +16,11 @@ flagoutput = 1      ! 1 - full parameter output
 
 &setup
 dtheta=10
-dphi=12
+dphi=15
 glat=42.45
 glon=143.40
-lp=256
-lq=750
+lp=96
+lq=256
 lphi=1
 altmin=80e3
 gridflag=1
