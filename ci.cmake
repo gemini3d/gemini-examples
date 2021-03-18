@@ -165,6 +165,7 @@ if(ram LESS 10000)  # 10 GB
     set(Ncpu 2)
   endif()
 endif()
+list(APPEND opts -Dlow_ram:BOOL=${low_ram})
 
 set(Ncpu ${Ncpu} PARENT_SCOPE)
 
