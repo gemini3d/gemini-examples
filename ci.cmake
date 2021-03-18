@@ -45,7 +45,8 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE RelWithDebInfo)
+  # RelWithDebInfo -O2, Release -O3
+  set(CMAKE_BUILD_TYPE Release)
 endif()
 list(APPEND opts -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
 
@@ -155,12 +156,24 @@ else()
   endif()
 endif()
 
+# limit RAM use with Matlab/Python in parallel can use a lot of RAM with 3D grids
+cmake_host_system_information(RESULT ram_avail QUERY AVAILABLE_PHYSICAL_MEMORY)
+if(ram_avail LESS 4000)
+  if(Ncpu GREATER 1)
+    set(Ncpu 1)
+  endif()
+elseif(ram_avail LESS 8000)
+  if(Ncpu GREATER 3)
+    set(Ncpu 3)
+  endif()
+endif()
+
 set(Ncpu ${Ncpu} PARENT_SCOPE)
 
 endfunction(cmake_cpu_count)
 
 cmake_cpu_count()
-message(STATUS "Ncpu = ${Ncpu}")
+message(STATUS "using Ncpu = ${Ncpu}")
 
 # --- CTest Dashboard
 
@@ -194,6 +207,7 @@ if(CTEST_MODEL STREQUAL Nightly OR CTEST_MODEL STREQUAL Continuous)
 endif()
 
 ctest_configure(
+  OPTIONS "${opts}"
   RETURN_VALUE _ret
   CAPTURE_CMAKE_ERROR _err)
 ctest_submit(PARTS Configure)
@@ -203,11 +217,20 @@ endif()
 
 # there is no ctest_build as we're testing already built external packages
 
-ctest_test(PARALLEL_LEVEL ${Ncpu})
+ctest_test(
+  # set PARALLEL_LEVEL here as the global option seems to be ignored
+  PARALLEL_LEVEL ${Ncpu}
+  SCHEDULE_RANDOM ON
+  RETURN_VALUE _ret
+  CAPTURE_CMAKE_ERROR _err)
 ctest_submit(PARTS Test)
 
 ctest_submit(
   PARTS Done
   BUILD_ID build_id)
+
+if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
+  message(FATAL_ERROR "Build ${build_id} failed: CTest code ${_ret}, CMake code ${_err}.")
+endif()
 
 message(STATUS "OK: CTest build ${build_id}")
