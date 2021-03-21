@@ -5,7 +5,7 @@ if(NOT IS_DIRECTORY ${ref_root})
   message(FATAL_ERROR "must provide 'ref_root' e.g. ~/simulations/ref_data")
 endif()
 
-file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/gemini3d_url.json _refj)
+file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/reference_url.json _refj)
 string(JSON url GET ${_refj} ${name} url)
 string(JSON archive_name GET ${_refj} ${name} archive)
 # optional checksum

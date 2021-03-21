@@ -4,6 +4,7 @@ option(matlab "use Matlab instead of Python" on)
 option(dev "dev mode" on)
 
 option(compare "compare Gemini output")
+option(package "package reference data .zstd files")
 
 if(NOT DEFINED low_ram)
   cmake_host_system_information(RESULT ram QUERY TOTAL_PHYSICAL_MEMORY)
