@@ -43,7 +43,7 @@ set(ci_root ${CMAKE_CURRENT_SOURCE_DIR}/ci)
 
 
 # --- PyGemini
-if(python AND NOT DEFINED py_ok)
+if(python)
   include(cmake/python.cmake)
 endif()
 

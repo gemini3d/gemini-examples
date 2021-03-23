@@ -13,15 +13,19 @@ elseif(NOT matgemini_POPULATED)
 endif()
 
 
-if(NOT MATGEMINI_DIR)
-  execute_process(COMMAND ${Matlab_MAIN_PROGRAM} -batch "run('${matgemini_SOURCE_DIR}/setup.m'), gemini3d.fileio.expanduser('~');"
-    RESULT_VARIABLE _ok
-    TIMEOUT 90)
+if(MATGEMINI_DIR)
+  return()
+endif()
 
-  if(_ok EQUAL 0)
-    message(STATUS "MatGemini found: ${matgemini_SOURCE_DIR}")
-    set(MATGEMINI_DIR ${matgemini_SOURCE_DIR} CACHE PATH "MatGemini path")
-  endif()
+execute_process(COMMAND ${Matlab_MAIN_PROGRAM} -batch "run('${matgemini_SOURCE_DIR}/setup.m'), gemini3d.fileio.expanduser('~');"
+  RESULT_VARIABLE _ok
+  TIMEOUT 90)
+
+if(_ok EQUAL 0)
+  message(STATUS "MatGemini found: ${matgemini_SOURCE_DIR}")
+  set(MATGEMINI_DIR ${matgemini_SOURCE_DIR} CACHE PATH "MatGemini path")
+else()
+  message(SEND_ERROR "Matlab was requested, but MatGemini not found.")
 endif()
 
 
