@@ -186,6 +186,9 @@ set(CTEST_UPDATE_COMMAND git)
 ctest_start(${CTEST_MODEL})
 
 if(CTEST_MODEL STREQUAL Nightly OR CTEST_MODEL STREQUAL Continuous)
+
+  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+
   # this erases local code changes i.e. anything not "git push" already is lost forever!
   # we try to avoid that by guarding with a Git porcelain check
   execute_process(COMMAND ${GIT_EXECUTABLE} status --porcelain
