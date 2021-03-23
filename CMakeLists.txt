@@ -104,5 +104,7 @@ endforeach()
 include(FeatureSummary)
 
 add_feature_info(compare compare "compare gemini3d output")
+add_feature_info(PyGemini py_ok "PyGemini setup and plot")
+add_feature_info(MatGemini MATGEMINI_DIR "MatGemini setup and plot")
 
-feature_summary(WHAT ALL)
+feature_summary(WHAT ENABLED_FEATURES)
