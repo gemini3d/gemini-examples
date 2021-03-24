@@ -12,6 +12,12 @@ The [init/](./init) directories contain a mix of Matlab and Python scripts.
 Some of the popular examples have scripts for both languages.
 
 The [ci](./ci) directories contain several minutes to hours simulations that can run as a daily CI job on a powerful workstation or HPC.
+While the CI tests in general take hours to run, particularly on a laptop, one may quickly (in a few minutes) check that the CI simulations setup by:
+
+```sh
+cmake --preset ninja
+ctest --preset setup
+```
 
 ### Python
 
