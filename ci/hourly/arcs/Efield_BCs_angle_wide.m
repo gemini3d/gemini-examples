@@ -1,4 +1,4 @@
-function Efield_BCs(p, xg)
+function Efield_BCs_angle_wide(p, xg)
 arguments
   p (1,1) struct
   xg (1,1) struct
@@ -46,15 +46,6 @@ if isfield(p, 'Efield_latwidth')
 end
 if isfield(p, 'Efield_lonwidth')
    [E.mlonsig, E.sigx2] = Esigma(p.Efield_lonwidth, mlonmax, mlonmin, xg.x2);
-end
-if isfield(p, 'Efield_fracwidth')
-  warning('Efield_fracwidth is deprecated. Please use Efield_lonwidth or Efield_latwidth')
-  if E.llat ~= 1
-    [E.mlatsig, E.sigx3] = Esigma(p.Efield_fracwidth, mlatmax, mlatmin, xg.x3);
-  end
-  if E.llon ~= 1
-    [E.mlonsig, E.sigx2] = Esigma(p.Efield_fracwidth, mlonmax, mlonmin, xg.x2);
-  end
 end
 %% TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
 E.times = p.times(1):seconds(p.dtE0):p.times(end);

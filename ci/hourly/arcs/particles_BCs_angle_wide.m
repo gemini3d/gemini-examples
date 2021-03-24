@@ -1,4 +1,4 @@
-function particles_BCs(p, xg)
+function particles_BCs_angle_wide(p, xg)
 % create particle precipitation
 arguments
   p (1,1) struct
