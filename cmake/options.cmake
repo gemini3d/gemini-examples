@@ -1,9 +1,9 @@
 option(python "use Python for tests" on)
-option(matlab "use Matlab (slower than Python)" off)
+option(matlab "use Matlab (slower than Python)")
 
 option(dev "dev mode" on)
 
-option(compare "compare Gemini output")
+option(compare "compare Gemini output" on)
 option(package "package reference data .zstd files")
 
 if(NOT DEFINED low_ram)
