@@ -2,7 +2,7 @@
 # version and/or Git tag that we wish to use as a milestone.
 
 # We use a lot of recent CMake features for CI.
-cmake_minimum_required(VERSION 3.19...3.20)
+cmake_minimum_required(VERSION 3.19...3.21)
 
 project(GeminiCI
 LANGUAGES NONE
