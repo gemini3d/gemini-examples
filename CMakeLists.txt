@@ -72,7 +72,7 @@ else()
   cmake_path(GET in_dir FILENAME name)
 endif()
 
-message(VERBOSE "${name}: ${type_label}")
+message(DEBUG "${name}: ${type_label}")
 
 set(out_dir ${GEMINI_SIMROOT}/${name})
 

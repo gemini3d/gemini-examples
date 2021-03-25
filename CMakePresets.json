@@ -16,6 +16,9 @@
     "python": true,
     "matlab": false,
     "package": false
+  },
+  "environment": {
+    "CMAKE_MESSAGE_LOG_LEVEL": "VERBOSE"
   }
 },
 {
@@ -31,7 +34,8 @@
   "name": "default",
   "configurePreset": "default",
   "output": {
-    "outputOnFailure": true
+    "outputOnFailure": true,
+    "verbosity": "default"
   },
   "execution": {"noTestsAction": "error", "stopOnFailure": true}
 },

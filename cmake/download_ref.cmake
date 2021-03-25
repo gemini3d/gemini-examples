@@ -1,3 +1,7 @@
+if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
+  set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
+endif()
+
 function(download_ref name ref_root)
 
 # sanity check to avoid making mess

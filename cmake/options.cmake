@@ -6,6 +6,10 @@ option(dev "dev mode" on)
 option(compare "compare Gemini output" on)
 option(package "package reference data .zstd files")
 
+if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
+  set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
+endif()
+
 if(NOT DEFINED low_ram)
   cmake_host_system_information(RESULT ram QUERY TOTAL_PHYSICAL_MEMORY)
   set(low_ram false)

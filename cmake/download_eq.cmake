@@ -1,5 +1,9 @@
 include(${CMAKE_CURRENT_LIST_DIR}/parse_nml.cmake)
 
+if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
+  set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
+endif()
+
 
 function(download_eq nml_file eq_dir name GEMINI_SIMROOT)
 
