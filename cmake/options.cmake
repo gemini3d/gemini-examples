@@ -3,7 +3,7 @@ option(matlab "use Matlab (slower than Python)")
 
 option(dev "dev mode" on)
 
-option(compare "compare Gemini output" on)
+option(equil "run equilibrium (takes 10+ hours)")
 option(package "package reference data .zstd files")
 
 if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})

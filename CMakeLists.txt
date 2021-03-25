@@ -54,7 +54,9 @@ endif()
 
 # --- discover tests
 
-file(GLOB equilibrium_dirs LIST_DIRECTORIES true "${ci_root}/equilibrium/*")
+if(equil)
+  file(GLOB equilibrium_dirs LIST_DIRECTORIES true "${ci_root}/equilibrium/*")
+endif()
 file(GLOB hourly_dirs LIST_DIRECTORIES true "${ci_root}/hourly/*")
 file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 
@@ -88,9 +90,7 @@ model_setup(${in_dir} ${out_dir} ${name} ${type_label})
 gemini_run(${GEMINI_RUN} ${out_dir} ${name} ${type_label})
 
 # --- compare
-if(compare)
-  gemini_compare(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
-endif(compare)
+gemini_compare(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
 
 # --- plot
 gemini_plot(${out_dir} ${name} ${type_label})

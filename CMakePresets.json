@@ -15,7 +15,8 @@
     "CMAKE_BUILD_TYPE": "Release",
     "python": true,
     "matlab": false,
-    "package": false
+    "package": false,
+    "equil": false
   },
   "environment": {
     "CMAKE_MESSAGE_LOG_LEVEL": "VERBOSE"
