@@ -9,7 +9,7 @@
   "archive": "cusp2d_eq.zstd",
   "md5": "60811f73f9008b86fb4bd419d1fcb47f"},
 "cusp3d_eq": {"url": "https://zenodo.org/record/4617872/files/cusp3d_eq.zstd?download=1",
-  "archive": "cusp3d_eq",
+  "archive": "cusp3d_eq.zstd",
   "md5": "346bc623524b689ad15d755e58b59158"},
 "cusp_softprecip2D_Dirich_CI": {"url": "https://zenodo.org/record/4617872/files/cusp_softprecip2D_Dirich_CI.zstd?download=1",
   "archive": "cusp_softprecip2D_Dirich_CI.zstd",
