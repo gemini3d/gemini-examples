@@ -38,22 +38,29 @@ xg= gemini3d.grid.tilted_dipole3d(p);
 % sourcemlon=sourcephi*180/pi;
 
 %% PLot the grid
-gemini3d.plot.grid(xg)
+%gemini3d.plot.grid(xg)
 
 %% GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - the iowa event
 %in this case
 UT=5.25;
 activ=[150,150,4];    %apparently this used the MSIS matlab defaults
-time = datetime(2016,8,6, UT, 0, 0);
+time = datetime(datevec(datenum([2016,8,6, UT, 0, 0])));     %this is ridiculous
 
 %% USE OLD CODE FROM MATLAB MODEL
+p.outdir = '~/simulations/raid/ESF_eq/';
 p.nmf=5e11;
 p.nme=2e11;
-
+p.times=time;
+p.f107a=activ(1);
+p.f107=activ(2);
+p.Ap=activ(3);
+p.indat_size=[p.outdir,'inputs/simsize.h5'];
+p.indat_grid=[p.outdir,'inputs/simgrid.h5'];
+p.indat_file=[p.outdir,'inputs/initial_conditions.h5'];
 dat = gemini3d.model.eqICs(p,xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!
 
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
-outdir = '~/simulations/input/ESF_eq/';
 gemini3d.write.grid(p,xg);
 gemini3d.write.state(p.outdir,dat);
+system(['cp config.nml ',p.outdir,'/']);
