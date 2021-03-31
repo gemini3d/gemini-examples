@@ -2,7 +2,7 @@
 # version and/or Git tag that we wish to use as a milestone.
 
 # We use a lot of recent CMake features for CI.
-cmake_minimum_required(VERSION 3.19...3.21)
+cmake_minimum_required(VERSION 3.20...3.21)
 
 project(GeminiCI
 LANGUAGES NONE
@@ -64,19 +64,14 @@ file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 
 foreach(in_dir ${equilibrium_dirs} ${hourly_dirs} ${daily_dirs})
 
-if(CMAKE_VERSION VERSION_LESS 3.20)
-  get_filename_component(_t ${in_dir} DIRECTORY)
-  get_filename_component(type_label ${_t} NAME)
-  get_filename_component(name ${in_dir} NAME)
-else()
-  cmake_path(GET in_dir PARENT_PATH _t)
-  cmake_path(GET _t STEM type_label)
-  cmake_path(GET in_dir FILENAME name)
-endif()
+
+cmake_path(GET in_dir PARENT_PATH _t)
+cmake_path(GET _t STEM type_label)
+cmake_path(GET in_dir FILENAME name)
 
 message(DEBUG "${name}: ${type_label}")
 
-set(out_dir ${GEMINI_SIMROOT}/${name})
+cmake_path(APPEND out_dir ${GEMINI_SIMROOT} ${name})
 
 # equilibrium download (if not an equilibrium itself)
 if(NOT type_label STREQUAL equilibrium)

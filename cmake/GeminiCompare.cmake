@@ -1,6 +1,6 @@
 function(gemini_compare compare_exe out_dir ref_root name label)
 
-set(ref_dir ${ref_root}/${name})
+cmake_path(APPEND ref_dir ${ref_root} ${name})
 
 add_test(NAME compare:download:${name}
   COMMAND ${CMAKE_COMMAND} -Dname=${name} -Dref_root:PATH=${ref_root} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/download_ref.cmake)

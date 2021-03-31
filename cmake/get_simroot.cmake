@@ -21,7 +21,7 @@ endif()
 
 get_filename_component(GEMINI_SIMROOT ${GEMINI_SIMROOT} ABSOLUTE)
 
-set(ref_root ${GEMINI_SIMROOT}/test_ref)
+cmake_path(APPEND ref_root ${GEMINI_SIMROOT} test_ref)
 
 if(NOT IS_DIRECTORY ${GEMINI_SIMROOT})
   file(MAKE_DIRECTORY ${GEMINI_SIMROOT})

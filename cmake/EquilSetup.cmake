@@ -1,6 +1,6 @@
 function(equil_setup in_dir out_dir label)
 
-set(nml_file ${in_dir}/config.nml)
+cmake_path(APPEND nml_file ${in_dir} config.nml)
 
 parse_nml(${nml_file} "eq_dir" "path")
 

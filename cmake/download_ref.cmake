@@ -15,8 +15,8 @@ string(JSON archive_name GET ${_refj} ${name} archive)
 # optional checksum
 string(JSON md5 ERROR_VARIABLE e GET ${_refj} ${name} md5)
 
-set(ref_dir ${ref_root}/${name})
-set(archive ${ref_root}/${archive_name})
+cmake_path(APPEND ref_dir ${ref_root} ${name})
+cmake_path(APPEND archive ${ref_root} ${archive_name})
 
 # check if extracted data exists
 if(IS_DIRECTORY ${ref_dir})
