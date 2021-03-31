@@ -81,6 +81,16 @@ endif()
 # setup model
 model_setup(${in_dir} ${out_dir} ${name} ${type_label})
 
+# check that scripts can read grid
+if(py_ok)
+  add_test(NAME "read_grid:python:${name}"
+    COMMAND ${Python_EXECUTABLE} -c "import gemini3d.read; xg = gemini3d.read.grid('${out_dir}'); print(xg['lx'])")
+  set_tests_properties("read_grid:python:${name}" PROPERTIES
+    REQUIRED_FILES ${out_dir}/inputs/simgrid.h5
+    FIXTURES_REQUIRED ${name}:setup_fxt
+    TIMEOUT 30)
+endif()
+
 # --- run
 gemini_run(${GEMINI_RUN} ${out_dir} ${name} ${type_label})
 
