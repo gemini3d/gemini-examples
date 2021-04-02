@@ -2,7 +2,8 @@
 cmake_minimum_required(VERSION 3.19...${CMAKE_VERSION})
 
 function(parse_nml nml_file var type)
-# get alphanumeric variable such as a file path from Fortran namelist .nml file
+# get variable from Fortran namelist .nml file
+# only looks for variable name, assumes unique variable names
 
 set(pre "${var}[ ]*=[ ]*")
 
@@ -21,6 +22,7 @@ endif()
 
 file(STRINGS ${nml_file} m REGEX ${pat1} LIMIT_COUNT 1)
 if(NOT m)
+  message(VERBOSE "${var} type ${type} not found in ${nml_file}")
   set(${var} PARENT_SCOPE)
   return()
 endif()
