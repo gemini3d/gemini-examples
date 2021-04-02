@@ -13,7 +13,7 @@ add_test(NAME "setup:download_eq:${name}"
   LABELS "download;${label}"
   REQUIRED_FILES ${in_dir}/config.nml
   DISABLED $<NOT:$<BOOL:${eq_dir}>>
-  TIMEOUT 300
+  TIMEOUT 1800
   FIXTURES_SETUP ${name}:eq_fxt
   RESOURCE_LOCK ${eq_name}_download)
 
