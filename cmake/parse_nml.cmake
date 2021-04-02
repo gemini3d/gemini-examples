@@ -22,7 +22,7 @@ endif()
 
 file(STRINGS ${nml_file} m REGEX ${pat1} LIMIT_COUNT 1)
 if(NOT m)
-  message(VERBOSE "${var} type ${type} not found in ${nml_file}")
+  message(DEBUG "${var} type ${type} not found in ${nml_file}")
   set(${var} PARENT_SCOPE)
   return()
 endif()

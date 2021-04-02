@@ -31,7 +31,7 @@ find_program(MPIEXEC_EXECUTABLE
   REQUIRED)
 
 # helper functions
-include(cmake/EquilSetup.cmake)
+include(cmake/InputSetup.cmake)
 include(cmake/ModelSetup.cmake)
 include(cmake/GeminiRun.cmake)
 include(cmake/GeminiCompare.cmake)
@@ -51,6 +51,7 @@ endif()
 if(matlab)
   include(cmake/matlab.cmake)
 endif()
+include(cmake/MatlabTest.cmake)
 
 # --- discover tests
 
@@ -73,9 +74,9 @@ message(DEBUG "${name}: ${type_label}")
 
 cmake_path(APPEND out_dir ${GEMINI_SIMROOT} ${name})
 
-# equilibrium download (if not an equilibrium itself)
+# input data download (if not an equilibrium itself)
 if(NOT type_label STREQUAL equilibrium)
-  equil_setup(${in_dir} ${out_dir} ${name} ${type_label})
+  input_setup(${in_dir} ${out_dir} ${name} ${type_label})
 endif()
 
 # setup model

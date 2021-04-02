@@ -46,5 +46,14 @@
   "md5": "01478e86c4da91b4656027d5068dddb8"},
 "tohoku3d_eq": {"url": "https://zenodo.org/record/4617872/files/tohoku3d_eq.zstd?download=1",
   "archive": "tohoku32_eq.zstd",
-  "md5": "474e94b364299c410d837f671274f1a2"}
+  "md5": "474e94b364299c410d837f671274f1a2"},
+"acoustic2D_axisymmetric_neutrals": {"url": "https",
+ "archive": "acoustic2D_axisymmetric_neutrals.zstd",
+ "md5": "2d871f08e02fa89a338f6640e1142279"},
+"acoustic2D_cartesian_neutrals": {"url": "https",
+  "archive": "acoustic2D_cartesian_neutrals.zstd",
+  "md5": "0222c3b7d99eab3e5751969f329f871f"},
+"acoustic3D_cartesian_neutrals": {"url": "https",
+  "archive": "acoustic3D_cartesian_neutrals.zstd",
+  "md5": "a374723b9ebafeb60cf49747e0188c07"}
 }

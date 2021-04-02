@@ -27,12 +27,3 @@ if(_ok EQUAL 0)
 else()
   message(SEND_ERROR "Matlab was requested, but MatGemini not found.")
 endif()
-
-
-function(add_matlab_test testname cmd)
-
-add_test(NAME ${testname}
-  COMMAND ${Matlab_MAIN_PROGRAM} -batch "run('${matgemini_SOURCE_DIR}/setup.m'); ${cmd}"
-  WORKING_DIRECTORY ${matgemini_SOURCE_DIR})
-
-endfunction(add_matlab_test)
