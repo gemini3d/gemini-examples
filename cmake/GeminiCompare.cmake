@@ -20,6 +20,7 @@ set_tests_properties(compare:${name} PROPERTIES
   LABELS "compare;${label}"
   FIXTURES_REQUIRED ${name}:compare_fxt
   FIXTURES_SETUP ${name}:package_fxt
-  TIMEOUT 300)
+  TIMEOUT 300
+  ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
 endfunction(gemini_compare)
