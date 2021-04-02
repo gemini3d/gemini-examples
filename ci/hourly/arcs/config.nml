@@ -27,9 +27,12 @@ nme = 2e11
 
 precip_latwidth = 0.025
 precip_lonwidth = 0.15
+precip_llon = 1024
+precip_llat = 1024
 Qprecip = 25
 Qprecip_background = 1
 E0precip = 2e3
+Qprecip_function = 'precip_shape'
 
 Jtarg = 15e-6               ! A/m2
 Efield_lonwidth = 0.15
@@ -43,7 +46,7 @@ eq_dir = '@GEMINI_SIMROOT@/arcs_eq'
 eq_zip = '@GEMINI_SIMROOT@/arcs_eq.zstd'
 eq_url = 'https://zenodo.org/record/4613594/files/arcs_eq.zstd?download=1'
 
-setup_functions = 'gemini3d.model.Efield_BCs', 'particles_BCs_angle_wide'
+setup_functions = 'gemini3d.model.Efield_BCs', 'gemini3d.model.particles_BCs'
 
 /
 

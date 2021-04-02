@@ -56,6 +56,7 @@ end
 
 precip = gemini3d.setup.precip_grid(xg, p, precip);
 
+%%%%%%%%%%
 
 %% User-defined precipitation shape
 lt=Nt;
@@ -79,6 +80,7 @@ for it=1:lt
   Qittmp(inds)=QBG;
   precip.Qit(:,:,it)=Qittmp;
 end
+%%%%%%%%%%
 
 
 %% Error checking
