@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19...3.20)
+cmake_minimum_required(VERSION 3.19...${CMAKE_VERSION})
 
 set(CTEST_PROJECT_NAME "Gemini3Dproject")
 

@@ -1,36 +1,65 @@
-include(${CMAKE_CURRENT_LIST_DIR}/parse_nml.cmake)
-
 if(DEFINED ENV{CMAKE_MESSAGE_LOG_LEVEL})
   set(CMAKE_MESSAGE_LOG_LEVEL $ENV{CMAKE_MESSAGE_LOG_LEVEL})
 endif()
 
 
-function(download_eq nml_file eq_dir name GEMINI_SIMROOT)
+function(download_eq eq_dir name)
 
-if(EXISTS ${eq_dir}/inputs/config.nml AND EXISTS ${eq_dir}/output.nml)
-  # already present
-  return()
+cmake_path(GET eq_dir FILENAME eq_name)
+
+file(READ ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/reference_url.json _refj)
+string(JSON url GET ${_refj} ${eq_name} url)
+string(JSON archive_name GET ${_refj} ${eq_name} archive)
+# optional checksum
+string(JSON md5 ERROR_VARIABLE e GET ${_refj} ${eq_name} md5)
+
+cmake_path(GET eq_dir PARENT_PATH eq_root)
+cmake_path(APPEND archive ${eq_root} ${archive_name})
+
+# check if extracted data exists
+if(IS_DIRECTORY ${eq_dir})
+  if(md5 AND EXISTS ${eq_dir}/md5sum.txt)
+    file(READ ${eq_dir}/md5sum.txt extracted_md5)
+    if(${extracted_md5} STREQUAL ${md5})
+      message(VERBOSE "${name}: ${eq_name} extracted md5 == JSON md5, no need to download.")
+      return()
+    else()
+      message(STATUS "${name}: ${eq_name} extracted md5 ${extracted_md5} != JSON md5 ${md5}")
+    endif()
+  else()
+    message(VERBOSE "${name}: ${eq_name} md5 not given  and ${eq_dir} exists, no need to download.")
+    return()
+  endif()
 endif()
 
-parse_nml(${nml_file} "eq_url" "path")
-if(NOT eq_url)
-  message(FATAL_ERROR "${name}: ${nml_file} does not define eq_url, and ${eq_dir} is not a directory.")
+set(hash_ok true)
+if(EXISTS ${archive} AND DEFINED md5)
+  file(MD5 ${archive} archive_md5)
+  if(${archive_md5} STREQUAL ${md5})
+    message(VERBOSE "${name}: archive md5 == JSON md5, no need to download.")
+  else()
+    message(STATUS "${name}: archive md5 ${archive_md5} != JSON md5 ${md5}")
+    set(hash_ok false)
+  endif()
 endif()
 
-parse_nml(${nml_file} "eq_zip" "path")
-if(NOT eq_zip)
-  message(FATAL_ERROR "${name}: ${nml_file} does not define eq_zip, which is needed to extract download from ${eq_url}")
+if(NOT EXISTS ${archive} OR NOT hash_ok)
+  message(STATUS "${name}:DOWNLOAD: ${url} => ${archive}   ${md5}")
+  if(md5)
+    file(DOWNLOAD ${url} ${archive} TLS_VERIFY ON EXPECTED_HASH MD5=${md5})
+  else()
+    file(DOWNLOAD ${url} ${archive} TLS_VERIFY ON)
+  endif()
 endif()
 
-if(NOT EXISTS ${eq_zip})
-  message(STATUS "DOWNLOAD: ${eq_url} => ${eq_zip}")
-  file(DOWNLOAD ${eq_url} ${eq_zip} TLS_VERIFY ON)
-endif()
+message(STATUS "${name}:EXTRACT: ${archive} => ${eq_dir}")
+file(ARCHIVE_EXTRACT INPUT ${archive} DESTINATION ${eq_dir})
 
-message(STATUS "EXTRACT: ${eq_zip} => ${eq_dir}")
-file(ARCHIVE_EXTRACT INPUT ${eq_zip} DESTINATION ${eq_dir})
+# to compare extracted contents and auto-update ref data
+file(MD5 ${archive} archive_md5)
+file(WRITE ${eq_dir}/md5sum.txt ${archive_md5})
 
 endfunction(download_eq)
 
 
-download_eq(${nml_file} ${eq_dir} ${name} ${GEMINI_SIMROOT})
+download_eq(${eq_dir} ${name})
