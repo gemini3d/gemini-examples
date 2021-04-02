@@ -4,7 +4,7 @@ set(CTEST_PROJECT_NAME "Gemini3Dproject")
 
 set(CTEST_LABELS_FOR_SUBPROJECTS "python;matlab")
 
-set(opts)
+set(opts -Dmatlab:BOOL=yes -Dpython:BOOL=no)
 
 # --- boilerplate follows
 
@@ -178,7 +178,7 @@ message(STATUS "using Ncpu = ${Ncpu}")
 # --- CTest Dashboard
 
 set(CTEST_NOTES_FILES "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")
-set(CTEST_SUBMIT_RETRY_COUNT 3)
+set(CTEST_SUBMIT_RETRY_COUNT 2)
 # avoid auto-detect version control failures on some systems
 set(CTEST_UPDATE_TYPE git)
 set(CTEST_UPDATE_COMMAND git)
