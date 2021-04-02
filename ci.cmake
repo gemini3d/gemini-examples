@@ -8,6 +8,11 @@ set(opts -Dmatlab:BOOL=yes -Dpython:BOOL=no)
 
 # --- boilerplate follows
 
+set(CI false)
+if(DEFINED ENV{CI})
+  set(CI $ENV{CI})
+endif()
+
 set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
 set(CTEST_SUBMIT_URL "https://my.cdash.org/submit.php?project=${CTEST_PROJECT_NAME}")
 
@@ -18,18 +23,11 @@ list(APPEND opts $ENV{CTEST_${CTEST_PROJECT_NAME}_ARGS})
 
 # --- Experimental, Nightly, Continuous
 # https://cmake.org/cmake/help/latest/manual/ctest.1.html#dashboard-client-modes
-if(NOT CTEST_MODEL)
-  if(DEFINED ENV{CTEST_MODEL})
-    set(CTEST_MODEL $ENV{CTEST_MODEL})
-  endif()
+if(NOT CTEST_MODEL AND DEFINED ENV{CTEST_MODEL})
+  set(CTEST_MODEL $ENV{CTEST_MODEL})
 endif()
-if(NOT CTEST_MODEL)
-  if(DEFINED ENV{CI})
-    set(CI $ENV{CI})
-    if(CI)
-      set(CTEST_MODEL "Nightly")
-    endif()
-  endif()
+if(NOT CTEST_MODEL AND CI)
+  set(CTEST_MODEL "Nightly")
 endif()
 if(NOT CTEST_MODEL)
   set(CTEST_MODEL "Experimental")
@@ -177,13 +175,15 @@ message(STATUS "using Ncpu = ${Ncpu}")
 
 # --- CTest Dashboard
 
-set(CTEST_NOTES_FILES "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")
 set(CTEST_SUBMIT_RETRY_COUNT 2)
 # avoid auto-detect version control failures on some systems
 set(CTEST_UPDATE_TYPE git)
 set(CTEST_UPDATE_COMMAND git)
 
 ctest_start(${CTEST_MODEL})
+if(CI)
+  ctest_submit(PARTS Start)
+endif(CI)
 
 if(CTEST_MODEL STREQUAL Nightly OR CTEST_MODEL STREQUAL Continuous)
 
@@ -213,9 +213,9 @@ ctest_configure(
   OPTIONS "${opts}"
   RETURN_VALUE _ret
   CAPTURE_CMAKE_ERROR _err)
-ctest_submit(PARTS Configure)
 if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
-  message(FATAL_ERROR "Configure failed: return ${_ret} cmake return ${_err}")
+  ctest_submit(BUILD_ID build_id)
+  message(FATAL_ERROR "Configure ${build_id} failed: return ${_ret} cmake return ${_err}")
 endif()
 
 # there is no ctest_build as we're testing already built external packages
@@ -226,11 +226,8 @@ ctest_test(
   SCHEDULE_RANDOM ON
   RETURN_VALUE _ret
   CAPTURE_CMAKE_ERROR _err)
-ctest_submit(PARTS Test)
 
-ctest_submit(
-  PARTS Done
-  BUILD_ID build_id)
+ctest_submit(BUILD_ID build_id)
 
 if(NOT (_ret EQUAL 0 AND _err EQUAL 0))
   message(FATAL_ERROR "Build ${build_id} failed: CTest code ${_ret}, CMake code ${_err}.")
