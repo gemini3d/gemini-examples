@@ -24,21 +24,27 @@ lyp = 144                   ! number of y-cells, will be ignored for nonuniform
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
+
 precip_latwidth = 0.025
 precip_lonwidth = 0.15
 Qprecip = 25
 Qprecip_background = 1
 E0precip = 2e3
+
 Jtarg = 15e-6               ! A/m2
 Efield_lonwidth = 0.15
 Efield_latwidth = 0.025
+Efield_llon = 1024
+Efield_llat = 1024
+Eyit=25e-3
+Jtarg_function = 'Jcurrent_gaussian_tanh'
 
 eq_dir = '@GEMINI_SIMROOT@/arcs_eq'
 eq_zip = '@GEMINI_SIMROOT@/arcs_eq.zstd'
 eq_url = 'https://zenodo.org/record/4613594/files/arcs_eq.zstd?download=1'
 
-setup_functions = 'Efield_BCs_angle_wide', 'particles_BCs_angle_wide'
-Eyit=25e-3
+setup_functions = 'gemini3d.model.Efield_BCs', 'particles_BCs_angle_wide'
+
 /
 
 &flags
