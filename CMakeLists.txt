@@ -75,7 +75,7 @@ cmake_path(APPEND out_dir ${GEMINI_SIMROOT} ${name})
 
 # equilibrium download (if not an equilibrium itself)
 if(NOT type_label STREQUAL equilibrium)
-  equil_setup(${in_dir} ${out_dir} ${type_label})
+  equil_setup(${in_dir} ${out_dir} ${name} ${type_label})
 endif()
 
 # setup model
@@ -101,7 +101,9 @@ gemini_compare(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
 gemini_plot(${out_dir} ${name} ${type_label})
 
 # --- package upload
-gemini_package(${GEMINI_SIMROOT} ${name} ${type_label})
+if(package)
+  gemini_package(${GEMINI_SIMROOT} ${name} ${type_label})
+endif()
 
 endforeach()
 
