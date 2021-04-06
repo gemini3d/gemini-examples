@@ -45,6 +45,6 @@ FIXTURES_REQUIRED ${name}:setup_fxt
 REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
 LABELS "download;${label}"
 RESOURCE_LOCK ${name}_compare_download_lock
-TIMEOUT 180)
+TIMEOUT 600)
 
 endfunction(compare_download)
