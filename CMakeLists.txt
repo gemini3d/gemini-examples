@@ -82,6 +82,10 @@ endif()
 # setup model
 model_setup(${in_dir} ${out_dir} ${name} ${type_label})
 
+# --- compare sim input
+compare_download(${out_dir} ${ref_root} ${name} ${type_label})
+compare_input(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
+
 # check that scripts can read grid
 if(py_ok)
   add_test(NAME "read_grid:python:${name}"
@@ -89,14 +93,15 @@ if(py_ok)
   set_tests_properties("read_grid:python:${name}" PROPERTIES
     REQUIRED_FILES ${out_dir}/inputs/simgrid.h5
     FIXTURES_REQUIRED ${name}:setup_fxt
+    LABELS python
     TIMEOUT 30)
 endif()
 
 # --- run
 gemini_run(${GEMINI_RUN} ${out_dir} ${name} ${type_label})
 
-# --- compare
-gemini_compare(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
+# --- compare sim output
+compare_output(${GEMINI_COMPARE} ${out_dir} ${ref_root} ${name} ${type_label})
 
 # --- plot
 gemini_plot(${out_dir} ${name} ${type_label})
