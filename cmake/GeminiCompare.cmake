@@ -8,7 +8,7 @@ COMMAND ${compare_exe} ${out_dir} ${ref_dir} -which out)
 set_tests_properties(compare:output:${name} PROPERTIES
 DISABLED $<NOT:$<BOOL:${compare_exe}>>
 LABELS "compare;${label}"
-FIXTURES_REQUIRED ${name}:compare_fxt
+FIXTURES_REQUIRED "${name}:run_fxt;${name}:compare_fxt"
 FIXTURES_SETUP ${name}:package_fxt
 TIMEOUT 300
 ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
@@ -41,7 +41,7 @@ COMMAND ${CMAKE_COMMAND} -Dname=${name} -Dref_root:PATH=${ref_root} -P ${CMAKE_C
 
 set_tests_properties(compare:download:${name} PROPERTIES
 FIXTURES_SETUP ${name}:compare_fxt
-FIXTURES_REQUIRED ${name}:run_fxt
+FIXTURES_REQUIRED ${name}:setup_fxt
 REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
 LABELS "download;${label}"
 RESOURCE_LOCK ${name}_compare_download_lock
