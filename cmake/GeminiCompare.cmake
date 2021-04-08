@@ -42,7 +42,8 @@ COMMAND ${CMAKE_COMMAND} -Dname=${name} -Dref_root:PATH=${ref_root} -P ${CMAKE_C
 set_tests_properties(compare:download:${name} PROPERTIES
 FIXTURES_SETUP ${name}:compare_fxt
 FIXTURES_REQUIRED ${name}:setup_fxt
-REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
+REQUIRED_FILES ${out_dir}/inputs/config.nml
+# not required output.nml since we may want to compare just input without running sim
 LABELS "download;${label}"
 RESOURCE_LOCK ${name}_compare_download_lock
 TIMEOUT 600)
