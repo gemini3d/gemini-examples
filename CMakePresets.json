@@ -45,10 +45,23 @@
   "filter": {"include": {"label": "setup"}}
 },
 {
-  "name": "compare", "inherits": "default",
+  "name": "compare-in", "inherits": "default",
   "filter": {
-    "include": {"label": "compare"},
-    "exclude": {"fixtures": {"any": "run_fxt"}}}
+    "include": {"label": "compare", "name": "compare:input"}
+  }
+},
+{
+  "name": "compare-in-equil", "inherits": "default",
+  "filter": {
+    "include": {"label": "compare", "name": "compare:input:.*eq"}
+  }
+},
+{
+  "name": "compare-out", "inherits": "default",
+  "filter": {
+    "include": {"label": "compare", "name": "compare:output"},
+    "exclude": {"fixtures": {"any": "run_fxt"}}
+  }
 }
 ]
 }
