@@ -31,7 +31,8 @@ set_tests_properties("package:upload:${name}" PROPERTIES
   FIXTURES_REQUIRED ${name}:upload_fxt
   LABELS "package;${label}"
   REQUIRED_FILES ${archive}
-  TIMEOUT 300)
+  TIMEOUT 3600)
+  # takes a long time to upload many small files
 
 endif(rclone)
 
