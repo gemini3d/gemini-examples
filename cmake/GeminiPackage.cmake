@@ -11,7 +11,7 @@ cmake_path(APPEND archive ${upload_root} ${name}.${ARC_TYPE})
 cmake_path(APPEND data_dir ${GEMINI_SIMROOT} ${name})
 
 add_test(NAME "package:${name}"
-  COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/zip.cmake)
+  COMMAND ${CMAKE_COMMAND} -Din:PATH=${data_dir} -Dout:FILEPATH=${archive} -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/archive.cmake)
 
 set_tests_properties("package:${name}" PROPERTIES
   FIXTURES_REQUIRED ${name}:package_fxt

@@ -35,7 +35,7 @@ if(NOT EXISTS ${out})
 endif()
 
 file(SIZE ${out} fsize)
-if(fsize LESS 1000)
+if(fsize LESS 10000)
   message(FATAL_ERROR "Archive ${out} may be malformed.")
 endif()
 
