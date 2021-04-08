@@ -61,6 +61,20 @@ endif()
 file(GLOB hourly_dirs LIST_DIRECTORIES true "${ci_root}/hourly/*")
 file(GLOB daily_dirs LIST_DIRECTORIES true "${ci_root}/daily/*")
 
+# --- init package directory and ref json
+string(TIMESTAMP package_date "%Y-%m-%d" UTC)
+cmake_path(APPEND upload_root ${GEMINI_SIMROOT} upload-${package_date})
+set(ref_json_file ${upload_root}/ref.json)
+if(package)
+  message(STATUS "packaging archives in ${upload_root}")
+  file(MAKE_DIRECTORY ${upload_root})
+  if(NOT EXISTS ${ref_json_file})
+    # we will read this file and overwrite with new JSON for each sim
+    file(WRITE ${ref_json_file} "{}")
+  endif()
+endif()
+
+
 # --- main loop
 
 foreach(in_dir ${equilibrium_dirs} ${hourly_dirs} ${daily_dirs})
@@ -108,7 +122,7 @@ gemini_plot(${out_dir} ${name} ${type_label})
 
 # --- package upload
 if(package)
-  gemini_package(${GEMINI_SIMROOT} ${out_dir} ${name} ${type_label})
+  gemini_package(${GEMINI_SIMROOT} ${out_dir} ${ref_json_file} ${name} ${type_label})
 endif()
 
 endforeach()
