@@ -108,7 +108,7 @@ gemini_plot(${out_dir} ${name} ${type_label})
 
 # --- package upload
 if(package)
-  gemini_package(${GEMINI_SIMROOT} ${name} ${type_label})
+  gemini_package(${GEMINI_SIMROOT} ${out_dir} ${name} ${type_label})
 endif()
 
 endforeach()
