@@ -45,7 +45,9 @@
     "outputOnFailure": true,
     "verbosity": "default"
   },
-  "execution": {"noTestsAction": "error", "stopOnFailure": true}
+  "execution": {
+    "noTestsAction": "error",
+    "stopOnFailure": true}
 },
 {
   "name": "setup", "inherits": "default",
