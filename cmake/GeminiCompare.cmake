@@ -9,7 +9,6 @@ set_tests_properties(compare:output:${name} PROPERTIES
 DISABLED $<NOT:$<BOOL:${compare_exe}>>
 LABELS "compare;${label}"
 FIXTURES_REQUIRED "${name}:run_fxt;${name}:compare_fxt"
-FIXTURES_SETUP ${name}:package_fxt
 TIMEOUT 300
 ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
@@ -27,7 +26,6 @@ set_tests_properties(compare:input:${name} PROPERTIES
 DISABLED $<NOT:$<BOOL:${compare_exe}>>
 LABELS "compare;${label}"
 FIXTURES_REQUIRED ${name}:compare_fxt
-FIXTURES_SETUP ${name}:package_fxt
 TIMEOUT 300
 ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
 
