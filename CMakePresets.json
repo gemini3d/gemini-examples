@@ -28,6 +28,13 @@
     "python": false,
     "matlab": true
   }
+},
+{
+  "name": "regen-package", "inherits": "matlab",
+  "cacheVariables": {
+    "equil": true,
+    "package": true
+  }
 }
 ],
 "testPresets": [
@@ -43,6 +50,14 @@
 {
   "name": "setup", "inherits": "default",
   "filter": {"include": {"label": "setup"}}
+},
+{
+  "name": "regen-package", "inherits": "default",
+  "configurePreset": "regen-package",
+  "description": "Regenerates .zstd reference data, by disabling compare",
+  "filter": {
+    "exclude": {"label": "(compare|download)"}
+  }
 },
 {
   "name": "compare-in", "inherits": "default",
