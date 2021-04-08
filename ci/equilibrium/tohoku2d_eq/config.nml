@@ -2,7 +2,7 @@
 ymd = 2011,10,3
 UTsec0 = 20783.0
 tdur = 86400
-dtout = 1800.0                          !dtout: how often to do output
+dtout = 3600.0                          !dtout: how often to do output
 activ=104.7,129.5,37.0              !activ:  f107a,f107,Ap
 tcfl=0.9                           !tcfl:  target cfl number
 Teinf=1500.0                        !Teinf:  exospheric electron temperature

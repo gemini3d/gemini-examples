@@ -2,7 +2,7 @@
 ymd = 2017,3,2                  ! year, month, day
 UTsec0 = 27000.0               !UTsec0:  start time in UT seconds
 tdur = 86400.0                          !tdur:  duration of simulation in seconds
-dtout = 1800.0                          !dtout: how often to do output
+dtout = 3600.0                          !dtout: how often to do output
 activ = 76.5,79.3,31.5                  !activ:  f107a,f107,Ap
 tcfl = 0.9                           !tcfl:  target cfl number
 Teinf = 1500.0                        !Teinf:  exospheric electron temperature
