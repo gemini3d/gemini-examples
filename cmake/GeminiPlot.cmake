@@ -26,8 +26,7 @@ elseif(MATGEMINI_DIR)
     FIXTURES_REQUIRED ${name}:run_fxt
     FIXTURES_SETUP ${name}:package_fxt
     TIMEOUT 7200
-    REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml"
-    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
+    REQUIRED_FILES "${out_dir}/inputs/config.nml;${out_dir}/output.nml")
 
   if(low_ram)
     set_tests_properties("plot:matlab:${name}" PROPERTIES RESOURCE_LOCK cpu_mpi)

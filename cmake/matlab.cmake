@@ -8,6 +8,13 @@ FetchContent_Declare(MATGEMINI
 
 FetchContent_MakeAvailable(MATGEMINI)
 
+if(WIN32)
+  set(path_sep "\;")
+else()
+  set(path_sep ":")
+endif()
+set(MATLABPATH "MATLABPATH=${matgemini_SOURCE_DIR}${path_sep}${matgemini_SOURCE_DIR}/matlab-hdf5/")
+
 if(MATGEMINI_DIR)
   return()
 endif()

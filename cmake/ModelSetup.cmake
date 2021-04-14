@@ -25,7 +25,6 @@ elseif(MATGEMINI_DIR)
     LABELS "setup;matlab;${label}"
     FIXTURES_SETUP ${name}:setup_fxt
     TIMEOUT 900
-    ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT}
     FIXTURES_REQUIRED "${name}:eq_fxt")
 
   if(low_ram)

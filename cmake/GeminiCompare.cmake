@@ -4,7 +4,7 @@ cmake_path(APPEND ref_dir ${ref_root} ${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which out)
 if(MATGEMINI_DIR)
- list(APPEND cmd -matlab ${MATGEMINI_DIR})
+ list(APPEND cmd -matlab)
 elseif(py_ok)
   list(APPEND cmd -python)
 endif()
@@ -16,7 +16,7 @@ DISABLED $<NOT:$<BOOL:${compare_exe}>>
 LABELS "compare;${label}"
 FIXTURES_REQUIRED "${name}:run_fxt;${name}:compare_fxt"
 TIMEOUT 300
-ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
+ENVIRONMENT "${MATLABPATH};GEMINI_SIMROOT=${GEMINI_SIMROOT}")
 
 endfunction(compare_output)
 
@@ -27,9 +27,9 @@ cmake_path(APPEND ref_dir ${ref_root} ${name})
 
 set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which in)
 if(MATGEMINI_DIR)
- list(APPEND cmd -matlab ${MATGEMINI_DIR})
+  list(APPEND cmd -matlab)
 elseif(py_ok)
- list(APPEND cmd -python)
+  list(APPEND cmd -python)
 endif()
 
 add_test(NAME compare:input:${name} COMMAND ${cmd})
@@ -40,7 +40,7 @@ LABELS "compare;${label}"
 FIXTURES_REQUIRED ${name}:compare_fxt
 FIXTURES_SETUP ${name}:inputOK_fxt
 TIMEOUT 300
-ENVIRONMENT GEMINI_SIMROOT=${GEMINI_SIMROOT})
+ENVIRONMENT "${MATLABPATH};GEMINI_SIMROOT=${GEMINI_SIMROOT}")
 
 endfunction(compare_input)
 
