@@ -2,8 +2,14 @@ function(compare_output compare_exe out_dir ref_root name label)
 
 cmake_path(APPEND ref_dir ${ref_root} ${name})
 
-add_test(NAME compare:output:${name}
-COMMAND ${compare_exe} ${out_dir} ${ref_dir} -which out)
+set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which out)
+if(MATGEMINI_DIR)
+ list(APPEND cmd -matlab ${MATGEMINI_DIR})
+elseif(py_ok)
+  list(APPEND cmd -python)
+endif()
+
+add_test(NAME compare:output:${name} COMMAND ${cmd})
 
 set_tests_properties(compare:output:${name} PROPERTIES
 DISABLED $<NOT:$<BOOL:${compare_exe}>>
@@ -19,8 +25,14 @@ function(compare_input compare_exe out_dir ref_root name label)
 
 cmake_path(APPEND ref_dir ${ref_root} ${name})
 
-add_test(NAME compare:input:${name}
-COMMAND ${compare_exe} ${out_dir} ${ref_dir} -which in)
+set(cmd ${compare_exe} ${out_dir} ${ref_dir} -which in)
+if(MATGEMINI_DIR)
+ list(APPEND cmd -matlab ${MATGEMINI_DIR})
+elseif(py_ok)
+ list(APPEND cmd -python)
+endif()
+
+add_test(NAME compare:input:${name} COMMAND ${cmd})
 
 set_tests_properties(compare:input:${name} PROPERTIES
 DISABLED $<NOT:$<BOOL:${compare_exe}>>
