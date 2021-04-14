@@ -6,12 +6,7 @@ FetchContent_Declare(MATGEMINI
   GIT_REPOSITORY ${matgemini_git}
   GIT_TAG ${matgemini_tag})
 
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.14)
-  FetchContent_MakeAvailable(MATGEMINI)
-elseif(NOT matgemini_POPULATED)
-  FetchContent_Populate(MATGEMINI)
-endif()
-
+FetchContent_MakeAvailable(MATGEMINI)
 
 if(MATGEMINI_DIR)
   return()
