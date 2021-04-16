@@ -1,7 +1,7 @@
 function(gemini_run run_exe out_dir name label)
 
-get_filename_component(run_parent ${run_exe} DIRECTORY)
-# for MSIS 2.0 and similar
+cmake_path(GET run_exe PARENT_PATH run_parent)
+# for MSIS 2.0 and similar that need WORKING_DIRECTORY
 
 set(run_cmd ${run_exe} ${out_dir} -mpiexec ${MPIEXEC_EXECUTABLE})
 
