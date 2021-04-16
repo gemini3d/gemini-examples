@@ -15,6 +15,7 @@ set_tests_properties(compare:output:${name} PROPERTIES
 DISABLED $<NOT:$<BOOL:${compare_exe}>>
 LABELS "compare;${label}"
 FIXTURES_REQUIRED "${name}:run_fxt;${name}:compare_fxt"
+FIXTURES_SETUP ${name}:plotdiff_fxt
 TIMEOUT 300
 ENVIRONMENT "${MATLABPATH};GEMINI_SIMROOT=${GEMINI_SIMROOT}")
 
@@ -23,7 +24,7 @@ COMMAND ${CMAKE_COMMAND} -Din:PATH=${out_dir}/plot_diff -Dout:FILEPATH=${out_dir
 
 set_tests_properties(plotdiff:output:${name} PROPERTIES
 TIMEOUT 30
-FIXTURES_CLEANUP ${name}:compare_fxt)
+FIXTURES_REQUIRED ${name}:plotdiff_fxt)
 
 endfunction(compare_output)
 
