@@ -1,5 +1,10 @@
 function(plot_archive in out)
 
+if(NOT IS_DIRECTORY ${in})
+  message(STATUS "${in} does not exist, simulation must have matched expected data.")
+  return()
+endif()
+
 cmake_path(GET out EXTENSION LAST_ONLY ARC_TYPE)
 
 if(ARC_TYPE STREQUAL .zst OR ARC_TYPE STREQUAL .zstd)
