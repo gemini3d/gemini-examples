@@ -46,7 +46,7 @@ eq_dir = '@GEMINI_SIMROOT@/arcs_eq'
 eq_zip = '@GEMINI_SIMROOT@/arcs_eq.zstd'
 eq_url = 'https://zenodo.org/record/4613594/files/arcs_eq.zstd?download=1'
 
-setup_functions = 'gemini3d.model.Efield_BCs', 'gemini3d.model.particles_BCs'
+setup_functions = 'gemini3d.efield.Efield_BCs', 'gemini3d.particles.particles_BCs'
 
 /
 
