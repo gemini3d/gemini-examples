@@ -58,7 +58,7 @@
   "configurePreset": "regen-package",
   "description": "Regenerates .zstd reference data, by disabling compare",
   "filter": {
-    "exclude": {"label": "(compare|download)"}
+    "exclude": {"label": "(compare|download)", "fixtures": {"any": "(compare_fxt|inputOK_fxt)"}}
   }
 },
 {
