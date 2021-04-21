@@ -1,4 +1,5 @@
-set(ARC_TYPE zstd)
+set(ARC_TYPE zst)
+# prefer .zst to .zstd as tools are better at recognizing .zst
 
 
 function(gemini_package GEMINI_SIMROOT out_dir ref_json_file name label)
