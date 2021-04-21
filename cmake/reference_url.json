@@ -7,9 +7,9 @@
   },
   "GDI_periodic_lowres" :
   {
-    "archive" : "GDI_periodic_lowres.zstd",
-    "md5" : "f16e74c7864663ed681b937fe1561c9b",
-    "url" : "https://www.dropbox.com/s/scx0n8nuvy0ld9h/GDI_periodic_lowres.zstd?dl=0"
+    "archive" : "GDI_periodic_lowres.zst",
+    "md5" : "977a7a4231729633b3496941f34961a0",
+    "url" : "https://www.dropbox.com/s/lawuunh162as6rh/GDI_periodic_lowres.zst?dl=0"
   },
   "KHI_periodic_lowres" :
   {
