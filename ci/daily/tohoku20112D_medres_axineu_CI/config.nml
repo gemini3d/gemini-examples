@@ -33,7 +33,6 @@ nmf=5e11
 nme=2e11
 
 eq_dir = '@GEMINI_SIMROOT@/tohoku2d_eq'
-eq_zip = '@GEMINI_SIMROOT@/tohoku2d_eq.zstd'
 /
 
 &files
