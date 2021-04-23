@@ -30,7 +30,7 @@ E0precip = 2e3
 Jtarg = 15e-6               ! A/m2
 Efield_lonwidth = 0.15
 Efield_latwidth = 0.05
-eqdir = '~/simulations/ARCS_eq'
+eqdir = '~/simulations/raid/arcs_eq_large'
 setup_functions = 'Efield_BCs_angle_wide', 'particles_BCs_angle_wide'
 Eyit=25e-3
 /
