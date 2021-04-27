@@ -16,7 +16,7 @@ p.flagsource=1;
 
 %RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-  xg=gemini3d.grid.tilted_dipole3d(p);
+  xg=gemini3d.grid.tilted_dipole(p);
 end
 
 %IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE

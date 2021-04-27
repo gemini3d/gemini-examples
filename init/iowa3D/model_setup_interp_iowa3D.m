@@ -41,7 +41,7 @@ neuinfo.rhomax=[];        %meaningless in 3D situations
 
 %MATLAB GRID GENERATION
 if ~exist('xg', 'var')
-  %xg= gemini3d.grid.tilted_dipole3d(p);
+  %xg= gemini3d.grid.tilted_dipole(p);
   %xg= gemini3d.grid.tilteddipole_varx2_3D(p);
   xg= gemini3d.grid.makegrid_tilteddipole_varx2_oneside_3D(p);
 end

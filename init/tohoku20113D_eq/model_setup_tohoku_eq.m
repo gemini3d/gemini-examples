@@ -13,7 +13,7 @@ p.flagsource=1;
 
 %% MATLAB GRID GENERATION
 if ~exist('xg', 'var')
-    xg= gemini3d.grid.tilted_dipole3d(p);
+    xg= gemini3d.grid.tilted_dipole(p);
 end %if
 
 

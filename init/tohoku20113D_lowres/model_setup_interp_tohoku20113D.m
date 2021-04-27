@@ -13,7 +13,7 @@ p.flagsource=1;
 
 %RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-  xg= gemini3d.grid.tilted_dipole3d(p);
+  xg= gemini3d.grid.tilted_dipole(p);
 end
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
 

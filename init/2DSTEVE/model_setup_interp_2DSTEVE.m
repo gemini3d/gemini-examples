@@ -14,7 +14,7 @@ pgrid.alt_scale=[10e3, 8e3, 500e3, 150e3];    %parameters setting the nonuniform
 
 %% RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-  xg= gemini3d.grid.cart3d(pgrid);
+  xg= gemini3d.grid.cartesian(pgrid);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 

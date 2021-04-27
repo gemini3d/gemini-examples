@@ -12,7 +12,7 @@ p.gridflag=1;
 
 
 %MATLAB GRID GENERATION
-% xg = gemini3d.grid.tilted_dipole3d(p);
+% xg = gemini3d.grid.tilted_dipole(p);
 xg= gemini3d.grid.tilteddipole_varx2_3D(p);
 %xg= gemin3d.grid.tilteddipole_varx2_oneside_3D_eq(p);
 

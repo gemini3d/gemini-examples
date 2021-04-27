@@ -9,8 +9,8 @@ gridflag=0;
 I=90;
 
 %RUN THE GRID GENERATION CODE
-if (~exist('xg'))
-  xg= gemini3d.grid.cart3d(xdist,lxp,ydist,lyp,I,glat,glon);
+if ~exist('xg', "var")
+  xg= gemini3d.grid.cartesian(xdist,lxp,ydist,lyp,I,glat,glon);
 end
 
 eqdir='../../../simulations/2Dtest_eq/';

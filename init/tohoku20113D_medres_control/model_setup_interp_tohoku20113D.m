@@ -15,7 +15,7 @@ p.flagsource=1;
 if ~exist('xg', 'var')
 %    xg=makegrid_tilteddipole_nonuniform_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
 %    xg=makegrid_tilteddipole_nonuniform_oneside_3D(dtheta,dphi,lp,lq,lphi,altmin,glat,glon,gridflag);
-  xg=gemini3d.grid.tilted_dipole3d(p);
+  xg=gemini3d.grid.tilted_dipole(p);
 end
 
 %IDENTIFICATION FOR THE NEW SIMULATION THAT IS TO BE DONE

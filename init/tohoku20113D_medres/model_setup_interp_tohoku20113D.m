@@ -16,7 +16,7 @@ p.flagsource=1;
 
 %% RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-  xg=getmini3d.grid.tilted_dipole3d(p);
+  xg=getmini3d.grid.tilted_dipole(p);
 end
 
 dat = gemini3d.model.eq2dist(p,xg);

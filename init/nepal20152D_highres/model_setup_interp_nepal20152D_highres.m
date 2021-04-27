@@ -11,7 +11,7 @@ p.gridflag=1;
 
 %RUN THE GRID GENERATION CODE
 if ~exist('xg', 'var')
-  xg=gemini3d.grid.tilted_dipole3d(p);
+  xg=gemini3d.grid.tilted_dipole(p);
 end
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 

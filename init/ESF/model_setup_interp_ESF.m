@@ -22,7 +22,7 @@ p.file_format="h5";
 
 %% MATLAB GRID GENERATION
 if ~exist('xg', 'var')
-  xg=gemini3d.grid.tilted_dipole3d(p);
+  xg=gemini3d.grid.tilted_dipole(p);
 end
 
 %% READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID

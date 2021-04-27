@@ -12,7 +12,7 @@ p.flagsource=0;
 p.iscurv=true;
 
 %MATLAB GRID GENERATION
-xg=gemini3d.grid.tilted_dipole3d(p);
+xg=gemini3d.grid.tilted_dipole(p);
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
 p.time = datetime(2013,5,18, 23,0,0);

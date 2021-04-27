@@ -5,19 +5,16 @@ direcgrid=[gemini_root,'/../simulations/input/ICI2/']
 
 %CREATE SOME SPACE FOR OUTPUT FILES
 outdir=[gemini_root,'/../simulations/input/ICI2_particles/'];
-system(['mkdir ',outdir]);
-system(['rm ',outdir,'/*']);
-
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
-if (~exist('ymd0','var'))
-  cfg = gemini3d.read.config[direcconfig);
+if ~exist('ymd0','var')
+  cfg = gemini3d.read.config(direcconfig);
   fprintf('Input config.dat file loaded.\n');
 end
 
 
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
-if (~exist('xg','var'))
+if ~exist('xg','var')
   %WE ALSO NEED TO LOAD THE GRID FILE
   xg= gemini3d.read.grid(direcgrid);
   fprintf('Grid loaded.\n');
@@ -178,7 +175,7 @@ end
 
 
 %ALSO SAVE TO A  MATLAB FILE
-save([outdir,'particles.mat'],'mlon','mlat','Qit','E0it','expdate');
+save(fullfile(outdir,'particles.mat'),'mlon','mlat','Qit','E0it','expdate');
 
 
 %RESTORE PATH

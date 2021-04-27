@@ -6,7 +6,7 @@ direcgrid='~/zettergmdata/simulations/input/GDI_periodic_highres_fileinput_large
 
 %OUTPUT FILE LOCATION
 outdir='~/zettergmdata/simulations/input/GDI_fields_large/';
-system(['mkdir ',outdir]);
+mkdir(outdir);
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
@@ -140,4 +140,4 @@ end
 
 
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
-save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');
+save(fullfile(outdir,'fields.mat'),'mlon','mlat','MLAT','MLON','Exit','Eyit','Vminx*','Vmax*','expdate');

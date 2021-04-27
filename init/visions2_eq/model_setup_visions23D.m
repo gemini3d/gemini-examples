@@ -12,7 +12,7 @@ p.gridflag=0;
 
 %MATLAB GRID GENERATION
 if (~exist("xg","var"))
-    xg = gemini3d.grid.tilted_dipole3d(p);
+    xg = gemini3d.grid.tilted_dipole(p);
 end %if
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
@@ -29,4 +29,4 @@ ics = gemini3d.model.eqICs(p, xg);    %note that this actually calls msis_matlab
 p.outdir = '~/simulations/visions2_eq/';
 gemini3d.write.grid(p, xg);
 gemini3d.write.state(p.outdir,ics);
-system(strcat("cp config.nml ",p.outdir,"/inputs/"));
+copyfile("config.nml", fullfile(p.outdir,"inputs"));

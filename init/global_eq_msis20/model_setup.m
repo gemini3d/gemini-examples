@@ -20,7 +20,7 @@ end
 cfg = gemini3d.fileio.make_valid_paths(cfg);
 %% MATLAB GRID GENERATION
 if isempty(xg)
-  xg = gemini3d.grid.tilted_dipole3d(cfg);
+  xg = gemini3d.grid.tilted_dipole(cfg);
   gemini3d.write.grid(cfg, xg)
 end
 

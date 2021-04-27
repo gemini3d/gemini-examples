@@ -13,7 +13,7 @@ p.iscurv=true;
 
 
 %% MATLAB GRID GENERATION
-xg= gemini3d.grid.tilted_dipole3d(p);
+xg= gemini3d.grid.tilted_dipole(p);
 %xg=makegrid_tilteddipole_varx2_3D(p);
 %xg=makegrid_tilteddipole_varx2_oneside_3D(p);
 
@@ -42,9 +42,8 @@ xg= gemini3d.grid.tilted_dipole3d(p);
 
 %% GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - the iowa event
 %in this case
-UT=5.25;
 activ=[150,150,4];    %apparently this used the MSIS matlab defaults
-time = datetime(datevec(datenum([2016,8,6, UT, 0, 0])));     %this is ridiculous
+time = datetime(2016,8,6, 5.25, 0, 0);
 
 %% USE OLD CODE FROM MATLAB MODEL
 p.outdir = '~/simulations/raid/ESF_eq/';
@@ -63,4 +62,4 @@ dat = gemini3d.model.eqICs(p,xg);    %note that this actually calls msis_matlab 
 %% WRITE THE GRID AND INITIAL CONDITIONS
 gemini3d.write.grid(p,xg);
 gemini3d.write.state(p.outdir,dat);
-system(['cp config.nml ',p.outdir,'/']);
+copyfile('config.nml', fullfile(p.outdir, "inputs"));

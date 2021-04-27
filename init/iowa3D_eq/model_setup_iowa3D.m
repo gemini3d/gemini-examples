@@ -13,7 +13,7 @@ p.iscurv=true;
 
 
 %% MATLAB GRID GENERATION
-xg= gemini3d.grid.tilted_dipole3d(p);
+xg= gemini3d.grid.tilted_dipole(p);
 %xg=makegrid_tilteddipole_varx2_3D(p);
 %xg=makegrid_tilteddipole_varx2_oneside_3D(p);
 

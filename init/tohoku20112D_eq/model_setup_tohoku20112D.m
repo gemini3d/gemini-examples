@@ -10,7 +10,7 @@ p.altmin=80e3;
 p.gridflag=1;
 
 %MATLAB GRID GENERATION
-xg= gemini3d.grid.tilted_dipole3d(p);
+xg= gemini3d.grid.tilted_dipole(p);
 
 
 %GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT
