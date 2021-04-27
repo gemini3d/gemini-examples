@@ -1,7 +1,7 @@
 classdef TestBasic < matlab.unittest.TestCase
 
 properties (TestParameter)
-  name = {"test2dew_eq", "test2dew_fang", "test2dew_glow", "risr2dew_eq", "risr2dns_eq", "risr3d_eq"}
+  name = {"risr2dew_eq", "risr2dns_eq", "risr3d_eq"}
 end
 
 properties
