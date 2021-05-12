@@ -1,0 +1,10 @@
+{
+"matgemini": {
+  "git": "https://github.com/gemini3d/mat_gemini.git",
+  "tag": "v4.2.1"
+},
+"pygemini": {
+  "git": "https://github.com/gemini3d/pygemini.git",
+  "tag": "v1.4.1"
+}
+}
