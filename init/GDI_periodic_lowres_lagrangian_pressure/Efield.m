@@ -4,8 +4,8 @@ narginchk(2, 2)
 validateattributes(cfg, {'struct'}, {'scalar'}, mfilename, 'sim parameters', 1)
 validateattributes(xg, {'struct'}, {'scalar'})
 
-dir_out = gemini3d.fileio.absolute_path(cfg.E0_dir);
-gemini3d.fileio.makedir(dir_out);
+dir_out = stdlib.fileio.absolute_path(cfg.E0_dir);
+stdlib.fileio.makedir(dir_out);
 
 lx1 = xg.lx(1);
 lx2 = xg.lx(2);

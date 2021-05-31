@@ -9,7 +9,7 @@ end
 % can make Gaussian shaped potential or FAC inputs using an input width.
 
 dir_out = p.E0_dir;
-gemini3d.fileio.makedir(dir_out);
+stdlib.fileio.makedir(dir_out);
 
 lx1 = xg.lx(1);
 lx2 = xg.lx(2);
@@ -120,7 +120,7 @@ for it=1:Nt
     else
       E.Vmaxx1it(:,:,it)=zeros(E.llon,E.llat);
     end %if
-end %for 
+end %for
 
 end % function
 

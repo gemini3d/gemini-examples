@@ -83,7 +83,7 @@ DX2=repmat(DX2(:),[1,lx3]);
 Phitop=cumsum(E2top.*DX2,1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-gemini3d.fileio.makedir(cfg.E0_dir);
+stdlib.fileio.makedir(cfg.E0_dir);
 
 
 %% CREATE ELECTRIC FIELD DATASET

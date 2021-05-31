@@ -5,7 +5,7 @@ narginchk(2, 2)
 validateattributes(cfg, {'struct'}, {'scalar'}, mfilename, 'sim parameters', 1)
 validateattributes(xg, {'struct'}, {'scalar'})
 
-gemini3d.fileio.makedir(cfg.E0_dir);
+stdlib.fileio.makedir(cfg.E0_dir);
 
 % lx1 = xg.lx(1);
 lx2 = xg.lx(2);
