@@ -22,7 +22,7 @@ alt_min = 80e3
 alt_max = 1000e3
 alt_scale = 50e3, 45e3, 400e3, 150e3
 
-eq_dir = "../risr3d_eq"
+eq_dir = "~/simulations/raid/risr3d_eq"
 
 Efield_latwidth = 0.1
 Jtarg = 1e-6
@@ -46,6 +46,6 @@ E0_dir = 'inputs/Efield/'
 /
 
 &precip_BG
-PhiWBG=1e-5                   ! total energy flux (mW/m^2)
-W0BG=3e3                      ! characteristic energy (eV)
+PhiWBG=5e-2                   ! total energy flux (mW/m^2)
+W0BG=1e3                      ! characteristic energy (eV)
 /
