@@ -1,0 +1,46 @@
+&base
+ymd = 2013,2,19               ! year, month, day
+UTsec0 = 52200.0              ! start time in UT seconds
+tdur = 300.0                  ! duration of simulation in seconds
+dtout = 60.0                  ! how often to do output
+activ = 150.0,150.0,50.0      ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&setup
+glat = 75.6975
+glon = 265.1678
+xdist = 3000e3             ! eastward distance (meters)
+ydist = 750e3             ! northward distance (meters)
+lxp = 32
+lyp = 32
+Bincl = 90
+nmf = 5e11
+nme = 2e11
+alt_min = 80e3
+alt_max = 1000e3
+alt_scale = 50e3, 45e3, 400e3, 150e3
+
+eq_dir = "../risr3d_eq"
+
+Efield_latwidth = 0.5
+Jtarg = 1.0
+Jtarg_function = "fac_said"
+/
+
+&flags
+potsolve = 0      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagoutput = 1
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&efield
+dtE0 = 1000.
+E0_dir = 'inputs/Efield/'
+/
