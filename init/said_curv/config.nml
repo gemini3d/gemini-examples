@@ -1,0 +1,63 @@
+! cusp simulation
+
+&base
+ymd = 2008,3,26               ! year, month, day
+UTsec0 = 75600.0              ! start time in UT seconds
+tdur = 600.0                  ! duration of simulation in seconds
+dtout = 60.0                  ! how often to do file output
+activ = 150.0,150.0,4.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 2      ! 1 - full parameter output
+/
+
+&setup
+dtheta=11
+dphi=105
+lp=128
+lq=256
+lphi=128
+altmin=80e3
+glat=60
+glon=0
+gridflag=0
+
+!E0precip=300
+!Qprecip=1
+!Qprecip_background=0.01
+!precip_latwidth=0.15
+!precip_lonwidth=0.25
+
+Efield_latwidth=0.05
+Efield_lonwidth=0.05
+Jtarg=1e-6
+Jtarg_function = "fac_said_curv"
+eq_dir = '~/simulations/raid/CI_cases_active/cusp3d_eq'
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&efield
+dtE0 = 60.0                         ! time step between electric field file inputs
+E0_dir = 'inputs/fields/'
+/
+
+!&precip
+!dtprec = 5.0
+!prec_dir = 'inputs/precip/'
+!/
+
+
+&precip_BG
+PhiWBG=5e-2                   ! total energy flux (mW/m^2)
+W0BG=1e3                      ! characteristic energy (eV)
+/
