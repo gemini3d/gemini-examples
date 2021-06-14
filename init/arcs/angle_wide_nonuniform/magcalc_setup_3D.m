@@ -2,7 +2,7 @@ run('~/Projects/mat_gemini/setup.m')
 
 %SIMULATION LOCAITONS
 simname='arcs_angle_wide_nonuniform_large_highresx1/';
-basedir='~/simulations/';
+basedir='~/simulations/raid/';
 direc=[basedir,simname];
 mkdir([direc,'/magplots']);    %store output plots with the simulation data
 
@@ -51,13 +51,13 @@ fprintf('Grid loaded...\n');
 
 
 %FIELD POINTS OF INTEREST (CAN/SHOULD BE DEFINED INDEPENDENT OF SIMULATION GRID)
-ltheta=512;
+ltheta=128;
 if (~flag2D)
-  lphi=512;
+  lphi=128;
 else
   lphi=1;
 end
-lr=512;
+lr=128;
 
 thmin=min(xg.theta(:));
 thmax=max(xg.theta(:));
