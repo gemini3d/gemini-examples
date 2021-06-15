@@ -59,12 +59,26 @@ else
 end
 lr=128;
 
+% thmin=min(xg.theta(:));
+% thmax=max(xg.theta(:));
+% phimin=min(xg.phi(:));
+% phimax=max(xg.phi(:));
+%rmin=6370e3+80e3;
+%rmax=6370e3+350e3;
 thmin=min(xg.theta(:));
 thmax=max(xg.theta(:));
+thavg=mean(xg.theta(:));
+dtheta=thmax-thmin;
+thmin=thavg-dtheta/12;
+thmax=thavg+dtheta/12;
 phimin=min(xg.phi(:));
 phimax=max(xg.phi(:));
+phiavg=mean(xg.phi(:));
+dphi=phimax-phimin;
+phimin=phiavg-dphi/12;
+phimax=phiavg+dphi/12;
 rmin=6370e3+80e3;
-rmax=6370e3+350e3;
+rmax=6370e3+150e3;
 
 theta=linspace(thmin,thmax,ltheta);
 if (~flag2D)
