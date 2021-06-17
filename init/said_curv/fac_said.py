@@ -11,7 +11,9 @@ def fac_said(E: xarray.Dataset, gridflag: int, flagdip: bool) -> xarray.Dataset:
         raise ValueError("for 3D sims only")
 
     # uniform in longitude
-    shapelon = 1
+    shapelon = np.exp(
+        -((E.mlon - E.mlonmean) ** 2) / 2 / E.mlonsig ** 2
+    )
 
     shapelat = np.exp(
         -((E.mlat - E.mlatmean - 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig ** 2
