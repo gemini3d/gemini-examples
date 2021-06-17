@@ -13,15 +13,15 @@ Teinf = 1500.0                ! exospheric electron temperature
 &flags
 potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 0    ! whether periodic
-flagoutput = 2      ! 1 - full parameter output
+flagoutput = 1      ! 1 - full parameter output
 /
 
 &setup
 dtheta=11
 dphi=105
-lp=96
-lq=96
-lphi=32
+lp=48
+lq=64
+lphi=16
 altmin=80e3
 glat=60
 glon=0
