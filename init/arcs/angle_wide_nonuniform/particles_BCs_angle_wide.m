@@ -54,7 +54,7 @@ else
   E0precip = p.E0precip;
 end
 
-precip = gemini3d.particles.grid(xg, p, precip);
+precip = gemini3d.particles.grid(xg, p);
 
 
 %% User-defined precipitation shape

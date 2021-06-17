@@ -1,0 +1,42 @@
+! cusp simulation
+
+&base
+ymd = 2008,3,25               ! year, month, day
+UTsec0 = 75600.0              ! start time in UT seconds
+tdur = 86400.0                  ! duration of simulation in seconds
+dtout = 3600.0                  ! how often to do file output
+activ = 150.0,150.0,4.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 2      ! 1 - full parameter output
+/
+
+&setup
+dtheta=11
+dphi=105
+lp=96
+lq=96
+lphi=32
+altmin=80e3
+glat=60
+glon=0
+gridflag=0
+nmf=5e11
+nme=2e11
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&precip_BG
+PhiWBG=5e-2                   ! total energy flux (mW/m^2)
+W0BG=1e3                      ! characteristic energy (eV)
+/
