@@ -17,7 +17,7 @@ if ~isempty(out_dir)
   cfg.outdir = out_dir;
 end
 
-cfg = stdlib.fileio.make_valid_paths(cfg);
+%cfg = stdlib.fileio.make_valid_paths(cfg);
 %% MATLAB GRID GENERATION
 if isempty(xg)
   xg = gemini3d.grid.tilted_dipole(cfg);
