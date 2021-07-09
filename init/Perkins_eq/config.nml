@@ -16,7 +16,7 @@ flagoutput = 1
 
 &files
 file_format ='h5'
-indat_size = '~/simulations/raid/Perkins_eq/simsize.h5'
-indat_grid = '~/simulations/raid/Perkins_eq/simgrid.h5'
-indat_file = '~/simulations/raid/Perkins_eq/initial_conditions.h5'
+indat_size = '~/simulations/raid/Perkins_eq/inputs/simsize.h5'
+indat_grid = '~/simulations/raid/Perkins_eq/inputs/simgrid.h5'
+indat_file = '~/simulations/raid/Perkins_eq/inputs/initial_conditions.h5'
 /

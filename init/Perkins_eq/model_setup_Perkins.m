@@ -31,8 +31,8 @@ dat = gemini3d.model.eqICs(p, xg);    %note that this actually calls msis_matlab
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS
-p.outdir = '~/simulations/raid/Perkins_eq/inputs/';
+p.outdir = '~/simulations/raid/Perkins_eq/';
 
 gemini3d.write.grid(p,xg)
 gemini3d.write.state(p.outdir, dat)
-system(["cp config.nml ",p.outdir,"/inputs/"])
+system(['cp config.nml ',p.outdir,'/inputs/']);
