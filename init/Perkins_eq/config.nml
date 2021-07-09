@@ -1,0 +1,22 @@
+&base
+ymd = 2013,5,18                     !dmy:  day,month,year
+UTsec0 = 71100.0                    !UTsec0:  start time in UT seconds
+tdur = 86400.0                      !tdur:  duration of simulation in seconds
+dtout = 1800.0                      !dtout: how often to do output
+activ = 124.6,138.5,6.1             !activ:  f107a,f107,Ap
+tcfl = 0.9                          !tcfl:  target cfl number
+Teinf = 1500.0                      !Teinf:  exospheric electron temperature
+/
+
+&flags
+potsolve = 0                             !potsolve:  are we solving potential?
+flagperiodic = 0
+flagoutput = 1
+/
+
+&files
+file_format ='h5'
+indat_size = '~/simulations/raid/Perkins_eq/simsize.h5'
+indat_grid = '~/simulations/raid/Perkins_eq/simgrid.h5'
+indat_file = '~/simulations/raid/Perkins_eq/initial_conditions.h5'
+/
