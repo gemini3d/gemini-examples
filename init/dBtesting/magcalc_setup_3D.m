@@ -1,7 +1,7 @@
 run('~/Projects/mat_gemini/setup.m')
 
 %SIMULATION LOCAITONS
-simname='dBtesting/';
+simname='dBtesting_highres/';
 basedir='~/simulations/raid/';
 direc=[basedir,simname];
 mkdir([direc,'/magplots']);    %store output plots with the simulation data

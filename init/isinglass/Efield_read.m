@@ -201,7 +201,7 @@ flagdirich=1;   %if 0 data is interpreted as FAC, else we interpret it as potent
 for it=1:ltout
     UTsec=outputdate(it,4)*3600+outputdate(it,5)*60+outputdate(it,6);
     ymd=outputdate(it,1:3);
-    filename=datelab(ymd,UTsec);
+    filename=gemini3d.datelab(ymd,UTsec);
     filename=[outdir,filename,'.dat']
     fid=fopen(filename,'w');
 

@@ -15,7 +15,7 @@ maxE0=15;
 
 
 %CREATE SOME SPACE FOR OUTPUT FILES
-outdir='~/simulations/input/particles_isinglass_grubbs_final_new/';
+outdir='~/simulations/raid/input/particles_isinglass_grubbs_final_new/';
 system(['mkdir ',outdir]);
 system(['rm -rvf ',outdir,'/*']);   %clean out existing files
 
@@ -24,7 +24,8 @@ system(['rm -rvf ',outdir,'/*']);   %clean out existing files
 firstrun=0;
 if (~exist('Qdat','var'))
     %datapath='~/articles/clayton/';
-    datapath='~/Dropbox/common/mypapers/ISINGLASS/AGU2017/';
+    datapath='~/Dropbox (Personal)/mypapers/ISINGLASS/AGU2017/';
+    addpath([datapath,'restore_idl']);
     %fname='isinglass_eflux_asi_highres.sav';
     fname='isinglass_eflux_asi_full.sav';    %this contains the spatial offset correction...
     %fname='isinglass_eflux_MB-2.sav';
@@ -77,7 +78,7 @@ if (~exist('Qdat','var'))
     phidat=zeros(llon0,llat0);
     for ilat=1:llat0
         for ilon=1:llon0
-            [thetatmp,phitmp]=geog2geomag(glat(ilat),glon(ilon));
+            [thetatmp,phitmp]=gemini3d.geog2geomag(glat(ilat),glon(ilon));
             thetadat(ilon,ilat)=thetatmp;
             phidat(ilon,ilat)=phitmp;
         end
@@ -218,7 +219,7 @@ GLONDATGRID=zeros(llon0,llat0);    %should be approximately the same size as the
 GLATDATGRID=zeros(llon0,llat0);
 for ilat=1:llat0
     for ilon=1:llon0
-      [glattmp,glontmp]=geomag2geog(THETADATGRID(ilon,ilat),PHIDATGRID(ilon,ilat));
+      [glattmp,glontmp]=gemini3d.geomag2geog(THETADATGRID(ilon,ilat),PHIDATGRID(ilon,ilat));
       GLATDATGRID(ilon,ilat)=glattmp;
       GLONDATGRID(ilon,ilat)=glontmp;
     end
@@ -512,8 +513,8 @@ fclose(fid);
 for it=1:ltout
     UTsec=outputdate(it,4)*3600+outputdate(it,5)*60+outputdate(it,6);
     ymd=outputdate(it,1:3);
-    filename=datelab(ymd,UTsec);
-    filename=[outdir,filename,'.dat']
+    filename=gemini3d.datelab(datetime([ymd,0,0,UTsec]));
+    filename=strcat(outdir,filename,'.dat');
     fid=fopen(filename,'w');
     fwrite(fid,Qit(:,:,it),'real*8');
     fwrite(fid,E0it(:,:,it),'real*8');
@@ -523,3 +524,6 @@ end
 
 %ALSO SAVE TO A  MATLAB FILE
 save('-v7.3',[outdir,'particles.mat'],'glon','glat','mlon','mlat','Qit','E0it','outputdate');
+
+rmpath([datapath,'restore_idl']);
+
