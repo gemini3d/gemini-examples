@@ -1,8 +1,8 @@
 &base
 ymd = 2013,5,18                     !dmy:  day,month,year
 UTsec0 = 71100.0                    !UTsec0:  start time in UT seconds
-tdur = 86400.0                      !tdur:  duration of simulation in seconds
-dtout = 1800.0                      !dtout: how often to do output
+tdur = 10800.0                      !tdur:  duration of simulation in seconds
+dtout = 300.0                      !dtout: how often to do output
 activ = 124.6,138.5,6.1             !activ:  f107a,f107,Ap
 tcfl = 0.9                          !tcfl:  target cfl number
 Teinf = 1500.0                      !Teinf:  exospheric electron temperature
@@ -20,3 +20,9 @@ indat_size = '~/simulations/raid/Perkins/inputs/simsize.h5'
 indat_grid = '~/simulations/raid/Perkins/inputs/simgrid.h5'
 indat_file = '~/simulations/raid/Perkins/inputs/initial_conditions.h5'
 /
+
+&efield
+dtE0 = 60.0
+E0_dir = '~/simulations/raid/Perkins/inputs/fields/'
+/
+
