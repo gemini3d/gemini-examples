@@ -1,3 +1,4 @@
+run ~/Projects/mat_gemini-scripts/setup.m;
 
 %MOORE, OK GRID (FULL)
 p.dtheta=20;
@@ -17,23 +18,24 @@ p.gridflag=0;
 
 if ~exist('xg', 'var')
   % xg = gemini3d.grid.tilted_dipole(p);
-  xg= gemini3d.grid.makegrid_tilteddipole_varx2_3D(p);
+  %xg= gemini3d.grid.makegrid_tilteddipole_varx2_3D(p);
+  xg=gemscr.grid.makegrid_tilteddipole_varx2_3D(p.dtheta,p.dphi,p.lp,p.lq,p.lphi,p.altmin,p.glat,p.glon,p.gridflag);
 end
 
-p.eq_dir='~/simulations/Perkins_bridge_vn/';
-
+p=gemini3d.read.config("./config.nml");    % eq2dist needs a populated config struct.
+p.eq_dir='~/simulations/raid/Perkins_eq/';
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %INTERPOLATE ONTO THE NEW GRID
 dat = gemini3d.model.eq2dist(p, xg);
-lsp=size(nsi,4);
+lsp=size(dat.ns,4);
 
 
 %FORCE A LONGITUDINAL CONSTANCY TO THE PARAMETERS (SINCE USING PERIODIC DOMAIN)
-nsislice=nsi(:,:,floor(xg.lx(3)/2),:);
-Tsislice=Tsi(:,:,floor(xg.lx(3)/2),:);
-vs1islice=vs1i(:,:,floor(xg.lx(3)/2),:);
+nsislice=dat.ns(:,:,floor(xg.lx(3)/2),:);
+Tsislice=dat.Ts(:,:,floor(xg.lx(3)/2),:);
+vs1islice=dat.vs1(:,:,floor(xg.lx(3)/2),:);
 for ix3=1:xg.lx(3)
   nsi(:,:,ix3,:)=nsislice;
   Tsi(:,:,ix3,:)=Tsislice;
@@ -63,7 +65,8 @@ nsi(:,:,:,7)=sum(nsi(:,:,:,1:6),4);
 dint = struct("ns", nsi, "Ts", Tsi, "vs1", vs1i, "time", dat.time);
 
 %WRITE OUT THE RESULTS TO A NEW FILE
-p.outdir= '~/simulations/input/Perkins';
+p.outdir= '~/simulations/raid/Perkins';
 
 gemini3d.write.grid(p,xg)
 gemini3d.write.state(p.outdir, dint)
+system(['cp config.nml ',p.outdir,'/inputs/']);
