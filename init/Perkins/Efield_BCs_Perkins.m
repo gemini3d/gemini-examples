@@ -1,11 +1,11 @@
 
 %REFERENCE GRID TO USE
 direcconfig='./'
-direcgrid= '~/simulations/input/Perkins/';
+direcgrid= '~/simulations/raid/Perkins/';
 
 
 %OUTPUT FILE LOCATION
-outdir= '~/simulations/input/Perkins_fields/'
+outdir= '~/simulations/raid/Perkins/inputs/fields/'
 mkdir(outdir);
 
 
@@ -69,7 +69,7 @@ mlatmean=mean(mlat);
 
 %TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
 tmin=0;
-tmax=tdur;
+tmax=cfg.tdur;
 %lt=60;
 %time=linspace(tmin,tmax,lt)';
 dtfield=60;
@@ -78,8 +78,8 @@ lt=numel(time);
 
 
 %SET UP TIME VARIABLES
-ymd=ymd0;
-UTsec=UTsec0+time;     %time given in file is the seconds from beginning of hour
+ymd=cfg.ymd;
+UTsec=cfg.UTsec0+time;     %time given in file is the seconds from beginning of hour
 UThrs=UTsec/3600;
 expdate=cat(2,repmat(ymd,[lt,1]),UThrs(:),zeros(lt,1),zeros(lt,1));
 t=datenum(expdate);
@@ -130,8 +130,8 @@ fclose(fid);
 for it=1:lt
     UTsec=expdate(it,4)*3600+expdate(it,5)*60+expdate(it,6);
     ymd=expdate(it,1:3);
-    filename=datelab(ymd,UTsec);
-    filename=[outdir,filename,'.dat']
+    filename=gemini3d.datelab(datetime([ymd,0,0,UTsec]));
+    filename=strcat(outdir,filename,'.dat')
     fid=fopen(filename,'w');
 
     %FOR EACH FRAME WRITE A BC TYPE AND THEN OUTPUT BACKGROUND AND BCs
