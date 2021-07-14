@@ -90,8 +90,8 @@ t=datenum(expdate);
 E2it=zeros(llon,llat,lt);
 E3it=zeros(llon,llat,lt);
 for it=1:lt
-  E2it(:,:,it)=10e-3*ones(llon,llat);   %V/m, in the x2 direction
-  E3it(:,:,it)=10e-3*ones(llon,llat);   %x3 direction
+  E2it(:,:,it)=5e-3*ones(llon,llat);   %V/m, in the x2 direction
+  E3it(:,:,it)=5e-3*ones(llon,llat);   %x3 direction
 end
 
 

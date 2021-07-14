@@ -41,5 +41,7 @@ v0equator = 10.0              ! equatorial peak drift value
 /
 
 &neutral_BG
+flagneuBG = .true.
+dtneuBG = 1800.0
 msis_version = 0
 /

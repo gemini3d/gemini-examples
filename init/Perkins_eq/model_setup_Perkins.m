@@ -4,7 +4,7 @@ run ~/Projects/mat_gemini-scripts/setup.m
 p.dtheta=25;
 p.dphi=35;
 p.lp=125;
-p.lq=200;    %will be ignored if using nonunifrom x2
+p.lq=200;
 p.lphi=96;
 p.altmin=80e3;
 p.glat=39;
@@ -17,14 +17,15 @@ p.gridflag=0;
 xg=gemscr.grid.makegrid_tilteddipole_varx2_3D(p.dtheta,p.dphi,p.lp,p.lq,p.lphi,p.altmin,p.glat,p.glon,p.gridflag);
 
 
-%GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT - moore OK in this case
-UT=19.75;
-p.times = datetime([2013,5,18, 0, 0, UT*3600]);
-p.activ=[124.6,138.5,6.1];
+% Following Duly et al, 2014, we use nighttime, winter, solar min...
+p=gemini3d.read.config("./config.nml");    % MSIS needs a populated config struct.
+UT=5;   % close to local midnight (viz. about 23 LT)
+%p.times = datetime([2008,12,21,0,0,UT*3600]);
+p.times = datetime([2008,12,21,0,0,UT*3600]);
+p.activ=[80,80,4];
 
 
 %USE OLD CODE FROM MATLAB MODEL
-p=gemini3d.read.config("./config.nml");    % MSIS needs a populated config struct.
 p.nmf=5e11;
 p.nme=2e11;
 dat = gemini3d.model.eqICs(p, xg);    %note that this actually calls msis_matlab - should be rewritten to include the neutral module form the fortran code!!!

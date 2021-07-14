@@ -9,7 +9,7 @@ Teinf = 1500.0                      !Teinf:  exospheric electron temperature
 /
 
 &flags
-potsolve = 0                             !potsolve:  are we solving potential?
+potsolve = 1                             !potsolve:  are we solving potential?
 flagperiodic = 1
 flagoutput = 2
 /
