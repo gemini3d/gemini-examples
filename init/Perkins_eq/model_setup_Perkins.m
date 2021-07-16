@@ -3,8 +3,8 @@ run ~/Projects/mat_gemini-scripts/setup.m
 %MOORE, OK GRID (FULL)
 p.dtheta=25;
 p.dphi=35;
-p.lp=125;
-p.lq=200;
+p.lp=256;
+p.lq=512;
 p.lphi=96;
 p.altmin=80e3;
 p.glat=39;
