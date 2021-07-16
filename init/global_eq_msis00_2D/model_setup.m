@@ -5,6 +5,8 @@ arguments
   xg struct = struct.empty
 end
 
+run ~/Projects/mat_gemini-scripts/setup.m
+
 cwd = fileparts(mfilename('fullpath'));
 run(fullfile(cwd, "../../setup.m"))
 
@@ -19,8 +21,10 @@ end
 
 %cfg = stdlib.fileio.make_valid_paths(cfg);
 %% MATLAB GRID GENERATION
+p=cfg;
 if isempty(xg)
-  xg = gemini3d.grid.tilted_dipole(cfg);
+  %xg = gemini3d.grid.tilted_dipole(cfg);
+  xg=gemscr.grid.makegrid_tilteddipole_varx2_3D(p.dtheta,p.dphi,p.lp,p.lq,p.lphi,p.altmin,p.glat,p.glon,p.gridflag);
   gemini3d.write.grid(cfg, xg)
 end
 
