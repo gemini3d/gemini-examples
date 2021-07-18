@@ -5,6 +5,7 @@ arguments
   xg struct = struct.empty
 end
 
+setenv("GEMINI_ROOT","~/Projects/gemini3d/")
 run ~/Projects/mat_gemini-scripts/setup.m
 
 cwd = fileparts(mfilename('fullpath'));
