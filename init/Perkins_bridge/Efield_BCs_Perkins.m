@@ -1,21 +1,24 @@
+
 %REFERENCE GRID TO USE
 direcconfig='./'
-direcgrid=[gemini_root,filesep,'../simulations/input/Perkins/']
+direcgrid= '~/simulations/Perkins_bridge_eq/';
 
 
 %OUTPUT FILE LOCATION
-outdir=[gemini_root,filesep,'../simulations/input/Perkins_fields/']
+outdir= '~/simulations/Perkins_bridge_eq/inputs/fields/'
 mkdir(outdir);
 
 
 %READ IN THE SIMULATION INFORMATION (MEANS WE NEED TO CREATE THIS FOR THE SIMULATION WE WANT TO DO)
-cfg = gemini3d.read.config(direcconfig);
+if (~exist('ymd0','var'))
+  cfg = gemini3d.read.config(direcconfig);
+end
 
 
 %CHECK WHETHER WE NEED TO RELOAD THE GRID (SO THIS ALREADY NEEDS TO BE MADE, AS WELL)
 if (~exist('xg','var'))
   %WE ALSO NEED TO LOAD THE GRID FILE
-  xg= gemini3d.read.grid(direcgrid);
+  xg= gemini3d.read.grid([direcgrid,'/']);
   lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
   x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
   fprintf('Grid loaded.\n');
@@ -66,7 +69,7 @@ mlatmean=mean(mlat);
 
 %TIME VARIABLE (SECONDS FROM SIMULATION BEGINNING)
 tmin=0;
-tmax=tdur;
+tmax=cfg.tdur;
 %lt=60;
 %time=linspace(tmin,tmax,lt)';
 dtfield=60;
@@ -75,76 +78,83 @@ lt=numel(time);
 
 
 %SET UP TIME VARIABLES
-ymd=ymd0;
-UTsec=UTsec0+time;     %time given in file is the seconds from beginning of hour
+ymd=cfg.ymd;
+UTsec=cfg.UTsec0+time;     %time given in file is the seconds from beginning of hour
 UThrs=UTsec/3600;
-expdate=cat(2,repmat(ymd,[lt,1]),UThrs(:),zeros(lt,1),zeros(lt,1));
+expdate=cat(2,repmat(ymd,[lt,1]),zeros(lt,1),zeros(lt,1),UThrs(:)*3600);
 t=datenum(expdate);
 
 
 %CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
 %This is understood to be at some reference altitude
-E2it=zeros(llon,llat,lt);
-E3it=zeros(llon,llat,lt);
+E.llon=llon; E.llat=llat;
+E.mlon=mlon; E.mlat=mlat;
+E.Exit=zeros(llon,llat,lt);
+E.Eyit=zeros(llon,llat,lt);
 for it=1:lt
-  E2it(:,:,it)=0*ones(llon,llat);   %V/m, in the x2 direction
-  E3it(:,:,it)=10e-3*ones(llon,llat);   %x3 direction
+  E.Exit(:,:,it)=5e-3*ones(llon,llat);   %V/m, in the x2 direction
+  E.Eyit(:,:,it)=5e-3*ones(llon,llat);   %x3 direction
 end
 
 
 %CREATE DATA FOR BOUNDARY CONDITIONS FOR POTENTIAL SOLUTION
-flagdirich=0;   %if 0 data is interpreted as FAC, else we interpret it as potential
-Vminx1it=zeros(llon,llat,lt);
-Vmaxx1it=zeros(llon,llat,lt);
-Vminx2ist=zeros(llat,lt);
-Vmaxx2ist=zeros(llat,lt);
-Vminx3ist=zeros(llon,lt);
-Vmaxx3ist=zeros(llon,lt);
+E.flagdirich=zeros(lt);
+E.Vminx1it=zeros(llon,llat,lt);
+E.Vmaxx1it=zeros(llon,llat,lt);
+E.Vminx2ist=zeros(llat,lt);
+E.Vmaxx2ist=zeros(llat,lt);
+E.Vminx3ist=zeros(llon,lt);
+E.Vmaxx3ist=zeros(llon,lt);
 for it=1:lt
     %ZEROS TOP CURRENT AND X3 BOUNDARIES DON'T MATTER SINCE PERIODIC
-    Vminx1it(:,:,it)=zeros(llon,llat);
-    Vmaxx1it(:,:,it)=zeros(llon,llat);
-    Vminx3ist(:,it)=zeros(llon,1);
-    Vmaxx3ist(:,it)=zeros(llon,1);
-    Vmaxx2ist(:,it)=zeros(llat,1);
-    Vminx2ist(:,it)=zeros(llat,1);
+    E.flagdirich(it)=0;
+    E.Vminx1it(:,:,it)=zeros(llon,llat);
+    E.Vmaxx1it(:,:,it)=zeros(llon,llat);
+    E.Vminx3ist(:,it)=zeros(llon,1);
+    E.Vmaxx3ist(:,it)=zeros(llon,1);
+    E.Vmaxx2ist(:,it)=zeros(llat,1);
+    E.Vminx2ist(:,it)=zeros(llat,1);
 end
 
 
 %SAVE THESE DATA TO APPROPRIATE FILES - LEAVE THE SPATIAL AND TEMPORAL INTERPOLATION TO THE
 %FORTRAN CODE IN CASE DIFFERENT GRIDS NEED TO BE TRIED.  THE EFIELD DATA DO
 %NOT TYPICALLY NEED TO BE SMOOTHED.
-filename=[outdir,'simsize.dat'];
-fid=fopen(filename,'w');
-fwrite(fid,llon,'integer*4');
-fwrite(fid,llat,'integer*4');
-fclose(fid);
-filename=[outdir,'simgrid.dat'];
-fid=fopen(filename,'w');
-fwrite(fid,mlon,'real*8');
-fwrite(fid,mlat,'real*8');
-fclose(fid);
+% filename=[outdir,'simsize.dat'];
+% fid=fopen(filename,'w');
+% fwrite(fid,llon,'integer*4');
+% fwrite(fid,llat,'integer*4');
+% fclose(fid);
+% filename=[outdir,'simgrid.dat'];
+% fid=fopen(filename,'w');
+% fwrite(fid,mlon,'real*8');
+% fwrite(fid,mlat,'real*8');
+% fclose(fid);
+% for it=1:lt
+%     UTsec=expdate(it,4)*3600+expdate(it,5)*60+expdate(it,6);
+%     ymd=expdate(it,1:3);
+%     filename=gemini3d.datelab(datetime([ymd,0,0,UTsec]));
+%     filename=strcat(outdir,filename,'.dat')
+%     fid=fopen(filename,'w');
+% 
+%     %FOR EACH FRAME WRITE A BC TYPE AND THEN OUTPUT BACKGROUND AND BCs
+%     fwrite(fid,flagdirich,'real*8');
+%     fwrite(fid,E2it(:,:,it),'real*8');
+%     fwrite(fid,E3it(:,:,it),'real*8');
+%     fwrite(fid,Vminx1it(:,:,it),'real*8');
+%     fwrite(fid,Vmaxx1it(:,:,it),'real*8');
+%     fwrite(fid,Vminx2ist(:,it),'real*8');
+%     fwrite(fid,Vmaxx2ist(:,it),'real*8');
+%     fwrite(fid,Vminx3ist(:,it),'real*8');
+%     fwrite(fid,Vmaxx3ist(:,it),'real*8');
+% 
+%     fclose(fid);
+% end
+
 for it=1:lt
-    UTsec=expdate(it,4)*3600+expdate(it,5)*60+expdate(it,6);
-    ymd=expdate(it,1:3);
-    filename=datelab(ymd,UTsec);
-    filename=[outdir,filename,'.dat']
-    fid=fopen(filename,'w');
-
-    %FOR EACH FRAME WRITE A BC TYPE AND THEN OUTPUT BACKGROUND AND BCs
-    fwrite(fid,flagdirich,'real*8');
-    fwrite(fid,E2it(:,:,it),'real*8');
-    fwrite(fid,E3it(:,:,it),'real*8');
-    fwrite(fid,Vminx1it(:,:,it),'real*8');
-    fwrite(fid,Vmaxx1it(:,:,it),'real*8');
-    fwrite(fid,Vminx2ist(:,it),'real*8');
-    fwrite(fid,Vmaxx2ist(:,it),'real*8');
-    fwrite(fid,Vminx3ist(:,it),'real*8');
-    fwrite(fid,Vmaxx3ist(:,it),'real*8');
-
-    fclose(fid);
-end
-
+    E.times(it)=datetime(expdate(it,:));
+end %for
+gemini3d.write.Efield(E,outdir,"h5")
 
 %ALSO CREATE A MATLAB OUTPUT FILE FOR GOOD MEASURE
-save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','E2it','E3it','Vminx*','Vmax*','expdate');
+%save([outdir,'fields.mat'],'mlon','mlat','MLAT','MLON','E2it','E3it','Vminx*','Vmax*','expdate');

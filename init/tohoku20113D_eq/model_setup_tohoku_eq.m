@@ -1,8 +1,8 @@
 %% A COARSE resolution tohoku eq grid
 p.dtheta=10;
 p.dphi=15;
-p.lp=128;
-p.lq=384;
+p.lp=1024;
+p.lq=1024;
 p.lphi=32;
 p.altmin=80e3;
 p.glat=42.45;
@@ -13,8 +13,12 @@ p.flagsource=1;
 
 %% MATLAB GRID GENERATION
 if ~exist('xg', 'var')
+    tstart=cputime;
     xg= gemini3d.grid.tilted_dipole(p);
+    tend=cputime;
 end %if
+disp('Grid creation time:  ')
+disp(tend-tstart);
 
 
 %% GENERATE SOME INITIAL CONDITIONS FOR A PARTICULAR EVENT, THESE ACTUALLY DON'T MATTER MUCH SO YOU CAN MAKE UP STUFF
@@ -27,7 +31,7 @@ dat = gemini3d.model.eqICs(p,xg);    %note that this actually calls msis_matlab 
 
 
 %% WRITE THE GRID AND INITIAL CONDITIONS
-p.outdir='~/simulations/tohoku20113D_eq';
+p.outdir='~/simulations/tohoku20113D_eq2';
 
 gemini3d.write.grid(p,xg);
 gemini3d.write.state(p.outdir, dat);
