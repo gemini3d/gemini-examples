@@ -12,6 +12,7 @@ Teinf = 1500.0                ! Teinf:  exospheric electron temperature
 glat = 42.45
 glon = 143.4
 dtheta = 15
+dphi = 15
 altmin = 80e3
 lp = 512
 lq = 384
