@@ -13,9 +13,9 @@ glat = 42.45
 glon = 143.4
 dtheta = 15
 altmin = 80e3
-lp = 256
-lq = 128
-lphi = 128
+lp = 512
+lq = 384
+lphi = 96
 gridflag = 1
 nme = 2e11
 nmf = 5e11
@@ -41,5 +41,7 @@ v0equator = 10.0              ! equatorial peak drift value
 /
 
 &neutral_BG
+flagneuBG = .true.
+dtneuBG = 1800.0
 msis_version = 20
 /
