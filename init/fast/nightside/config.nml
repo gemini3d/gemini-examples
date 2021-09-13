@@ -24,27 +24,8 @@ lyp = 144                   ! number of y-cells, will be ignored for nonuniform
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
-
-precip_latwidth = 0.025
-precip_lonwidth = 0.15
-precip_llon = 1024
-precip_llat = 1024
-Qprecip = 25
-Qprecip_background = 1
-E0precip = 2e3
-Qprecip_function = 'precip_shape'
-
-Jtarg = 15e-6               ! A/m2
-Efield_lonwidth = 0.15
-Efield_latwidth = 0.025
-Efield_llon = 1024
-Efield_llat = 1024
-Eyit=25e-3
-Jtarg_function = 'Jcurrent_gaussian_tanh'
-
 eq_dir = '@GEMINI_SIMROOT@/arcs_eq'
-
-setup_functions = 'gemini3d.efield.Efield_BCs', 'gemini3d.particles.particles_BCs'
+setup_functions = 'fast2GEMINI'
 
 /
 
