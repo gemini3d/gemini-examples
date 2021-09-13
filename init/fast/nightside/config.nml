@@ -1,19 +1,19 @@
 &base
 ymd = 2017,3,2                    ! year, month, day
 UTsec0 = 27000.0                  !UTsec0:  start time in UT seconds
-tdur = 300.0                      !tdur:  duration of simulation in seconds
-dtout = 30.0                       !dtout: how often to do output
+tdur = 900.0                      !tdur:  duration of simulation in seconds
+dtout = 15.0                       !dtout: how often to do output
 activ = 76.5,79.3,31.5            !activ:  f107a,f107,Ap
 tcfl = 0.9                        !tcfl:  target cfl number
 Teinf = 1500.0                    !Teinf:  exospheric electron temperature
 /
 
 &setup
-glat = 65.8
+glat = 70.0
 glon = 207.7
-xdist = 3400e3              ! eastward distance (meters)
+xdist = 3600e3              ! eastward distance (meters)
 !ydist = 800e3               ! northward distance (meters)
-ydist = 1200e3               ! northward distance (meters)
+ydist = 600e3               ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 950e3             ! maximum altitude (meters)
 alt_scale = 10e3, 4e3, 500e3, 150e3  ! altitude grid scales (meters)
@@ -24,7 +24,7 @@ lyp = 144                   ! number of y-cells, will be ignored for nonuniform
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
-eq_dir = '@GEMINI_SIMROOT@/arcs_eq'
+eq_dir = '~/simulations/arcs_eq'
 setup_functions = 'fast2GEMINI'
 
 /
