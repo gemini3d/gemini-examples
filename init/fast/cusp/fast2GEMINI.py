@@ -19,7 +19,7 @@ from fast import readfast,smoothfast
 
 # global vars
 pi=np.pi
-filename="/Users/zettergm/Dropbox (Personal)/proposals/UNH_GDC/FASTdata/nightside.txt"
+filename="/Users/zettergm/Dropbox (Personal)/proposals/UNH_GDC/FASTdata/cusp.txt"
 debug=True
 
 def fast2GEMINI(cfg, xg):
@@ -71,8 +71,8 @@ def fast2GEMINI(cfg, xg):
     # longitude shape
     Q=np.empty( (lt,llon,llat) )
     E0=np.empty( (lt,llon,llat) )
-    siglon=15
-    sigt=100
+    siglon=5
+    sigt=200
     for k in range(0,lt):
         tshape=np.exp(-(t[k]-meant)**2/2/sigt**2)
         for ilon in range(0,llon):
