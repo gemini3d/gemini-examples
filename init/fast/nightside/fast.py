@@ -37,11 +37,12 @@ def readfast(filename):
 
 # primitive smoothing, presumes periodic because I'm lazy
 def smoothfast(lsmooth,eflux,chare):
-    efluxsmooth=np.empty(eflux.shape)
-    charesmooth=np.empty(chare.shape)
+    efluxsmooth=np.zeros(eflux.shape)
+    charesmooth=np.zeros(chare.shape)
     for k in range(0,eflux.size):
-        print(chare[k-lsmooth:k+lsmooth])
-        charesmooth[k]=np.average(chare[k-lsmooth:k+lsmooth])
-        efluxsmooth[k]=np.average(eflux[k-lsmooth:k+lsmooth])
+        kmin=max(k-lsmooth,0)
+        kmax=min(k+lsmooth,eflux.size)
+        charesmooth[k]=np.average(chare[kmin:kmax])
+        efluxsmooth[k]=np.average(eflux[kmin:kmax])
         
     return efluxsmooth,charesmooth

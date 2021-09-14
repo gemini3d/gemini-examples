@@ -107,4 +107,5 @@ def fast2GEMINI(cfg, xg):
         
     # write these to the simulation input directory
     write.precip(pg, cfg["precdir"], cfg["file_format"])
+    breakpoint()
     return
