@@ -56,7 +56,8 @@ def fast2GEMINI(cfg, xg):
     charesmooth=charesmooth[isort]
     
     # for convenience recenter grid on what the user has made
-    dmlat=np.average(gridmlat)-mlatctr
+    #dmlat=np.average(gridmlat)-mlatctr
+    dmlat=0
     mlat=mlat+dmlat
     
     # time grid for precipitation
@@ -71,7 +72,7 @@ def fast2GEMINI(cfg, xg):
     Q=np.empty( (lt,llon,llat) )
     E0=np.empty( (lt,llon,llat) )
     siglon=10
-    sigt=250
+    sigt=100
     for k in range(0,lt):
         tshape=np.exp(-(t[k]-meant)**2/2/sigt**2)
         for ilon in range(0,llon):
