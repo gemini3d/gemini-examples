@@ -60,9 +60,6 @@ def fast2GEMINI(cfg, xg):
     mlat=mlat+dmlat
     
     # time grid for precipitation
-#    tdur=cfg["tdur"].total_seconds()
-#    dtprec=cfg["dtprec"].total_seconds()
-#    t=np.arange(0,tdur+dtprec,dtprec)
     time = datetime_range(cfg["time"][0], cfg["time"][0] + cfg["tdur"], cfg["dtprec"])
     lt=len(time)
     t=np.empty( (lt) )
