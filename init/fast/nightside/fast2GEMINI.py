@@ -78,7 +78,7 @@ def fast2GEMINI(cfg, xg):
         for ilon in range(0,llon):
             lonshape=np.exp(-(mlon[ilon]-mlonctr)**2/2/siglon**2)
             Q[k,ilon,:]=tshape*lonshape*efluxsmooth[:]
-            E0[k,ilon,:]=tshape*charesmooth[:]
+            E0[k,ilon,:]=charesmooth[:]
 
     # fill values
     Q[Q<0]=0
