@@ -48,6 +48,12 @@ def fast2GEMINI(cfg, xg):
     mlat=invlat
     mlonctr=np.average(mlon)
     mlatctr=np.average(mlat)
+
+    # fast data may need to be sorted along the latitude axis
+    isort=np.argsort(mlat)
+    mlat=mlat[isort]
+    efluxsmooth=efluxsmooth[isort]
+    charesmooth=charesmooth[isort]
     
     # for convenience recenter grid on what the user has made
     dmlat=np.average(gridmlat)-mlatctr
@@ -75,6 +81,10 @@ def fast2GEMINI(cfg, xg):
             lonshape=np.exp(-(mlon[ilon]-mlonctr)**2/2/siglon**2)
             Q[k,ilon,:]=tshape*lonshape*efluxsmooth[:]
             E0[k,ilon,:]=tshape*charesmooth[:]
+
+    # fill values
+    Q[Q<0]=0
+    E0[E0<101]=101
     
     # create xarray dataset
     pg = xarray.Dataset(
@@ -103,9 +113,9 @@ def fast2GEMINI(cfg, xg):
         plt.colorbar()
         plt.title("char. en.")
         plt.xlabel("mlon")
-        plt.ylabel("mlat")        
+        plt.ylabel("mlat")
+        plt.show(block=False)        
         
     # write these to the simulation input directory
     write.precip(pg, cfg["precdir"], cfg["file_format"])
-    breakpoint()
     return
