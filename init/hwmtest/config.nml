@@ -2,7 +2,7 @@
 ymd = 2011,3,10               ! year, month, day
 UTsec0 = 20783.0              ! UTsec0:  start time in UT seconds
 tdur = 86400.0                  ! tdur:  duration of simulation in seconds
-dtout = 900.0                   ! dtout: how often to do file output
+dtout = 1800.0                   ! dtout: how often to do file output
 activ = 120, 120, 25       ! activ:  f107a,f107,Ap
 tcfl = 0.9                    ! tcfl:  target cfl number
 Teinf = 1500.0                ! Teinf:  exospheric electron temperature
@@ -44,4 +44,8 @@ v0equator = 10.0              ! equatorial peak drift value
 flagneuBG = .true.
 dtneuBG = 1800.0
 msis_version = 0
+/
+
+&milestone
+mcadence=2
 /
