@@ -11,12 +11,16 @@ Create GEMINI precipitation input from FAST data
 # imports
 #import typing as T
 import numpy as np
+import xarray
 import gemini3d.write as write
+from gemini3d.config import datetime_range
+import matplotlib.pyplot as plt
 from fast import readfast,smoothfast
 
 # global vars
 pi=np.pi
 filename="/Users/zettergm/Dropbox (Personal)/proposals/UNH_GDC/FASTdata/nightside.txt"
+debug=True
 
 def fast2GEMINI(cfg, xg):
     # output dict.
@@ -40,34 +44,67 @@ def fast2GEMINI(cfg, xg):
     # precipitation input grids
     llon=128
     llat=invlat.size
-    pg["mlon"]=np.linspace(mlonmin,mlonmax,llon)
-    pg["mlat"]=invlat
-    mlonctr=np.average(pg["mlon"])
-    mlatctr=np.average(pg["mlat"])
+    mlon=np.linspace(mlonmin,mlonmax,llon)
+    mlat=invlat
+    mlonctr=np.average(mlon)
+    mlatctr=np.average(mlat)
     
     # for convenience recenter grid on what the user has made
     dmlat=np.average(gridmlat)-mlatctr
-    pg["mlat"]=pg["mlat"]+dmlat
+    mlat=mlat+dmlat
     
     # time grid for precipitation
-    tdur=cfg["tdur"].total_seconds()
-    dtprec=cfg["dtprec"].total_seconds()
-    t=np.arange(0,tdur+dtprec,dtprec)
+#    tdur=cfg["tdur"].total_seconds()
+#    dtprec=cfg["dtprec"].total_seconds()
+#    t=np.arange(0,tdur+dtprec,dtprec)
+    time = datetime_range(cfg["time"][0], cfg["time"][0] + cfg["tdur"], cfg["dtprec"])
+    lt=len(time)
+    t=np.empty( (lt) )
+    for k in range(0,lt):
+        t[k]=time[k].timestamp()
     meant=np.average(t)
-    lt=t.size
     
     # longitude shape
-    pg["Q"]=np.empty( (lt,llon,llat) )
-    pg["E0"]=np.empty( (lt,llon,llat) )
+    Q=np.empty( (lt,llon,llat) )
+    E0=np.empty( (lt,llon,llat) )
     siglon=10
     sigt=250
-    for ell in range(0,lt):
-        tshape=np.exp(-(t[ell]-meant)**2/2/sigt**2)
-        for k in range(0,llon):
-            lonshape=np.exp(-(pg["mlon"][k]-mlonctr)**2/2/siglon**2)
-            pg["Q"][ell,k,:]=tshape*lonshape*eflux[:]
-            pg["E0"][ell,k,:]=tshape*chare[:]
+    for k in range(0,lt):
+        tshape=np.exp(-(t[k]-meant)**2/2/sigt**2)
+        for ilon in range(0,llon):
+            lonshape=np.exp(-(mlon[ilon]-mlonctr)**2/2/siglon**2)
+            Q[k,ilon,:]=tshape*lonshape*efluxsmooth[:]
+            E0[k,ilon,:]=tshape*charesmooth[:]
+    
+    # create xarray dataset
+    pg = xarray.Dataset(
+        {
+            "Q": (("time", "mlon", "mlat"), Q),
+            "E0": (("time", "mlon", "mlat"), E0),
+        },
+        coords={
+            "time": time,
+            "mlat": mlat,
+            "mlon": mlon,
+        },
+    )
+
+    # make a representative plot if required
+    if debug:
+        plt.subplots(1,2,dpi=100)
+        plt.subplot(1,2,1)
+        plt.pcolormesh(mlon,mlat,Q[lt//2,:,:].transpose())
+        plt.colorbar()
+        plt.title("energy flux")
+        plt.xlabel("mlon")
+        plt.ylabel("mlat")
+        plt.subplot(1,2,2)
+        plt.pcolormesh(mlon,mlat,E0[lt//2,:,:].transpose())
+        plt.colorbar()
+        plt.title("char. en.")
+        plt.xlabel("mlon")
+        plt.ylabel("mlat")        
         
     # write these to the simulation input directory
-    breakpoint()
     write.precip(pg, cfg["precdir"], cfg["file_format"])
+    return
