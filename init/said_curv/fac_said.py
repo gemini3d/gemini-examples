@@ -17,7 +17,7 @@ def fac_said(E: xarray.Dataset, gridflag: int, flagdip: bool) -> xarray.Dataset:
 
     shapelat = np.exp(
         -((E.mlat - E.mlatmean - 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig ** 2
-    ) - np.exp(-((E.mlat - E.mlatmean + 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig ** 2)
+    ) - 0.8*np.exp(-((E.mlat - E.mlatmean + 1.5 * E.mlatsig) ** 2) / 2 / E.mlatsig ** 2)
 
     for t in E.time[2:]:
         E["flagdirich"].loc[t] = 0

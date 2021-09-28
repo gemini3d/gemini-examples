@@ -19,9 +19,9 @@ flagoutput = 2      ! 1 - full parameter output
 &setup
 dtheta=10.5
 dphi=100
-lp=192
-lq=256
-lphi=128
+lp=144
+lq=192
+lphi=96
 altmin=80e3
 glat=60
 glon=0
@@ -34,7 +34,7 @@ gridflag=0
 !precip_lonwidth=0.25
 
 Efield_latwidth=0.05
-Efield_lonwidth=0.25
+Efield_lonwidth=0.15
 Jtarg=1e-6
 Jtarg_function = "fac_said"
 eq_dir = '~/simulations/raid/said_curv_eq'

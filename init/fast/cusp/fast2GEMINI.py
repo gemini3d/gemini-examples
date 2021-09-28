@@ -72,7 +72,7 @@ def fast2GEMINI(cfg, xg):
     Q=np.empty( (lt,llon,llat) )
     E0=np.empty( (lt,llon,llat) )
     siglon=5
-    sigt=200
+    sigt=100
     for k in range(0,lt):
         tshape=np.exp(-(t[k]-meant)**2/2/sigt**2)
         for ilon in range(0,llon):
