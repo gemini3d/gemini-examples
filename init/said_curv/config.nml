@@ -3,8 +3,8 @@
 &base
 ymd = 2008,3,26               ! year, month, day
 UTsec0 = 75600.0              ! start time in UT seconds
-tdur = 1500.0                  ! duration of simulation in seconds
-dtout = 15.0                  ! how often to do file output
+tdur = 900.0                  ! duration of simulation in seconds
+dtout = 60.0                  ! how often to do file output
 activ = 150.0,150.0,4.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -19,8 +19,8 @@ flagoutput = 2      ! 1 - full parameter output
 &setup
 dtheta=10.5
 dphi=100
-lp=144
-lq=192
+lp=128
+lq=128
 lphi=96
 altmin=80e3
 glat=60
@@ -35,9 +35,9 @@ gridflag=0
 
 Efield_latwidth=0.05
 Efield_lonwidth=0.15
-Jtarg=1e-6
+Jtarg=0.85e-6
 Jtarg_function = "fac_said"
-eq_dir = '~/simulations/raid/said_curv_eq'
+eq_dir = '~/simulations/said_curv_eq'
 /
 
 &files
@@ -58,6 +58,6 @@ E0_dir = 'inputs/fields/'
 
 
 &precip_BG
-PhiWBG=5e-2                   ! total energy flux (mW/m^2)
+PhiWBG=0.02                   ! total energy flux (mW/m^2)
 W0BG=1e3                      ! characteristic energy (eV)
 /
