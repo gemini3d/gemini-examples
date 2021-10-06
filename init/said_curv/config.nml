@@ -37,7 +37,7 @@ Efield_latwidth=0.05
 Efield_lonwidth=0.15
 Jtarg=0.85e-6
 Jtarg_function = "fac_said"
-eq_dir = '~/simulations/said_curv_eq'
+eq_dir = '~/simulations/raid/said_curv_eq'
 /
 
 &files
@@ -58,6 +58,6 @@ E0_dir = 'inputs/fields/'
 
 
 &precip_BG
-PhiWBG=0.02                   ! total energy flux (mW/m^2)
+PhiWBG=0.08                   ! total energy flux (mW/m^2)
 W0BG=1e3                      ! characteristic energy (eV)
 /
