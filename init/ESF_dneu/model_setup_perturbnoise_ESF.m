@@ -1,6 +1,6 @@
 % must first run mat_gemini's setup script...
 %% READ IN THE SIMULATION INFORMATION
-outdir='~/simulations/raid/ESF_neuperiodic/';
+outdir='~/simulations/raid/ESF_dneu/';
 xg=gemini3d.read.grid(outdir);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
