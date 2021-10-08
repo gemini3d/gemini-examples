@@ -125,7 +125,8 @@ def perturb_density(
             nsperturb[i, :, ix2, :] = (
                 nsscale[i, :, ix2, :]
                 * (params["vn"] - params["v0"])
-                / (params["v0"] * np.tanh((x2[ix2]) / params["ell"]) + params["vn"])
+                / (params["v0"] * (np.tanh((x2+50e3) / params["ell"]) - np.tanh((x2-50e3)/params["ell"]) + 1)
+                   + params["vn"])
             )
             # background density
             nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here
@@ -158,7 +159,9 @@ def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: T.Dict[str, float])
 
     vel3 = np.empty((lx2, lx3))
     for i in range(lx3):
-        vel3[:, i] = params["v0"] * np.tanh(x2 / params["ell"]) - params["vn"]
+        vel3[:, i] = (
+            params["v0"] * (np.tanh((x2+50e3) / params["ell"]) - np.tanh((x2-50e3)/params["ell"]) + 1)
+            ) - params["vn"]
 
     vel3 = np.flipud(vel3)
     # this is needed for consistentcy with equilibrium...  Not completely clear why
