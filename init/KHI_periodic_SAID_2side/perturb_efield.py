@@ -124,8 +124,8 @@ def perturb_density(
 
             nsperturb[i, :, ix2, :] = (
                 nsscale[i, :, ix2, :]
-                * (params["vn"] - params["v0"])
-                / (params["v0"] * (np.tanh((x2+50e3) / params["ell"]) - np.tanh((x2-50e3)/params["ell"]) + 1)
+                * (params["vn"] + params["v0"])
+                / (params["v0"] * (np.tanh((x2[ix2]+50e3) / params["ell"]) - np.tanh((x2[ix2]-50e3)/params["ell"]) + 1)
                    + params["vn"])
             )
             # background density
