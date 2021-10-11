@@ -24,9 +24,9 @@ def perturb_efield(
 #            "dx1": 10e3,
 #        }
         params = {
-            "v0": -2000,
+            "v0": 2000,
             # background flow value, actually this will be turned into a shear in the Efield input file
-            "densfact": 3,
+            "densfact": 5,
             # factor by which the density increases over the shear region - see Keskinen, et al (1988)
             "ell": 10e3,  # scale length for shear transition
             "B1val": -50000e-9,
@@ -34,7 +34,7 @@ def perturb_efield(
             "dx1": 10e3,
         }
 
-    params["vn"] = -params["v0"] * (params["densfact"] + 1) / (params["densfact"] - 1)
+    params["vn"] = -params["v0"] * (1+params["densfact"]) / (1-params["densfact"])
 
     # %% Sizes
     x1 = xg["x1"][2:-2]

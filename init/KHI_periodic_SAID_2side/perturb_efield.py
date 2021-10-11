@@ -24,9 +24,9 @@ def perturb_efield(
 #            "dx1": 10e3,
 #        }
         params = {
-            "v0": -2000,
+            "v0": 2000,
             # background flow value, actually this will be turned into a shear in the Efield input file
-            "densfact": 3,
+            "densfact": 5,
             # factor by which the density increases over the shear region - see Keskinen, et al (1988)
             "ell": 10e3,  # scale length for shear transition
             "B1val": -50000e-9,
@@ -34,7 +34,7 @@ def perturb_efield(
             "dx1": 10e3,
         }
 
-    params["vn"] = -params["v0"] * (params["densfact"] + 1) / (params["densfact"] - 1)
+    params["vn"] = -params["v0"] * (1+params["densfact"]) / (1-params["densfact"])
 
     # %% Sizes
     x1 = xg["x1"][2:-2]
@@ -79,7 +79,7 @@ def init_profile(xg: T.Dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
         nsscale[i, :, :, :] = nprof[:, None, None]
 
     # %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
-    scalefact = 2 * 2.75
+    scalefact = 2 * 2.75 * 3
     for i in range(lsp - 1):
         nsscale[i, ...] = scalefact * nsscale[i, ...]
 
@@ -124,9 +124,9 @@ def perturb_density(
 
             nsperturb[i, :, ix2, :] = (
                 nsscale[i, :, ix2, :]
-                * (params["vn"] + params["v0"])
-                / (params["v0"] * (np.tanh((x2[ix2]+50e3) / params["ell"]) - np.tanh((x2[ix2]-50e3)/params["ell"]) + 1)
-                   + params["vn"])
+                * (params["v0"] - params["vn"])
+                / (params["v0"] * (np.tanh((x2[ix2]-50e3) / params["ell"]) - np.tanh((x2[ix2]+50e3)/params["ell"]) + 1)
+                   - params["vn"])
             )
             # background density
             nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here
@@ -160,7 +160,7 @@ def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: T.Dict[str, float])
     vel3 = np.empty((lx2, lx3))
     for i in range(lx3):
         vel3[:, i] = (
-            params["v0"] * (np.tanh((x2+50e3) / params["ell"]) - np.tanh((x2-50e3)/params["ell"]) + 1)
+            params["v0"] * (np.tanh((x2-50e3) / params["ell"]) - np.tanh((x2+50e3)/params["ell"]) + 1)
             ) - params["vn"]
 
     vel3 = np.flipud(vel3)
