@@ -23,6 +23,15 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 eq_dir = '@GEMINI_SIMROOT@/GDI_KHI_eq/'
+
+precip_latwidth = 0.025
+precip_lonwidth = 0.15
+precip_llon = 512
+precip_llat = 512
+Qprecip = 25
+Qprecip_background = 1
+E0precip = 2e3
+
 setup_functions = 'perturb_efield'
 /
 
@@ -36,6 +45,11 @@ flagoutput = 2
 indat_size = 'inputs/simsize.h5'
 indat_grid = 'inputs/simgrid.h5'
 indat_file = 'inputs/initial_conditions.h5'
+/
+
+&precip
+dtprec = 180
+prec_dir = 'inputs/precip/'
 /
 
 &efield

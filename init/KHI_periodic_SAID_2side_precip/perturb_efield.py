@@ -5,7 +5,7 @@ from scipy.interpolate import interp1d
 
 import gemini3d.read
 from gemini3d.config import datetime_range
-
+from gemini3d.particles.grid import precip_grid
 
 def perturb_efield(
     cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any], params: T.Dict[str, float] = None
@@ -63,6 +63,9 @@ def perturb_efield(
 
     # %% Electromagnetic parameter inputs
     create_Efield(cfg, xg, params)
+    
+    # create precipitation inputs
+    create_precip(cfg,xg,params)
 
 
 def init_profile(xg: T.Dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
@@ -182,8 +185,8 @@ def create_Efield(cfg, xg, params):
     cfg["E0dir"].mkdir(parents=True, exist_ok=True)
 
     # %% CREATE ELECTRIC FIELD DATASET
-    llon = 100
-    llat = 100
+    llon = 512
+    llat = 512
     # NOTE: cartesian-specific code
     if xg["lx"][1] == 1:
         llon = 1
@@ -265,6 +268,114 @@ def create_Efield(cfg, xg, params):
 
     # %% Write electric field data to file
     gemini3d.write.Efield(E, cfg["E0dir"], cfg["file_format"])
+
+
+def precip_SAID(pg, params, x2i, Qpeak, Qbackground):
+    # mlon_mean = pg.mlon.mean().item()
+    # mlat_mean = pg.mlat.mean().item()
+
+    # if "mlon_sigma" in pg.attrs and "mlat_sigma" in pg.attrs:
+    #     Q = (
+    #         Qpeak
+    #         * np.exp(-((pg.mlon.data[:, None] - mlon_mean) ** 2) / (2 * pg.mlon_sigma ** 2))
+    #         * np.exp(-((pg.mlat.data[None, :] - mlat_mean) ** 2) / (2 * pg.mlat_sigma ** 2))
+    #     )
+    # elif "mlon_sigma" in pg.attrs:
+    #     Q = Qpeak * np.exp(-((pg.mlon.data[:, None] - mlon_mean) ** 2) / (2 * pg.mlon_sigma ** 2))
+    # elif "mlat_sigma" in pg.attrs:
+    #     Q = Qpeak * np.exp(-((pg.mlat.data[None, :] - mlat_mean) ** 2) / (2 * pg.mlat_sigma ** 2))
+    # else:
+    #     raise LookupError("precipation must be defined in latitude, longitude or both")
+
+    Q=Qpeak * (1/2*np.tanh((x2i[:,None]-50e3) / params["ell"]) + 1/2) 
+    Q[Q < Qbackground] = Qbackground
+
+    return Q
+    
+    
+def create_precip(cfg,xg,params):
+    """write particle precipitation to disk"""
+
+    # %% CREATE PRECIPITATION INPUT DATA
+    # Q: energy flux [mW m^-2]
+    # E0: characteristic energy [eV]
+
+    pg = precip_grid(cfg, xg)
+
+    # did user specify on/off time? if not, assume always on.
+    t0 = pg.time[0].data
+
+    if "precip_startsec" in cfg:
+        t = t0 + np.timedelta64(cfg["precip_startsec"])
+        i_on = abs(pg.time - t).argmin().item()
+    else:
+        i_on = 0
+
+    if "precip_endsec" in cfg:
+        t = t0 + np.timedelta64(cfg["precip_endsec"])
+        i_off = abs(pg.time - t).argmin().item()
+    else:
+        i_off = pg.time.size
+
+    assert np.isfinite(cfg["E0precip"]), "E0 precipitation must be finite"
+    assert cfg["E0precip"] > 0, "E0 precip must be positive"
+    assert cfg["E0precip"] < 100e6, "E0 precip must not be relativistic 100 MeV"
+
+    llon = 512
+    llat = 512
+    # NOTE: cartesian-specific code
+    if xg["lx"][1] == 1:
+        llon = 1
+    elif xg["lx"][2] == 1:
+        llat = 1
+
+    thetamin = xg["theta"].min()
+    thetamax = xg["theta"].max()
+    mlatmin = 90 - np.degrees(thetamax)
+    mlatmax = 90 - np.degrees(thetamin)
+    mlonmin = np.degrees(xg["phi"].min())
+    mlonmax = np.degrees(xg["phi"].max())
+
+    # add a 1% buff
+    latbuf = 0.01 * (mlatmax - mlatmin)
+    lonbuf = 0.01 * (mlonmax - mlonmin)
+    
+    time = datetime_range(cfg["time"][0], cfg["time"][0] + cfg["tdur"], cfg["dtprec"])
+
+    pg = xarray.Dataset(
+        {
+            "Q": (("time", "mlon", "mlat"), np.zeros((len(time), llon, llat))),
+            "E0": (("time", "mlon", "mlat"), np.zeros((len(time), llon, llat))),
+        },
+        coords={
+            "time": time,
+            "mlat": np.linspace(mlatmin - latbuf, mlatmax + latbuf, llat),
+            "mlon": np.linspace(mlonmin - lonbuf, mlonmax + lonbuf, llon),
+        },
+    )
+    Nt = pg.time.size
+
+    # %% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
+    xgmlon = np.degrees(xg["phi"][0, :, 0])
+    # xgmlat = 90 - np.degrees(xg["theta"][0, 0, :])
+
+    f = interp1d(xgmlon, xg["x2"][2 : xg["lx"][1] + 2], kind="linear", fill_value="extrapolate")
+    x2i = f(pg["mlon"])
+    # f = interp1d(xgmlat, xg["x3"][2:lx3 + 2], kind='linear', fill_value="extrapolate")
+    # x3i = f(E["mlat"])
+
+
+    # NOTE: in future, E0 could be made time-dependent in config.nml as 1D array
+    for i in range(i_on, i_off):
+        pg["Q"][i, :, :] = precip_SAID(pg, params, x2i, cfg["Qprecip"], cfg["Qprecip_background"])
+        pg["E0"][i, :, :] = cfg["E0precip"]
+
+    assert np.isfinite(pg["Q"]).all(), "Q flux must be finite"
+    assert (pg["Q"] >= 0).all(), "Q flux must be non-negative"
+    
+    gemini3d.write.precip(pg, cfg["precdir"], cfg["file_format"])
+    
+    breakpoint()
 
 
 def moving_average(x: np.ndarray, k: int):
