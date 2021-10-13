@@ -375,8 +375,6 @@ def create_precip(cfg,xg,params):
     
     gemini3d.write.precip(pg, cfg["precdir"], cfg["file_format"])
     
-    breakpoint()
-
 
 def moving_average(x: np.ndarray, k: int):
     # https://stackoverflow.com/a/54628145
