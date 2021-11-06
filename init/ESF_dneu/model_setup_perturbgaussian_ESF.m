@@ -1,6 +1,6 @@
 
 %% READ IN THE SIMULATION INFORMATION
-ID=['~/simulations/ESF_medres/inputs/'];
+ID=['~/simulations/raid/ESF_dneu_pwide_noEIA_gaussian/'];
 xg= gemini3d.read.grid([ID]);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -10,16 +10,17 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 direc=ID;
 %filebase='ESF_medres';
 %filename=[filebase,'_ICs.dat'];
-filename='initial_conditions.h5';
+filename='/inputs/initial_conditions.h5';
 dat= gemini3d.read.frame3Dcurvnoelec(fullfile(direc,filename));
-ne=dat.ne;
+%ne=dat.ne;
 v1=dat.v1;
-Ti=dat.Ti;
-Te=dat.Te;
+%Ti=dat.Ti;
+%Te=dat.Te;
 ns=dat.ns;
 Ts=dat.Ts;
 vs1=dat.vs1;
-simdate=dat.simdate;
+%simdate=dat.simdate;
+dat.time = datetime(datevec(datenum([2016,3,3,4500/3600,0,0])));
 lsp=size(ns,4);
 
 
@@ -30,12 +31,12 @@ mlon=xg.phi*180/pi;
 mlonmean=mean(mlon(:));
 mlatmean=0;
 altmean=300e3;
-sigmlon=0.25;
+sigmlon=1;
 sigmlat=2.5;
 sigalt=15e3;
 shapefn=exp(-(alt-altmean).^2/2/sigalt^2).*exp(-(mlon-mlonmean).^2/2/sigmlon^2).*exp(-(mlat-mlatmean).^2/2/sigmlat^2);
 n1=ns(:,:,:,1);
-n1perturb=n1-shapefn*0.25.*n1;
+n1perturb=n1-shapefn*0.1.*n1;
 
 
 %% Visualize
@@ -59,4 +60,5 @@ nsperturb(:,:,:,7)=sum(nsperturb(:,:,:,1:6),4);
 
 dat.ns = nsperturb;
 %% WRITE OUT THE RESULTS TO A NEW FILE
+cfg=gemini3d.read.config(ID);
 gemini3d.write.state(cfg.indat_file,dat);
