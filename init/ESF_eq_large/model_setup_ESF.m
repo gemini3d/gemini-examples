@@ -1,7 +1,7 @@
 %% EQuatorial grid
-%%p.dtheta=5.75;
+%p.dtheta=5.75;
 p.dtheta=7.75;
-p.dphi=30;
+p.dphi=35;
 p.lp=128;
 p.lq=256;
 p.lphi=48;
@@ -47,7 +47,7 @@ activ=[150,150,4];    %apparently this used the MSIS matlab defaults
 time = datetime(2016,8,6, 5, 0, 0.25*3600);
 
 %% USE OLD CODE FROM MATLAB MODEL
-p.outdir = '~/simulations/raid/ESF_eq_large/';
+p.outdir = '~/simulations/raid/ESF_eq_larger/';
 p.nmf=5e11;
 p.nme=2e11;
 p.times=time;

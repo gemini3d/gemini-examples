@@ -1,6 +1,6 @@
-%% Parameters for creating input files from given equilibrium run
+ %% Parameters for creating input files from given equilibrium run
 p.eq_dir='~/simulations/raid/ESF_eq_large/';
-p.outdir='~/simulations/raid/ESF_dneu_pwide_late_noEIA/';
+p.outdir='~/simulations/raid/ESF_dneu_pwide_late_noEIA_nonoise_x2_ide_merge/';
 
 p.indat_size=[p.outdir,'/inputs/simsize.h5'];
 p.indat_grid=[p.outdir,'/inputs/simgrid.h5'];

@@ -18,9 +18,9 @@ flagoutput = 1      ! 1 - full output
 
 &files
 file_format='h5'
-indat_size = '~/simulations/raid/ESF_eq/inputs/simsize.h5'
-indat_grid = '~/simulations/raid/ESF_eq/inputs/simgrid.h5'
-indat_file = '~/simulations/raid/ESF_eq/inputs/initial_conditions.h5'
+indat_size = '~/simulations/raid/ESF_eq_larger/inputs/simsize.h5'
+indat_grid = '~/simulations/raid/ESF_eq_larger/inputs/simgrid.h5'
+indat_file = '~/simulations/raid/ESF_eq_larger/inputs/initial_conditions.h5'
 /
 
 &Jpar
