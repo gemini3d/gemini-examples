@@ -2,8 +2,8 @@
 
 &base
 ymd = 2016,3,3               ! year, month, day
-UTsec0 = 4500.0              ! start time in UT seconds
-tdur = 9000.0                  ! duration of simulation in seconds
+UTsec0 = 18900.0              ! start time in UT seconds
+tdur = 17200.0                  ! duration of simulation in seconds
 dtout = 120.0                  ! how often to do file output
 activ = 150.0,150.0,4.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -18,9 +18,9 @@ flagoutput = 1      ! 1 - full output
 
 &files
 file_format='h5'
-indat_size = '~/simulations/raid/ESF_dneu/inputs/simsize.h5'
-indat_grid = '~/simulations/raid/ESF_dneu/inputs/simgrid.h5'
-indat_file = '~/simulations/raid/ESF_dneu/inputs/initial_conditions.h5'
+indat_size = '~/simulations/raid/ESF_dneu_pwide_late_noEIA_nonoise_x2_ide_merge_taper/inputs/simsize.h5'
+indat_grid = '~/simulations/raid/ESF_dneu_pwide_late_noEIA_nonoise_x2_ide_merge_taper/inputs/simgrid.h5'
+indat_file = '~/simulations/raid/ESF_dneu_pwide_late_noEIA_nonoise_x2_ide_merge_taper/inputs/initial_conditions.h5'
 /
 
 &neutral_perturb
@@ -30,7 +30,7 @@ sourcemlon = 354.0
 dtneu = 6.0
 drhon = 2000
 dzn = 2000
-source_dir = '~/simulations/raid/input/mooreOK_neutrals/'
+source_dir = '~/simulations/raid/input/mooreOKx2_taper_neutrals/'
 /
 
 &Jpar
