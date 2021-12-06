@@ -1,6 +1,6 @@
 % must first run mat_gemini's setup script...
 %% READ IN THE SIMULATION INFORMATION
-outdir='~/simulations/raid/ESF_dneu_pwide_late_noEIA_nonoise_offset/';
+outdir='~/simulations/ESF_M1_noiseonly/';
 xg=gemini3d.read.grid(outdir);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -44,18 +44,18 @@ cfg=gemini3d.read.config(outdir);
 gemini3d.write.state(cfg.indat_file,dat);
 
 
-% %% Visualize
-% alt=xg.alt;
-% mlat=90-xg.theta*180/pi;
-% mlon=xg.phi*180/pi;
-% 
-% ix1=lx1/2;
-% 
-% figure;
-% subplot(121);
-% imagesc(squeeze(mlon(ix1,1,:)),squeeze(alt(ix1,:,1)),squeeze(dat.ns(ix1,:,:,1)))
-% axis xy;
-% 
-% subplot(122);
-% imagesc(squeeze(mlon(ix1,1,:)),squeeze(alt(ix1,:,1)),squeeze(nsperturb(ix1,:,:,1)))
-% axis xy;
+%% Visualize
+alt=xg.alt;
+mlat=90-xg.theta*180/pi;
+mlon=xg.phi*180/pi;
+
+ix1=lx1/2;
+
+figure;
+subplot(121);
+imagesc(squeeze(mlon(ix1,1,:)),squeeze(alt(ix1,:,1)),squeeze(dat.ns(ix1,:,:,1)))
+axis xy;
+
+subplot(122);
+imagesc(squeeze(mlon(ix1,1,:)),squeeze(alt(ix1,:,1)),squeeze(nsperturb(ix1,:,:,1)))
+axis xy;

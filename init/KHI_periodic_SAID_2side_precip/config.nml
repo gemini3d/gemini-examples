@@ -28,8 +28,8 @@ precip_latwidth = 0.025
 precip_lonwidth = 0.15
 precip_llon = 512
 precip_llat = 512
-Qprecip = 25
-Qprecip_background = 1
+Qprecip = 1
+Qprecip_background = 1e-5
 E0precip = 2e3
 
 setup_functions = 'perturb_efield'

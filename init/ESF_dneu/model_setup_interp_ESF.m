@@ -1,6 +1,6 @@
  %% Parameters for creating input files from given equilibrium run
-p.eq_dir='~/simulations/raid/ESF_eq_larger/';
-p.outdir='~/simulations/raid/ESF_dneu_pwide_phiwide_late_noEIA_nonoise_x2_doubleres/';
+p.eq_dir='~/simulations/ESF_eq_manual/';
+p.outdir='~/simulations/ESF_M1_noiseonly/';
 
 p.indat_size=[p.outdir,'/inputs/simsize.h5'];
 p.indat_grid=[p.outdir,'/inputs/simgrid.h5'];
@@ -10,8 +10,10 @@ p.indat_file=[p.outdir,'/inputs/initial_conditions.h5'];
 %p.dtheta=3.5;
 p.dtheta=4.5;    % puts boundary farther away
 p.dphi=34;
+%p.lp=522;
 p.lp=256;
 p.lq=256;
+%p.lphi=580;
 p.lphi=288;
 p.altmin=80e3;
 p.glat=8.35;
