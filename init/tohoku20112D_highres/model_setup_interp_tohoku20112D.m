@@ -1,8 +1,8 @@
 %A MEDIUM RES TOHOKU
 p.dtheta=7.5;
 p.dphi=12;
-p.lp=1056;
-p.lq=1056;
+p.lp=512;
+p.lq=512;
 p.lphi=1;
 p.altmin=80e3;
 p.glat=42.45;
@@ -19,7 +19,7 @@ lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
 
 
 %ALTERNATIVELY WE MAY WANT TO READ IN AN EXISTING OUTPUT FILE AND DO SOME INTERPOLATION ONTO A NEW GRID
-eq_dir='~/zettergmdata/simulations/tohoku20112D_eq/';
+eq_dir='~/simulations/tohoku2D_eq/';
 
 
 %READ IN THE SIMULATION INFORMATION
@@ -27,7 +27,8 @@ cfg = gemini3d.read.config(eq_dir);
 xgin= gemini3d.read.grid(eq_dir);
 
 %LOAD THE FRAME
-dat = gemini3d.read.frame(direc, "time", cfg.times(end));
+dat = gemini3d.read.frame(eq_dir, "time", cfg.times(end));
+ns=dat.ns; vs1=dat.vs1; Ts=dat.Ts;
 lsp=size(ns,4);
 
 
@@ -70,6 +71,9 @@ dint = struct("ns", nsi, "Ts", Tsi, "vs1", vs1i, "time", cfg.times(end));
 
 
 %WRITE OUT THE GRID
-p.outdir='~/zettergmdata/simulations/input/tohoku20112D_highres/';
+p.outdir='~/simulations/tohoku20112D_highres_IVV/';
+p.indat_grid=[p.outdir,'/inputs/simgrid.h5'];
+p.indat_size=[p.outdir,'/inputs/simsize.h5'];
 gemini3d.write.grid(p, xg);    %just put it in pwd for now
 gemini3d.write.state(p.outdir, dint)
+system(['cp config.nml ',p.outdir,'/inputs/']);
