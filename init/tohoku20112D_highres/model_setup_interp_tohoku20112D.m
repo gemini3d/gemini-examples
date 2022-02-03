@@ -1,8 +1,8 @@
 %A MEDIUM RES TOHOKU
 p.dtheta=7.5;
 p.dphi=12;
-p.lp=512;
-p.lq=512;
+p.lp=1024;
+p.lq=1024;
 p.lphi=1;
 p.altmin=80e3;
 p.glat=42.45;
