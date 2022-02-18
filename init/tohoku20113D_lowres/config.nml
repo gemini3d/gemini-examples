@@ -31,7 +31,7 @@ flagsource=1
 nmf=5e11
 nme=2e11
 
-eq_dir = '~/simulations/tohoku2d_eq'
+eq_dir = '~/simulations/raid/tohoku3d_eq'
 /
 
 &files
@@ -48,7 +48,7 @@ sourcemlon = 209.8501
 dtneu = 4.0
 dzn = 1000.0
 drhon = 1000.0
-source_dir = '~/simulations/input/tohoku_neutrals/'
+source_dir = '~/simulations/raid/input/tohoku_neutrals/'
 /
 
 &milestone
