@@ -2,7 +2,7 @@
 ymd = 2008,3,26               ! year, month, day
 UTsec0 = 12600.0              ! start time in UT seconds
 tdur = 600.0                  ! duration of simulation in seconds
-dtout = 60.0                  ! how often to do output
+dtout = 5.0                  ! how often to do output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -14,19 +14,21 @@ glon = 213
 xdist = 1500e3             ! eastward distance (meters)
 ydist = 200e3             ! northward distance (meters)
 lxp = 1
-lyp = 512
+lyp = 1024
 Bincl = 90
 nmf = 5e11
 nme = 2e11
 alt_min = 80e3
 alt_max = 950e3
 !alt_scale = 50e3, 45e3, 400e3, 150e3
-alt_scale = 10e3, 8e3, 500e3, 150e3  ! altitude grid scales (meters)
+alt_scale = 10e3, 9.75e3, 500e3, 150e3  ! altitude grid scales (meters)
 eq_dir = "~/simulations/STEVE2D_eq"
 Efield_latwidth = 0.025
 Efield_latoffset = 0.15
-Etarg = 50e-3
+Etarg = 100e-3
 Etarg_function = "pot_said"
+Efield_llat=1024
+precip_llat=1024
 /
 
 &flags
