@@ -40,9 +40,9 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # enforce quasineutrality
 
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
-    ell = 5e3  # gradient scale length for patch/blob
-    x21 = -20e3  # location on one of the patch edges
-    x22 = 20e3  # other patch edge
+    ell = 250  # gradient scale length for patch/blob
+    x21 = -0.5e3  # location on one of the patch edges
+    x22 = 1.5e3  # other patch edge
     nepatchfact = 10  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
