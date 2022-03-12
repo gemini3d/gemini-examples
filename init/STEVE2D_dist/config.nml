@@ -14,7 +14,7 @@ glon = 213
 xdist = 1500e3             ! eastward distance (meters)
 ydist = 200e3             ! northward distance (meters)
 lxp = 1
-lyp = 1024
+lyp = 2048
 Bincl = 90
 nmf = 5e11
 nme = 2e11
@@ -27,13 +27,13 @@ Efield_latwidth = 0.025
 Efield_latoffset = 0.15
 Etarg = 100e-3
 Etarg_function = "pot_said"
-Efield_llat=1024
-precip_llat=1024
+Efield_llat=2048
+precip_llat=2048
 /
 
 &flags
 potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
-flagoutput = 1
+flagoutput = 2
 /
 
 &files
@@ -51,3 +51,8 @@ E0_dir = 'inputs/Efield/'
 PhiWBG=5e-2                   ! total energy flux (mW/m^2)
 W0BG=1e3                      ! characteristic energy (eV)
 /
+
+&milestone
+mcadence=5
+/
+
