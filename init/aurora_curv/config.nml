@@ -1,0 +1,66 @@
+! cusp simulation
+
+&base
+ymd = 2020,3,26               ! year, month, day
+UTsec0 = 75600.0              ! start time in UT seconds
+tdur = 1800.0                  ! duration of simulation in seconds
+dtout = 15.0                  ! how often to do file output
+activ = 150.0,150.0,4.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 2      ! 1 - full parameter output
+/
+
+&setup
+dtheta=12
+dphi=25
+lp=192
+lq=256
+lphi=128
+altmin=80e3
+glat=69.34
+glon=20.32
+gridflag=0
+E0precip=2000
+Qprecip=30
+Qprecip_background=0.01
+precip_latwidth=0.025
+precip_lonwidth=0.1
+Efield_latwidth=0.025
+Efield_lonwidth=0.1
+Jtarg=20e-6
+Jtarg_function = "fac_said"
+eq_dir = '~/simulations/raid/aurora_curv_eq'
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&efield
+dtE0 = 60.0                         ! time step between electric field file inputs
+E0_dir = 'inputs/fields/'
+/
+
+&precip
+dtprec = 5.0
+prec_dir = 'inputs/precip/'
+/
+
+
+&precip_BG
+PhiWBG=1                   ! total energy flux (mW/m^2)
+W0BG=1e3                      ! characteristic energy (eV)\
+/
+
+&milestone
+mcadence=5
+/
+
