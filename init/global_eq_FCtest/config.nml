@@ -9,14 +9,14 @@ Teinf = 1500.0                ! Teinf:  exospheric electron temperature
 /
 
 &setup
-glat = 42.45
+glat = 30
 glon = 143.4
-dtheta = 15
-dphi = 15
+dtheta = 4.5
+dphi = 90
 altmin = 80e3
-lp = 192
-lq = 256
-lphi = 96
+lp = 96
+lq = 192
+lphi = 64
 gridflag = 1
 nme = 2e11
 nmf = 5e11
@@ -30,9 +30,9 @@ flagoutput = 2                ! what information to put in output files:  1 - al
 
 ! Inputs file locations and format
 &files
-indat_size = '~/simulations/global_eq_FCtest/inputs/simsize.h5'
-indat_grid = '~/simulations/global_eq_FCtest/inputs/simgrid.h5'
-indat_file = '~/simulations/global_eq_FCtest/inputs/initial_conditions.h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
 /
 
 ! (optional - default off) control equatorial ionization anomaly
