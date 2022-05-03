@@ -15,8 +15,8 @@ dtheta = 4.5
 dphi = 90
 altmin = 80e3
 lp = 96
-lq = 192
-lphi = 64
+lq = 512
+lphi = 48
 gridflag = 1
 nme = 2e11
 nmf = 5e11
@@ -25,7 +25,7 @@ nmf = 5e11
 &flags
 potsolve = 0                  ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 2              ! whether to consider the x3 dimension periodic:  0 - no; 1 - yes
-flagoutput = 2                ! what information to put in output files:  1 - all state variables; 2 - averaged plasma parameters; 3 - electron density only
+flagoutput = 1                ! what information to put in output files:  1 - all state variables; 2 - averaged plasma parameters; 3 - electron density only
 /
 
 ! Inputs file locations and format
@@ -46,3 +46,4 @@ flagneuBG = .true.
 dtneuBG = 1800.0
 msis_version = 0
 /
+
