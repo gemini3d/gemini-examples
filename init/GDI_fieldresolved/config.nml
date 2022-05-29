@@ -20,8 +20,9 @@ lyp = 96
 x2parms = 49.25e3,50.0,2e3,500
 Bincl = 90
 alt_min = 80e3
-alt_max = 975e3
-alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
+alt_max = 900e3
+!alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
+alt_scale = 50e3, 45e3, 350e3, 150e3 ! super coarse along the field line
 Eyit = -25e-3
 eq_dir = '~/simulations/GDI_KHI_eq/'
 eq_archive = '~/simulations/raid/risr3d_eq.zip'
@@ -30,7 +31,7 @@ setup_functions = 'perturb', 'gemini3d.model.Efield_BCs'
 /
 
 &flags
-potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+potsolve = 3      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 1
 flagoutput = 1
 /
