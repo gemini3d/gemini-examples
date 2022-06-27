@@ -15,6 +15,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # trim ghost cells
     x1 = xg["x1"][2:-2]
     x2 = xg["x2"][2:-2]
+    x3 = xg["x3"][2:-2]
 
     # %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
     dat = gemini3d.read.data(cfg["indat_file"], var=["ns", "Ts", "vs1"])
@@ -40,28 +41,37 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # enforce quasineutrality
 
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
-    ell = 20e3  # gradient scale length for patch/blob
+    #ellx2 = 50e3  # gradient scale length for patch/blob
+    #ellx3 = 50e3
+    #x2ctr = 150e3
     x21 = -150e3  # location on one of the patch edges
     x22 = 150e3  # other patch edge
+    ell = 20e3
     nepatchfact = 2  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):
         for j in range(xg["lx"][1]):
-            amplitude = numpy.random.standard_normal([xg["lx"][0], xg["lx"][2]])
-            # AWGN - note that can result in subtractive effects on density so apply a floor later!!!
-            amplitude = 0.01 * amplitude
-            # amplitude standard dev. is scaled to be 1% of reference profile
+            for k in range(xg["lx"][2]):
+                amplitude = numpy.random.standard_normal(xg["lx"][0])
+                # AWGN - note that can result in subtractive effects on density so apply a floor later!!!
+                amplitude = 0.01 * amplitude
+                # amplitude standard dev. is scaled to be 1% of reference profile
+    
+                # original data, infinite patch
+                nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
+                    1 / 2 * np.tanh((x2[j] - x21) / ell) - 1 / 2 * np.tanh((x2[j] - x22) / ell)
+                )
+                
+                ## Circular patch
+                #nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
+                #    np.exp(-( np.sqrt( (x2[j]-x2ctr)**2 + x3[k]**2 ) )**8/2/ellx2**8)
+                #)
+                # patch, note offset in the x2 index!!!!
 
-            # original data
-            nsperturb[i, :, j, :] = nsscale[i, :, j, :] + nepatchfact * nsscale[i, :, j, :] * (
-                1 / 2 * np.tanh((x2[j] - x21) / ell) - 1 / 2 * np.tanh((x2[j] - x22) / ell)
-            )
-            # patch, note offset in the x2 index!!!!
-
-            if (j > 9) and (j < xg["lx"][1] - 10):
-                # do not apply noise near the edge (corrupts boundary conditions)
-                nsperturb[i, :, j, :] = nsperturb[i, :, j, :] + amplitude * nsscale[i, :, j, :]
+                if (j > 9) and (j < xg["lx"][1] - 10):
+                    # do not apply noise near the edge (avoids boundary artifacts)
+                    nsperturb[i, :, j, k] = nsperturb[i, :, j, k] + amplitude * nsscale[i, :, j, k]
 
     nsperturb = np.maximum(nsperturb, 1e4)
     # enforce a density floor (particularly need to pull out negative densities
