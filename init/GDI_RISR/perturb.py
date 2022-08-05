@@ -41,13 +41,13 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # enforce quasineutrality
 
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
-    #ellx2 = 50e3  # gradient scale length for patch/blob
-    #ellx3 = 50e3
-    #x2ctr = 150e3
-    x21 = -150e3  # location on one of the patch edges
-    x22 = 150e3  # other patch edge
-    ell = 20e3
-    nepatchfact = 2  # density increase factor over background
+    ellx2 = 50e3  # gradient scale length for patch/blob
+    ellx3 = 50e3
+    x2ctr = 150e3
+    #x21 = -150e3  # location on one of the patch edges
+    #x22 = 150e3  # other patch edge
+    #ell = 20e3
+    nepatchfact = 8  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):
@@ -58,15 +58,15 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
                 amplitude = 0.01 * amplitude
                 # amplitude standard dev. is scaled to be 1% of reference profile
     
-                # original data, infinite patch
-                nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
-                    1 / 2 * np.tanh((x2[j] - x21) / ell) - 1 / 2 * np.tanh((x2[j] - x22) / ell)
-                )
-                
-                ## Circular patch
+                ## original data, infinite patch
                 #nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
-                #    np.exp(-( np.sqrt( (x2[j]-x2ctr)**2 + x3[k]**2 ) )**8/2/ellx2**8)
+                #    1 / 2 * np.tanh((x2[j] - x21) / ell) - 1 / 2 * np.tanh((x2[j] - x22) / ell)
                 #)
+                
+                # Circular patch
+                nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
+                    np.exp(-( np.sqrt( (x2[j]-x2ctr)**2 + x3[k]**2 ) )**8/2/ellx2**8)
+                )
                 # patch, note offset in the x2 index!!!!
 
                 if (j > 9) and (j < xg["lx"][1] - 10):

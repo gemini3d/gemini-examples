@@ -6,7 +6,7 @@ import gemini3d.read
 import gemini3d.write
 
 
-def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
+def perturb_square(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     """
     perturb plasma from initial_conditions file
     """
@@ -82,9 +82,14 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # enforce quasineutrality
 
     # %% WRITE OUT THE RESULTS TO the same file
+    # gemini3d.write.state(
+    #     cfg["indat_file"],
+    #     dat,
+    #     ns=nsperturb,
+    #     file_format=cfg["file_format"],
+    # )
     gemini3d.write.state(
         cfg["indat_file"],
         dat,
-        ns=nsperturb,
-        file_format=cfg["file_format"],
-    )
+        ns=nsperturb
+        )
