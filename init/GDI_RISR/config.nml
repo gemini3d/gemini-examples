@@ -3,7 +3,7 @@
 &base
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 18000.0              ! start time in UT seconds
-tdur = 900.0                  ! duration of simulation in seconds
+tdur = 3600.0                  ! duration of simulation in seconds
 dtout = 10.0                   ! how often to do file output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -27,12 +27,12 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 !alt_scale = 10e3, 8e3, 500e3, 150e3
-Eyit = -45e-3
-eq_dir = '~/simulations/raid/risr3d_eq/'
+Eyit = -40e-3
+eq_dir = '~/simulations/risr3d_eq/'
 eq_archive = '~/simulations/risr3d_eq.zip'
 eq_url = 'https://zenodo.org/record/3980312/files/risr3d_eq.zip?download=1'
 
-setup_functions = '.perturb_square', 'gemini3d.model.Efield_BCs'
+setup_functions = '.perturb_file', 'gemini3d.model.Efield_BCs'
 /
 
 &flags
