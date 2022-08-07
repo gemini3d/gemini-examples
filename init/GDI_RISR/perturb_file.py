@@ -22,7 +22,7 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     x3 = xg["x3"][2:-2]    
     
     # read in electron density data
-    h5f=h5py.File("/Users/zettergm/simulations/RISR_staging/inputs/nexyz.h5","r")
+    h5f=h5py.File("/Users/zettergm/simulations/raid/RISR_staging_data_highres/inputs/nexyz.h5","r")
     neRISR=h5f["Ne"][:]
     h5f.close()
         
