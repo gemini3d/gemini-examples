@@ -3,7 +3,7 @@
 &base
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 18000.0              ! start time in UT seconds
-tdur = 1800.0                  ! duration of simulation in seconds
+tdur = 3600.0                  ! duration of simulation in seconds
 dtout = 10.0                   ! how often to do file output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -18,10 +18,8 @@ ydist = 1500e3                ! northward distance (meters)
 lxp = 384
 !lyp = 344
 lyp = 100
-x2parms = 350e3,1e3,25e3,50e3
-x3parms = 350e3,1e3,25e3,50e3
-!x2parms = 350e3,0.74e3,25e3,50e3
-!x3parms = 350e3,0.74e3,25e3,50e3
+x2parms = 350e3,0.75e3,25e3,50e3
+x3parms = 350e3,0.75e3,25e3,50e3
 ! x2parms = 500e3,500,25e3,50e3
 ! x3parms = 500e3,500,25e3,50e3
 Bincl = 90
@@ -30,14 +28,17 @@ alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 !alt_scale = 10e3, 8e3, 500e3, 150e3
 Eyit = -40e-3
-eq_dir = '~/simulations/raid/RISR_staging_data/'
-setup_functions = 'gemini3d.model.Efield_BCs'
+eq_dir = '~/simulations/raid/risr3d_eq/'
+eq_archive = '~/simulations/risr3d_eq.zip'
+eq_url = 'https://zenodo.org/record/3980312/files/risr3d_eq.zip?download=1'
+
+setup_functions = '.perturb_file', 'gemini3d.model.Efield_BCs'
 /
 
 &flags
 potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
-flagperiodic = 0
-flagoutput = 2
+flagperiodic = 1
+flagoutput = 1
 /
 
 &files
