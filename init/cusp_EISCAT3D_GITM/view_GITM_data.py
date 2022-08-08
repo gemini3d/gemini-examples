@@ -84,7 +84,7 @@ p["lphi"]=64
 p["altmin"]=80e3
 p["glat"]=78.22
 p["glon"]=15.6
-p["gridflag"]=1
+p["gridflag"]=0
 p["iscurv"]=True
 xg=gemini3d.grid.tilted_dipole.tilted_dipole3d(p)
 lx1=xg["lx"][0]
@@ -112,9 +112,12 @@ ne=ns[:,:,:,6]
 plt.subplots(1,2,dpi=150)
 
 plt.subplot(1,2,1)
-plt.pcolormesh(nein[10,:,:])
+plt.pcolormesh(nein[140,:,:])
 plt.colorbar()
 
 plt.subplot(1,2,2)
-plt.pcolormesh(ne[10,:,:])
+plt.pcolormesh(lon,lat,ne[10,:,:])
 plt.colorbar()
+
+cornerx=[]
+corvery=[]
