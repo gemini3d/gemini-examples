@@ -119,5 +119,8 @@ plt.subplot(1,2,2)
 plt.pcolormesh(lon,lat,ne[10,:,:])
 plt.colorbar()
 
-cornerx=[]
-corvery=[]
+cornerglon=np.array([xg["glon"][140,0,0],xg["glon"][140,0,-1],xg["glon"][140,-1,0],xg["glon"][140,-1,-1]])
+cornerglat=np.array([xg["glat"][140,0,0],xg["glat"][140,0,-1],xg["glat"][140,-1,0],xg["glat"][140,-1,-1]])
+plt.plot(cornerglon,cornerglat,'wo',markersize=8)
+
+
