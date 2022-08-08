@@ -12,6 +12,7 @@ import typing as T
 import h5py
 import numpy as np
 import scipy.interpolate
+import gemini3d.write
 
 def perturb_GITM(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # Load GITM GDC simulationsGITM
@@ -63,13 +64,13 @@ def perturb_GITM(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     vs1=np.empty( (alt.size,lat.size,lon.size,7) )
     for ispec in range(0,7):
         vs1[:,:,:,ispec]=np.transpose( h5obj1["ViUp_all"][:][:,:,:,it],permorder )
-    vs2=np.empty( (alt.size,lat.size,lon.size,7) )
-    for ispec in range(0,7): 
-        vs2=np.transpose( h5obj1["ViN_all"][:][:,:,:,it],permorder )
-    vs2=np.empty( (alt.size,lat.size,lon.size,7) )
-    for ispec in range(0,7):
-        vs3=np.transpose( h5obj1["ViE_all"][:][:,:,:,it],permorder )    
-    h5obj1.close()
+    # vs2=np.empty( (alt.size,lat.size,lon.size,7) )
+    # for ispec in range(0,7): 
+    #     vs2=np.transpose( h5obj1["ViN_all"][:][:,:,:,it],permorder )
+    # vs2=np.empty( (alt.size,lat.size,lon.size,7) )
+    # for ispec in range(0,7):
+    #     vs3=np.transpose( h5obj1["ViE_all"][:][:,:,:,it],permorder )    
+    # h5obj1.close()
     
     
     ###############################################################################
@@ -90,13 +91,42 @@ def perturb_GITM(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     Tsin=np.empty((lx1,lx2,lx3,7))
     print("...  Interpolating denisty arrays to GEMINI mesh ...")
     for isp in range(0,7):
-        tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=ns[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=1e4 )
+        tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=ns[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=1e8 )
         nsin[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
         tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=vs1[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=0 )
         vs1in[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
-        tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=Ts[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=100 )
+        tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=Ts[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=1000 )
         Tsin[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
-        
-        
+    
+    ###############################################################################
+    # Correct density fill values so the simulation doesn't go bonkers
+    ###############################################################################
+    print("...  Correcting fill values ...")
+    for isp in range(0,7):
+        for ix3 in range(0,lx3):
+            for ix2 in range(0,lx2):
+                ix1=0
+                while (xg["alt"][ix1,ix2,ix3]>alt[-4]): ix1+=1
+                nref1=nsin[ix1-1,ix2,ix3,isp]
+                nref2=nsin[ix1,ix2,ix3,isp]
+                ratio=nref1/nref2
+                ix1-=1
+                while (ix1>=0):
+                    nsin[ix1,ix2,ix3,isp]=min(ratio*nsin[ix1+1,ix2,ix3,isp],nsin[ix1+1,ix2,ix3,isp])
+                    ix1-=1
+    
+    # read in original reference data; we will retain flows and temperatures
+    dat = gemini3d.read.data(cfg["indat_file"], var=["ns", "Ts", "vs1"])
+    
+    nsin=np.transpose(nsin,(3,0,1,2))
+    Tsin=np.transpose(Tsin,(3,0,1,2))
+    vs1in=np.transpose(vs1in,(3,0,1,2))  
+    
+    # write the 
+    gemini3d.write.state(
+    cfg["indat_file"],
+    dat,
+    ns=nsin, Ts=Tsin, vs1=vs1in
+    )
 
 

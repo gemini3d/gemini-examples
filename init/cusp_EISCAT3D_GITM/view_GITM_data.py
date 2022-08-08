@@ -108,26 +108,45 @@ for isp in range(0,7):
     tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=Ts[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=100 )
     Tsin[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
 
-# ###############################################################################
-# # Visualization and checking
-# ###############################################################################
-# import matplotlib.pyplot as plt
-# nein=nsin[:,:,:,6]
-# ne=ns[:,:,:,6]
-# ###############################################################################
-# plt.subplots(1,2,dpi=150)
-# plt.subplot(1,2,1)
-# plt.pcolormesh(nein[140,:,:])
-# plt.colorbar()
-# plt.subplot(1,2,2)
-# ialt=np.argmin(abs(alt-110e3))
-# plt.pcolormesh(lon,lat,ne[ialt,:,:])
-# plt.colorbar()
-# cornerglon=np.array([xg["glon"][140,0,0],xg["glon"][140,0,-1],xg["glon"][140,-1,0],xg["glon"][140,-1,-1]])
-# cornerglat=np.array([xg["glat"][140,0,0],xg["glat"][140,0,-1],xg["glat"][140,-1,0],xg["glat"][140,-1,-1]])
-# plt.plot(cornerglon,cornerglat,'wo',markersize=4)
-# ###############################################################################
-# plt.figure(dpi=150)
-# plt.pcolormesh(nein[:,:,32])
-# plt.colorbar()
+
+###############################################################################
+# Correct density fill values so the simulation doesn't go bonkers
+###############################################################################
+print("...  Correcting fill values ...")
+for isp in range(0,7):
+    for ix3 in range(0,lx3):
+        for ix2 in range(0,lx2):
+            ix1=0
+            while (xg["alt"][ix1,ix2,ix3]>alt[-4]): ix1+=1
+            nref1=nsin[ix1-1,ix2,ix3,isp]
+            nref2=nsin[ix1,ix2,ix3,isp]
+            ratio=nref1/nref2
+            ix1-=1
+            while (ix1>=0):
+                nsin[ix1,ix2,ix3,isp]=min(ratio*nsin[ix1+1,ix2,ix3,isp],nsin[ix1+1,ix2,ix3,isp])
+                ix1-=1
+                
+
+###############################################################################
+# Visualization and checking
+###############################################################################
+import matplotlib.pyplot as plt
+nein=nsin[:,:,:,6]
+ne=ns[:,:,:,6]
+###############################################################################
+plt.subplots(1,2,dpi=150)
+plt.subplot(1,2,1)
+plt.pcolormesh(nein[140,:,:])
+plt.colorbar()
+plt.subplot(1,2,2)
+ialt=np.argmin(abs(alt-110e3))
+plt.pcolormesh(lon,lat,ne[ialt,:,:])
+plt.colorbar()
+cornerglon=np.array([xg["glon"][140,0,0],xg["glon"][140,0,-1],xg["glon"][140,-1,0],xg["glon"][140,-1,-1]])
+cornerglat=np.array([xg["glat"][140,0,0],xg["glat"][140,0,-1],xg["glat"][140,-1,0],xg["glat"][140,-1,-1]])
+plt.plot(cornerglon,cornerglat,'wo',markersize=4)
+###############################################################################
+plt.figure(dpi=150)
+plt.pcolormesh(np.log10(nein[:,:,32]))
+plt.colorbar()
 
