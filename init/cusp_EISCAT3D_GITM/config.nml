@@ -38,6 +38,7 @@ Efield_lonwidth=0.025
 Jtarg=1.5e-6
 
 eq_dir = '@GEMINI_CIROOT@/cusp3d_eq'
+setup_functions = 'perturb_GITM'
 /
 
 &files
