@@ -107,7 +107,14 @@ for isp in range(0,7):
 # Visualization and checking
 ###############################################################################
 import matplotlib.pyplot as plt
-ne=nsin[:,:,:,6]
-plt.figure(dpi=150)
-plt.pcolormesh(ne[:,30,:])
+nein=nsin[:,:,:,6]
+ne=ns[:,:,:,6]
+plt.subplots(1,2,dpi=150)
+
+plt.subplot(1,2,1)
+plt.pcolormesh(nein[10,:,:])
+plt.colorbar()
+
+plt.subplot(1,2,2)
+plt.pcolormesh(ne[10,:,:])
 plt.colorbar()
