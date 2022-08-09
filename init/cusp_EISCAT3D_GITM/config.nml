@@ -11,9 +11,9 @@ Teinf = 1500.0                ! exospheric electron temperature
 /
 
 &flags
-potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 0    ! whether periodic
-flagoutput = 1      ! 1 - full parameter output
+flagoutput = 2      ! 1 - full parameter output
 /
 
 &setup
@@ -35,9 +35,9 @@ precip_lonwidth=0.25
 
 Efield_latwidth=0.025
 Efield_lonwidth=0.025
-Jtarg=1.5e-6
+Jtarg=0.4e-6
 
-eq_dir = '@GEMINI_CIROOT@/cusp3d_eq'
+eq_dir = '~/simulations/cusp_EISCAT3D_GITM_staging/'
 setup_functions = 'perturb_GITM, gemini3d.model.Efield_BCs, gemini3d.model.particles_BCs'
 /
 
