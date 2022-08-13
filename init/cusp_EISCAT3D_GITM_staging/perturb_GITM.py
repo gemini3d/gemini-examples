@@ -93,8 +93,9 @@ def perturb_GITM(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     for isp in range(0,7):
         tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=ns[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=1e8 )
         nsin[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
-        tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=vs1[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=0 )
-        vs1in[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
+        # tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=vs1[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=0 )
+        # vs1in[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
+        vs1in[:,:,:,isp]=np.zeros( (lx1,lx2,lx3) )
         tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=Ts[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=1000 )
         Tsin[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
     
@@ -106,15 +107,17 @@ def perturb_GITM(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
         for ix3 in range(0,lx3):
             for ix2 in range(0,lx2):
                 ix1=0
-                while (xg["alt"][ix1,ix2,ix3]>alt[-4]): ix1+=1
+                while (xg["alt"][ix1,ix2,ix3]>alt[-8]): ix1+=1
                 nref1=nsin[ix1-1,ix2,ix3,isp]
                 nref2=nsin[ix1,ix2,ix3,isp]
+                Tref2=Tsin[ix1,ix2,ix3,isp]
                 ratio=nref1/nref2
                 ix1-=1
                 while (ix1>=0):
                     nsin[ix1,ix2,ix3,isp]=min(ratio*nsin[ix1+1,ix2,ix3,isp],nsin[ix1+1,ix2,ix3,isp])
+                    Tsin[ix1,ix2,ix3,isp]=Tref2                   
                     ix1-=1
-    
+        
     # read in original reference data; we will retain flows and temperatures
     dat = gemini3d.read.data(cfg["indat_file"], var=["ns", "Ts", "vs1"])
     

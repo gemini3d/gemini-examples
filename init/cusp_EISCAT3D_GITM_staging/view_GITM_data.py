@@ -64,10 +64,10 @@ for ispec in range(0,7):
     vs1[:,:,:,ispec]=np.transpose( h5obj1["ViUp_all"][:][:,:,:,it],permorder )
 vs2=np.empty( (alt.size,lat.size,lon.size,7) )
 for ispec in range(0,7): 
-    vs2=np.transpose( h5obj1["ViN_all"][:][:,:,:,it],permorder )
-vs2=np.empty( (alt.size,lat.size,lon.size,7) )
+    vs2[:,:,:,ispec]=np.transpose( h5obj1["ViN_all"][:][:,:,:,it],permorder )
+vs3=np.empty( (alt.size,lat.size,lon.size,7) )
 for ispec in range(0,7):
-    vs3=np.transpose( h5obj1["ViE_all"][:][:,:,:,it],permorder )    
+    vs3[:,:,:,ispec]=np.transpose( h5obj1["ViE_all"][:][:,:,:,it],permorder )    
 h5obj1.close()
 
 ###############################################################################
@@ -98,6 +98,8 @@ glonpoints=xg["glon"].flatten(order="F")
 #[ALT,LAT,LON]=np.meshgrid(alt,lat,lon, indexing="ij" )
 nsin=np.empty((lx1,lx2,lx3,7))
 vs1in=np.empty((lx1,lx2,lx3,7))
+vs2in=np.empty((lx1,lx2,lx3,7))
+vs3in=np.empty((lx1,lx2,lx3,7))
 Tsin=np.empty((lx1,lx2,lx3,7))
 print("...  Interpolating denisty arrays to GEMINI mesh ...")
 for isp in range(0,7):
@@ -105,6 +107,10 @@ for isp in range(0,7):
     nsin[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
     tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=vs1[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=0 )
     vs1in[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
+    tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=vs2[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=0 )
+    vs2in[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
+    tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=vs3[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=0 )
+    vs3in[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
     tmp=scipy.interpolate.interpn( points=(alt,lat,lon), values=Ts[:,:,:,isp], xi=(altpoints,glatpoints,glonpoints), bounds_error=False, fill_value=100 )
     Tsin[:,:,:,isp]=np.reshape(tmp,[lx1,lx2,lx3],order="F")
 
@@ -117,15 +123,22 @@ for isp in range(0,7):
     for ix3 in range(0,lx3):
         for ix2 in range(0,lx2):
             ix1=0
-            while (xg["alt"][ix1,ix2,ix3]>alt[-4]): ix1+=1
+            while (xg["alt"][ix1,ix2,ix3]>alt[-8]): ix1+=1
             nref1=nsin[ix1-1,ix2,ix3,isp]
             nref2=nsin[ix1,ix2,ix3,isp]
+            Tref2=Tsin[ix1,ix2,ix3,isp]
             ratio=nref1/nref2
             ix1-=1
             while (ix1>=0):
                 nsin[ix1,ix2,ix3,isp]=min(ratio*nsin[ix1+1,ix2,ix3,isp],nsin[ix1+1,ix2,ix3,isp])
+                Tsin[ix1,ix2,ix3,isp]=Tref2                   
                 ix1-=1
-                
+
+###############################################################################
+# Determine an average value to use for the flow/electric field
+###############################################################################
+print(vs2in[140,:,:,6].mean()*45000e-9)     # southward field (-Ey in GEMINI)
+print(vs3in[140,:,:,6].mean()*45000e-9)              # eastward field  (Ex in GEMINI)
 
 ###############################################################################
 # Visualization and checking
@@ -149,4 +162,24 @@ plt.plot(cornerglon,cornerglat,'wo',markersize=4)
 plt.figure(dpi=150)
 plt.pcolormesh(np.log10(nein[:,:,32]))
 plt.colorbar()
-
+###############################################################################
+ialt=0
+while (alt[ialt]<300e3): ialt+=1
+plt.subplots(1,2,dpi=150)
+plt.subplot(1,2,1)
+plt.pcolormesh(lon,lat,vs2[ialt,:,:,6])
+plt.colorbar()
+cornerglon=np.array([xg["glon"][140,0,0],xg["glon"][140,0,-1],xg["glon"][140,-1,0],xg["glon"][140,-1,-1]])
+cornerglat=np.array([xg["glat"][140,0,0],xg["glat"][140,0,-1],xg["glat"][140,-1,0],xg["glat"][140,-1,-1]])
+plt.plot(cornerglon,cornerglat,'wo',markersize=4)
+plt.subplot(1,2,2)
+plt.pcolormesh(lon,lat,vs3[ialt,:,:,6])
+plt.colorbar()
+###############################################################################
+plt.subplots(1,2,dpi=150)
+plt.subplot(1,2,1)
+plt.pcolormesh(vs2in[140,:,:,6])
+plt.colorbar()
+plt.subplot(1,2,2)
+plt.pcolormesh(vs3in[140,:,:,6])
+plt.colorbar()

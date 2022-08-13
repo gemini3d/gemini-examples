@@ -3,11 +3,11 @@
 &base
 ymd = 2016,3,3               ! year, month, day
 UTsec0 = 15300.0              ! start time in UT seconds
-tdur = 600.0                  ! duration of simulation in seconds
+tdur = 3600.0                  ! duration of simulation in seconds
 dtout = 60.0                  ! how often to do file output
 activ = 150.0,150.0,4.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
-Teinf = 1500.0                ! exospheric electron temperature
+Teinf = 2200.0                ! exospheric electron temperature
 /
 
 &flags
@@ -26,28 +26,12 @@ altmin=80e3
 glat=78.22
 glon=15.6
 gridflag=0
-
-E0precip=300
-Qprecip=1
-Qprecip_background=0.01
-precip_latwidth=0.15
-precip_lonwidth=0.25
-
-Efield_latwidth=0.025
-Efield_lonwidth=0.025
-Jtarg=1.5e-6
-
 eq_dir = '@GEMINI_CIROOT@/cusp3d_eq'
-setup_functions = 'perturb_GITM, gemini3d.model.Efield_BCs'
+setup_functions = 'perturb_GITM'
 /
 
 &files
 indat_size = 'inputs/simsize.h5'
 indat_grid = 'inputs/simgrid.h5'
 indat_file = 'inputs/initial_conditions.h5'
-/
-
-&efield
-dtE0 = 10.0                         ! time step between electric field file inputs
-E0_dir = 'inputs/fields/'
 /

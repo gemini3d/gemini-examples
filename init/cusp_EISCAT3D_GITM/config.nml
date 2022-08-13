@@ -3,7 +3,7 @@
 &base
 ymd = 2016,3,3               ! year, month, day
 UTsec0 = 15300.0              ! start time in UT seconds
-tdur = 600.0                  ! duration of simulation in seconds
+tdur = 900.0                  ! duration of simulation in seconds
 dtout = 60.0                  ! how often to do file output
 activ = 150.0,150.0,4.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -29,16 +29,18 @@ gridflag=0
 
 E0precip=300
 Qprecip=1
-Qprecip_background=0.01
+Qprecip_background=0.1
 precip_latwidth=0.15
 precip_lonwidth=0.25
 
 Efield_latwidth=0.025
 Efield_lonwidth=0.025
-Jtarg=0.4e-6
+Jtarg=10e-6
+Exit=-0.002
+Eyit=0.020
 
-eq_dir = '~/simulations/cusp_EISCAT3D_GITM_staging/'
-setup_functions = 'perturb_GITM, gemini3d.model.Efield_BCs, gemini3d.model.particles_BCs'
+eq_dir = '~/simulations/cusp_EISCAT3D_GITM_staging2/'
+setup_functions = 'gemini3d.model.Efield_BCs, gemini3d.model.particles_BCs'
 /
 
 &files
