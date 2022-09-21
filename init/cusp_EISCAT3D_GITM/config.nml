@@ -39,7 +39,7 @@ Jtarg=10e-6
 Exit=-0.002
 Eyit=0.020
 
-eq_dir = '~/simulations/cusp_EISCAT3D_GITM_staging2/'
+eq_dir = '~/simulations/cusp_EISCAT3D_GITM_staging_MR/'
 setup_functions = 'gemini3d.model.Efield_BCs, gemini3d.model.particles_BCs'
 /
 

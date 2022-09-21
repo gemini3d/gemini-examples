@@ -14,6 +14,7 @@ import gemini3d.read
 import gemini3d.write
 from numpy import tanh
 import h5py
+from model_reconstruct import interp_amisr
 
 def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # coordinates
@@ -22,10 +23,21 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     x3 = xg["x3"][2:-2]    
     
     # read in electron density data
-    h5f=h5py.File("/Users/zettergm/simulations/raid/RISR_staging_data_highres/inputs/nexyz.h5","r")
-    neRISR=h5f["Ne"][:]
-    h5f.close()
-        
+    # h5f=h5py.File("/Users/zettergm/simulations/raid/RISR_staging_data_highres/inputs/nexyz.h5","r")
+    # neRISR=h5f["Ne"][:]
+    # h5f.close()
+    amisr_file = '/Users/zettergm/20161127.002_lp_1min-fitcal.h5'
+    iso_time = '2016-11-27T22:50'
+    # coords = [np.linspace(-300.,500.,50), np.linspace(-200.,600.,50), np.linspace(100., 500., 30)]
+    coords=[x2,x3,x1]
+    neRISR=interp_amisr(amisr_file, iso_time, coords)
+    neRISR=neRISR.transpose((2,0,1))
+    
+    # amisr_file = '/Users/e30737/Desktop/Data/AMISR/RISR-N/2017/20171119.001_lp_1min-fitcal.h5'
+    # iso_time = '2017-11-21T19:20'
+    # coords = [x2, x3, x1]
+    # neRISR=interp_amisr(amisr_file, iso_time, coords)
+    
     # distribute to various ions?
     nsperturb=np.empty((7,x1.size,x2.size,x3.size))
     nsperturb[6,:,:,:]=neRISR
