@@ -26,7 +26,8 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # h5f=h5py.File("/Users/zettergm/simulations/raid/RISR_staging_data_highres/inputs/nexyz.h5","r")
     # neRISR=h5f["Ne"][:]
     # h5f.close()
-    amisr_file = '/Users/zettergm/20161127.002_lp_1min-fitcal.h5'
+    #amisr_file = '/Users/zettergm/20161127.002_lp_1min-fitcal.h5'
+    amisr_file = "/Users/zettergm/20171119.001_lp_1min-fitcal.h5"
     iso_time = '2016-11-27T22:50'
     # coords = [np.linspace(-300.,500.,50), np.linspace(-200.,600.,50), np.linspace(100., 500., 30)]
     coords=[x2,x3,x1]
