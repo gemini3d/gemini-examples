@@ -18,8 +18,8 @@ ydist = 1500e3                ! northward distance (meters)
 lxp = 384
 !lyp = 344
 lyp = 100
-x2parms = 500e3,2e3,25e3,50e3
-x3parms = 500e3,2e3,25e3,50e3
+x2parms = 500e3,4.5e3,25e3,50e3
+x3parms = 500e3,4.5e3,25e3,50e3
 !x2parms = 350e3,0.74e3,25e3,50e3
 !x3parms = 350e3,0.74e3,25e3,50e3
 Bincl = 90
@@ -32,7 +32,7 @@ setup_functions = 'perturb_file'
 /
 
 &flags
-potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+potsolve = 0      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 0
 flagoutput = 2
 /
