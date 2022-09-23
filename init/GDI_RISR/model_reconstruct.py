@@ -266,9 +266,14 @@ def interp_amisr(amisr_file, iso_time, coords):
     dflat = interp(np.array([newxgrid.flatten(), newygrid.flatten()]).T)
     dgrid = dflat.reshape(newxgrid.shape)
     # print(newzgrid.shape, dgrid.shape)
+    dist = np.sqrt((newxgrid-xc)**2 + (newygrid-yc)**2)
+    dgrid[dist>400.0*1000.] = 2.e11
+
 
     interp_dens = chapman_piecewise(newzgrid, dgrid, avg_coeffs[1], avg_coeffs[2], avg_coeffs[3])
     # print(interp_dens.shape)
+
+
 
     # # fig, ax = plt.subplots()
     # fig = plt.figure(figsize=(15,7))
@@ -296,7 +301,7 @@ def interp_amisr(amisr_file, iso_time, coords):
     #     c = plt.pcolormesh(newxgrid[:,:,ia], newygrid[:,:,ia], interp_dens[:,:,ia], vmin=0., vmax=5.e11)
     #     plt.colorbar(c)
     #     plt.show()
-    #
+
     return interp_dens
 
 

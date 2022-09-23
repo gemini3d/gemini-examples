@@ -27,7 +27,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -40e-3
-eq_dir = '~/simulations/risr3d_eq/'
+eq_dir = '~/simulations/raid/risr3d_eq/'
 setup_functions = 'perturb_file'
 /
 
