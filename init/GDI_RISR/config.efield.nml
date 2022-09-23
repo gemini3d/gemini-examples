@@ -26,8 +26,8 @@ Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
-Eyit = -30e-3
-eq_dir = '~/simulations/GDI_RISR_MR_staging/'
+Eyit = -40e-3
+eq_dir = '~/simulations/raid/GDI_RISR_MR_staging/'
 setup_functions = 'gemini3d.model.Efield_BCs'
 /
 
