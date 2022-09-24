@@ -29,7 +29,7 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     #amisr_file = '/Users/zettergm/20161127.002_lp_1min-fitcal.h5'
     #iso_time = '2016-11-27T22:50'
     amisr_file = "/Users/zettergm/20171119.001_lp_1min-fitcal.h5"
-    iso_time = '2017-11-21T18:55'
+    iso_time = '2017-11-21T19:20'
     # coords = [np.linspace(-300.,500.,50), np.linspace(-200.,600.,50), np.linspace(100., 500., 30)]
     coords=[x2,x3,x1]
     neRISR=interp_amisr(amisr_file, iso_time, coords)

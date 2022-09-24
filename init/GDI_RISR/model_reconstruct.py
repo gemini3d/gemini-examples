@@ -242,7 +242,7 @@ def interp_amisr(amisr_file, iso_time, coords):
     th = np.linspace(0.,2*np.pi, 50, endpoint=False)
     xe = xc + r*np.cos(th)
     ye = yc + r*np.sin(th)
-    de = np.full(xe.shape, 2.e11)
+    de = np.full(xe.shape, 1.75e11)
 
     xp = np.concatenate((x,xe))
     yp = np.concatenate((y,ye))
@@ -267,7 +267,7 @@ def interp_amisr(amisr_file, iso_time, coords):
     dgrid = dflat.reshape(newxgrid.shape)
     # print(newzgrid.shape, dgrid.shape)
     dist = np.sqrt((newxgrid-xc)**2 + (newygrid-yc)**2)
-    dgrid[dist>400.0*1000.] = 2.e11
+    dgrid[dist>400.0*1000.] = 1.75e11
 
 
     interp_dens = chapman_piecewise(newzgrid, dgrid, avg_coeffs[1], avg_coeffs[2], avg_coeffs[3])
