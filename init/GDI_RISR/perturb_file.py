@@ -35,6 +35,9 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     neRISR=interp_amisr(amisr_file, iso_time, coords)
     neRISR=neRISR.transpose((2,0,1))
     
+    #WARNING total hack
+    neRISR=1.4*neRISR   # keep the prominence the same for a 10 minute staging/settling
+    
     # amisr_file = '/Users/e30737/Desktop/Data/AMISR/RISR-N/2017/20171119.001_lp_1min-fitcal.h5'
     # iso_time = '2017-11-21T19:20'
     # coords = [x2, x3, x1]
