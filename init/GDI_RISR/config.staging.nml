@@ -13,13 +13,13 @@ Teinf = 1500.0                ! exospheric electron temperature
 &setup
 glat = 75.6975
 glon = 265.1678
-xdist = 2950e3                ! eastward distance (meters), including a large low-res buffer for solvers
-ydist = 2950e3                ! northward distance (meters)
+xdist = 5900e3                ! eastward distance (meters), including a large low-res buffer for solvers
+ydist = 5900e3                ! northward distance (meters)
 lxp = 384
 !lyp = 344
 lyp = 100
-x2parms = 975e3,4.5e3,25e3,50e3
-x3parms = 975e3,4.5e3,25e3,50e3
+x2parms = 2445e3,4.5e3,25e3,50e3
+x3parms = 2445e3,4.5e3,25e3,50e3
 !x2parms = 350e3,0.74e3,25e3,50e3
 !x3parms = 350e3,0.74e3,25e3,50e3
 Bincl = 90
@@ -27,7 +27,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -40e-3
-eq_dir = '~/simulations/raid/risr3d_eq_large/'
+eq_dir = '~/simulations/raid/GDI_RISR_eq_larger/'
 setup_functions = 'perturb_file'
 /
 
