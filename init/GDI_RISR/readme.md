@@ -60,6 +60,8 @@ indat_file = 'inputs/initial_conditions.h5'
 
 ```
 
+For our RISR data-driven runs there is a separate "example" directory under ```../GDI_RISR_eq``` that contains a file similar to the config file shown above.  
+
 
 
 ## 2.  Staging Simulation
