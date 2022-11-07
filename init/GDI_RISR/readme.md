@@ -94,7 +94,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = 0e-3
-eq_dir = '~/simulations/raid/GDI_RISR_MR_staging/'
+eq_dir = '~/simulations/raid/GDI_RISR_eq_larger/'
 setup_functions = 'perturb_file'
 /
 
