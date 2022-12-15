@@ -6,7 +6,7 @@ import gemini3d.read
 import gemini3d.write
 
 
-def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
+def perturb_staging(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     """
     perturb plasma from initial_conditions file
     """
@@ -33,7 +33,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
                 nsscale[i, :, j, k] = nprof
 
     # %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
-    scalefact = 1
+    scalefact = 10 * 6 / 8
     for i in range(lsp - 1):
         nsscale[i, :, :, :] = scalefact * nsscale[i, :, :, :]
     nsscale[-1, :, :, :] = nsscale[:-1, :, :, :].sum(axis=0)
@@ -48,11 +48,13 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
         for j in range(xg["lx"][1]):
             amplitude = numpy.random.standard_normal([xg["lx"][0], xg["lx"][2]])
             # AWGN - note that can result in subtractive effects on density so apply a floor later!!!
-            amplitude = 0.01 * amplitude  # no noise!
+            amplitude = 0.00 * amplitude  # no noise!
             # amplitude standard dev. is scaled to be 1% of reference profile
 
             # original data
-            nsperturb[i, :, j, :] = nsscale[i, :, j, :]
+            nsperturb[i, :, j, :] = nsscale[i, :, j, :] + nepatchfact * nsscale[i, :, j, :] * (
+                1 / 2 - 1 / 2 * np.tanh(x2[j] / ell)
+            )
             # patch, note offset in the x2 index!!!!
 
             if (j > 9) and (j < xg["lx"][1] - 10):
