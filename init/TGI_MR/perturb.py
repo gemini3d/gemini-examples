@@ -25,15 +25,10 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     ix2 = xg["lx"][1] // 2
     ix3 = xg["lx"][2] // 2
 
-    nsscale = np.zeros_like(ns)
-    for i in range(lsp):
-        nprof = ns[i, :, ix2, ix3]
-        for j in range(xg["lx"][1]):
-            for k in range(xg["lx"][2]):
-                nsscale[i, :, j, k] = nprof
+    nsscale = ns
 
     # %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
-    scalefact = 1
+    scalefact = 1    # don't scale this
     for i in range(lsp - 1):
         nsscale[i, :, :, :] = scalefact * nsscale[i, :, :, :]
     nsscale[-1, :, :, :] = nsscale[:-1, :, :, :].sum(axis=0)
