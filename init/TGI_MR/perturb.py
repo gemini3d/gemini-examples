@@ -33,17 +33,15 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
                 nsscale[i, :, j, k] = nprof
 
     # %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
-    scalefact = 2.75 * 6 / 8
+    scalefact = 10 * 6 / 8
     for i in range(lsp - 1):
         nsscale[i, :, :, :] = scalefact * nsscale[i, :, :, :]
     nsscale[-1, :, :, :] = nsscale[:-1, :, :, :].sum(axis=0)
     # enforce quasineutrality
 
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
-    ell = 5e3  # gradient scale length for patch/blob
-    x21 = -20e3  # location on one of the patch edges
-    x22 = 20e3  # other patch edge
-    nepatchfact = 10  # density increase factor over background
+    ell = 0.5e3  # gradient scale length for patch/blob
+    nepatchfact = 1/2  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):
@@ -55,7 +53,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
 
             # original data
             nsperturb[i, :, j, :] = nsscale[i, :, j, :] + nepatchfact * nsscale[i, :, j, :] * (
-                1 / 2 * np.tanh((x2[j] - x21) / ell) - 1 / 2 * np.tanh((x2[j] - x22) / ell)
+                1 / 2 - 1 / 2 * np.tanh(x2[j] / ell)
             )
             # patch, note offset in the x2 index!!!!
 
