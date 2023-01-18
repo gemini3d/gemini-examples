@@ -23,6 +23,6 @@ dat = gemini3d.model.eqICs(cfg, xg);    %note that this actually calls msis_matl
 
 
 %WRITE THE GRID AND INITIAL CONDITIONS
-outdir='~/zettergmdata/simulations/input/isinglass_eq/'
+outdir='~/simulations/raid/input/isinglass_eq_regen/'
 gemini3d.write.grid(xg,outdir);
 gemini3d.write.state(outdir, dat);

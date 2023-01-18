@@ -4,7 +4,7 @@
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 18000.0              ! start time in UT seconds
 tdur = 1800.0                  ! duration of simulation in seconds
-dtout = 5.0                   ! how often to do file output
+dtout = 10.0                   ! how often to do file output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -13,13 +13,13 @@ Teinf = 1500.0                ! exospheric electron temperature
 &setup
 glat = 75.6975
 glon = 265.1678
-xdist = 1490e3                ! eastward distance (meters), including a large low-res buffer for solvers
-ydist = 1490e3                ! northward distance (meters)
+xdist = 2490e3                ! eastward distance (meters), including a large low-res buffer for solvers
+ydist = 2490e3                ! northward distance (meters)
 lxp = 384
 !lyp = 344
 lyp = 100
-x2parms = 248.0e3,0.75e3,15e3,50e3
-x3parms = 248.0e3,0.75e3,15e3,50e3
+x2parms = 899e3,1.475e3,15e3,50e3
+x3parms = 899e3,1.475e3,15e3,50e3
 !x2parms = 350e3,0.74e3,25e3,50e3
 !x3parms = 350e3,0.74e3,25e3,50e3
 Bincl = 90
