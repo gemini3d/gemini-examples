@@ -31,7 +31,7 @@ xdist = 500e3              ! eastward distance (meters)
 ydist = 250e3               ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 1000e3            ! maximum altitude (meters)
-alt_scale = 13.75e3, 20e3, 200e3, 200e3  ! parameters controlling nonuniform x1 grid, these are Cartesian and thus altitude
+alt_scale = 10e3, 8e3, 500e3, 150e3
 lxp = 128                    ! number of x-cells
 lyp = 128                    ! number of y-cells
 Bincl = 90                  ! geomagnetic inclination
@@ -42,13 +42,13 @@ eqdir = '~/simulations/raid/isinglass_eq_regen/'
 &precip
 flagprecfile = 1                   ! use precipitaiton file input:  0 - no; 1 - yes
 dtprec = 1.0                       ! time step between precipitation file inputs
-prec_dir = 'inputs/prec_inputs/'
+precdir = 'inputs/prec_inputs/'
 /
 
 ! (optional - default off) Include electric field boundary condition inputs from a file
 &efield
 flagE0file = 1                     ! use electric field boundary condition file input:  0 - no; 1 - yes
 dtE0 = 10.0                         ! time step between electric field file inputs
-E0_dir = 'inputs/Efield_inputs/'
+E0dir = 'inputs/Efield_inputs/'
 /
 

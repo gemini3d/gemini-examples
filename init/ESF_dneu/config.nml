@@ -13,24 +13,24 @@ Teinf = 1500.0                ! exospheric electron temperature
 &flags
 potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 1    ! whether periodic
-flagoutput = 1      ! 1 - full output
+flagoutput = 2      ! 1 - full output
 /
 
 &files
 file_format='h5'
-indat_size = '~/simulations/ESF_M1_noiseonly/inputs/simsize.h5'
-indat_grid = '~/simulations/ESF_M1_noiseonly/inputs/simgrid.h5'
-indat_file = '~/simulations/ESF_M1_noiseonly/inputs/initial_conditions.h5'
+indat_size = '~/simulations/raid/ESF_dneu_narrow_lowres_tohoku/inputs/simsize.h5'
+indat_grid = '~/simulations/raid/ESF_dneu_narrow_lowres_tohoku/inputs/simgrid.h5'
+indat_file = '~/simulations/raid/ESF_dneu_narrow_lowres_tohoku/inputs/initial_conditions.h5'
 /
 
 &neutral_perturb
 interptype = 1
 sourcemlat = 0.0
 sourcemlon = 354.0
-dtneu = 6.0
-drhon = 2000
-dzn = 2000
-source_dir = '~/simulations/raid/input/mooreOKx2_taper_neutrals/'
+dtneu = 4.0
+drhon = 1000
+dzn = 1000
+source_dir = '~/simulations/raid/input/tohoku_neutrals/'
 /
 
 &Jpar

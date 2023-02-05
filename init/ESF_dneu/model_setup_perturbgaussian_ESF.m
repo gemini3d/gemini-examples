@@ -1,6 +1,6 @@
 
 %% READ IN THE SIMULATION INFORMATION
-ID=['~/simulations/raid/ESF_dneu_pwide_noEIA_gaussian/'];
+ID=['~/simulations/raid/ESF_Gaussian/'];
 xg= gemini3d.read.grid([ID]);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -11,7 +11,7 @@ direc=ID;
 %filebase='ESF_medres';
 %filename=[filebase,'_ICs.dat'];
 filename='/inputs/initial_conditions.h5';
-dat= gemini3d.read.frame3Dcurvnoelec(fullfile(direc,filename));
+dat= gemini3d.read.frame3Dcurvnoelec(string(fullfile(direc,filename)));
 %ne=dat.ne;
 v1=dat.v1;
 %Ti=dat.Ti;
@@ -30,13 +30,13 @@ mlat=90-xg.theta*180/pi;
 mlon=xg.phi*180/pi;
 mlonmean=mean(mlon(:));
 mlatmean=0;
-altmean=300e3;
-sigmlon=1;
+altmean=290e3;
+sigmlon=0.25;
 sigmlat=2.5;
-sigalt=15e3;
+sigalt=20e3;
 shapefn=exp(-(alt-altmean).^2/2/sigalt^2).*exp(-(mlon-mlonmean).^2/2/sigmlon^2).*exp(-(mlat-mlatmean).^2/2/sigmlat^2);
 n1=ns(:,:,:,1);
-n1perturb=n1-shapefn*0.1.*n1;
+n1perturb=n1-shapefn*0.5.*n1;
 
 
 %% Visualize
