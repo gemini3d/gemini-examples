@@ -13,9 +13,9 @@ Teinf = 1500.0                ! exospheric electron temperature
 &setup
 glat = 75.6975
 glon = 265.1678
-xdist = 100e3             ! eastward distance (meters), including a large low-res buffer for solvers
+xdist = 200e3             ! eastward distance (meters), including a large low-res buffer for solvers
 ydist = 5e3              ! northward distance (meters)
-lxp = 1064
+lxp = 2128
 lyp = 100
 !x2parms = 200e3,0.04963e3,9.5e3,10e3
 Bincl = 90

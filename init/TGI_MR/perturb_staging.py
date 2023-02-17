@@ -34,7 +34,8 @@ def perturb_staging(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
 
     # %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
     #scalefact = 10 * 6 / 8
-    scalefact = 14
+    #scalefact = 14
+    scalefact = 30   
     for i in range(lsp - 1):
         nsscale[i, :, :, :] = scalefact * nsscale[i, :, :, :]
     nsscale[-1, :, :, :] = nsscale[:-1, :, :, :].sum(axis=0)
