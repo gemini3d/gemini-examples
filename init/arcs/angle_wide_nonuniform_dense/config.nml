@@ -1,8 +1,8 @@
 &base
 ymd = 2017,3,2                    ! year, month, day
 UTsec0 = 27000.0                  !UTsec0:  start time in UT seconds
-tdur = 300.0                      !tdur:  duration of simulation in seconds
-dtout = 5.0                       !dtout: how often to do output
+tdur = 1800.0                      !tdur:  duration of simulation in seconds
+dtout = 60.0                       !dtout: how often to do output
 activ = 76.5,79.3,31.5            !activ:  f107a,f107,Ap
 tcfl = 0.9                        !tcfl:  target cfl number
 Teinf = 1500.0                    !Teinf:  exospheric electron temperature
@@ -23,15 +23,15 @@ lyp = 144                   ! number of y-cells, will be ignored for nonuniform
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
-precip_latwidth = 0.025
-precip_lonwidth = 0.15
+precip_latwidth = 0.01
+precip_lonwidth = 0.05
 Qprecip = 25
 Qprecip_background = 1
 E0precip = 2e3
-Jtarg = 15e-6               ! A/m2
-Efield_lonwidth = 0.15
-Efield_latwidth = 0.025
-eqdir = '~/simulations/raid/arcs_eq/'
+Jtarg = 30e-6               ! A/m2
+Efield_lonwidth = 0.05
+Efield_latwidth = 0.01
+eqdir = '~/simulations/arcs_eq_early/'
 setup_functions = 'Efield_BCs_angle_wide', 'particles_BCs_angle_wide'
 Eyit=25e-3
 /
@@ -59,7 +59,7 @@ E0_dir = 'inputs/Efield/'
 /
 
 &milestone
-mcadence=12
+mcadence=5
 /
 
 !! Uncomment these lines if you want GLOW to be used for the ionization rates

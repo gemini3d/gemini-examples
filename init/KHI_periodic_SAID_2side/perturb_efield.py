@@ -24,7 +24,7 @@ def perturb_efield(
 #            "dx1": 10e3,
 #        }
         params = {
-            "v0": 2000,
+            "v0": 250,
             # background flow value, actually this will be turned into a shear in the Efield input file
             "densfact": 5,
             # factor by which the density increases over the shear region - see Keskinen, et al (1988)
@@ -264,7 +264,7 @@ def create_Efield(cfg, xg, params):
         E["Vminx2ist"][i, :] = Phislab[0, :]
 
     # %% Write electric field data to file
-    gemini3d.write.Efield(E, cfg["E0dir"], cfg["file_format"])
+    gemini3d.write.Efield(E, cfg["E0dir"])
 
 
 def moving_average(x: np.ndarray, k: int):

@@ -3,8 +3,8 @@
 &base
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 28500.0              ! start time in UT seconds
-tdur = 1440.0                  ! duration of simulation in seconds
-dtout = 5.0                  ! how often to do file output
+tdur = 7200.0                  ! duration of simulation in seconds
+dtout = 30.0                  ! how often to do file output
 activ = 172.4,165.6,9.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -22,8 +22,9 @@ Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
-eq_dir = '@GEMINI_SIMROOT@/GDI_KHI_eq/'
+eq_dir = '~/simulations/risr3d_eq/'
 setup_functions = 'perturb_efield'
+file_format='h5'
 /
 
 &flags
@@ -55,8 +56,8 @@ W0BG=3e3
 !magcap=30.0
 
 &capacitance
-flagcap=2       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
-magcap=5.0
+flagcap=1       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
+magcap=0.0
 /
 
 &milestone
