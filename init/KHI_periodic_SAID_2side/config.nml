@@ -3,7 +3,7 @@
 &base
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 28500.0              ! start time in UT seconds
-tdur = 7200.0                  ! duration of simulation in seconds
+tdur = 1800.0                  ! duration of simulation in seconds
 dtout = 30.0                  ! how often to do file output
 activ = 172.4,165.6,9.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -15,9 +15,9 @@ glat = 75.6975
 glon = 265.1678
 xdist=638.0625e3
 ydist=620e3
-x2parms = 100e3,2e3,10.1e3,30e3
+x2parms = 100e3,0.495e3,10.1e3,30e3
 lxp = 276
-lyp = 256
+lyp = 1064
 Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
@@ -57,7 +57,7 @@ W0BG=3e3
 
 &capacitance
 flagcap=1       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
-magcap=0.0
+magcap=2.5
 /
 
 &milestone

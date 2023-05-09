@@ -7,7 +7,7 @@ import gemini3d.read
 from gemini3d.config import datetime_range
 
 
-def perturb_efield(
+def perturb_efield_blob(
     cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any], params: T.Dict[str, float] = None
 ):
     """Electric field boundary conditions and initial condition for KHI case arguments"""
@@ -102,6 +102,7 @@ def perturb_density(
     to frame of reference.
     """
     lsp = dat["ns"].shape[0]
+    x3=xg["x3"][2:-2]
 
     nsperturb = np.zeros_like(dat["ns"])
     n1 = np.zeros_like(dat["ns"])
@@ -114,7 +115,7 @@ def perturb_density(
 
             # 2D noise
             amplitude = np.random.randn(xg["lx"][2])
-            amplitude = moving_average(amplitude, 10)
+            #amplitude = moving_average(amplitude, 10)
             amplitude = 0.01 * amplitude
 
             n1here = amplitude * nsscale[i, :, ix2, :]
@@ -126,18 +127,18 @@ def perturb_density(
                 nsscale[i, :, ix2, :]
                 * (params["v0"] - params["vn"])
                 / (params["v0"] * (np.tanh((x2[ix2]-50e3) / params["ell"]) - np.tanh((x2[ix2]+50e3)/params["ell"]) + 1)
-                   - params["vn"])
+                   - params["vn"]) + 
+                nsscale[i,:,ix2,:]*np.exp(-(np.sqrt(x2[ix2]**2+x3**2))**4/2/(25e3)**4)
             )
             # background density
-            nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here
-            # perturbation
+            nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here    # perturbation
 
     nsperturb[nsperturb < 1e4] = 1e4
     # enforce a density floor
     # particularly need to pull out negative densities which can occur when noise is applied
     nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)
     # enforce quasineutrality
-    n1[-1, :, :, :] = n1[:6, :, :, :].sum(axis=0)
+    n1[-1, :, :, :] = n1[:6, :, :, :].sum(axis=0)    
 
     # %% Remove any residual E-region from the simulation
     taper = 1 / 2 + 1 / 2 * np.tanh((x1 - params["x1ref"]) / params["dx1"])
@@ -148,7 +149,7 @@ def perturb_density(
 
     inds = x1 < 150e3
     nsperturb[:, inds, :, :] = 1e3
-    nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)   # enforce quasineutrality
+    nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)   # enforce quasineutrality    
 
     return nsperturb
 
