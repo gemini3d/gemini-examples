@@ -20,7 +20,7 @@ flagoutput = 2      ! 1 - full output
 dtheta=7.5
 dphi=12
 lp=512
-lq=512
+lq=1024
 lphi=1
 altmin=80e3
 glat=42.45
@@ -29,7 +29,7 @@ gridflag=1
 flagsource=1
 nmf=5e11
 nme=2e11
-eq_dir = '~/simulations/raid/tohoku2d_eq'
+eq_dir = '~/simulations/ssd/tohoku2d_eq'
 /
 
 &files
@@ -46,7 +46,7 @@ sourcemlon = 209.8501
 dtneu = 4.0
 dzn = 1000.0
 drhon = 1000.0
-source_dir = '~/simulations/raid/input/tohoku_neutrals/'
+source_dir = '~/simulations/ssd/tohoku_neutrals_h5/'
 /
 
 &milestone
