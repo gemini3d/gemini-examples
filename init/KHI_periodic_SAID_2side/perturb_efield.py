@@ -29,6 +29,7 @@ def perturb_efield(
             "densfact": 5,
             # factor by which the density increases over the shear region - see Keskinen, et al (1988)
             "ell": 5e3,  # scale length for shear transition
+#            "ell": 5e3,  # scale length for shear transition
             "B1val": -50000e-9,
             "x1ref": 220e3,  # where to start tapering down the density in altitude
             "dx1": 10e3,
@@ -122,15 +123,20 @@ def perturb_density(
             n1[i, :, ix2, :] = n1here
             # save the perturbation for computing potential perturbation
 
+            # nsperturb[i, :, ix2, :] = (
+            #     nsscale[i, :, ix2, :]
+            #     * (params["v0"] - params["vn"])
+            #     / (params["v0"] * (np.tanh((x2[ix2]-50e3) / params["ell"]) - np.tanh((x2[ix2]+50e3)/params["ell"]) + 1)
+            #        - params["vn"])
+            # )
+            # # background density
+            
             nsperturb[i, :, ix2, :] = (
-                nsscale[i, :, ix2, :]
-                * (params["v0"] - params["vn"])
-                / (params["v0"] * (np.tanh((x2[ix2]-50e3) / params["ell"]) - np.tanh((x2[ix2]+50e3)/params["ell"]) + 1)
-                   - params["vn"])
-            )
-            # background density
+                nsscale[i, :, ix2, :])
+            # uniform background density
+            
             nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here
-            # perturbation
+            # noise seed perturbation
 
     nsperturb[nsperturb < 1e4] = 1e4
     # enforce a density floor
