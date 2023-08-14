@@ -1,0 +1,60 @@
+! cusp simulation
+
+&base
+ymd = 2016,3,3               ! year, month, day
+UTsec0 = 15300.0              ! start time in UT seconds
+tdur = 600.0                  ! duration of simulation in seconds
+dtout = 60.0                  ! how often to do file output
+activ = 150.0,150.0,4.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 2      ! 1 - full parameter output
+/
+
+&setup
+dtheta=11
+dphi=19
+lp=256
+lq=384
+lphi=128
+altmin=80e3
+glat=78.22
+glon=15.6
+gridflag=0
+
+E0precip=2000           ! average energy
+Qprecip=25              ! precip mW/m**2
+Qprecip_background=1    ! background precipitation mW/m**2
+precip_latwidth=0.15
+precip_lonwidth=0.25
+Qprecip_function = "precip_SCW"
+
+Efield_latwidth=0.025
+Efield_lonwidth=0.025
+Jtarg=1.5e-6            ! current density A/m**2
+
+eq_dir = '~/simulations/ssd/cusp3d_eq'
+!setup_functions = 'gemini3d.efield.Efield_BCs, gemini3d.model.particles_BCs'
+Jtarg_function = "fac_SCW"
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&efield
+dtE0 = 10.0                         ! time step between electric field file inputs
+E0_dir = 'inputs/fields/'
+/
+
+&precip
+dtprec = 5.0
+prec_dir = 'inputs/precip/'
+/
