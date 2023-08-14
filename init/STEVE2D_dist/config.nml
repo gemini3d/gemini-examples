@@ -12,28 +12,26 @@ Teinf = 1500.0                ! exospheric electron temperature
 glat = 65
 glon = 213
 xdist = 1500e3             ! eastward distance (meters)
-ydist = 200e3             ! northward distance (meters)
+ydist = 20e3             ! northward distance (meters)
 lxp = 1
-lyp = 2048
+lyp = 1024
 Bincl = 90
 nmf = 5e11
 nme = 2e11
 alt_min = 80e3
 alt_max = 950e3
 !alt_scale = 50e3, 45e3, 400e3, 150e3
-alt_scale = 10e3, 9.75e3, 500e3, 150e3  ! altitude grid scales (meters)
-eq_dir = "~/simulations/STEVE2D_eq"
-Efield_latwidth = 0.025
-Efield_latoffset = 0.15
-Etarg = 100e-3
-Etarg_function = "pot_said"
-Efield_llat=2048
-precip_llat=2048
+alt_scale = 10e3, 8e3, 500e3, 150e3  ! altitude grid scales (meters)
+eq_dir = "~/simulations/ssd/STEVE2D_eq"
+Efield_latwidth = 0.0125
+!Jtarg = 100e-6
+Jtarg = 0.05e-6
+Jtarg_function = "fac_said"
 /
 
 &flags
-potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
-flagoutput = 2
+potsolve = 0      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagoutput = 1
 /
 
 &files
@@ -47,12 +45,16 @@ dtE0 = 60.
 E0_dir = 'inputs/Efield/'
 /
 
+!&precip_BG
+!PhiWBG=5e-1                   ! total energy flux (mW/m^2)
+!W0BG=1e3                      ! characteristic energy (eV)
+!/
 &precip_BG
-PhiWBG=5e-2                   ! total energy flux (mW/m^2)
-W0BG=1e3                      ! characteristic energy (eV)
+PhiWBG=1                   ! total energy flux (mW/m^2)
+W0BG=3000.0                      ! characteristic energy (eV)
 /
 
-&milestone
-mcadence=5
+! (optional - default value of 2)
+&diffusion
+diffsolvetype = 1             ! type of diffusion solver to use:  1 - backward Euler; 2 - TRBDF2
 /
-
