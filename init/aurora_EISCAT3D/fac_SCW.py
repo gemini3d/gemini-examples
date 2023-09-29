@@ -39,7 +39,7 @@ def fac_SCW(E: xarray.Dataset, gridflag: int, flagdip: bool) -> xarray.Dataset:
     #_mlons = np.linspace(centerlon-width*0.5, centerlon+width*0.5, 100) # mlons to evaluate [degrees]
     #shape = (_times.size, _mlats.size, _mlons.size)
     times, mlats, mlons = np.meshgrid(_times, _mlats, _mlons, indexing='ij') # make 3D grid of locations
-    fac = fac_input(times, mlons, mlats, centerlon=centerlon, width=width, scaling=10) # [A/m2]
+    fac = fac_input(times, mlons, mlats, centerlon=centerlon, width=width, scaling=10, duration=5) # [A/m2]
 
     #aux=E.time[1:]
     #auxlength=aux.shape[0]

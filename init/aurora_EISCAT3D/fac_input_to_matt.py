@@ -195,8 +195,8 @@ def fac_input(t, mlon, mlat, duration=200, sigmat=20, centerlon=105, width=90,
 centerlon = 105 # the longitudinal cenrte (in degrees) of SCW structure
 width = 90 # longitudinal width in degrees of SCW feature
 scaling = 10 # increase the resulting FAC magnitudes, since the fitted values are too small (AMPERE does not capture small scale stuff)
-duration = 200 # duration of time to model, in minutes
-sigmat = 20 # Sigma of the Gaussian temporal modulation of the pattern [minutes]
+duration = 50 # duration of time to model, in minutes
+sigmat = 5 # Sigma of the Gaussian temporal modulation of the pattern [minutes]
 
 # Make evaluation locations
 _times = np.arange(0,200,10) #temporal locations to evaluare for FAC [minuted]
