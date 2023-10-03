@@ -3,8 +3,8 @@
 &base
 ymd = 2016,3,3               ! year, month, day
 UTsec0 = 15300.0              ! start time in UT seconds
-tdur = 3000.0                  ! duration of simulation in seconds
-dtout = 60.0                  ! how often to do file output
+tdur = 1200.0                  ! duration of simulation in seconds
+dtout = 10.0                  ! how often to do file output
 activ = 150.0,150.0,4.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -19,7 +19,7 @@ flagoutput = 2      ! 1 - full parameter output
 &setup
 dtheta=23
 dphi=110
-lp=384
+lp=512
 lq=512
 lphi=96
 altmin=80e3
@@ -37,6 +37,8 @@ gridflag=0
 Efield_latwidth=0.025
 Efield_lonwidth=0.025
 Jtarg=1.5e-6            ! current density A/m**2
+Efield_llat=1024
+Efield_llon=1024
 
 eq_dir = '~/simulations/ssd/aurora_EISCAT3D_eq'
 !setup_functions = 'gemini3d.efield.Efield_BCs, gemini3d.model.particles_BCs'
@@ -50,7 +52,7 @@ indat_file = 'inputs/initial_conditions.h5'
 /
 
 &efield
-dtE0 = 10.0                         ! time step between electric field file inputs
+dtE0 = 5.0                         ! time step between electric field file inputs
 E0_dir = 'inputs/fields/'
 /
 
@@ -60,7 +62,7 @@ E0_dir = 'inputs/fields/'
 !/
 
 &precip_BG
-PhiWBG=1                   ! total energy flux (mW/m^2)
+PhiWBG=5                   ! total energy flux (mW/m^2)
 W0BG=2e3                      ! characteristic energy (eV)
 /
 

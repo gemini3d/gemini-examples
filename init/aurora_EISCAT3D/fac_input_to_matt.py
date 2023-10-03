@@ -137,7 +137,7 @@ def temp_fac(t, duration=200, sigmat=20):
     The Gaussian modulation factor for the input time.
     '''
     
-    return np.exp(-(t-duration/2)**2/(2*sigmat**2))
+    return np.exp(-(t-2*sigmat)**2/(2*sigmat**2))
 #    return np.exp(-(t)**2/(2*sigmat**2))
 
 
