@@ -27,22 +27,23 @@ glat=70.22
 glon=-5.0
 gridflag=0
 
-!E0precip=2000           ! average energy
-!Qprecip=25              ! precip mW/m**2
-!Qprecip_background=1    ! background precipitation mW/m**2
+E0precip=2000           ! average energy
+Qprecip=25              ! precip mW/m**2
+Qprecip_background=0.5    ! background precipitation mW/m**2
+precip_llon=1024
+precip_llat=1024
 !precip_latwidth=0.15
 !precip_lonwidth=0.25
-!Qprecip_function = "precip_SCW"
+Qprecip_function = "precip_SCW"
 
 Efield_latwidth=0.025
 Efield_lonwidth=0.025
 Jtarg=1.5e-6            ! current density A/m**2
 Efield_llat=1024
 Efield_llon=1024
+Jtarg_function = "fac_SCW"
 
 eq_dir = '~/simulations/ssd/aurora_EISCAT3D_eq'
-!setup_functions = 'gemini3d.efield.Efield_BCs, gemini3d.model.particles_BCs'
-Jtarg_function = "fac_SCW"
 /
 
 &files
@@ -52,17 +53,17 @@ indat_file = 'inputs/initial_conditions.h5'
 /
 
 &efield
-dtE0 = 5.0                         ! time step between electric field file inputs
+dtE0 = 10.0                         ! time step between electric field file inputs
 E0_dir = 'inputs/fields/'
 /
 
-!&precip
-!dtprec = 5.0
-!prec_dir = 'inputs/precip/'
-!/
+&precip
+dtprec = 10.0
+prec_dir = 'inputs/precip/'
+/
 
 &precip_BG
-PhiWBG=5                   ! total energy flux (mW/m^2)
+PhiWBG=0.5                   ! total energy flux (mW/m^2)
 W0BG=2e3                      ! characteristic energy (eV)
 /
 
