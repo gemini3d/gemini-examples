@@ -19,15 +19,15 @@ flagoutput = 2      ! 1 - full output
 !dtheta=9.75
 dtheta=6
 dphi=15
-lp=48
+lp=64
 lq=1024
-lphi=48
+lphi=64
 altmin=80e3
 glat=42.45
 glon=143.4
 gridflag=0
 flagsource=1
-grid_openparm=15.0
+grid_openparm=20.0
 eq_dir = '~/simulations/ssd/tohoku_misty_eq'
 /
 

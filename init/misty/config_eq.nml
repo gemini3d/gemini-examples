@@ -18,7 +18,7 @@ flagoutput = 1      ! 1 - full output
 &setup
 dtheta=9.75
 dphi=15
-lp=48
+lp=96
 lq=384
 lphi=48
 altmin=80e3

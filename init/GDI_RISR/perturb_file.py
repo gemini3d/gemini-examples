@@ -13,7 +13,7 @@ import numpy.random
 import gemini3d.read
 import gemini3d.write
 from numpy import tanh
-import h5py
+#import h5py
 from model_reconstruct import interp_amisr
 
 def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):

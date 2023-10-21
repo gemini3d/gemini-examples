@@ -4,7 +4,7 @@
 ymd = 2016,3,3               ! year, month, day
 UTsec0 = 15300.0              ! start time in UT seconds
 tdur = 1200.0                  ! duration of simulation in seconds
-dtout = 10.0                  ! how often to do file output
+dtout = 60.0                  ! how often to do file output
 activ = 150.0,150.0,4.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -17,11 +17,11 @@ flagoutput = 2      ! 1 - full parameter output
 /
 
 &setup
-dtheta=23
+dtheta=20
 dphi=110
-lp=512
-lq=512
-lphi=96
+lp=192
+lq=384
+lphi=72
 altmin=80e3
 glat=70.22
 glon=-5.0
@@ -30,8 +30,8 @@ gridflag=0
 E0precip=2000           ! average energy
 Qprecip=25              ! precip mW/m**2
 Qprecip_background=0.5    ! background precipitation mW/m**2
-precip_llon=1024
-precip_llat=1024
+precip_llon=512
+precip_llat=512
 !precip_latwidth=0.15
 !precip_lonwidth=0.25
 Qprecip_function = "precip_SCW"
@@ -39,8 +39,8 @@ Qprecip_function = "precip_SCW"
 Efield_latwidth=0.025
 Efield_lonwidth=0.025
 Jtarg=1.5e-6            ! current density A/m**2
-Efield_llat=1024
-Efield_llon=1024
+Efield_llat=512
+Efield_llon=512
 Jtarg_function = "fac_SCW"
 
 eq_dir = '~/simulations/ssd/aurora_EISCAT3D_eq'

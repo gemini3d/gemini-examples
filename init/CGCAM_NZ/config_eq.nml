@@ -1,8 +1,8 @@
 
 &base
 ymd = 2011,3,11               ! year, month, day
-UTsec0 = 20783.0              ! start time in UT seconds
-tdur = 18000.0                  ! duration of simulation in seconds
+UTsec0 = 18000.0              ! start time in UT seconds
+tdur = 86400.0                  ! duration of simulation in seconds
 dtout = 1800.0                  ! how often to do file output
 activ = 104.7,129.5,37.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -16,17 +16,18 @@ flagoutput = 1      ! 1 - full output
 /
 
 &setup
-dtheta=9.75
-dphi=15
-lp=96
-lq=384
-lphi=48
+!dtheta=9.75
+dtheta=10
+dphi=22
+lp=128
+lq=256
+lphi=96
 altmin=80e3
 glat=42.45
 glon=143.4
 gridflag=0
 flagsource=1
-grid_openparm=10.0
+grid_openparm=20.0
 nmf=5e11
 nme=2e11
 /
@@ -36,3 +37,4 @@ indat_size = 'inputs/simsize.h5'
 indat_grid = 'inputs/simgrid.h5'
 indat_file = 'inputs/initial_conditions.h5'
 /
+
