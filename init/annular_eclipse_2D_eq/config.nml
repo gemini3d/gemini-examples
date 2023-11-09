@@ -1,9 +1,9 @@
 &base
-ymd = 2023,10,14
-UTsec0 = 43200.0
+ymd = 2017,10,13
+UTsec0 = 72000.0
 tdur = 86400
-dtout = 3600.0                          !dtout: how often to do output
-activ=104.7,129.5,37.0              !activ:  f107a,f107,Ap
+dtout = 900.0                          !dtout: how often to do output
+activ=75,75,5              !activ:  f107a,f107,Ap
 tcfl=0.9                           !tcfl:  target cfl number
 Teinf=1500.0                        !Teinf:  exospheric electron temperature
 /
