@@ -2,7 +2,7 @@
 ymd = 2017,10,13
 UTsec0 = 72000.0
 tdur = 86400
-dtout = 900.0                          !dtout: how often to do output
+dtout = 600.0                          !dtout: how often to do output
 activ=75,75,5              !activ:  f107a,f107,Ap
 tcfl=0.9                           !tcfl:  target cfl number
 Teinf=1500.0                        !Teinf:  exospheric electron temperature
@@ -15,9 +15,9 @@ flagoutput = 1      ! 1 - full parameter output
 /
 
 &setup
-dtheta=17.5
+dtheta=24.0
 dphi=1
-glat=25.0
+glat=30.0
 glon=255
 lp=264
 lq=512
