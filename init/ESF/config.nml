@@ -32,9 +32,9 @@ eq_dir ='~/simulations/ssd/ESF_eq/'
 
 &files
 file_format='h5'
-indat_size = '~/simulations/ssd/ESF_medres/inputs/simsize.h5'
-indat_grid = '~/simulations/ssd/ESF_medres/inputs/simgrid.h5'
-indat_file = '~/simulations/ssd/ESF_medres/inputs/initial_conditions.h5'
+indat_size = '~/simulations/ssd/ESF_lowres/inputs/simsize.h5'
+indat_grid = '~/simulations/ssd/ESF_lowres/inputs/simgrid.h5'
+indat_file = '~/simulations/ssd/ESF_lowres/inputs/initial_conditions.h5'
 /
 
 &Jpar

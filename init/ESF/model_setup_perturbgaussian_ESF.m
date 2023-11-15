@@ -1,6 +1,7 @@
 
 %% READ IN THE SIMULATION INFORMATION
-ID=['~/simulations/ESF_lowres/inputs/'];
+ID=['~/simulations/ssd/ESF_lowres/inputs/'];
+cfg=gemini3d.read.config(ID);
 xg= gemini3d.read.grid([ID]);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);
 lx1=xg.lx(1); lx2=xg.lx(2); lx3=xg.lx(3);
@@ -11,15 +12,16 @@ direc=ID;
 %filebase='ESF_medres';
 %filename=[filebase,'_ICs.dat'];
 filename='initial_conditions.h5';
-dat= gemini3d.read.frame3Dcurvnoelec(fullfile(direc,filename));
-ne=dat.ne;
-v1=dat.v1;
-Ti=dat.Ti;
-Te=dat.Te;
+dat= gemini3d.read.frame3Dcurvnoelec(string(fullfile(direc,filename)));
+ne=dat.ns(:,:,:,7);
 ns=dat.ns;
-Ts=dat.Ts;
-vs1=dat.vs1;
-simdate=dat.simdate;
+% v1=dat.v1;
+% Ti=dat.Ti;
+% Te=dat.Te;
+% ns=dat.ns;
+% Ts=dat.Ts;
+% vs1=dat.vs1;
+simdate=dat.time;
 lsp=size(ns,4);
 
 
