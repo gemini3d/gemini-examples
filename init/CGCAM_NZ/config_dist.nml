@@ -17,18 +17,18 @@ flagoutput = 2      ! 1 - full output
 
 &setup
 !dtheta=9.75
-dtheta=9
-dphi=18
-lp=192
+dtheta=17
+dphi=32
+lp=256
 lq=256
-lphi=192
+lphi=128
 altmin=80e3
 glat=-43.6
 glon=170.14
 gridflag=0
 flagsource=1
-grid_openparm=10.0
-eq_dir = '~/simulations/ssd/CGCAM_NZ_SH_eq'
+grid_openparm=40.0
+eq_dir = '~/simulations/ssd/CGCAM_NZ_SH_eqv2'
 /
 
 &files
