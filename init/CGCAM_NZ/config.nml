@@ -23,8 +23,8 @@ lp=192
 lq=256
 lphi=192
 altmin=80e3
-glat=42.45
-glon=143.4
+glat=-43.6
+glon=170.14
 gridflag=0
 flagsource=1
 grid_openparm=10.0
@@ -40,13 +40,13 @@ indat_file = 'inputs/initial_conditions.h5'
 &neutral_perturb
 flagdneu = 1
 interptype = 3
-sourcemlat = 29.0551
-sourcemlon = 209.85
+sourcemlat = -48.04
+sourcemlon = 251.56
 dtneu = 600.0
 dzn = 1000.0
 drhon = 4000.0
 dxn = 4000.0
-source_dir = '~/simulations/ssd/CGCAM_neutrals_h5/'
+source_dir = '~/simulations/ssd/CGCAM_neutrals_pad_h5/'
 /
 
 &milestone
