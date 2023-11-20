@@ -28,7 +28,7 @@ glon=170.14
 gridflag=0
 flagsource=1
 grid_openparm=10.0
-eq_dir = '~/simulations/ssd/CGCAM_NZ_eqv2'
+eq_dir = '~/simulations/ssd/CGCAM_NZ_SH_eq'
 /
 
 &files
