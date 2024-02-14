@@ -1,0 +1,68 @@
+! cusp simulation
+
+&base
+ymd = 2025,1,29               ! year, month, day
+UTsec0 = 77400.0              ! start time in UT seconds
+tdur = 600.0                  ! duration of simulation in seconds
+dtout = 30.0                  ! how often to do file output
+activ = 110.0,110.0,40.0      ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 2      ! 1 - full parameter output
+/
+
+&setup
+dtheta=4
+dphi=18
+lp=192
+lq=384
+lphi=96
+altmin=80e3
+glat=67.9
+glon=21.1
+gridflag=0
+
+!E0precip=2000           ! average energy
+!Qprecip=25              ! precip mW/m**2
+!Qprecip_background=0.5    ! background precipitation mW/m**2
+precip_llon=512
+precip_llat=512
+Qprecip_function = "precip_SCW"
+
+Jtarg=1.5e-6            ! current density A/m**2
+Efield_llat=512
+Efield_llon=512
+Jtarg_function = "fac_SCW"
+
+eq_dir = '~/simulations/ssd/aurora_Esrange_eq'
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&efield
+dtE0 = 2.0                         ! time step between electric field file inputs
+E0_dir = 'inputs/fields/'
+/
+
+&precip
+dtprec = 2.0
+prec_dir = 'inputs/precip/'
+/
+
+&precip_BG
+PhiWBG=0.1                   ! total energy flux (mW/m^2)
+W0BG=2e3                      ! characteristic energy (eV)
+/
+
+&milestone
+mcadence = 5
+/

@@ -1,0 +1,38 @@
+! Esrange simulation
+
+&base
+ymd = 2025,1,29               ! year, month, day
+UTsec0 = 63000.0              ! start time in UT seconds
+tdur = 14400.0                  ! duration of simulation in seconds
+dtout = 1800.0                  ! how often to do file output
+activ = 110.0,110.0,40.0      ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 1      ! 1 - full output
+/
+
+&setup
+dtheta=5
+dphi=20
+lp=128
+lq=256
+lphi=72
+altmin=80e3
+glat=67.9
+glon=21.1
+gridflag=0
+
+nmf=5e11
+nme=2e11
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
