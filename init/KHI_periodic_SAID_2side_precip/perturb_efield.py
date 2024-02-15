@@ -43,7 +43,7 @@ def perturb_efield(
     lx3 = xg["lx"][2]
 
     # %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-    dat = gemini3d.read.data(cfg["indat_file"], var=["ns", "Ts", "v1"])
+    dat = gemini3d.read.frame(cfg["indat_file"], var=["ns", "Ts", "v1"])
 
     nsscale = init_profile(xg, dat)
 
@@ -57,7 +57,6 @@ def perturb_efield(
         cfg["indat_file"],
         dat,
         ns=nsperturb,
-        file_format=cfg["file_format"],
         Phitop=Phitop,
     )
 
@@ -267,7 +266,7 @@ def create_Efield(cfg, xg, params):
         E["Vminx2ist"][i, :] = Phislab[0, :]
 
     # %% Write electric field data to file
-    gemini3d.write.Efield(E, cfg["E0dir"], cfg["file_format"])
+    gemini3d.write.Efield(E, cfg["E0dir"])
 
 
 def precip_SAID(pg, params, x2i, Qpeak, Qbackground):
@@ -373,7 +372,7 @@ def create_precip(cfg,xg,params):
     assert np.isfinite(pg["Q"]).all(), "Q flux must be finite"
     assert (pg["Q"] >= 0).all(), "Q flux must be non-negative"
     
-    gemini3d.write.precip(pg, cfg["precdir"], cfg["file_format"])
+    gemini3d.write.precip(pg, cfg["precdir"])
     
 
 def moving_average(x: np.ndarray, k: int):
