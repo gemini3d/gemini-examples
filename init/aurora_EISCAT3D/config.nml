@@ -43,7 +43,7 @@ Efield_llat=512
 Efield_llon=512
 Jtarg_function = "fac_SCW"
 
-eq_dir = '~/simulations/ssd/aurora_EISCAT3D_eq'
+eq_dir = '~/simulations/sdcard/aurora_EISCAT3D_eq'
 /
 
 &files

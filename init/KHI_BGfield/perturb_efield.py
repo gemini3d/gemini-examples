@@ -5,7 +5,7 @@ from scipy.interpolate import interp1d
 
 import gemini3d.read
 from gemini3d.config import datetime_range
-
+from gemini3d.particles.grid import precip_grid
 
 def perturb_efield(
     cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any], params: T.Dict[str, float] = None
@@ -24,12 +24,11 @@ def perturb_efield(
 #            "dx1": 10e3,
 #        }
         params = {
-            "v0": 250,
+            "v0": 2000,
             # background flow value, actually this will be turned into a shear in the Efield input file
             "densfact": 5,
             # factor by which the density increases over the shear region - see Keskinen, et al (1988)
-            "ell": 5e3,  # scale length for shear transition
-#            "ell": 5e3,  # scale length for shear transition
+            "ell": 10e3,  # scale length for shear transition
             "B1val": -50000e-9,
             "x1ref": 220e3,  # where to start tapering down the density in altitude
             "dx1": 10e3,
@@ -51,19 +50,23 @@ def perturb_efield(
     nsperturb = perturb_density(xg, dat, nsscale, x1, x2, params)
 
     # %% compute initial potential, background
-    Phitop = potential_bg(x2, lx2, lx3, params)
+    #Phitop = potential_bg(x2, lx2, lx3, params)
+    #Phitop = np.zeros( (lx2,lx3) )
+    Phitop = 10 * np.random.randn( lx2,lx3 )
 
     # %% Write initial plasma state out to a file
     gemini3d.write.state(
         cfg["indat_file"],
         dat,
         ns=nsperturb,
-        file_format=cfg["file_format"],
         Phitop=Phitop,
     )
 
     # %% Electromagnetic parameter inputs
     create_Efield(cfg, xg, params)
+    
+    # create precipitation inputs
+    create_precip(cfg,xg,params)
 
 
 def init_profile(xg: T.Dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
@@ -123,20 +126,24 @@ def perturb_density(
             n1[i, :, ix2, :] = n1here
             # save the perturbation for computing potential perturbation
 
+            # # 2-sided structure
             # nsperturb[i, :, ix2, :] = (
             #     nsscale[i, :, ix2, :]
             #     * (params["v0"] - params["vn"])
             #     / (params["v0"] * (np.tanh((x2[ix2]-50e3) / params["ell"]) - np.tanh((x2[ix2]+50e3)/params["ell"]) + 1)
-            #        - params["vn"])
+            #         - params["vn"])
             # )
-            # # background density
             
+            # 1-sided structure
             nsperturb[i, :, ix2, :] = (
-                nsscale[i, :, ix2, :])
-            # uniform background density
+                nsscale[i, :, ix2, :]
+                * (params["vn"] - params["v0"])
+                / (params["v0"] * np.tanh((x2[ix2]) / params["ell"]) + params["vn"])
+            )
             
+            # background density
             nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here
-            # noise seed perturbation
+            # perturbation
 
     nsperturb[nsperturb < 1e4] = 1e4
     # enforce a density floor
@@ -145,7 +152,8 @@ def perturb_density(
     # enforce quasineutrality
     n1[-1, :, :, :] = n1[:6, :, :, :].sum(axis=0)
 
-    # %% Remove any residual E-region from the simulation
+    # %% Remove any residual E-region from the simulation other than what will
+    #      be applied via precipitation
     taper = 1 / 2 + 1 / 2 * np.tanh((x1 - params["x1ref"]) / params["dx1"])
     for i in range(lsp - 1):
         for ix3 in range(xg["lx"][2]):
@@ -154,7 +162,8 @@ def perturb_density(
 
     inds = x1 < 150e3
     nsperturb[:, inds, :, :] = 1e3
-    nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)   # enforce quasineutrality
+    nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)
+    # enforce quasineutrality
 
     return nsperturb
 
@@ -186,8 +195,8 @@ def create_Efield(cfg, xg, params):
     cfg["E0dir"].mkdir(parents=True, exist_ok=True)
 
     # %% CREATE ELECTRIC FIELD DATASET
-    llon = 100
-    llat = 100
+    llon = 512
+    llat = 512
     # NOTE: cartesian-specific code
     if xg["lx"][1] == 1:
         llon = 1
@@ -234,7 +243,6 @@ def create_Efield(cfg, xg, params):
         E["Eyit"] = (("time", "mlon", "mlat"), np.zeros((Nt, llon, llat)))
 
     # %% CREATE DATA FOR BOUNDARY CONDITIONS FOR POTENTIAL SOLUTION
-
     # if 0 data is interpreted as FAC, else we interpret it as potential
     E["flagdirich"] = (("time",), np.zeros(Nt, dtype=np.int32))
     E["Vminx1it"] = (("time", "mlon", "mlat"), np.zeros((Nt, llon, llat)))
@@ -258,18 +266,126 @@ def create_Efield(cfg, xg, params):
         # CONVERT TO ELECTRIC FIELD (actually -1* electric field...)
         E2slab = vel3 * params["B1val"]
 
+        # At this point we can either store the results in the background field or
+        #   integrate them and produce a boundary condition.  *should* be equivalent
+        E["Exit"][i,:] = -1*E2slab
+        
         # INTEGRATE TO PRODUCE A POTENTIAL OVER GRID - then save the edge boundary conditions
-        DX2 = np.diff(x2i)
-        DX2 = np.append(DX2, DX2[-1])
-        Phislab = np.cumsum(E2slab * DX2, axis=0)
-        # use a forward difference
-
-        E["Vmaxx2ist"][i, :] = Phislab[-1, :]
-        E["Vminx2ist"][i, :] = Phislab[0, :]
+        #DX2 = np.diff(x2i)
+        #DX2 = np.append(DX2, DX2[-1])
+        #Phislab = np.cumsum(E2slab * DX2, axis=0)  # use a forward difference
+        #E["Vmaxx2ist"][i, :] = Phislab[-1, :]    # drive through BCs
+        #E["Vminx2ist"][i, :] = Phislab[0, :]     # drive through BCs
 
     # %% Write electric field data to file
     gemini3d.write.Efield(E, cfg["E0dir"])
 
+
+def precip_SAID(pg, params, x2i, Qpeak, Qbackground):
+    # mlon_mean = pg.mlon.mean().item()
+    # mlat_mean = pg.mlat.mean().item()
+
+    # if "mlon_sigma" in pg.attrs and "mlat_sigma" in pg.attrs:
+    #     Q = (
+    #         Qpeak
+    #         * np.exp(-((pg.mlon.data[:, None] - mlon_mean) ** 2) / (2 * pg.mlon_sigma ** 2))
+    #         * np.exp(-((pg.mlat.data[None, :] - mlat_mean) ** 2) / (2 * pg.mlat_sigma ** 2))
+    #     )
+    # elif "mlon_sigma" in pg.attrs:
+    #     Q = Qpeak * np.exp(-((pg.mlon.data[:, None] - mlon_mean) ** 2) / (2 * pg.mlon_sigma ** 2))
+    # elif "mlat_sigma" in pg.attrs:
+    #     Q = Qpeak * np.exp(-((pg.mlat.data[None, :] - mlat_mean) ** 2) / (2 * pg.mlat_sigma ** 2))
+    # else:
+    #     raise LookupError("precipation must be defined in latitude, longitude or both")
+
+    Q=Qpeak * (1/2*np.tanh((x2i[:,None]-50e3) / params["ell"]) + 1/2) 
+    Q[Q < Qbackground] = Qbackground
+
+    return Q
+    
+    
+def create_precip(cfg,xg,params):
+    """write particle precipitation to disk"""
+
+    # %% CREATE PRECIPITATION INPUT DATA
+    # Q: energy flux [mW m^-2]
+    # E0: characteristic energy [eV]
+
+    pg = precip_grid(cfg, xg)
+
+    # did user specify on/off time? if not, assume always on.
+    t0 = pg.time[0].data
+
+    if "precip_startsec" in cfg:
+        t = t0 + np.timedelta64(cfg["precip_startsec"])
+        i_on = abs(pg.time - t).argmin().item()
+    else:
+        i_on = 0
+
+    if "precip_endsec" in cfg:
+        t = t0 + np.timedelta64(cfg["precip_endsec"])
+        i_off = abs(pg.time - t).argmin().item()
+    else:
+        i_off = pg.time.size
+
+    assert np.isfinite(cfg["E0precip"]), "E0 precipitation must be finite"
+    assert cfg["E0precip"] > 0, "E0 precip must be positive"
+    assert cfg["E0precip"] < 100e6, "E0 precip must not be relativistic 100 MeV"
+
+    llon = 512
+    llat = 512
+    # NOTE: cartesian-specific code
+    if xg["lx"][1] == 1:
+        llon = 1
+    elif xg["lx"][2] == 1:
+        llat = 1
+
+    thetamin = xg["theta"].min()
+    thetamax = xg["theta"].max()
+    mlatmin = 90 - np.degrees(thetamax)
+    mlatmax = 90 - np.degrees(thetamin)
+    mlonmin = np.degrees(xg["phi"].min())
+    mlonmax = np.degrees(xg["phi"].max())
+
+    # add a 1% buff
+    latbuf = 0.01 * (mlatmax - mlatmin)
+    lonbuf = 0.01 * (mlonmax - mlonmin)
+    
+    time = datetime_range(cfg["time"][0], cfg["time"][0] + cfg["tdur"], cfg["dtprec"])
+
+    pg = xarray.Dataset(
+        {
+            "Q": (("time", "mlon", "mlat"), np.zeros((len(time), llon, llat))),
+            "E0": (("time", "mlon", "mlat"), np.zeros((len(time), llon, llat))),
+        },
+        coords={
+            "time": time,
+            "mlat": np.linspace(mlatmin - latbuf, mlatmax + latbuf, llat),
+            "mlon": np.linspace(mlonmin - lonbuf, mlonmax + lonbuf, llon),
+        },
+    )
+    Nt = pg.time.size
+
+    # %% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
+    xgmlon = np.degrees(xg["phi"][0, :, 0])
+    # xgmlat = 90 - np.degrees(xg["theta"][0, 0, :])
+
+    f = interp1d(xgmlon, xg["x2"][2 : xg["lx"][1] + 2], kind="linear", fill_value="extrapolate")
+    x2i = f(pg["mlon"])
+    # f = interp1d(xgmlat, xg["x3"][2:lx3 + 2], kind='linear', fill_value="extrapolate")
+    # x3i = f(E["mlat"])
+
+
+    # NOTE: in future, E0 could be made time-dependent in config.nml as 1D array
+    for i in range(i_on, i_off):
+        pg["Q"][i, :, :] = precip_SAID(pg, params, x2i, cfg["Qprecip"], cfg["Qprecip_background"])
+        pg["E0"][i, :, :] = cfg["E0precip"]
+
+    assert np.isfinite(pg["Q"]).all(), "Q flux must be finite"
+    assert (pg["Q"] >= 0).all(), "Q flux must be non-negative"
+    
+    gemini3d.write.precip(pg, cfg["precdir"])
+    
 
 def moving_average(x: np.ndarray, k: int):
     # https://stackoverflow.com/a/54628145
