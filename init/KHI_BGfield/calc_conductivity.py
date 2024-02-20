@@ -9,6 +9,7 @@ Created on Fri Feb 16 21:21:07 2024
 import numpy as np
 from phys_const import ms,qs,kB
 import gemini3d.msis
+import scipy as sp
 
 def conductivity_reconstruct(time,dat,cfg,xg):
     # neutral atmospheric information
@@ -21,7 +22,7 @@ def conductivity_reconstruct(time,dat,cfg,xg):
         vs1=dat["vs1"]
     else:
         p=1/2+1/2*np.tanh((xg["alt"]-220e3)/20e3)
-        shapevar=np.concatenate( (xg.lx[0:2],[7]) )
+        shapevar=np.concatenate( (xg["lx"][:],[7]) )
         ns=np.zeros( shapevar )
         ns[:,:,:,0]=p*dat["ne"]
         nmolc=(1-p)*dat["ne"]
@@ -39,22 +40,23 @@ def conductivity_reconstruct(time,dat,cfg,xg):
             
     # collision frequencies and conducivities
     nusn,nus,nusj,nuss,Phisj,Psisj = collisions3D(atmos,Ts,ns,vs1,ms)
-    muP,muH,mu0,sigP,sigH,sig0,incap = conductivities3D(nus,nusj,ns,ns,qs,xg["Bmag"])
+    muP,muH,mu0,sigP,sigH,sig0,incap = conductivities3D(nus,nusj,ns,ms,qs,xg["Bmag"])
     
     # Integrate wrt field-line coordinate in physical units (meters), taking 
-    #   care to remove ghost cells
-    h1=xg.h1[3:-2,3:-2,3:-2]
-    dx1=xg.dx1b[1:-2]
-    SigP = np.zeros( xg["lx"][1:2] )
-    SigH = np.zeros( xg["lx"][1:2] )
-    Incap = np.zeros( xg["lx"][1:2] )
-    for i2 in range(xg["lx"][1]):
-        for i3 in range(xg["lx"][2]):
+    #   care to remove one of then end ghost cells and leave one so that the 
+    #   cumulative sum is conformable with first axis of simulation output data
+    h1=xg["h1"][3:-1,3:-1,3:-1]
+    dx1=xg["dx1b"][2:-1]
+    SigP = np.zeros( xg["lx"][1:3] )
+    SigH = np.zeros( xg["lx"][1:3] )
+    Incap = np.zeros( xg["lx"][1:3] )
+    for i2 in range(0,xg["lx"][1]):
+        for i3 in range(0,xg["lx"][2]):
             dl1=h1[:,i2,i3]*dx1
             l1=np.cumsum(dl1)
             SigP[i2,i3]=np.trapz(sigP[:,i2,i3],l1)
             SigH[i2,i3]=np.trapz(sigH[:,i2,i3],l1)
-            Incap[i2,i3]=np.trapz(Incap[:,i2,i3],l1)
+            Incap[i2,i3]=np.trapz(incap[:,i2,i3],l1)
     
     return sigP,sigH,sig0,SigP,SigH,incap,Incap
 
@@ -126,18 +128,18 @@ def collisions3D(atmos,Ts,ns,vsx1,ms):
     RHpO = 6.61e-11*(1-.047*np.log10(Ts[:,:,:,5]))**2*(Ts[:,:,:,5]**0.5)*nO
     RHpH = 2.65e-10*(1-0.083*np.log10(T))**2*(T**0.5)*nH
     nusn[:,:,:,5,0] = RHpO*1e-6
-    nusn[:,:,:,5,1] = 33.6E-10*nN2*1e-6
+    nusn[:,:,:,5,1] = 33.6e-10*nN2*1e-6
     nusn[:,:,:,5,2] = 32.0e-10*nO2*1e-6
     nusn[:,:,:,5,3] = RHpH*1e-6
-    nus[:,:,:,5] = np.sum(nusn[:,:,:,5,:],5)
+    nus[:,:,:,5] = np.sum(nusn[:,:,:,5,:],axis=3)
 
     # Species electrons
     #    T=0.5*(Tn+Ts(:,:,:,6));
     T=Ts[:,:,:,lsp-1]
-    nusn[:,:,:,lsp-1,0] = 8.9E-11*(1+5.7E-4*T)*(T**0.5)*nO*1e-6
-    nusn[:,:,:,lsp-1,1] = 2.33E-11*(1-1.21E-4*T)*(T)*nN2*1e-6
-    nusn[:,:,:,lsp-1,2] = 1.82E-10*(1+3.6E-2*(T**0.5))*(T**0.5)*nO2*1e-6
-    nusn[:,:,:,lsp-1,3] = 4.5E-9*(1-1.35E-4*T)*(T**0.5)*nH*1e-6
+    nusn[:,:,:,lsp-1,0] = 8.9e-11*(1+5.7e-4*T)*(T**0.5)*nO*1e-6
+    nusn[:,:,:,lsp-1,1] = 2.33e-11*(1-1.21e-4*T)*(T)*nN2*1e-6
+    nusn[:,:,:,lsp-1,2] = 1.82e-10*(1+3.6e-2*(T**0.5))*(T**0.5)*nO2*1e-6
+    nusn[:,:,:,lsp-1,3] = 4.5e-9*(1-1.35e-4*T)*(T**0.5)*nH*1e-6
     nus[:,:,:,lsp-1] = np.sum(nusn[:,:,:,lsp-1,:],axis=3)
 
     # Coulomb collisions
@@ -158,7 +160,7 @@ def collisions3D(atmos,Ts,ns,vsx1,ms):
             #Wst=max(Wst,0.01);       %major numerical issues with asymptotic form (as Wst -> 0)!!!
             Psisj[:,:,:,is1,is2]=np.exp(-Wst**2)
 
-            Phinow=3/4*np.sqrt(np.pi)*np.erf(Wst)/Wst**3-3/2/Wst**2*Psisj[:,:,:,is1,is2];
+            Phinow=3/4*np.sqrt(np.pi)*sp.special.erf(Wst)/Wst**3-3/2/Wst**2*Psisj[:,:,:,is1,is2];
             Phinow[Wst < 0.1]=1
             Phisj[:,:,:,is1,is2]=Phinow
 
@@ -182,20 +184,20 @@ def conductivities3D(nus,nusj,ns,ms,qs,B):
     # Mobilities
     for isp in range(0,lsp):
        OMs=qs[isp]*B/ms[isp]                                      # cyclotron
-    
+          
        if (not isp==lsp-1): 
            mu0[:,:,:,isp]=qs[isp]/ms[isp]/nus[:,:,:,isp]        # parallel mobility
            mubase[:,:,:,isp]=mu0[:,:,:,isp]
        else:
-           nuse=np.sum(nusj[:,:,:,lsp-1,:],axis=4);
+           nuse=np.sum(nusj[:,:,:,lsp-1,:],axis=3);
            mu0[:,:,:,lsp-1]=qs[lsp-1]/ms[lsp-1]/(nus[:,:,:,lsp-1]+nuse)
-           mubase[:,:,:,isp-1]=qs[lsp-1]/ms[lsp-1]/nus[:,:,:,lsp-1]
+           mubase[:,:,:,lsp-1]=qs[lsp-1]/ms[lsp-1]/nus[:,:,:,lsp-1]
     
        muP[:,:,:,isp]=mubase[:,:,:,isp]*nus[:,:,:,isp]**2/(nus[:,:,:,isp]**2+OMs**2)      #Pederson
        muH[:,:,:,isp]=-1*mubase[:,:,:,isp]*nus[:,:,:,isp]*OMs/(nus[:,:,:,isp]**2+OMs**2)  #Hall    
     
     # Conductivities
-    sig0=ns[:,:,:,lsp-1]*qs[lsp-1]*mu0[:,:,:,lsp]     #parallel includes only electrons...
+    sig0=ns[:,:,:,lsp-1]*qs[lsp-1]*mu0[:,:,:,lsp-1]     #parallel includes only electrons...
     
     for isp in range(0,lsp):
        cfact[:,:,:,isp]=ns[:,:,:,isp]*qs[isp]
@@ -205,7 +207,7 @@ def conductivities3D(nus,nusj,ns,ms,qs,B):
     # Inertial capacitance
     incap=np.zeros( (lx1,lx2,lx3) ) 
     for isp in range(0,lsp):
-      incap=incap+ns[:,:,:,isp]*ms[isp];
+      incap=incap+ns[:,:,:,isp]*ms[isp]
     incap = incap/B**2
 
     return muP,muH,mu0,sigP,sigH,sig0,incap
