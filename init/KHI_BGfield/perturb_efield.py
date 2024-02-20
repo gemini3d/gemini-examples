@@ -63,7 +63,8 @@ def perturb_efield(
     )
 
     # %% Electromagnetic parameter inputs
-    create_Efield(cfg, xg, params)
+    dat["ns"]=nsperturb
+    create_Efield(cfg, xg, dat, params)
     
     # create precipitation inputs
     create_precip(cfg,xg,params)
@@ -190,7 +191,7 @@ def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: T.Dict[str, float])
     return Phitop
 
 
-def create_Efield(cfg, xg, params):
+def create_Efield(cfg, xg, dat, params):
 
     cfg["E0dir"].mkdir(parents=True, exist_ok=True)
 
