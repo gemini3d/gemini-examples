@@ -3,10 +3,12 @@
 """
 Created on Mon Feb 19 20:16:33 2024
 
+make sure pygemini conductivity functions work properly
+
 @author: zettergm
 """
 
-import conductivity
+import gemini3d.conductivity
 import matplotlib.pyplot as plt
 import gemini3d.read
 import os
@@ -16,7 +18,7 @@ xg=gemini3d.read.grid("~/simulations/sdcard/KHI_BGfield_nodivJ0_noisy/")
 dat=gemini3d.read.frame("~/simulations/sdcard/KHI_BGfield_nodivJ0_noisy/",time=cfg["time"][-1])
 os.environ["GEMINI_ROOT"]="~/libgem_gnu/bin/"
 
-sigP,sigH,sig0,SigP,SigH,incap,Incap = conductivity.conductivity_reconstruct(
+sigP,sigH,sig0,SigP,SigH,incap,Incap = gemini3d.conductivity.conductivity_reconstruct(
     cfg["time"][-1],dat,cfg,xg)
 
 x=xg["x2"][2:-2]
