@@ -57,9 +57,9 @@ dtE0 = 180
 E0_dir = 'inputs/Efield/'
 /
 
-&Jpar
-flagJpar=.false.
-/
+!&Jpar
+!flagJpar=.false.
+!/
 
 &precip_BG
 PhiWBG=1e-5

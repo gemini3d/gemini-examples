@@ -1,11 +1,12 @@
 import typing as T
 import xarray
 import numpy as np
-from scipy.interpolate import interp1d
+from scipy.interpolate import interp1d,interp2d
 
 import gemini3d.read
 from gemini3d.config import datetime_range
 from gemini3d.particles.grid import precip_grid
+import gemini3d.conductivity
 
 def perturb_efield(
     cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any], params: T.Dict[str, float] = None
@@ -52,7 +53,7 @@ def perturb_efield(
     # %% compute initial potential, background
     #Phitop = potential_bg(x2, lx2, lx3, params)
     #Phitop = np.zeros( (lx2,lx3) )
-    Phitop = 10 * np.random.randn( lx2,lx3 )
+    Phitop = 10 * np.random.randn( lx2,lx3 )    # seed potential with random noise
 
     # %% Write initial plasma state out to a file
     gemini3d.write.state(
@@ -63,7 +64,7 @@ def perturb_efield(
     )
 
     # %% Electromagnetic parameter inputs
-    dat["ns"]=nsperturb
+    dat["ns"].data=nsperturb
     create_Efield(cfg, xg, dat, params)
     
     # create precipitation inputs
@@ -224,15 +225,24 @@ def create_Efield(cfg, xg, dat, params):
     )
     Nt = E.time.size
 
-    # %% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID
+    # %% INTERPOLATE X2 COORDINATE ONTO PROPOSED MLON GRID, assume Cartesian magnetic here I believe
     xgmlon = np.degrees(xg["phi"][0, :, 0])
-    # xgmlat = 90 - np.degrees(xg["theta"][0, 0, :])
+    xgmlat = 90 - np.degrees(xg["theta"][0, 0, :])
 
-    f = interp1d(xgmlon, xg["x2"][2 : xg["lx"][1] + 2], kind="linear", fill_value="extrapolate")
+    f = interp1d(xgmlon, xg["x2"][2:xg["lx"][1] + 2], kind="linear", fill_value="extrapolate")
     x2i = f(E["mlon"])
-    # f = interp1d(xgmlat, xg["x3"][2:lx3 + 2], kind='linear', fill_value="extrapolate")
-    # x3i = f(E["mlat"])
+    f = interp1d(xgmlat, xg["x3"][2:xg["lx"][2] + 2], kind='linear', fill_value="extrapolate")
+    x3i = f(E["mlat"])
 
+    # compute an initial conductivity and conductance for specifying background current
+    #   coordinates needed for later derivatives and integrals to define FAC
+    _,_,_,SigP,SigH,_,_ = gemini3d.conductivity.conductivity_reconstruct(
+        cfg["time"][0],dat,cfg,xg)
+    f=interp2d( xgmlat,xgmlon ,SigP, kind="linear")
+    SigPi=f(E["mlon"],E["mlat"])
+    f=interp2d( xgmlat,xgmlon ,SigH, kind="linear")
+    SigHi=f(E["mlat"],E["mlon"])
+    
     # %% CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
     if "Exit" in cfg:
         E["Exit"] = (("time", "mlon", "mlat"), cfg["Exit"] * np.ones((Nt, llon, llat)))
@@ -277,10 +287,20 @@ def create_Efield(cfg, xg, dat, params):
         #Phislab = np.cumsum(E2slab * DX2, axis=0)  # use a forward difference
         #E["Vmaxx2ist"][i, :] = Phislab[-1, :]    # drive through BCs
         #E["Vminx2ist"][i, :] = Phislab[0, :]     # drive through BCs
+               
+        # Use FAC to enforce a smooth BG field, assume no E3, Cartesian, non-inverted for now
+        E["flagdirich"][i]=1
+        J2i=SigPi*E["Exit"][i,:,:]
+        J3i=SigHi*E["Exit"][i,:,:]
+        
+        J2ix,_=np.gradient(J2i,x2i,x3i)
+        _,J3iy=np.gradient(J3i,x2i,x3i)
+        divJperp=J2ix+J3iy
+        E["Vmaxx1it"][i,:,:]=-1*divJperp
 
     # %% Write electric field data to file
     gemini3d.write.Efield(E, cfg["E0dir"])
-
+    
 
 def precip_SAID(pg, params, x2i, Qpeak, Qbackground):
     # mlon_mean = pg.mlon.mean().item()
