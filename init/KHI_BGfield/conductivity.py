@@ -155,14 +155,15 @@ def collisions3D(atmos,Ts,ns,vsx1,ms):
             T=(ms[is2]*Ts[:,:,:,is1]+ms[is1]*Ts[:,:,:,is2])/(ms[is2]+ms[is1])
             nusj[:,:,:,is1,is2]=Csj[is1,is2]*ns[:,:,:,is2]*1e-6/T**1.5    # standard collision frequencies
 
-            mred=ms[is1]*ms[is2]/(ms[is1]+ms[is2])                     # high speed correction factors (S&N 2000)
-            Wst=np.abs(vsx1[:,:,:,is1]-vsx1[:,:,:,is2])/np.sqrt(2*kB*T/mred)
-            #Wst=max(Wst,0.01);       %major numerical issues with asymptotic form (as Wst -> 0)!!!
-            Psisj[:,:,:,is1,is2]=np.exp(-Wst**2)
+            # FIXME: numberical issues here; I'll figure it out later...
+            # mred=ms[is1]*ms[is2]/(ms[is1]+ms[is2])                     # high speed correction factors (S&N 2000)
+            # Wst=np.abs(vsx1[:,:,:,is1]-vsx1[:,:,:,is2])/np.sqrt(2*kB*T/mred)
+            # #Wst=max(Wst,0.01);       %major numerical issues with asymptotic form (as Wst -> 0)!!!
+            # Psisj[:,:,:,is1,is2]=np.exp(-Wst**2)
 
-            Phinow=3/4*np.sqrt(np.pi)*sp.special.erf(Wst)/Wst**3-3/2/Wst**2*Psisj[:,:,:,is1,is2];
-            Phinow[Wst < 0.1]=1
-            Phisj[:,:,:,is1,is2]=Phinow
+            # Phinow=3/4*np.sqrt(np.pi)*sp.special.erf(Wst)/Wst**3-3/2/Wst**2*Psisj[:,:,:,is1,is2];
+            # Phinow[Wst < 0.1]=1
+            # Phisj[:,:,:,is1,is2]=Phinow
 
     for is1 in range(0,lsp):
         nuss[:,:,:,is1]=nusj[:,:,:,is1,is1]
