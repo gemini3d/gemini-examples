@@ -14,7 +14,7 @@ cwd = fileparts(mfilename('fullpath'));
 tc.TestData.cwd = cwd;
 
 % temporary working directory
-tc.TestData.outdir = tc.applyFixture(matlab.unittest.fixtures.TemporaryFolderFixture('PreservingOnFailure', true)).Folder;
+tc.TestData.outdir = tc.applyFixture(matlab.unittest.fixtures.TemporaryFolderFixture).Folder;
 
 end
 end

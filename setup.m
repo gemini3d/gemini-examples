@@ -12,16 +12,7 @@ end
 setup_file = fullfile(gemini_matlab, "setup.m");
 
 if ~isfile(setup_file)
-  meta = jsondecode(fileread(fullfile(cwd, "libraries.json")));
-
-  cmd = "git -C " + fullfile(cwd, "..") + " clone --recurse-submodules " + meta.matgemini.git;
-  ret = system(cmd);
-
-  if ret == 0 && isfield(meta.matgemini, "tag") && ~isempty(meta.matgemini.tag)
-    ret = system("git -C " + gemini_matlab + " checkout " + meta.matgemini.tag);
-  end
-
-  assert(ret==0, "Failed to download MatGemini")
+  error("Set environment variable MATGEMINI to the path where https://github.com/gemini3d/mat_gemini resides on your computer.")
 end
 
 run(setup_file)

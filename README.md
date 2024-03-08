@@ -31,10 +31,11 @@ To enable these scripts, each time you startup Matlab to work with Gemini, run f
 setup
 ```
 
-That gets MatGemini if you don't already have it, and adds its path to Matlab.
-If you prefer, you can add this setup.m to your Matlab
-[startup.m](https://www.mathworks.com/help/matlab/ref/startup.html)
-to always enable Gemini.
+Optionally, to run a few self-test scripts in Matlab, from gemini-examples/:
+
+```matlab
+buildtool test
+```
 
 For each simulation you want to generate, for example "ARCS_eq":
 

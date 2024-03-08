@@ -10,7 +10,7 @@ cwd = fileparts(mfilename('fullpath'));
 test_dir = fullfile(cwd, "../init", name);
 %% setup new test data
 p = gemini3d.read.config(test_dir);
-tc.assumeNotEmpty(p, "did not contain config.nml")
+tc.assumeNotEmpty(p, test_dir + " did not contain config.nml")
 p.outdir = outdir;
 
 try
@@ -20,4 +20,4 @@ catch e
   rethrow(e)
 end
 
-end  % function
+end
