@@ -22,7 +22,7 @@ Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
-eq_dir = '~/simulations/ssd/risr3d_eq/'
+eq_dir = '~/simulations/sdcard/risr3d_eq/'
 
 precip_latwidth = 0.025
 precip_lonwidth = 0.15
@@ -62,7 +62,7 @@ E0_dir = 'inputs/Efield/'
 !/
 
 &precip_BG
-PhiWBG=1e-5
+PhiWBG=0.1
 W0BG=3e3
 /
 
