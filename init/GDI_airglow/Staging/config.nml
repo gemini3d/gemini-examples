@@ -1,10 +1,10 @@
 ! this is a gradient drift instability simulation
 
 &base
-ymd = 2017,11,21               ! year, month, day
-UTsec0 = 67740.0              ! start time in UT seconds
+ymd = 2016,02,03              ! year, month, day
+UTsec0 = 16800.0              ! start time in UT seconds
 tdur = 600.0                  ! duration of simulation in seconds
-dtout = 100.0                   ! how often to do file output
+dtout = 100.0                 ! how often to do file output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -27,7 +27,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -33.5e-3
-eq_dir = '~/Desktop/GDI_RISR_Test_Cases/18_49_Eulerian/Equil/'
+eq_dir = '~/simulations/ssd/GDI_airglow_eq/'
 setup_functions = '.perturb_file'
 /
 

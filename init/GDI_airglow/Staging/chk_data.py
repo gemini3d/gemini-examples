@@ -87,9 +87,9 @@ for i in range(0,nei.shape[0]):
 for j in range(0,nei.shape[0]):
     neiextended[:,j]=1/(2*m+1)*np.sum( neismooth[:,j-m:j+m+1], axis=1)
 if m>0:
-    nei=neismooth[m:-m,m:-m]
+    nei=neiextended[m:-m,m:-m]
 else:
-    nei=neismooth
+    nei=neiextended
 
 # enforce some minimum background density
 nei[nei<1.5e11]=1.25e11
