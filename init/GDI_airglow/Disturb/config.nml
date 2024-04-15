@@ -1,10 +1,10 @@
 ! this is a gradient drift instability simulation
 
 &base
-ymd = 2017,11,21               ! year, month, day
-UTsec0 = 67740.0              ! start time in UT seconds
+ymd = 2016,02,03              ! year, month, day
+UTsec0 = 16800.0              ! start time in UT seconds
 tdur = 1800.0                  ! duration of simulation in seconds
-dtout = 10.0                   ! how often to do file output
+dtout = 30.0                   ! how often to do file output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -14,20 +14,20 @@ Teinf = 1500.0                ! exospheric electron temperature
 glat = 75.6975
 glon = 265.1678
 xdist = 2800e3                ! eastward distance (meters), including a large low-res buffer for solvers
-ydist = 2000e3                ! northward distance (meters)
-lxp = 2000
+ydist = 2800e3                ! northward distance (meters)
+lxp = 512
 !lyp = 344
 lyp = 100
-!x2parms = 400e3,1.0e3,15e3,150e3
-x3parms = 403e3,1.0e3,15e3,150e3
+!x2parms = 400e3,2.0e3,15e3,150e3
+x3parms = 400e3,4.0e3,15e3,150e3
 !x2parms = 350e3,0.74e3,25e3,50e3
 !x3parms = 350e3,0.74e3,25e3,50e3
 Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
-Eyit = -33.5e-3
-eq_dir = '~/Desktop/GDI_RISR_Test_Cases/18_49_Eulerian/Staging/'
+Eyit = -20e-3
+eq_dir = '~/simulations/ssd/GDI_airglow_staging/'
 setup_functions = 'gemini3d.model.Efield_BCs'
 /
 

@@ -62,6 +62,13 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     plt.title("3D smoothed $n_e$ at reference alt.")
     plt.colorbar()
     
+    plt.figure()
+    plt.pcolormesh(x2,x3,neAGP[23,:,:].transpose())
+    plt.xlabel("x2")
+    plt.ylabel("x3")
+    plt.title("3D smoothed $n_e$ at reference alt.")
+    plt.colorbar()    
+    
     ###########################################################################
     # Scale plasma density to account for decay during staging simulation and
     #   distribute to various ion species with error checking
@@ -98,7 +105,7 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # Write in a format GEMINI can handle
     ###########################################################################
     # read in original reference data; we will retain flows and temperatures
-    dat = gemini3d.read.data(cfg["indat_file"], var=["ns", "Ts", "vs1"])
+    dat = gemini3d.read.frame(cfg["indat_file"], var=["ns", "Ts", "vs1"])
     
     gemini3d.write.state(
     cfg["indat_file"],
