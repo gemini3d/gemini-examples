@@ -141,7 +141,7 @@ def AGP2model(filename,xg,m=0,fillvalue=1.25e11):
     mloni=np.rad2deg(xg["phi"][0,:,0])
     mlati=np.rad2deg(np.pi/2-xg["theta"][0,0])
     MLONi,MLATi = np.meshgrid(mloni,mlati,indexing="xy")
-    nei = scipy.interpolate.griddata( (mlonlist,mlatlist), nelist, (MLONi,MLATi), fill_value=0 )
+    nei = scipy.interpolate.griddata( (mlonlist-100,mlatlist), nelist, (MLONi,MLATi), fill_value=0 )
     nei[np.isnan(nei)]=fillvalue
     
     # do some basic smoothing, a 2 pass x, then y m-point moving average, tile
