@@ -25,7 +25,7 @@ def perturb_efield(
 #            "dx1": 10e3,
 #        }
         params = {
-            "v0": 500,
+            "v0": 1000,
             # background flow value, actually this will be turned into a shear in the Efield input file
             "densfact": 4,
             # factor by which the density increases over the shear region - see Keskinen, et al (1988)
@@ -36,8 +36,7 @@ def perturb_efield(
         }
 
     params["vn"] = -params["v0"] * (1+params["densfact"]) / (1-params["densfact"])
-    #params["vn"]=0.0
-
+    
     # %% Sizes
     x1 = xg["x1"][2:-2]
     x2 = xg["x2"][2:-2]
@@ -271,7 +270,7 @@ def create_Efield(cfg, xg, dat, params):
         # COMPUTE KHI DRIFT FROM APPLIED POTENTIAL
         vel3 = np.empty((llon, llat))
         for j in range(llat):
-            vel3[:, j] = -1*params["v0"] * np.tanh(x2i / params["ell"])# - params["vn"]
+            vel3[:, j] = params["v0"] * np.tanh(x2i / params["ell"]) - params["vn"]
 
         vel3 = np.flipud(vel3)
 
@@ -283,21 +282,21 @@ def create_Efield(cfg, xg, dat, params):
         E["Exit"][i,:] = -1*E2slab
         
         # INTEGRATE TO PRODUCE A POTENTIAL OVER GRID - then save the edge boundary conditions
-        #DX2 = np.diff(x2i)
-        #DX2 = np.append(DX2, DX2[-1])
-        #Phislab = np.cumsum(E2slab * DX2, axis=0)  # use a forward difference
-        #E["Vmaxx2ist"][i, :] = Phislab[-1, :]    # drive through BCs
-        #E["Vminx2ist"][i, :] = Phislab[0, :]     # drive through BCs
+        DX2 = np.diff(x2i)
+        DX2 = np.append(DX2, DX2[-1])
+        Phislab = np.cumsum(E2slab * DX2, axis=0)  # use a forward difference
+        E["Vmaxx2ist"][i, :] = Phislab[-1, :]    # drive through BCs
+        E["Vminx2ist"][i, :] = Phislab[0, :]     # drive through BCs
                
-        # Use FAC to enforce a smooth BG field, assume no E3, Cartesian, non-inverted for now
-        E["flagdirich"][i]=0
-        J2i=SigPi*E["Exit"][i,:,:]
-        J3i=SigHi*E["Exit"][i,:,:]
+        # # Use FAC to enforce a smooth BG field, assume no E3, Cartesian, non-inverted for now
+        # E["flagdirich"][i]=0
+        # J2i=SigPi*E["Exit"][i,:,:]
+        # J3i=SigHi*E["Exit"][i,:,:]
         
-        J2ix,_=np.gradient(J2i,x2i,x3i)
-        _,J3iy=np.gradient(J3i,x2i,x3i)
-        divJperp=J2ix+J3iy
-        E["Vmaxx1it"][i,:,:]=-1*divJperp
+        # J2ix,_=np.gradient(J2i,x2i,x3i)
+        # _,J3iy=np.gradient(J3i,x2i,x3i)
+        # divJperp=J2ix+J3iy
+        # E["Vmaxx1it"][i,:,:]=-1*divJperp
 
     # %% Write electric field data to file
     gemini3d.write.Efield(E, cfg["E0dir"])

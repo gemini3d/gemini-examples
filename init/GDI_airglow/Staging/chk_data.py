@@ -28,15 +28,6 @@ ne=df.loc[0]["density field (1/m^3)"].data
 glat=df.loc[0]["latitude"]
 glon=df.loc[0]["longitude"]
 
-# sanity check plot density values 
-plt.figure()
-plt.pcolor(glon,glat,ne)
-plt.colorbar()
-plt.xlabel("glon")
-plt.ylabel("glat")
-plt.title("$n_e$")
-plt.show()
-
 # grid the data onto a plaid glon,glat mesh
 glonlist=glon[~np.isnan(glon)]
 glatlist=glat[~np.isnan(glon)]
@@ -46,6 +37,15 @@ glati=np.linspace(glatlist.min(),glatlist.max(),ne.shape[0])
 GLONi,GLATi = np.meshgrid(gloni,glati,indexing="xy")
 nei = scipy.interpolate.griddata( (glonlist,glatlist), nelist, (GLONi,GLATi), fill_value=0 )
 nei[np.isnan(nei)]=0
+
+# # sanity check plot density values 
+# plt.figure()
+# plt.pcolor(glonlist,glatlist,nelist)
+# plt.colorbar()
+# plt.xlabel("glon")
+# plt.ylabel("glat")
+# plt.title("$n_e$")
+# plt.show()
 
 # sanity check plot sampled density values 
 plt.figure()
@@ -71,6 +71,7 @@ nei[np.isnan(nei)]=0
 # sanity check plot sampled density values 
 plt.figure()
 plt.pcolor(mloni,mlati,nei)
+plt.xlim(225,350)
 plt.colorbar()
 plt.xlabel("mlon")
 plt.ylabel("mlat")
@@ -106,7 +107,8 @@ for ilon in range(0,mloni.size):
 # sanity check again
 plt.figure()
 plt.pcolormesh(mloni,mlati,nei3D[128,:,:].transpose())
+plt.xlim(225,350)
+plt.colorbar()
 plt.xlabel("mlon")
 plt.ylabel("mlat")
 plt.title("3D smoothed $n_e$ at reference alt.")
-plt.colorbar()
