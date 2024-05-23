@@ -1,6 +1,6 @@
 &base
-ymd = 2023,10,14
-UTsec0 = 51000.0
+ymd = 2023,10,13
+UTsec0 = 72000.0
 tdur = 65400
 dtout = 600.0                          !dtout: how often to do output
 activ=140,140,5              !activ:  f107a,f107,Ap
