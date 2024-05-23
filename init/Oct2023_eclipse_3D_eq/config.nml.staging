@@ -26,7 +26,6 @@ altmin=80e3
 gridflag=1
 nmf=5e11
 nme=2e11
-!eq_dir='/Volumes/uSDcard1TB/simulations/Oct2023_eclipse_solmax_20_3D_staging/'
 /
 
 &files
