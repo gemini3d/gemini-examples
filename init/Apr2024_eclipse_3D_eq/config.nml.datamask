@@ -1,7 +1,7 @@
 &base
-ymd = 2024,4,4
-UTsec0 = 56700.0
-tdur = 20700
+ymd = 2024,4,8
+UTsec0 = 57000.0
+tdur = 20400
 dtout = 600.0                          !dtout: how often to do output
 activ=140,140,5              !activ:  f107a,f107,Ap
 tcfl=0.9                           !tcfl:  target cfl number
@@ -15,18 +15,18 @@ flagoutput = 1      ! 1 - full parameter output
 /
 
 &setup
-dtheta=22.0
+dtheta=24.0
 dphi=80.0
 glat=30.0
 glon=265
-lp=192
+lp=256
 lq=384
 lphi=64
 altmin=80e3
 gridflag=1
 !nmf=5e11
 !nme=2e11
-eq_dir='/Volumes/uSDcard1TB/simulations/Apr2024_eclipse_staging/'
+eq_dir='/Users/zettergm/simulations/ssd/Apr2024_total_eclipse_staging/'
 /
 
 &files
@@ -36,7 +36,7 @@ indat_file = 'inputs/initial_conditions.h5'
 /
 
 &solflux
-dtsolflux=500.0
+dtsolflux=300.0
 solfluxdir='inputs/solflux/'
 /
 

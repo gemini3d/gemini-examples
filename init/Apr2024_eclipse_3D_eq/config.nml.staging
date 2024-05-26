@@ -1,5 +1,5 @@
 &base
-ymd = 2024,4,3
+ymd = 2024,4,7
 UTsec0 = 77700.0
 tdur = 65400
 dtout = 600.0                          !dtout: how often to do output

@@ -15,18 +15,18 @@ flagoutput = 1      ! 1 - full parameter output
 /
 
 &setup
-dtheta=22.0
+dtheta=21.0
 dphi=80.0
 glat=30.0
 glon=265
-lp=192
+lp=256
 lq=384
 lphi=64
 altmin=80e3
 gridflag=1
 !nmf=5e11
 !nme=2e11
-eq_dir='/Volumes/uSDcard1TB/simulations/Oct2023_annular_eclipse_staging/'
+eq_dir='/Users/zettergm/simulations/ssd/Oct2023_annular_eclipse_staging/'
 /
 
 &files

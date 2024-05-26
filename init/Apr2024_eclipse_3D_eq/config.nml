@@ -1,7 +1,7 @@
 &base
-ymd = 2024,4,3
-UTsec0 = 77700.0
-tdur = 65400
+ymd = 2024,4,8
+UTsec0 = 57000.0
+tdur = 20400
 dtout = 600.0                          !dtout: how often to do output
 activ=140,140,5              !activ:  f107a,f107,Ap
 tcfl=0.9                           !tcfl:  target cfl number
@@ -15,18 +15,18 @@ flagoutput = 1      ! 1 - full parameter output
 /
 
 &setup
-dtheta=25.0
+dtheta=24.0
 dphi=80.0
 glat=30.0
 glon=265
 lp=256
 lq=384
-lphi=48
+lphi=64
 altmin=80e3
 gridflag=1
-nmf=5e11
-nme=2e11
-!eq_dir='/Volumes/uSDcard1TB/simulations/Oct2023_eclipse_solmax_20_3D_staging/'
+!nmf=5e11
+!nme=2e11
+eq_dir='/Users/zettergm/simulations/ssd/Apr2024_total_eclipse_staging/'
 /
 
 &files
@@ -35,10 +35,10 @@ indat_grid = 'inputs/simgrid.h5'
 indat_file = 'inputs/initial_conditions.h5'
 /
 
-!&solflux
-!dtsolflux=500.0
-!solfluxdir='inputs/solflux/'
-!/
+&solflux
+dtsolflux=300.0
+solfluxdir='inputs/solflux/'
+/
 
 ! (optional - default off) control equatorial ionization anomaly
 &EIA
