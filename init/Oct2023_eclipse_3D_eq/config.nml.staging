@@ -15,7 +15,7 @@ flagoutput = 1      ! 1 - full parameter output
 /
 
 &setup
-dtheta=25.0
+dtheta=27.0
 dphi=80.0
 glat=30.0
 glon=265
