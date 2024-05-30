@@ -13,7 +13,7 @@ import scipy.interpolate
 import gemini3d.coord
 import gemini3d.plasma
 
-filename="./AGP1_outline.h5"
+filename="./AGP1_outline_v2.h5"
 #f=h5py.File(filename,mode="r")
 #data=f["param"][:]
 #f.close()
@@ -21,12 +21,25 @@ filename="./AGP1_outline.h5"
 # pandas dataframe
 df = pd.read_hdf(filename)
 df.info()    # print the entries
-print("velocity:  ", df.loc[0]["velocity (m/s)"])
 
 # Get irregularly gridded data
 ne=df.loc[0]["density field (1/m^3)"].data
 glat=df.loc[0]["latitude"]
 glon=df.loc[0]["longitude"]
+
+# get reference profile
+neavg = df.loc[0]["AGP1 profile density (1/m^3)"]
+altavg = df.loc[0]["AGP1 profile altitude (km)"]
+
+# velocity information
+vmag = df.loc[0]["velocity (m/s)"]
+vmagout = df.loc[0]["velocity outside (m/s)"]
+vang = df.loc[0]["velocity direction (degrees)"]
+vangout = df.loc[0]["velocity direction outside (degrees)"]
+
+# E-region information
+neE = df.loc[0]["E-region profile density (1/m^3)"]
+altE = df.loc[0]["E-region profile altitude (km)"]
 
 # grid the data onto a plaid glon,glat mesh
 glonlist=glon[~np.isnan(glon)]
@@ -37,6 +50,19 @@ glati=np.linspace(glatlist.min(),glatlist.max(),ne.shape[0])
 GLONi,GLATi = np.meshgrid(gloni,glati,indexing="xy")
 nei = scipy.interpolate.griddata( (glonlist,glatlist), nelist, (GLONi,GLATi), fill_value=0 )
 nei[np.isnan(nei)]=0
+
+# plots for checking various parameters
+plt.figure()
+plt.semilogx(neavg,altavg)
+plt.title("avg. F-region profile in patch")
+
+plt.figure()
+plt.semilogx(neE,altE)
+plt.title("E-region profile in patch")
+
+print("Velocity information (magnitude, az from north):  ",vmag,vang)
+print("vN,vE = ",vmag*np.cos(np.deg2rad(vang)),vmag*np.sin(np.deg2rad(vang)))
+
 
 # # sanity check plot density values 
 # plt.figure()
@@ -76,6 +102,39 @@ plt.colorbar()
 plt.xlabel("mlon")
 plt.ylabel("mlat")
 plt.title("$n_e$")
+plt.show()
+
+# Find the angle of rotation so velocity is "eastward" in simulation
+ang=vang-90           # measures east toward south
+ang = 360-ang         # measures east toward north; model frame needs to be rotated by *minus* this
+angrad = np.deg2rad(ang)
+
+# create x,y dataset to enable rotations
+thetactr=np.deg2rad(90-mlatlist.mean())
+phictr=np.deg2rad(mlonlist.mean())
+altlist=np.ones(glatlist.size)
+zlist,xlist,ylist = gemini3d.coord.geog2UEN(300e3*np.ones(glonlist.size), glonlist, glatlist, thetactr, phictr)
+xlist=xlist-xlist.mean()    # re-center
+ylist=ylist-ylist.mean()
+xprime=xlist*np.cos(-angrad)-ylist*np.sin(-angrad)    # list of x locations in model basis
+yprime=xlist*np.sin(-angrad)+ylist*np.cos(-angrad)    # list of y locations in model basis
+
+# now sample the data in the model basis
+xi=np.linspace(xprime.min(),xprime.max(),llon)
+yi=np.linspace(yprime.min(),yprime.max(),llat)
+Xi,Yi = np.meshgrid(xi,yi,indexing="xy")
+nerot = scipy.interpolate.griddata( (xprime,yprime), nelist, (Xi,Yi), fill_value=0 )
+nerot[np.isnan(nerot)]=0
+
+# plot data rotated into the model basis
+plt.figure()
+plt.pcolor(xi,yi,nerot)
+plt.xlim(-1e6,1e6)
+plt.ylim(-1e6,1e6)
+plt.colorbar()
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("$n_e$ rotated into model basis")
 plt.show()
 
 # do some basic smoothing, a 2 pass x, then y m-point moving average

@@ -53,7 +53,8 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     #neRISR = ci.point_enu(np.datetime64(iso_time), X_prime_prime, Y_prime_prime, Z)
     #neRISR=neRISR.transpose((2,0,1))
     
-    alti,mloni,mlati,neAGP=AGP2model("./AGP1_outline.h5",xg,m=5,fillvalue=1.25e11)
+#    alti,mloni,mlati,neAGP=AGP2model("./AGP1_outline.h5",xg,m=5,fillvalue=1.25e11)
+    alti,mloni,mlati,neAGP=AGP2model_rot("./AGP1_outline_v2.h5",xg,m=5,fillvalue=1.25e11)
     
     plt.figure()
     plt.pcolormesh(mloni,mlati,neAGP[23,:,:].transpose())
@@ -113,7 +114,102 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     ns=nsperturb
     )
     
+    
+#
+# Version that rotates the data so that the drift is in the x-direction in the model basis
+#    
+def AGP2model_rot(filename,xg,m=0,fillvalue=1.25e11):
+    import gemini3d.coord
+    import gemini3d.plasma
+    import scipy.interpolate
+    import pandas as pd
 
+    # pandas dataframe
+    df = pd.read_hdf(filename)
+    
+    # Get irregularly gridded data
+    ne=df.loc[0]["density field (1/m^3)"].data
+    glat=df.loc[0]["latitude"]
+    glon=df.loc[0]["longitude"]
+    
+    # Velocity information
+    vmag = df.loc[0]["velocity (m/s)"]
+    vang = df.loc[0]["velocity direction (degrees)"]
+    print("Velocity information (magnitude, az from north via east):  ",vmag,vang)
+    print("vN,vE = ",vmag*np.cos(np.deg2rad(vang)),vmag*np.sin(np.deg2rad(vang)))
+
+    # array of points with actual data
+    glonlist=glon[~np.isnan(glon)]
+    glatlist=glat[~np.isnan(glon)]
+    nelist=ne[~np.isnan(glon)]
+    mlatlist,mlonlist=gemini3d.coord.geog2geomag(glatlist, glonlist)
+    mlonlist=np.rad2deg(mlonlist)
+    mlatlist=np.rad2deg(np.pi/2-mlatlist)
+    
+    # Find the angle of rotation so velocity is "eastward" in simulation
+    ang=vang-90           # measures east toward south
+    ang = 360-ang         # measures east toward north; model frame needs to be rotated by *minus* this
+    angrad = np.deg2rad(ang)
+    
+    # create x,y dataset to enable rotations
+    thetactr=np.deg2rad(90-mlatlist.mean())
+    phictr=np.deg2rad(mlonlist.mean())
+    altlist=300e3*np.ones(glatlist.size)
+    zlist,xlist,ylist = gemini3d.coord.geog2UEN(altlist, glonlist, glatlist, thetactr, phictr)
+    xlist=xlist-xlist.mean()    # re-center
+    ylist=ylist-ylist.mean()
+    xprime=xlist*np.cos(-angrad)-ylist*np.sin(-angrad)    # list of x locations in model basis
+    yprime=xlist*np.sin(-angrad)+ylist*np.cos(-angrad)    # list of y locations in model basis
+
+    # now sample the data in the model basis
+    #xi=np.linspace(xprime.min(),xprime.max(),llon)
+    #yi=np.linspace(yprime.min(),yprime.max(),llat)
+    xi=xg["x2"][2:-2]
+    yi=xg["x3"][2:-2]
+    Xi,Yi = np.meshgrid(xi,yi,indexing="xy")
+    nei = scipy.interpolate.griddata( (xprime,yprime), nelist, (Xi,Yi), fill_value=0 )
+    nei[np.isnan(nei)]=fillvalue
+    
+    # grid as plaid magnetic coords using GEMINI mesh extents to define query
+    #   locations
+    #mloni=np.rad2deg(xg["phi"][0,:,0])
+    #mlati=np.rad2deg(np.pi/2-xg["theta"][0,0])
+    #MLONi,MLATi = np.meshgrid(mloni,mlati,indexing="xy")
+    #nei = scipy.interpolate.griddata( (mlonlist-100,mlatlist), nelist, (MLONi,MLATi), fill_value=0 )
+    #nei[np.isnan(nei)]=fillvalue
+    
+    # do some basic smoothing, a 2 pass x, then y m-point moving average, tile
+    #   dataset with "ghost cells" to make this cleaner to code
+    neiextended=np.concatenate( (nei[0:m,:],nei,nei[-m:,:]), axis=0 )
+    neiextended=np.concatenate( (neiextended[:,0:m],neiextended,neiextended[:,-m:]), axis=1 )
+    neismooth=neiextended
+    for i in range(0,nei.shape[0]):
+        neismooth[i,:]=1/(2*m+1)*np.sum( neiextended[i-m:i+m+1,:], axis=0 )
+    for j in range(0,nei.shape[0]):
+        neiextended[:,j]=1/(2*m+1)*np.sum( neismooth[:,j-m:j+m+1], axis=1)
+    if m>0:
+        nei=neiextended[m:-m,m:-m]
+    else:
+        nei=neiextended
+        
+    # enforce some minimum background density
+    nei[nei<fillvalue]=fillvalue
+    
+    #create a 3D dataset using a Chapman profile for the altitude functional form
+    alti=xg["x1"][2:-2]          # adopt sampling from model
+    nei=nei.transpose((1,0))     # gemini model axis ordering
+    nei3D=np.empty( (alti.size,xi.size,yi.size) )
+    for ilon in range(0,xi.size):
+        for ilat in range(0,yi.size):
+                neprofile=gemini3d.plasma.chapmana(alti, nei[ilon,ilat], 300e3, 50e3)
+                nei3D[:,ilon,ilat]=neprofile
+    
+    return alti,xi,yi,nei3D    
+    
+
+#
+# Version that ***does not*** rotate the data so that the drift is in the x-direction in the model basis
+#    
 def AGP2model(filename,xg,m=0,fillvalue=1.25e11):
     import gemini3d.coord
     import gemini3d.plasma
@@ -128,6 +224,12 @@ def AGP2model(filename,xg,m=0,fillvalue=1.25e11):
     glat=df.loc[0]["latitude"]
     glon=df.loc[0]["longitude"]
     
+    # Velocity information
+    #vmag = df.loc[0]["velocity (m/s)"]
+    #vang = df.loc[0]["velocity direction (degrees)"]
+    #print("Velocity information (magnitude, az from north via east):  ",vmag,vang)
+    #print("vN,vE = ",vmag*np.cos(np.deg2rad(vang)),vmag*np.sin(np.deg2rad(vang)))
+
     # array of points with actual data
     glonlist=glon[~np.isnan(glon)]
     glatlist=glat[~np.isnan(glon)]
