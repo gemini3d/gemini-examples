@@ -49,7 +49,7 @@ indat_file = 'inputs/initial_conditions.h5'
 /
 
 &efield
-dtE0 = 180
+dtE0 = 30.0
 E0_dir = 'inputs/Efield/'
 /
 
