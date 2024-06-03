@@ -167,7 +167,7 @@ def AGP2model_rot(filename,xg,m=0,fillvalue=1.25e11):
     xi=xg["x2"][2:-2]
     yi=xg["x3"][2:-2]
     Xi,Yi = np.meshgrid(xi,yi,indexing="xy")
-    nei = scipy.interpolate.griddata( (xprime,yprime), nelist, (Xi,Yi), fill_value=0 )
+    nei = scipy.interpolate.griddata( (xprime-1500e3,yprime), nelist, (Xi,Yi), fill_value=0 )
     nei[np.isnan(nei)]=fillvalue
     
     # grid as plaid magnetic coords using GEMINI mesh extents to define query

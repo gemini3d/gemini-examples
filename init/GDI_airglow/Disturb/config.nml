@@ -15,7 +15,7 @@ glat = 75.6975
 glon = 265.1678
 xdist = 4000e3                ! eastward distance (meters), including a large low-res buffer for solvers
 ydist = 2000e3                ! northward distance (meters)
-lxp = 1024
+lxp = 1032
 !lyp = 344
 lyp = 100
 !x2parms = 400e3,2.0e3,15e3,150e3
@@ -27,7 +27,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -20e-3
-eq_dir = '~/simulations/ssd/GDI_airglow_staging_offset/'
+eq_dir = '~/simulations/ssd/GDI_airglow_Staging_rot_offset/'
 setup_functions = 'gemini3d.model.Efield_BCs'
 /
 
