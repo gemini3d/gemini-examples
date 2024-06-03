@@ -33,7 +33,7 @@ def perturb_efield(
     lx3 = xg["lx"][2]
 
     # %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-    dat = gemini3d.read.data(cfg["indat_file"], var=["ns", "Ts", "v1"])
+    dat = gemini3d.read.frame(cfg["indat_file"], var=["ns", "Ts", "v1"])
 
     nsscale = init_profile(xg, dat)
 

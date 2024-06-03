@@ -17,7 +17,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     x2 = xg["x2"][2:-2]
 
     # %% LOAD THE FRAME OF THE SIMULATION THAT WE WANT TO PERTURB
-    dat = gemini3d.read.data(cfg["indat_file"], var=["ns", "Ts", "vs1"])
+    dat = gemini3d.read.frame(cfg["indat_file"], var=["ns", "Ts", "vs1"])
     ns = dat["ns"]
     lsp = ns.shape[0]
 
@@ -86,5 +86,4 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
         cfg["indat_file"],
         dat,
         ns=nsperturb,
-        file_format=cfg["file_format"],
     )
