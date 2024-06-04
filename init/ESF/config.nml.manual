@@ -21,16 +21,13 @@ dtheta=3.5
 dphi=2.5
 lp=128
 lq=128
-lphi=132
+lphi=128
 altmin=80e3
 glat=8.35
 glon=283.1
 gridflag=1
 flagsource=0
-
-eq_dir = '~/simulations/ssd/ESF_eq/'
-
-setup_functions = 'perturb'
+eq_dir ='~/simulations/ssd/ESF_eq/'
 /
 
 &files

@@ -1,6 +1,6 @@
 
 %% READ IN THE SIMULATION INFORMATION
-ID=['~/simulations/ssd/ESF_Gaussian_retry2c/inputs/'];
+ID=['~/simulations/ssd/ESF_Gaussian_retry_test/inputs/'];
 cfg=gemini3d.read.config(ID);
 xg= gemini3d.read.grid([ID]);
 x1=xg.x1(3:end-2); x2=xg.x2(3:end-2); x3=xg.x3(3:end-2);

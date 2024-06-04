@@ -1,6 +1,6 @@
 %% Parameters for creating input files from given equilibrium run
 p.eq_dir='~/simulations/ssd/ESF_eq_retry/';
-p.outdir='~/simulations/ssd/ESF_Gaussian_retry2/';
+p.outdir='~/simulations/ssd/ESF_Gaussian_retry_test/';
 
 p.indat_size=[p.outdir,'/inputs/simsize.h5'];
 p.indat_grid=[p.outdir,'/inputs/simgrid.h5'];
@@ -12,9 +12,9 @@ p.dphi=2.5;
 %p.lp=192*3;
 %p.lq=256;
 %p.lphi=192*2;
-p.lp=256;
-p.lq=256;
-p.lphi=384;
+p.lp=128;
+p.lq=128;
+p.lphi=132;
 p.altmin=80e3;
 p.glat=8.35;
 p.glon=360-76.9;     %Jicamarca
