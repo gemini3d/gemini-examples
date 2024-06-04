@@ -1,0 +1,53 @@
+! Equatorial spread F simulation example
+
+&base
+ymd = 2016,3,3               ! year, month, day
+UTsec0 = 4500.0              ! start time in UT seconds
+tdur =  10800.0                  ! duration of simulation in seconds
+dtout = 600.0                  ! how often to do file output
+activ = 150.0,150.0,4.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 1    ! whether periodic
+flagoutput = 2      ! 1 - full output
+/
+
+&setup
+dtheta=3.5
+dphi=2.5
+lp=128
+lq=128
+lphi=132
+altmin=80e3
+glat=8.35
+glon=283.1
+gridflag=1
+flagsource=0
+
+eq_dir = '~/simulations/ssd/ESF_eq/'
+
+setup_functions = 'perturb'
+/
+
+&files
+file_format='h5'
+indat_size = '~/simulations/ssd/ESF_Gaussian/inputs/simsize.h5'
+indat_grid = '~/simulations/ssd/ESF_Gaussian/inputs/simgrid.h5'
+indat_file = '~/simulations/ssd/ESF_Gaussian/inputs/initial_conditions.h5'
+/
+
+&Jpar
+flagJpar=.false.     !parallel currents perhaps not meangingful in ESF simulation?
+/
+
+&gravdrift
+flaggravdrift=.true.
+/
+
+&milestone
+mcadence=5
+/
