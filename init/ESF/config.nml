@@ -28,7 +28,7 @@ glon=283.1
 gridflag=1
 flagsource=0
 
-eq_dir = '~/simulations/ssd/ESF_eq/'
+eq_dir = '~/simulations/ssd/ESF_eq_CEDAR2024/'
 
 setup_functions = 'perturb'
 /

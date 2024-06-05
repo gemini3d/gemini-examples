@@ -28,16 +28,16 @@ glon=283.1
 gridflag=1
 flagsource=0
 
-eq_dir = '~/simulations/ssd/ESF_eq/'
+eq_dir = '~/simulations/ssd/ESF_eq_CEDAR2024/'
 
-setup_functions = 'perturb'
+setup_functions = 'perturb_ESF'
 /
 
 &files
 file_format='h5'
-indat_size = '~/simulations/ssd/ESF_Gaussian/inputs/simsize.h5'
-indat_grid = '~/simulations/ssd/ESF_Gaussian/inputs/simgrid.h5'
-indat_file = '~/simulations/ssd/ESF_Gaussian/inputs/initial_conditions.h5'
+indat_size = '~/simulations/ssd/ESF_periodic_lowres/inputs/simsize.h5'
+indat_grid = '~/simulations/ssd/ESF_periodic_lowres/inputs/simgrid.h5'
+indat_file = '~/simulations/ssd/ESF_periodic_lowres/inputs/initial_conditions.h5'
 /
 
 &Jpar

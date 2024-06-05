@@ -7,7 +7,7 @@ import gemini3d.read
 from gemini3d.config import datetime_range
 
 
-def perturb_efield(
+def perturb_KHI(
     cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any], params: T.Dict[str, float] = None
 ):
     """Electric field boundary conditions and initial condition for KHI case arguments"""

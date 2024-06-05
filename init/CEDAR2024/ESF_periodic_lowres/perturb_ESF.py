@@ -5,7 +5,7 @@ import gemini3d.read
 import gemini3d.write
 
 
-def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
+def perturb_ESF(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     """
     perturb plasma from initial_conditions file
     """
