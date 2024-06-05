@@ -4,7 +4,7 @@
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 28500.0              ! start time in UT seconds
 tdur = 1800.0                  ! duration of simulation in seconds
-dtout = 10.0                  ! how often to do file output
+dtout = 30.0                  ! how often to do file output
 activ = 172.4,165.6,9.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -20,7 +20,7 @@ x2parms = 200e3,0.75e3,10.1e3,30e3
 !ydist = 179.688e3             ! northward distance (meters)
 !!ydist=134.766e3
 lxp = 276
-lyp = 128
+lyp = 132
 !lyp=96
 Bincl = 90
 alt_min = 80e3
