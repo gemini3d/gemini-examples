@@ -1,46 +1,67 @@
-# The "*\_periodic\_lowres" Examples
+# "*\_periodic\_lowres" examples
 
-These examples show application of the GEMINI model to simulate various interchange instabilities (gradient-drift, Kelvin-Helmholtz, and gravitational Rayleigh-Taylor) in a 3D box.  The y-direction (x3) is taken to be periodic so as to facilitate a reduction in domain size; i.e.  to create the smallest (most efficient) grid possible that will allow the basic features of these instabilities to be modeled.  
+These examples show application of the GEMINI model to simulate various interchange instabilities (gradient-drift, Kelvin-Helmholtz, and gravitational Rayleigh-Taylor) in a 3D box.  The y-direction (x3) is taken to be periodic so as to facilitate a reduction in domain size; i.e.  to create the smallest (most efficient) grid possible that will allow the most basic features of these instabilities to be modeled.  
 
-These examples run on and 4 core laptop with 16 GB memory and ~2-4 GB free storage.  Each simulation takes about ~10-30 minutes to complete.  
-
-## Running this example
-
-Do a full GEMINI installation as described in the README for the core [GEMINI](https://github.com/gemini3d/gemini) repository.
-You will also need to install the [gemini-examples](https://github.com/gemini3d/gemini-examples) repository and the
-[mat_gemini](https://github.com/gemini3d/pygemini) repository.
+These examples run on and 4 core laptop with 16 GB memory and ~4 GB free storage.  Each simulation takes about ~30 minutes to complete.  
 
 
-NOTE: The following steps are all subsumed in "config.m" so you can skip ahead by from Matlab in this directory:
+## Installation
 
-```matlab
-cd gemini-examples/init/GDI_periodic_lowres
+You will also need the files in this directory to set up the three simulations; these are most easily obtained by cloning the [gemini-examples](https://github.com/gemini3d/gemini-examples) repository.
 
-config
+```zsh
+git clone https://github.com/gemini3d/gemini-examples
 ```
 
----
+Alternatively one could simply copy the source files from the GitHub webpage.  
 
-1. We have provided downloadable equilibrium simulation for RISR, as specified in config.nml:setup:eq_url.  The GDI\_periodic\_medres example is usually run with the [RISR_eq equilibrium simulation](./init/RISR_eq) as input which represents the ionospheric at nighttime above the Resolute Bay incoherent scatter radar location--but you don't have to do this since this example auto-downloads.
+Core GEMINI code installation details are covered in the [GEMINI](https://github.com/gemini3d/gemini) repository; he we provide an brief summary.  Once you have installed a compiler (gcc recommended), mpi implementation (openmpi recommended), and cmake you can pull the GEMINI repository, configure, and compile.
 
-2. The config.nml defines a new grid and the model_setup() upsamples the downloaded equilibrium data.  This is taking a coarsely sampled equilibrium state and interpolating to up to a grid with fine resolution that can be used for a sensible turbulence simulation.
+```zsh
+git clone https://github.com/gemini3d/gemini3d
+cd gemini3d
+cmake -B build
+cmake --build build -j
+```
 
-3. The perturb.m function is specified in config.nml:setup:setup_functions to create a density enhancement for your simulation. This involves taking the upsampled initial condition and adding an unstable density gradient to it.  The parameters of the density enhancement can be specified by altering the script (see comments in the source code).  One must also include seed noise in order for the instability to be initiate.  Once this is done, you have a complete set of initial conditions for your simulations.
+Finally, you will need the pygemini front- and back- end scripting for prepping input data and plotting; this requires an existing python installation.
 
-4. Create boundary conditions.  GEMINI also requires boundary conditions on the electric field and particle precipitation.  In this simulation we are attempting to describe the polar cap and we do not specify the precipitation input at all in the config.nml, in which case the model will set it to some very small value.  A background electric field is required for GDI to grow and this is set by the config.nml:setup:setup_functions:gemini3d.model.Efield_BCs function.  The background field x and y components are set in the script as well as the potential boundary condition, which is taken to be zero current in order to allow the instability to not short through the magnetosphere.
+```
+git clone https://github.com/gemini3d/pygemini
+pip install -e pygemini
+```
 
-5. Since config.nml can use relative paths to simulation grid, initial conditions, electric field and the precipitation files if used. Absolute path can also be used if desired, but this often is not necessary. Relative paths can make it easier to share scripts and config files.
 
-6. run the simulation from Matlab or Python:
+## Creating input data for simulation
 
-    ```matlab
-    out_dir = '~/sims/gdi_periodic_lowres'
+Initial conditions for these simulations for a specific grid size, etc., are created from existing, low-resolution "equilibrium" simulations.  These can be downloaded here:  .  
 
-    gemini3d.run(out_dir, '.')
-    ```
+Make sure the ```eq_dir``` variable in the ```config.nml``` file for whichever example you want to run points to the place where you have downloaded the equilbrium data.
 
-8. plot the simulation outputs (saved as PNG files under <output_dir>/plots)
+Once these are obtained one can run the setup for one of the instability simulations (here we will use the ESF example):  
 
-    ```matlab
-    gemini3d.plot(out_dir, 'png')
-    ```
+```zsh
+cd gemini-examples/init/CEDAR2024/ESF_periodic_lowres/
+ipython
+```
+Once python has started you can run the setup scripts on the example you wish to simulate:  
+```python
+import gemini3d.model
+gemini3d.model.setup("./config.nml","place/to/put/simulation/data")
+```
+This will generate grid, initial conditions, and boundary conditions information that the core GEMINI model will use for its simulation
+
+
+## Running the simulation
+
+Navigate to the directory where the code was built and run it on the input data created.
+
+```zsh
+cd gemini3d/build/
+mpirun -np 4 ./gemini.denspot.bin place/to/put/simulation/data
+```
+
+
+## Gridding and plotting the output
+
+Once the simulation has been run the visualization.py script shows how you can form datacubes (i.e. regularly gridded output in lat/lon) and then plot them.  The variable for the data directory ("direc") will need to be changed to "place/to/put/simulation/data/".
