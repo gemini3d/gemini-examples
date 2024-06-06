@@ -1,54 +1,60 @@
 # "*\_periodic\_lowres" examples
 
-These examples show application of the GEMINI model to simulate various interchange instabilities (gradient-drift, Kelvin-Helmholtz, and gravitational Rayleigh-Taylor) in a 3D box.  The y-direction (x3) is taken to be periodic so as to facilitate a reduction in domain size; i.e.  to create the smallest (most efficient) grid possible that will allow the most basic features of these instabilities to be modeled.  
+These examples show application of the GEMINI model to simulate various interchange instabilities (gradient-drift, Kelvin-Helmholtz, and gravitational Rayleigh-Taylor) in a 3D box.
+The y-direction (x3) is taken to be periodic so as to facilitate a reduction in domain size; i.e.  to create the smallest (most efficient) grid possible that will allow the most basic features of these instabilities to be modeled.
 
-These examples run on and 4 core laptop with 16 GB memory and ~4 GB free storage.  Each simulation takes about ~30 minutes to complete.  
+These examples run on and 4 core laptop with 16 GB memory and ~4 GB free storage.  Each simulation takes about ~30 minutes to complete.
 
 
 ## Installation
 
 You will also need the files in this directory to set up the three simulations; these are most easily obtained by cloning the [gemini-examples](https://github.com/gemini3d/gemini-examples) repository.
 
-```zsh
+```sh
 git clone https://github.com/gemini3d/gemini-examples
 ```
 
-Alternatively one could simply copy the source files from the GitHub webpage.  
+Alternatively one could simply copy the source files from the GitHub webpage.
 
-Core GEMINI code installation details are covered in the [GEMINI](https://github.com/gemini3d/gemini) repository; he we provide an brief summary.  Once you have installed a compiler (gcc recommended), mpi implementation (openmpi recommended), and cmake you can pull the GEMINI repository, configure, and compile.
+Core GEMINI code installation details are covered in the
+[GEMINI](https://github.com/gemini3d/gemini)
+repository; he we provide an brief summary.
+Once you have installed a compiler (gcc recommended), mpi implementation (openmpi recommended), and cmake you can pull the GEMINI repository, configure, and compile.
 
-```zsh
+```sh
 git clone https://github.com/gemini3d/gemini3d
 cd gemini3d
 cmake -B build
 cmake --build build -j
 ```
 
-Finally, you will need the pygemini front- and back- end scripting for prepping input data and plotting; this requires an existing python installation.
+Finally, you will need the PyGemini front- and back- end scripting for prepping input data and plotting; this requires an existing Python installation.
 
-```
+```sh
 git clone https://github.com/gemini3d/pygemini
-pip install -e pygemini
+pip install -e ./pygemini
 ```
-
 
 ## Creating input data for simulation
 
-Initial conditions for these simulations for a specific grid size, etc., are created from existing, low-resolution "equilibrium" simulations.  These can be downloaded here:  .  
+Initial conditions for these simulations for a specific grid size, etc., are created from existing, low-resolution "equilibrium" simulations.  These can be downloaded here:  .
 
-Make sure the ```eq_dir``` variable in the ```config.nml``` file for whichever example you want to run points to the place where you have downloaded the equilbrium data.
+Make sure the `eq_dir` variable in the `config.nml` file for whichever example you want to run points to the place where you have downloaded the equilbrium data.
 
-Once these are obtained one can run the setup for one of the instability simulations (here we will use the ESF example):  
+Once these are obtained one can run the setup for one of the instability simulations (here we will use the ESF example):
 
-```zsh
+```sh
 cd gemini-examples/init/CEDAR2024/ESF_periodic_lowres/
 ipython
 ```
-Once python has started you can run the setup scripts on the example you wish to simulate:  
+
+Once python has started you can run the setup scripts on the example you wish to simulate:
+
 ```python
 import gemini3d.model
 gemini3d.model.setup("./config.nml","place/to/put/simulation/data")
 ```
+
 This will generate grid, initial conditions, and boundary conditions information that the core GEMINI model will use for its simulation
 
 
@@ -56,7 +62,7 @@ This will generate grid, initial conditions, and boundary conditions information
 
 Navigate to the directory where the code was built and run it on the input data created.
 
-```zsh
+```sh
 cd gemini3d/build/
 mpirun -np 4 ./gemini.denspot.bin place/to/put/simulation/data
 ```
