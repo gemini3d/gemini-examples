@@ -3,7 +3,10 @@
 These examples show application of the GEMINI model to simulate various interchange instabilities (gradient-drift, Kelvin-Helmholtz, and gravitational Rayleigh-Taylor) in a 3D box.
 The y-direction (x3) is taken to be periodic so as to facilitate a reduction in domain size; i.e.  to create the smallest (most efficient) grid possible that will allow the most basic features of these instabilities to be modeled.
 
-These examples run on and 4 core laptop with 16 GB memory and ~4 GB free storage.  Each simulation takes about ~30 minutes to complete.
+These examples run on and 4 core laptop with 16 GB memory and ~4 GB free storage.
+Each simulation takes about ~30 minutes to complete.
+
+This exercise builds familiarity with using the command line / terminal, filesystem hierarchy, and the Python programming language.
 
 
 ## Installation
@@ -37,9 +40,33 @@ pip install -e ./pygemini
 
 ## Creating input data for simulation
 
-Initial conditions for these simulations for a specific grid size, etc., are created from existing, low-resolution "equilibrium" simulations.  These can be downloaded here:  .
+Initial conditions for these simulations for a specific grid size, etc., are created from existing, low-resolution "equilibrium" simulations.
+These could be manually downloaded from
+[Zenodo](https://zenodo.org/records/11509797) (archival, slower)
+or
+[Dropbox](https://www.dropbox.com/scl/fo/d2b0so28oom1cfr3jlzhz/AI1l23BNLSrqcrtqru4lEDo?rlkey=t6ko7zy6xfmkw9rpmpzh2yqjt&e=1&st=yziwgr4p&dl=0) (faster, but might have been removed).
 
-Make sure the `eq_dir` variable in the `config.nml` file for whichever example you want to run points to the place where you have downloaded the equilbrium data.
+You can use Curl from the command line as below, or click the links above.
+
+```sh
+curl -o cedar2024_gemini_examples.zip -L "https://zenodo.org/records/11509797/files/CEDAR2024_examples.zip?download=1"
+```
+
+Extract the ZIP file to wherever you like.
+This can be done from the command line with any one of the following commands:
+
+```sh
+unzip cedar2024_gemini_examples.zip
+# or
+tar xf cedar2024_gemini_examples.zip
+# or
+cmake -E tar xf cedar2024_gemini_examples.zip
+```
+
+The two directories thereby extracted are "ESF_CEDAR2024" and "ESF_eq_CEDAR2024".
+
+Edit the `eq_dir` variable in the `config.nml` file for whichever example you want to run.
+Make `eq_dir` point to the filesystem directory where you have extracted the equilibrium data .zip file.
 
 Once these are obtained one can run the setup for one of the instability simulations (here we will use the ESF example):
 
