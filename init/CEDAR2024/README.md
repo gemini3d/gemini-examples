@@ -6,12 +6,34 @@ The y-direction (x3) is taken to be periodic so as to facilitate a reduction in 
 These examples run on and 4 core laptop with 16 GB memory and ~4 GB free storage.
 Each simulation takes about ~30 minutes to complete.
 
-This exercise builds familiarity with using the command line / terminal, filesystem hierarchy, and the Python programming language.
+This exercise builds familiarity with using the command line / terminal, filesystem hierarchy, and the Python programming language using the IPython interactive interpreter.
 
+## Python setup
+
+If you don't have an existing Python installation, we suggest
+[Miniconda](https://docs.anaconda.com/free/miniconda/index.html#quick-command-line-install).
+Install a few prerequisites needed for PyGemini like:
+
+```sh
+conda install numpy scipy matplotlib xarray h5py ipython
+```
 
 ## Installation
 
-You will also need the files in this directory to set up the three simulations; these are most easily obtained by cloning the [gemini-examples](https://github.com/gemini3d/gemini-examples) repository.
+Throughout this example, we'll assumed you're working under directory $HOME/gemini.
+This notation works across operating systems (Windows, Linux, macOS).
+You can use "~/gemini" as a shorthand notation.
+On Windows, please use PowerShell (built into all Windows computers), not Command Prompt.
+On macOS or Linux, the default Terminal shell will work.
+
+```sh
+mkdir $HOME/gemini
+
+cd $HOME/gemini
+```
+
+You will also need the files in this directory to set up the three simulations; these are most easily obtained by cloning the
+[gemini-examples](https://github.com/gemini3d/gemini-examples) repository.
 
 ```sh
 git clone https://github.com/gemini3d/gemini-examples
@@ -26,9 +48,9 @@ Once you have installed a compiler (gcc recommended), mpi implementation (openmp
 
 ```sh
 git clone https://github.com/gemini3d/gemini3d
-cd gemini3d
-cmake -B build
-cmake --build build -j
+
+cmake -S gemini3d -B gemini3d/build
+cmake --build gemini3d/build -j
 ```
 
 Finally, you will need the PyGemini front- and back- end scripting for prepping input data and plotting; this requires an existing Python installation.
@@ -68,21 +90,18 @@ The two directories thereby extracted are "ESF_CEDAR2024" and "ESF_eq_CEDAR2024"
 Edit the `eq_dir` variable in the `config.nml` file for whichever example you want to run.
 Make `eq_dir` point to the filesystem directory where you have extracted the equilibrium data .zip file.
 
-Once these are obtained one can run the setup for one of the instability simulations (here we will use the ESF example):
+Once these are obtained one can run the setup for one of the instability simulations.
+Here we will use the ESF example.
 
-```sh
-cd gemini-examples/init/CEDAR2024/ESF_periodic_lowres/
-ipython
-```
-
-Once python has started you can run the setup scripts on the example you wish to simulate:
+Run from Python interpreter like:
 
 ```python
 import gemini3d.model
-gemini3d.model.setup("./config.nml","place/to/put/simulation/data")
+
+gemini3d.model.setup("gemini-examples/init/CEDAR2024/ESF_periodic_lowres/config.nml", "~/gemini/data")
 ```
 
-This will generate grid, initial conditions, and boundary conditions information that the core GEMINI model will use for its simulation
+This will generate grid, initial conditions, and boundary conditions information that the core GEMINI model will use for its simulation.
 
 
 ## Running the simulation
