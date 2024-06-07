@@ -7,22 +7,23 @@ import gemini3d.read
 from gemini3d.config import datetime_range
 from gemini3d.particles.grid import precip_grid
 
+
 def perturb_efield(
     cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any], params: T.Dict[str, float] = None
 ):
     """Electric field boundary conditions and initial condition for KHI case arguments"""
 
     if not params:
-#        params = {
-#            "v0": -500,
-#            # background flow value, actually this will be turned into a shear in the Efield input file
-#            "densfact": 3,
-#            # factor by which the density increases over the shear region - see Keskinen, et al (1988)
-#            "ell": 3.1513e3,  # scale length for shear transition
-#            "B1val": -50000e-9,
-#            "x1ref": 220e3,  # where to start tapering down the density in altitude
-#            "dx1": 10e3,
-#        }
+        #        params = {
+        #            "v0": -500,
+        #            # background flow value, actually this will be turned into a shear in the Efield input file
+        #            "densfact": 3,
+        #            # factor by which the density increases over the shear region - see Keskinen, et al (1988)
+        #            "ell": 3.1513e3,  # scale length for shear transition
+        #            "B1val": -50000e-9,
+        #            "x1ref": 220e3,  # where to start tapering down the density in altitude
+        #            "dx1": 10e3,
+        #        }
         params = {
             "v0": 2000,
             # background flow value, actually this will be turned into a shear in the Efield input file
@@ -34,7 +35,7 @@ def perturb_efield(
             "dx1": 10e3,
         }
 
-    params["vn"] = -params["v0"] * (1+params["densfact"]) / (1-params["densfact"])
+    params["vn"] = -params["v0"] * (1 + params["densfact"]) / (1 - params["densfact"])
 
     # %% Sizes
     x1 = xg["x1"][2:-2]
@@ -62,9 +63,9 @@ def perturb_efield(
 
     # %% Electromagnetic parameter inputs
     create_Efield(cfg, xg, params)
-    
+
     # create precipitation inputs
-    create_precip(cfg,xg,params)
+    create_precip(cfg, xg, params)
 
 
 def init_profile(xg: T.Dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
@@ -127,8 +128,15 @@ def perturb_density(
             nsperturb[i, :, ix2, :] = (
                 nsscale[i, :, ix2, :]
                 * (params["v0"] - params["vn"])
-                / (params["v0"] * (np.tanh((x2[ix2]-50e3) / params["ell"]) - np.tanh((x2[ix2]+50e3)/params["ell"]) + 1)
-                   - params["vn"])
+                / (
+                    params["v0"]
+                    * (
+                        np.tanh((x2[ix2] - 50e3) / params["ell"])
+                        - np.tanh((x2[ix2] + 50e3) / params["ell"])
+                        + 1
+                    )
+                    - params["vn"]
+                )
             )
             # background density
             nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here
@@ -162,8 +170,9 @@ def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: T.Dict[str, float])
     vel3 = np.empty((lx2, lx3))
     for i in range(lx3):
         vel3[:, i] = (
-            params["v0"] * (np.tanh((x2-50e3) / params["ell"]) - np.tanh((x2+50e3)/params["ell"]) + 1)
-            ) - params["vn"]
+            params["v0"]
+            * (np.tanh((x2 - 50e3) / params["ell"]) - np.tanh((x2 + 50e3) / params["ell"]) + 1)
+        ) - params["vn"]
 
     vel3 = np.flipud(vel3)
     # this is needed for consistentcy with equilibrium...  Not completely clear why
@@ -286,13 +295,13 @@ def precip_SAID(pg, params, x2i, Qpeak, Qbackground):
     # else:
     #     raise LookupError("precipation must be defined in latitude, longitude or both")
 
-    Q=Qpeak * (1/2*np.tanh((x2i[:,None]-50e3) / params["ell"]) + 1/2) 
+    Q = Qpeak * (1 / 2 * np.tanh((x2i[:, None] - 50e3) / params["ell"]) + 1 / 2)
     Q[Q < Qbackground] = Qbackground
 
     return Q
-    
-    
-def create_precip(cfg,xg,params):
+
+
+def create_precip(cfg, xg, params):
     """write particle precipitation to disk"""
 
     # %% CREATE PRECIPITATION INPUT DATA
@@ -338,7 +347,7 @@ def create_precip(cfg,xg,params):
     # add a 1% buff
     latbuf = 0.01 * (mlatmax - mlatmin)
     lonbuf = 0.01 * (mlonmax - mlonmin)
-    
+
     time = datetime_range(cfg["time"][0], cfg["time"][0] + cfg["tdur"], cfg["dtprec"])
 
     pg = xarray.Dataset(
@@ -363,7 +372,6 @@ def create_precip(cfg,xg,params):
     # f = interp1d(xgmlat, xg["x3"][2:lx3 + 2], kind='linear', fill_value="extrapolate")
     # x3i = f(E["mlat"])
 
-
     # NOTE: in future, E0 could be made time-dependent in config.nml as 1D array
     for i in range(i_on, i_off):
         pg["Q"][i, :, :] = precip_SAID(pg, params, x2i, cfg["Qprecip"], cfg["Qprecip_background"])
@@ -371,9 +379,9 @@ def create_precip(cfg,xg,params):
 
     assert np.isfinite(pg["Q"]).all(), "Q flux must be finite"
     assert (pg["Q"] >= 0).all(), "Q flux must be non-negative"
-    
+
     gemini3d.write.precip(pg, cfg["precdir"])
-    
+
 
 def moving_average(x: np.ndarray, k: int):
     # https://stackoverflow.com/a/54628145

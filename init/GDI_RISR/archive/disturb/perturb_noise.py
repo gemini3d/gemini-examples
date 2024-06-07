@@ -1,11 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Aug 15 16:04:05 2023
-
-@author: zettergm
-"""
-
+from __future__ import annotations
 import typing as T
 import numpy as np
 import numpy.random
@@ -14,7 +7,7 @@ import gemini3d.read
 import gemini3d.write
 
 
-def perturb_noise(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
+def perturb_noise(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     """
     perturb plasma from initial_conditions file
     """
@@ -32,10 +25,12 @@ def perturb_noise(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
                 # AWGN - note that can result in subtractive effects on density so apply a floor later!!!
                 amplitude = 0.01 * amplitude
                 # amplitude standard dev. is scaled to be 1% of reference profile
-    
+
                 if (j > 9) and (j < xg["lx"][1] - 10):
                     # do not apply noise near the edge (avoids boundary artifacts)
-                    nsperturb[i, :, j, k] = nsperturb[i, :, j, k] + amplitude * nsperturb[i, :, j, k]
+                    nsperturb[i, :, j, k] = (
+                        nsperturb[i, :, j, k] + amplitude * nsperturb[i, :, j, k]
+                    )
 
     nsperturb = np.maximum(nsperturb, 1e4)
     # enforce a density floor (particularly need to pull out negative densities
@@ -60,5 +55,5 @@ def perturb_noise(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
         cfg["indat_file"],
         dat,
         ns=nsperturb,
-        #file_format=cfg["file_format"],
+        # file_format=cfg["file_format"],
     )

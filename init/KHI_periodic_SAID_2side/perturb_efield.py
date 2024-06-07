@@ -13,29 +13,29 @@ def perturb_efield(
     """Electric field boundary conditions and initial condition for KHI case arguments"""
 
     if not params:
-#        params = {
-#            "v0": -500,
-#            # background flow value, actually this will be turned into a shear in the Efield input file
-#            "densfact": 3,
-#            # factor by which the density increases over the shear region - see Keskinen, et al (1988)
-#            "ell": 3.1513e3,  # scale length for shear transition
-#            "B1val": -50000e-9,
-#            "x1ref": 220e3,  # where to start tapering down the density in altitude
-#            "dx1": 10e3,
-#        }
+        #        params = {
+        #            "v0": -500,
+        #            # background flow value, actually this will be turned into a shear in the Efield input file
+        #            "densfact": 3,
+        #            # factor by which the density increases over the shear region - see Keskinen, et al (1988)
+        #            "ell": 3.1513e3,  # scale length for shear transition
+        #            "B1val": -50000e-9,
+        #            "x1ref": 220e3,  # where to start tapering down the density in altitude
+        #            "dx1": 10e3,
+        #        }
         params = {
             "v0": 250,
             # background flow value, actually this will be turned into a shear in the Efield input file
             "densfact": 5,
             # factor by which the density increases over the shear region - see Keskinen, et al (1988)
             "ell": 5e3,  # scale length for shear transition
-#            "ell": 5e3,  # scale length for shear transition
+            #            "ell": 5e3,  # scale length for shear transition
             "B1val": -50000e-9,
             "x1ref": 220e3,  # where to start tapering down the density in altitude
             "dx1": 10e3,
         }
 
-    params["vn"] = -params["v0"] * (1+params["densfact"]) / (1-params["densfact"])
+    params["vn"] = -params["v0"] * (1 + params["densfact"]) / (1 - params["densfact"])
 
     # %% Sizes
     x1 = xg["x1"][2:-2]
@@ -130,11 +130,10 @@ def perturb_density(
             #        - params["vn"])
             # )
             # # background density
-            
-            nsperturb[i, :, ix2, :] = (
-                nsscale[i, :, ix2, :])
+
+            nsperturb[i, :, ix2, :] = nsscale[i, :, ix2, :]
             # uniform background density
-            
+
             nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here
             # noise seed perturbation
 
@@ -154,7 +153,7 @@ def perturb_density(
 
     inds = x1 < 150e3
     nsperturb[:, inds, :, :] = 1e3
-    nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)   # enforce quasineutrality
+    nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)  # enforce quasineutrality
 
     return nsperturb
 
@@ -164,8 +163,9 @@ def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: T.Dict[str, float])
     vel3 = np.empty((lx2, lx3))
     for i in range(lx3):
         vel3[:, i] = (
-            params["v0"] * (np.tanh((x2-50e3) / params["ell"]) - np.tanh((x2+50e3)/params["ell"]) + 1)
-            ) - params["vn"]
+            params["v0"]
+            * (np.tanh((x2 - 50e3) / params["ell"]) - np.tanh((x2 + 50e3) / params["ell"]) + 1)
+        ) - params["vn"]
 
     vel3 = np.flipud(vel3)
     # this is needed for consistentcy with equilibrium...  Not completely clear why

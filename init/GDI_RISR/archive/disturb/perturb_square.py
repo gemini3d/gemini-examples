@@ -1,3 +1,4 @@
+from __future__ import annotations
 import typing as T
 import numpy as np
 import numpy.random
@@ -6,7 +7,7 @@ import gemini3d.read
 import gemini3d.write
 
 
-def perturb_square(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
+def perturb_square(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     """
     perturb plasma from initial_conditions file
     """
@@ -88,8 +89,4 @@ def perturb_square(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     #     ns=nsperturb,
     #     file_format=cfg["file_format"],
     # )
-    gemini3d.write.state(
-        cfg["indat_file"],
-        dat,
-        ns=nsperturb
-        )
+    gemini3d.write.state(cfg["indat_file"], dat, ns=nsperturb)

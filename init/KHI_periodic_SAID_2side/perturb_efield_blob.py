@@ -13,16 +13,16 @@ def perturb_efield_blob(
     """Electric field boundary conditions and initial condition for KHI case arguments"""
 
     if not params:
-#        params = {
-#            "v0": -500,
-#            # background flow value, actually this will be turned into a shear in the Efield input file
-#            "densfact": 3,
-#            # factor by which the density increases over the shear region - see Keskinen, et al (1988)
-#            "ell": 3.1513e3,  # scale length for shear transition
-#            "B1val": -50000e-9,
-#            "x1ref": 220e3,  # where to start tapering down the density in altitude
-#            "dx1": 10e3,
-#        }
+        #        params = {
+        #            "v0": -500,
+        #            # background flow value, actually this will be turned into a shear in the Efield input file
+        #            "densfact": 3,
+        #            # factor by which the density increases over the shear region - see Keskinen, et al (1988)
+        #            "ell": 3.1513e3,  # scale length for shear transition
+        #            "B1val": -50000e-9,
+        #            "x1ref": 220e3,  # where to start tapering down the density in altitude
+        #            "dx1": 10e3,
+        #        }
         params = {
             "v0": 250,
             # background flow value, actually this will be turned into a shear in the Efield input file
@@ -34,7 +34,7 @@ def perturb_efield_blob(
             "dx1": 10e3,
         }
 
-    params["vn"] = -params["v0"] * (1+params["densfact"]) / (1-params["densfact"])
+    params["vn"] = -params["v0"] * (1 + params["densfact"]) / (1 - params["densfact"])
 
     # %% Sizes
     x1 = xg["x1"][2:-2]
@@ -102,7 +102,7 @@ def perturb_density(
     to frame of reference.
     """
     lsp = dat["ns"].shape[0]
-    x3=xg["x3"][2:-2]
+    x3 = xg["x3"][2:-2]
 
     nsperturb = np.zeros_like(dat["ns"])
     n1 = np.zeros_like(dat["ns"])
@@ -115,7 +115,7 @@ def perturb_density(
 
             # 2D noise
             amplitude = np.random.randn(xg["lx"][2])
-            #amplitude = moving_average(amplitude, 10)
+            # amplitude = moving_average(amplitude, 10)
             amplitude = 0.01 * amplitude
 
             n1here = amplitude * nsscale[i, :, ix2, :]
@@ -123,22 +123,26 @@ def perturb_density(
             n1[i, :, ix2, :] = n1here
             # save the perturbation for computing potential perturbation
 
-            nsperturb[i, :, ix2, :] = (
-                nsscale[i, :, ix2, :]
-                * (params["v0"] - params["vn"])
-                / (params["v0"] * (np.tanh((x2[ix2]-50e3) / params["ell"]) - np.tanh((x2[ix2]+50e3)/params["ell"]) + 1)
-                   - params["vn"]) + 
-                 0.75*nsscale[i,:,ix2,:]*np.exp(-(np.sqrt(x2[ix2]**2+x3**2))**4/2/(25e3)**4)
+            nsperturb[i, :, ix2, :] = nsscale[i, :, ix2, :] * (params["v0"] - params["vn"]) / (
+                params["v0"]
+                * (
+                    np.tanh((x2[ix2] - 50e3) / params["ell"])
+                    - np.tanh((x2[ix2] + 50e3) / params["ell"])
+                    + 1
+                )
+                - params["vn"]
+            ) + 0.75 * nsscale[i, :, ix2, :] * np.exp(
+                -((np.sqrt(x2[ix2] ** 2 + x3**2)) ** 4) / 2 / (25e3) ** 4
             )
             # background density
-            nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here    # perturbation
+            nsperturb[i, :, ix2, :] = nsperturb[i, :, ix2, :] + n1here  # perturbation
 
     nsperturb[nsperturb < 1e4] = 1e4
     # enforce a density floor
     # particularly need to pull out negative densities which can occur when noise is applied
     nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)
     # enforce quasineutrality
-    n1[-1, :, :, :] = n1[:6, :, :, :].sum(axis=0)    
+    n1[-1, :, :, :] = n1[:6, :, :, :].sum(axis=0)
 
     # %% Remove any residual E-region from the simulation
     taper = 1 / 2 + 1 / 2 * np.tanh((x1 - params["x1ref"]) / params["dx1"])
@@ -149,7 +153,7 @@ def perturb_density(
 
     inds = x1 < 150e3
     nsperturb[:, inds, :, :] = 1e3
-    nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)   # enforce quasineutrality    
+    nsperturb[-1, :, :, :] = nsperturb[:6, :, :, :].sum(axis=0)  # enforce quasineutrality
 
     return nsperturb
 
@@ -159,8 +163,9 @@ def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: T.Dict[str, float])
     vel3 = np.empty((lx2, lx3))
     for i in range(lx3):
         vel3[:, i] = (
-            params["v0"] * (np.tanh((x2-50e3) / params["ell"]) - np.tanh((x2+50e3)/params["ell"]) + 1)
-            ) - params["vn"]
+            params["v0"]
+            * (np.tanh((x2 - 50e3) / params["ell"]) - np.tanh((x2 + 50e3) / params["ell"]) + 1)
+        ) - params["vn"]
 
     vel3 = np.flipud(vel3)
     # this is needed for consistentcy with equilibrium...  Not completely clear why

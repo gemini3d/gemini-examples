@@ -1,3 +1,4 @@
+from __future__ import annotations
 import typing as T
 import xarray
 import numpy as np
@@ -7,9 +8,7 @@ import gemini3d.read
 from gemini3d.config import datetime_range
 
 
-def perturb_efield(
-    cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any], params: T.Dict[str, float] = None
-):
+def perturb_efield(cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str, float] = None):
     """Electric field boundary conditions and initial condition for KHI case arguments"""
 
     if not params:
@@ -55,7 +54,7 @@ def perturb_efield(
     create_Efield(cfg, xg, params)
 
 
-def init_profile(xg: T.Dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
+def init_profile(xg: dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
 
     lsp = dat["ns"].shape[0]
 
@@ -80,12 +79,12 @@ def init_profile(xg: T.Dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
 
 
 def perturb_density(
-    xg: T.Dict[str, T.Any],
+    xg: dict[str, T.Any],
     dat: xarray.Dataset,
     nsscale: np.ndarray,
     x1: np.ndarray,
     x2: np.ndarray,
-    params: T.Dict[str, float],
+    params: dict[str, float],
 ) -> np.ndarray:
     """
     because this is derived from current density it is invariant with respect
@@ -144,7 +143,7 @@ def perturb_density(
     return nsperturb
 
 
-def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: T.Dict[str, float]) -> np.ndarray:
+def potential_bg(x2: np.ndarray, lx2: int, lx3: int, params: dict[str, float]) -> np.ndarray:
 
     vel3 = np.empty((lx2, lx3))
     for i in range(lx3):

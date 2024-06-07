@@ -1,13 +1,14 @@
+from __future__ import annotations
 import typing as T
 import numpy as np
-import numpy.random
 
 import gemini3d.read
 import gemini3d.write
-#from datetime import datetime
+
+# from datetime import datetime
 
 
-def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
+def perturb(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     """
     perturb plasma from initial_conditions file
     """
@@ -49,44 +50,42 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     x21 = -ell  # location on one of the patch edges
     x22 = ell  # other patch edge
     nepatchfact = 3  # density increase factor over background
-    
-    
+
     # Used to define a single-mode perturbtion
-    N=10                                   # harmonic number of perturbation
-    wavelength=1/N*(x3.max()-x3.min())    #wavelength of perturbation mode
-    wavenumber=2*np.pi/wavelength
-    
+    N = 10  # harmonic number of perturbation
+    wavelength = 1 / N * (x3.max() - x3.min())  # wavelength of perturbation mode
+    wavenumber = 2 * np.pi / wavelength
 
     nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):
         for j in range(xg["lx"][1]):
             for k in range(xg["lx"][2]):
-                #amplitude = numpy.random.standard_normal(xg["lx"][0])
+                # amplitude = numpy.random.standard_normal(xg["lx"][0])
                 # AWGN - note that can result in subtractive effects on density so apply a floor later!!!
-                #amplitude = 0.01 * amplitude
+                # amplitude = 0.01 * amplitude
                 # amplitude standard dev. is scaled to be 1% of reference profile
-                amplitude=0.05
-    
+                amplitude = 0.05
+
                 ## original data, infinite patch
                 nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
                     1 / 2 * np.tanh((x2[j] - x21) / ell) - 1 / 2 * np.tanh((x2[j] - x22) / ell)
                 )
-                
+
                 # Circular patch
-                #nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
+                # nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
                 #    np.exp(-( np.sqrt( (x2[j]-x2ctr)**2 + x3[k]**2 ) )**8/2/ellx2**8)
-                #)
+                # )
                 # patch, note offset in the x2 index!!!!
 
-#                if (j > 9) and (j < xg["lx"][1] - 10):
-#                     # do not apply noise near the edge (avoids boundary artifacts)
-#                     nsperturb[i, :, j, k] = nsperturb[i, :, j, k] + amplitude * nsscale[i, :, j, k]
-                     
+                #                if (j > 9) and (j < xg["lx"][1] - 10):
+                #                     # do not apply noise near the edge (avoids boundary artifacts)
+                #                     nsperturb[i, :, j, k] = nsperturb[i, :, j, k] + amplitude * nsscale[i, :, j, k]
+
                 if (j > 9) and (j < xg["lx"][1] - 10):
-                     nsperturb[i, :, j, k] = ( nsperturb[i, :, j, k] + (amplitude) * np.sin(wavenumber*x3[k]) 
-                                              * nsscale[i, :, j, k] )
-                                         
-                
+                    nsperturb[i, :, j, k] = (
+                        nsperturb[i, :, j, k]
+                        + (amplitude) * np.sin(wavenumber * x3[k]) * nsscale[i, :, j, k]
+                    )
 
     nsperturb = np.maximum(nsperturb, 1e4)
     # enforce a density floor (particularly need to pull out negative densities
@@ -106,14 +105,10 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)
     # enforce quasineutrality
 
-
-    #breakpoint()
-
-
     # %% WRITE OUT THE RESULTS TO the same file
     gemini3d.write.state(
         cfg["indat_file"],
         dat,
         ns=nsperturb,
-        #file_format=cfg["file_format"],
+        # file_format=cfg["file_format"],
     )

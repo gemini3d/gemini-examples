@@ -13,16 +13,16 @@ def perturb_efield(
     """Electric field boundary conditions and initial condition for KHI case arguments"""
 
     if not params:
-#        params = {
-#            "v0": -500,
-#            # background flow value, actually this will be turned into a shear in the Efield input file
-#            "densfact": 3,
-#            # factor by which the density increases over the shear region - see Keskinen, et al (1988)
-#            "ell": 3.1513e3,  # scale length for shear transition
-#            "B1val": -50000e-9,
-#            "x1ref": 220e3,  # where to start tapering down the density in altitude
-#            "dx1": 10e3,
-#        }
+        #        params = {
+        #            "v0": -500,
+        #            # background flow value, actually this will be turned into a shear in the Efield input file
+        #            "densfact": 3,
+        #            # factor by which the density increases over the shear region - see Keskinen, et al (1988)
+        #            "ell": 3.1513e3,  # scale length for shear transition
+        #            "B1val": -50000e-9,
+        #            "x1ref": 220e3,  # where to start tapering down the density in altitude
+        #            "dx1": 10e3,
+        #        }
         params = {
             "v0": 2000,
             # background flow value, actually this will be turned into a shear in the Efield input file
@@ -34,7 +34,7 @@ def perturb_efield(
             "dx1": 10e3,
         }
 
-    params["vn"] = -params["v0"] * (1+params["densfact"]) / (1-params["densfact"])
+    params["vn"] = -params["v0"] * (1 + params["densfact"]) / (1 - params["densfact"])
 
     # %% Sizes
     x1 = xg["x1"][2:-2]

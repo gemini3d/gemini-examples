@@ -1,3 +1,4 @@
+from __future__ import annotations
 import typing as T
 import numpy as np
 import numpy.random
@@ -6,7 +7,7 @@ import gemini3d.read
 import gemini3d.write
 
 
-def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
+def perturb(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     """
     perturb plasma from initial_conditions file
     """
@@ -44,9 +45,9 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     ellx2 = 50e3  # gradient scale length for patch/blob
     ellx3 = 50e3
     x2ctr = 150e3
-    #x21 = -150e3  # location on one of the patch edges
-    #x22 = 150e3  # other patch edge
-    #ell = 20e3
+    # x21 = -150e3  # location on one of the patch edges
+    # x22 = 150e3  # other patch edge
+    # ell = 20e3
     nepatchfact = 8  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
@@ -57,15 +58,15 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
                 # AWGN - note that can result in subtractive effects on density so apply a floor later!!!
                 amplitude = 0.01 * amplitude
                 # amplitude standard dev. is scaled to be 1% of reference profile
-    
+
                 ## original data, infinite patch
-                #nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
+                # nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
                 #    1 / 2 * np.tanh((x2[j] - x21) / ell) - 1 / 2 * np.tanh((x2[j] - x22) / ell)
-                #)
-                
+                # )
+
                 # Circular patch
                 nsperturb[i, :, j, k] = nsscale[i, :, j, k] + nepatchfact * nsscale[i, :, j, k] * (
-                    np.exp(-( np.sqrt( (x2[j]-x2ctr)**2 + x3[k]**2 ) )**8/2/ellx2**8)
+                    np.exp(-((np.sqrt((x2[j] - x2ctr) ** 2 + x3[k] ** 2)) ** 8) / 2 / ellx2**8)
                 )
                 # patch, note offset in the x2 index!!!!
 
