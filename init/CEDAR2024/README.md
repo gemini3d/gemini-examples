@@ -95,10 +95,16 @@ Make `eq_dir` point to the filesystem directory where you have extracted the equ
 Once these are obtained one can run the setup for one of the instability simulations.
 Here we will use the ESF example.
 
+To use the custom function "perturb_ESF.py", either run from the directory containing the custom function, or add the function path to Python path.
+It's best to make custom functions have distinctive names otherwise another function might be loaded with the same name!
+
 Run from Python interpreter like:
 
 ```python
 import gemini3d.model
+import sys
+
+sys.path.append("~/gemini/gemini-examples/init/CEDAR2024/ESF_periodic_lowres")
 
 gemini3d.model.setup("~/gemini/gemini-examples/init/CEDAR2024/ESF_periodic_lowres/config.nml", "~/gemini/ESF_periodic")
 ```
@@ -113,7 +119,7 @@ Navigate to the directory where the code was built and run it on the input data 
 ```sh
 cd $HOME/gemini/gemini3d/build/
 
-mpirun -np 4 ./gemini.bin place/to/put/simulation/data
+mpirun -np 4 ./gemini.bin ~/ESF_periodic
 ```
 
 
