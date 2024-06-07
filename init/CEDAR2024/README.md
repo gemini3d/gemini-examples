@@ -103,10 +103,15 @@ Run from Python interpreter like:
 ```python
 import gemini3d.model
 import sys
+from pathlib import Path
 
-sys.path.append("~/gemini/gemini-examples/init/CEDAR2024/ESF_periodic_lowres")
+cfgdir = "~/gemini/gemini-examples/init/CEDAR2024/ESF_periodic_lowres"
 
-gemini3d.model.setup("~/gemini/gemini-examples/init/CEDAR2024/ESF_periodic_lowres/config.nml", "~/gemini/ESF_periodic")
+fpath = Path(cfgdir).expanduser()
+
+sys.path.append(str(fpath))
+
+gemini3d.model.setup(fpath / "config.nml", "~/gemini/ESF_periodic")
 ```
 
 This will generate grid, initial conditions, and boundary conditions information that the core GEMINI model will use for its simulation.
