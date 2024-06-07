@@ -34,12 +34,12 @@ def pot_said(
     # pk is a scalar.
     # north-south
     S = E.Etarg * E.sigx3 * xg["h3"][lx1, 0, lx3 // 2] * np.sqrt(np.pi) / 2
-    mlatmean=np.mean(E.mlat)
+    mlatmean = np.mean(E.mlat)
 
     taper = erf((E.mlat - mlatmean - E.mlatoffset) / E.mlatsig).data[None, :]
-    taper = taper - erf((E.mlat-mlatmean) / E.mlatoffset).data[None, :]+1
+    taper = taper - erf((E.mlat - mlatmean) / E.mlatoffset).data[None, :] + 1
     taper = taper + erf((E.mlat - mlatmean + E.mlatoffset) / E.mlatsig).data[None, :]
-    taper =-1*taper
+    taper = -1 * taper
 
     assert S.ndim == 0, "S is a scalar"
 
@@ -50,5 +50,5 @@ def pot_said(
             E["Vminx1it"].loc[t] = S * taper
         else:
             E["Vmaxx1it"].loc[t] = S * taper
-        
+
     return E

@@ -17,32 +17,32 @@ Invariant latitude (degrees)
 """
 
 import matplotlib.pyplot as plt
-from fast import readfast,smoothfast
+from fast import readfast, smoothfast
 
 # read in the data
-filename="/Users/zettergm/Dropbox (Personal)/proposals/UNH_GDC/FASTdata/nightside.txt"
-#filename="/Users/zettergm/Dropbox (Personal)/proposals/UNH_GDC/FASTdata/cusp.txt"
-[invlat,eflux,chare]=readfast(filename)
+filename = "/Users/zettergm/Dropbox (Personal)/proposals/UNH_GDC/FASTdata/nightside.txt"
+# filename="/Users/zettergm/Dropbox (Personal)/proposals/UNH_GDC/FASTdata/cusp.txt"
+[invlat, eflux, chare] = readfast(filename)
 
 # smooth data a bit prior to inserting into model
-lsmooth=3
-[efluxsmooth,charesmooth]=smoothfast(lsmooth,eflux,chare)
+lsmooth = 3
+[efluxsmooth, charesmooth] = smoothfast(lsmooth, eflux, chare)
 
 # plot
-plt.subplots(1,2,dpi=100)
+plt.subplots(1, 2, dpi=100)
 
-plt.subplot(1,2,1)
-plt.plot(invlat,eflux)
-plt.plot(invlat,efluxsmooth)
-plt.ylim([0,50])
+plt.subplot(1, 2, 1)
+plt.plot(invlat, eflux)
+plt.plot(invlat, efluxsmooth)
+plt.ylim([0, 50])
 plt.xlabel("latitude (deg.)")
 plt.ylabel("energy flux (mW/m$^2$)")
-plt.legend(["data","smooth"])
+plt.legend(["data", "smooth"])
 
-plt.subplot(1,2,2)
-plt.plot(invlat,chare)
-plt.plot(invlat,charesmooth)
-plt.ylim([0,10000])
+plt.subplot(1, 2, 2)
+plt.plot(invlat, chare)
+plt.plot(invlat, charesmooth)
+plt.ylim([0, 10000])
 plt.xlabel("latitude (deg.)")
 plt.ylabel("energy (eV)")
-plt.legend(["data","smooth"])
+plt.legend(["data", "smooth"])

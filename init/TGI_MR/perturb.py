@@ -28,7 +28,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     nsscale = ns
 
     # %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
-    scalefact = 1    # don't scale this
+    scalefact = 1  # don't scale this
     for i in range(lsp - 1):
         nsscale[i, :, :, :] = scalefact * nsscale[i, :, :, :]
     nsscale[-1, :, :, :] = nsscale[:-1, :, :, :].sum(axis=0)
@@ -36,7 +36,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
 
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
     ell = 0.5e3  # gradient scale length for patch/blob
-    nepatchfact = 1/2  # density increase factor over background
+    nepatchfact = 1 / 2  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):

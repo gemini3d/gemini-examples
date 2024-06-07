@@ -1,5 +1,5 @@
 # This is mostly a repeat of model.setup from the pygemini repository except for that it setups up a periodic
-#   grid for us in full-globe simulations.  
+#   grid for us in full-globe simulations.
 from __future__ import annotations
 import argparse
 from pathlib import Path
@@ -9,6 +9,7 @@ import os
 
 from gemini3d.config import read_nml
 import gemini3d.model
+
 
 def model_setup(path: Path | dict[str, T.Any], out_dir: Path, gemini_root: Path = None):
     """
@@ -34,7 +35,7 @@ def model_setup(path: Path | dict[str, T.Any], out_dir: Path, gemini_root: Path 
     if not cfg:
         raise FileNotFoundError(f"no configuration found for {out_dir}")
 
-    cfg["dphi"]=90.0
+    cfg["dphi"] = 90.0
     cfg["out_dir"] = Path(out_dir).expanduser().resolve()
 
     if gemini_root:
@@ -53,7 +54,7 @@ def model_setup(path: Path | dict[str, T.Any], out_dir: Path, gemini_root: Path 
     input_dir.mkdir(parents=True, exist_ok=True)
     shutil.copy2(cfg["nml"], input_dir)
 
-    os.environ["GEMINI_ROOT"]="~/libs/bin/"
+    os.environ["GEMINI_ROOT"] = "~/libs/bin/"
 
     # %% is this equilibrium or interpolated simulation
     if "eq_dir" in cfg:
