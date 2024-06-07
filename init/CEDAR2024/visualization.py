@@ -9,6 +9,12 @@ import matplotlib.pyplot as plt
 from gemini3d.grid.gridmodeldata import model2magcoords
 from pathlib import Path
 
+import argparse
+
+p = argparse.ArgumentParser()
+p.add_argument("direc", help="directory containing the simulation output")
+P = p.parse_args()
+
 plt.ioff()  # so matplotlib doesn't take over the entire computer :(
 # set some font sizes
 SMALL_SIZE = 8
@@ -23,7 +29,8 @@ plt.rc("legend", fontsize=SMALL_SIZE)  # legend fontsize
 plt.rc("figure", titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 # load some sample data (3D)
-direc = Path("~/gemini/KHI_periodic_lowres/").expanduser()
+
+direc = Path(P.direc).expanduser()
 plotdir = direc / "customplots"
 plotdir.mkdir(exist_ok=True)
 

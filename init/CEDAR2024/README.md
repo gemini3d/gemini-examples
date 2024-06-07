@@ -116,4 +116,6 @@ mpirun -np 4 ./gemini.denspot.bin place/to/put/simulation/data
 
 ## Gridding and plotting the output
 
-Once the simulation has been run the visualization.py script shows how you can form datacubes (i.e. regularly gridded output in lat/lon) and then plot them.  The variable for the data directory ("direc") will need to be changed to "place/to/put/simulation/data/".
+Once the simulation has been run the
+[init/CEDAR2024/visualization.py](./init/CEDAR2024/visualization.py)
+script shows how you can form datacubes (i.e. regularly gridded output in lat/lon) and then plot them.
