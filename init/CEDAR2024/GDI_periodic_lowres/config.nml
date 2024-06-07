@@ -24,8 +24,8 @@ alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -25e-3
 
-eq_dir = '~/simulations/ssd/risr3d_eq_CEDAR2024/'
-eq_zip = '~/simulations/risr3d_eq.zip'
+eq_dir = '~/gemini/risr3d_eq_CEDAR2024/'
+eq_zip = '~/gemini/risr3d_eq.zip'
 eq_url = 'https://zenodo.org/record/3980312/files/risr3d_eq.zip?download=1'
 
 setup_functions = 'perturb_GDI', 'gemini3d.efield.Efield_BCs'

@@ -98,7 +98,7 @@ Run from Python interpreter like:
 ```python
 import gemini3d.model
 
-gemini3d.model.setup("gemini-examples/init/CEDAR2024/ESF_periodic_lowres/config.nml", "~/gemini/data")
+gemini3d.model.setup("~/gemini/gemini-examples/init/CEDAR2024/ESF_periodic_lowres/config.nml", "~/gemini/data")
 ```
 
 This will generate grid, initial conditions, and boundary conditions information that the core GEMINI model will use for its simulation.

@@ -1,3 +1,4 @@
+from __future__ import annotations
 import typing as T
 import xarray
 import numpy as np
@@ -8,7 +9,7 @@ from gemini3d.config import datetime_range
 
 
 def perturb_KHI(
-    cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any], params: T.Dict[str, float] = None
+    cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str, float] | None = None
 ):
     """Electric field boundary conditions and initial condition for KHI case arguments"""
 
