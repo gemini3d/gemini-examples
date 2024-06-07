@@ -50,6 +50,7 @@ Once you have installed a compiler (gcc recommended), mpi implementation (openmp
 git clone https://github.com/gemini3d/gemini3d
 
 cmake -S gemini3d -B gemini3d/build
+
 cmake --build gemini3d/build -j
 ```
 
@@ -57,6 +58,7 @@ Finally, you will need the PyGemini front- and back- end scripting for prepping 
 
 ```sh
 git clone https://github.com/gemini3d/pygemini
+
 pip install -e ./pygemini
 ```
 
@@ -98,7 +100,7 @@ Run from Python interpreter like:
 ```python
 import gemini3d.model
 
-gemini3d.model.setup("~/gemini/gemini-examples/init/CEDAR2024/ESF_periodic_lowres/config.nml", "~/gemini/data")
+gemini3d.model.setup("~/gemini/gemini-examples/init/CEDAR2024/ESF_periodic_lowres/config.nml", "~/gemini/ESF_periodic")
 ```
 
 This will generate grid, initial conditions, and boundary conditions information that the core GEMINI model will use for its simulation.
@@ -109,8 +111,9 @@ This will generate grid, initial conditions, and boundary conditions information
 Navigate to the directory where the code was built and run it on the input data created.
 
 ```sh
-cd gemini3d/build/
-mpirun -np 4 ./gemini.denspot.bin place/to/put/simulation/data
+cd $HOME/gemini/gemini3d/build/
+
+mpirun -np 4 ./gemini.bin place/to/put/simulation/data
 ```
 
 
