@@ -131,5 +131,5 @@ mpirun -np 4 ./gemini.bin ~/ESF_periodic
 ## Gridding and plotting the output
 
 Once the simulation has been run the
-[init/CEDAR2024/visualization.py](./init/CEDAR2024/visualization.py)
+[./visualization.py](./visualization.py)
 script shows how you can form datacubes (i.e. regularly gridded output in lat/lon) and then plot them.
