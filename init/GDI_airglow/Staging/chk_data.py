@@ -52,13 +52,18 @@ nei = scipy.interpolate.griddata((glonlist, glatlist), nelist, (GLONi, GLATi), f
 nei[np.isnan(nei)] = 0
 
 # plots for checking various parameters
-plt.figure()
-plt.semilogx(neavg, altavg)
-plt.title("avg. F-region profile in patch")
-
-plt.figure()
-plt.semilogx(neE, altE)
-plt.title("E-region profile in patch")
+plt.figure("neprofile")
+plt.semilogx(neavg,altavg)
+plt.semilogx(neE,altE)
+neapproxF=gemini3d.plasma.chapmana(altavg*1e3, 3e11, 300e3, 50e3)
+neapproxE=gemini3d.plasma.chapmana(altavg*1e3, 0.85e10, 150e3, 35e3)
+neapproxE+=gemini3d.plasma.chapmana(altavg*1e3, 0.7e10, 180e3, 20e3)
+plt.semilogx(neapproxF,altavg)
+plt.semilogx(neapproxE,altavg)
+neapprox=neapproxF+neapproxE
+plt.semilogx(neapprox,altavg)
+plt.legend(("avg. F-region profile in patch","E-region profile in patch",
+            "Chapman F-region","Chapman E-region","Chapman"))
 
 print("Velocity information (magnitude, az from north):  ", vmag, vang)
 print("vN,vE = ", vmag * np.cos(np.deg2rad(vang)), vmag * np.sin(np.deg2rad(vang)))
