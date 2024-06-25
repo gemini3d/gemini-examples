@@ -27,7 +27,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -33.5e-3
-eq_dir = '~/simulations/ssd/GDI_airglow/v2/GDI_airglow_eq/'
+eq_dir = '~/simulations/sdcard/GDI_airglow_eq/'
 setup_functions = '.perturb_file'
 /
 
@@ -53,7 +53,7 @@ flagJpar=.false.
 !/
 
 &precip_BG
-PhiWBG=0.1
+PhiWBG=0.0175
 W0BG=500.0
 /
 
