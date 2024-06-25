@@ -25,12 +25,12 @@ alt_scale = 10e3, 8e3, 500e3, 150e3  ! altitude grid scales (meters)
 eq_dir = "~/simulations/ssd/STEVE2D_eq"
 Efield_latwidth = 0.0125
 !Jtarg = 100e-6
-Jtarg = 0.05e-6
+Jtarg = 50e-6
 Jtarg_function = "fac_said"
 /
 
 &flags
-potsolve = 0      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
 flagoutput = 1
 /
 
@@ -50,7 +50,7 @@ E0_dir = 'inputs/Efield/'
 !W0BG=1e3                      ! characteristic energy (eV)
 !/
 &precip_BG
-PhiWBG=1                   ! total energy flux (mW/m^2)
+PhiWBG=0.05                   ! total energy flux (mW/m^2)
 W0BG=3000.0                      ! characteristic energy (eV)
 /
 
