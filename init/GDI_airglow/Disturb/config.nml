@@ -27,7 +27,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -20e-3
-eq_dir = '~/simulations/sdcard/GDI_airglow_staging_rot_profile/'
+eq_dir = '~/simulations/sdcard/GDI_airglow_staging_rot_profile_offset/'
 setup_functions = 'gemini3d.model.Efield_BCs'
 /
 

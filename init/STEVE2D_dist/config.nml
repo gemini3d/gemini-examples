@@ -2,7 +2,7 @@
 ymd = 2008,3,26               ! year, month, day
 UTsec0 = 12600.0              ! start time in UT seconds
 tdur = 600.0                  ! duration of simulation in seconds
-dtout = 5.0                  ! how often to do output
+dtout = 15.0                  ! how often to do output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -14,7 +14,7 @@ glon = 213
 xdist = 1500e3             ! eastward distance (meters)
 ydist = 20e3             ! northward distance (meters)
 lxp = 1
-lyp = 1024
+lyp = 1032
 Bincl = 90
 nmf = 5e11
 nme = 2e11
@@ -22,7 +22,7 @@ alt_min = 80e3
 alt_max = 950e3
 !alt_scale = 50e3, 45e3, 400e3, 150e3
 alt_scale = 10e3, 8e3, 500e3, 150e3  ! altitude grid scales (meters)
-eq_dir = "~/simulations/ssd/STEVE2D_eq"
+eq_dir = "~/simulations/sdcard/STEVE2D_eq"
 Efield_latwidth = 0.0125
 !Jtarg = 100e-6
 Jtarg = 50e-6
@@ -41,7 +41,7 @@ indat_file = 'inputs/initial_conditions.h5'
 /
 
 &efield
-dtE0 = 60.
+dtE0 = 60.0
 E0_dir = 'inputs/Efield/'
 /
 
@@ -49,6 +49,7 @@ E0_dir = 'inputs/Efield/'
 !PhiWBG=5e-1                   ! total energy flux (mW/m^2)
 !W0BG=1e3                      ! characteristic energy (eV)
 !/
+
 &precip_BG
 PhiWBG=0.05                   ! total energy flux (mW/m^2)
 W0BG=3000.0                      ! characteristic energy (eV)
