@@ -52,7 +52,7 @@ nei = scipy.interpolate.griddata((glonlist, glatlist), nelist, (GLONi, GLATi), f
 nei[np.isnan(nei)] = 0
 
 # plots for checking various parameters
-plt.figure("neprofile")
+plt.figure("neprofile",dpi=100)
 plt.semilogx(neavg,altavg)
 plt.semilogx(neE,altE)
 neapproxF=gemini3d.plasma.chapmana(altavg*1e3, 3e11, 300e3, 50e3)
@@ -145,6 +145,7 @@ plt.title("$n_e$ rotated into model basis")
 plt.show()
 
 # do some basic smoothing, a 2 pass x, then y m-point moving average
+nei=nerot     # use rotated density as the basis for this calculation
 m = 7  # "radius" for moving average
 neiextended = np.concatenate((nei[0:m, :], nei, nei[-m:, :]), axis=0)
 neiextended = np.concatenate((neiextended[:, 0:m], neiextended, neiextended[:, -m:]), axis=1)
@@ -172,9 +173,12 @@ for ilon in range(0, mloni.size):
 
 # sanity check again
 plt.figure()
-plt.pcolormesh(mloni, mlati, nei3D[128, :, :].transpose())
-plt.xlim(225, 350)
+plt.pcolormesh(xi, yi, nei3D[128, :, :].transpose())
+plt.xlim(-1e6, 1e6)
+plt.ylim(-1e6, 1e6)
 plt.colorbar()
-plt.xlabel("mlon")
-plt.ylabel("mlat")
+plt.xlabel("x")
+plt.ylabel("y")
 plt.title("3D smoothed $n_e$ at reference alt.")
+plt.show()
+
