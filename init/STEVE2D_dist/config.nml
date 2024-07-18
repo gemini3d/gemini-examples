@@ -21,12 +21,13 @@ nme = 2e11
 alt_min = 80e3
 alt_max = 950e3
 !alt_scale = 50e3, 45e3, 400e3, 150e3
-alt_scale = 10e3, 8e3, 500e3, 150e3  ! altitude grid scales (meters)
+alt_scale = 10e3, 9.9e3, 500e3, 150e3  ! altitude grid scales (meters)
 eq_dir = "~/simulations/sdcard/STEVE2D_eq"
 Efield_latwidth = 0.0125
 !Jtarg = 100e-6
 Jtarg = 50e-6
 Jtarg_function = "fac_said"
+Efield_llat = 1024
 /
 
 &flags
