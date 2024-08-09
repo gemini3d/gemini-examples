@@ -40,8 +40,8 @@ x3min=np.min(x3)
 x3max=np.max(x3)
 
 # define a different set of points to interpolate to
-lx1i=16
-lx2i=512
+lx1i=64
+lx2i=256
 lx3i=256
 x1i=np.linspace(x1min,x1max,lx1i)
 x2i=np.linspace(x2min,x2max,lx2i)

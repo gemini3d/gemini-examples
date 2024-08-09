@@ -16,7 +16,7 @@ direc="/Users/zettergm/simulations/ssd/simulations_GDI_airglow/v5/GDI_airglow_di
 # read in optical intensity from a single output frame
 filename=Path(direc+"/aurmaps/20160203_21540.000000.h5")
 dataur=gemini3d.read.glow(filename)
-I630=B=dataur["rayleighs"][4]     # index 4 is redline brightness
+I630=dataur["rayleighs"][4]     # index 4 is redline brightness
 x=dataur["x2"]
 y=dataur["x3"]
 
