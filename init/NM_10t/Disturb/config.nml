@@ -17,8 +17,8 @@ flagoutput = 2      ! 1 - full output
 
 &setup
 !dtheta=9.75
-dtheta=6.5
-dphi=11
+dtheta=5.5
+dphi=9
 lp=64
 lq=256
 lphi=64
@@ -28,7 +28,7 @@ glon=254.0
 gridflag=0
 flagsource=1
 grid_openparm=52.0
-eq_dir = '~/simulations/ssd/QPR_0424/initial_conditions/misty_NM_eq'
+eq_dir = '~/simulations/ssd/misty_NM_eq'
 /
 
 &files
