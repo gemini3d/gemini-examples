@@ -1,10 +1,10 @@
 
 &base
 ymd = 2024,5,8               ! year, month, day
-UTsec0 = 61200.0              ! start time in UT seconds
+UTsec0 = 52140.0              ! start time in UT seconds
 tdur = 21600.0                  ! duration of simulation in seconds
 dtout = 1800.0                  ! how often to do file output
-activ = 170.0,170.0,5.0       ! f107a,f107,Ap
+activ = 227.1,227.1,5.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
 /
@@ -20,7 +20,7 @@ dtheta=9.75
 dphi=15
 lp=128
 lq=256
-lphi=48
+lphi=96
 altmin=80e3
 glat=34.0
 glon=254.0
@@ -37,6 +37,6 @@ indat_grid = 'inputs/simgrid.h5'
 indat_file = 'inputs/initial_conditions.h5'
 /
 
-&neutral_BG
-msis_version = 21
-/
+!&neutral_BG
+!msis_version = 21
+!/
