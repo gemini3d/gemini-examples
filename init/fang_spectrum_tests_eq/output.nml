@@ -1,0 +1,29 @@
+&FILES
+ INPUT_NML="/dartfs-hpc/rc/home/2/f0041z2/thesis/runs/fang_spectrum_tests/base//inputs/config.nml",
+ OUTPUT_DIR="/dartfs-hpc/rc/home/2/f0041z2/thesis/runs/fang_spectrum_tests/base/",
+ REALBITS=64         ,
+ /
+&GIT
+ GIT_VERSION="2.43.5",
+ BRANCH="MZ_upstream_merge2",
+ REV="7916f5ad 1.7.0",
+ PORCELAIN="dirty",
+ /
+&SYSTEM
+ COMPILER="GCC version 8.5.0 20210514 (Red Hat 8.5.0-22)",
+ COMPILER_FLAGS="-I /dartfs-hpc/admin/opt/el7/openmpi/4.1.1-gnu9.3.1/include -I /dartfs-hpc/admin/opt/el7/openmpi/4.1.1-gnu9.3.1/lib -I /dartfs-hpc/rc/home/2/f0041z2/fang_spectrum_tests/gemini3d/build/h5fortran/include -I /dartfs-hpc/rc/home/2/f0041z2/fang_spectrum_tests/gemini3d/build/ffilesystem/include -I /dartfs-hpc/rc/home/2/f0041z2/fang_spectrum_tests/gemini3d/ffilesystem/include -I /dartfs-hpc/rc/lab/L/LynchK/gemini_disco/libgem/include/static -I /dartfs-hpc/rc/lab/L/LynchK/gemini_disco/libgem/include -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/io.dir/output.f90.o -O3 -O3 -Wno-do-subscript -Wall -Wno-uninitialized -Wno-conversion -fno-backtrace -fimplicit-none -J ../../include",
+ EXE="./build/gemini.bin",
+ /
+&GRID
+ LID=1          ,
+ LID2=1          ,
+ LID3=1          ,
+ LX1=161        ,
+ LX2=1          ,
+ LX3=3          ,
+ LX2ALL=1          ,
+ LX3ALL=3          ,
+ /
+&MILESTONE
+ MCADENCE=-1         ,
+ /

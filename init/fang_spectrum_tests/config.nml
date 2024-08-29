@@ -1,0 +1,55 @@
+&base
+ymd = 2015, 2, 1
+UTsec0 = 35850
+tdur = 150
+dtout = 150
+activ = 137.6, 143.7, 20
+tcfl = 0.9
+Teinf = 1500
+/
+
+&setup
+glat = 65.8
+glon = 207.7
+xdist = 1e3
+ydist = 3e3
+alt_min = 80e3
+alt_max = 600e3
+alt_scale = 20.2e3, 19.8e3, 350e3, 100e3
+lxp = 1
+lyp = 3
+Bincl = 90
+eq_dir = '//dartfs-hpc/rc/lab/L/LynchK/Jules/thesis/runs/fang2010_spectrum_tests/base'
+/
+
+&flags
+potsolve = 1
+flagperiodic = 0
+flagoutput = 1
+/
+
+&files
+file_format = 'h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&fang
+flag_fang = 2008
+/
+
+&precip
+dtprec = 150
+prec_dir = 'inputs/particles'
+/
+
+&precip_BG
+PhiWBG = 0
+W0BG = 200
+/
+
+&efield
+dtE0 = 150
+E0_dir = 'inputs/fields'
+/
