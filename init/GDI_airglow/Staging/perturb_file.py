@@ -56,7 +56,7 @@ def perturb_file(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # neRISR=neRISR.transpose((2,0,1))
 
     #    alti,mloni,mlati,neAGP=AGP2model("./AGP1_outline.h5",xg,m=5,fillvalue=1.25e11)
-    alti, mloni, mlati, neAGP = AGP2model_rot("./AGP1_outline_v2.h5", xg, m=5, fillvalue=1.25e11)
+    #alti, mloni, mlati, neAGP = AGP2model_rot("./AGP1_outline_v2.h5", xg, m=5, fillvalue=1.25e11)
 
     #ci = CalcInterp('/Users/redden/Desktop/RISR/Run_18_49/volumetric_interp_output.h5')
     #neRISR = ci.point_enu(np.datetime64(iso_time), X_prime_prime, Y_prime_prime, Z)

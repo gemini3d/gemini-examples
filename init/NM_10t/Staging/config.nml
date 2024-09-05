@@ -1,10 +1,10 @@
 
 &base
 ymd = 2024,5,8               ! year, month, day
-UTsec0 = 61200.0              ! start time in UT seconds
-tdur = 21600.0                  ! duration of simulation in seconds
-dtout = 1800.0                  ! how often to do file output
-activ = 170.0,170.0,5.0       ! f107a,f107,Ap
+UTsec0 = 73740.0              ! start time in UT seconds
+tdur = 1800.0                  ! duration of simulation in seconds
+dtout = 120.0                  ! how often to do file output
+activ = 227.1,231.4,5.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
 /
@@ -18,9 +18,9 @@ flagoutput = 1      ! 1 - full output
 &setup
 dtheta=9.75
 dphi=15
-lp=128
-lq=256
-lphi=48
+lp=192
+lq=384
+lphi=96
 altmin=80e3
 glat=34.0
 glon=254.0
@@ -29,6 +29,8 @@ flagsource=1
 grid_openparm=10.0
 nmf=5e11
 nme=2e11
+eqdir = '~/simulations/sdcard/NM_10t_May_Equil_old/'
+setup_functions = '.perturb'
 /
 
 &files
@@ -37,6 +39,6 @@ indat_grid = 'inputs/simgrid.h5'
 indat_file = 'inputs/initial_conditions.h5'
 /
 
-&neutral_BG
-msis_version = 21
-/
+!&neutral_BG
+!msis_version = 21
+!/
