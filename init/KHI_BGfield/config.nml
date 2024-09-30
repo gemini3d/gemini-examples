@@ -4,7 +4,7 @@
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 28500.0              ! start time in UT seconds
 tdur = 2880.0                  ! duration of simulation in seconds
-dtout = 30.0                  ! how often to do file output
+dtout = 0.01                  ! how often to do file output
 activ = 172.4,165.6,9.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
 Teinf = 1500.0                ! exospheric electron temperature
@@ -24,15 +24,17 @@ alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 eq_dir = '~/simulations/sdcard/risr3d_eq/'
 
-precip_latwidth = 0.025
-precip_lonwidth = 0.15
-precip_llon = 512
-precip_llat = 512
-Qprecip = 0.0
-Qprecip_background = 1e-5
-E0precip = 2e3
+!precip_latwidth = 0.025
+!precip_lonwidth = 0.15
+!precip_llon = 512
+!precip_llat = 512
+!Qprecip = 0.0
+!Qprecip_background = 1e-5
+!E0precip = 2e3
 
 setup_functions = 'perturb_efield'
+
+file_format='h5'
 /
 
 &flags
@@ -47,10 +49,10 @@ indat_grid = 'inputs/simgrid.h5'
 indat_file = 'inputs/initial_conditions.h5'
 /
 
-&precip
-dtprec = 180
-prec_dir = 'inputs/precip/'
-/
+!&precip
+!dtprec = 180
+!prec_dir = 'inputs/precip/'
+!/
 
 &efield
 dtE0 = 180
@@ -62,13 +64,14 @@ E0_dir = 'inputs/Efield/'
 !/
 
 &precip_BG
-PhiWBG=0.1
+PhiWBG=1e-5
 W0BG=3e3
 /
 
 &capacitance
-flagcap=2       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
-magcap=5.0
+flagcap=0       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
+magcap=0.0
+!magcap = 5.0
 /
 
 &milestone

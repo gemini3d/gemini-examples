@@ -53,7 +53,9 @@ def perturb_efield(cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str
     # %% compute initial potential, background
     # Phitop = potential_bg(x2, lx2, lx3, params)
     # Phitop = np.zeros( (lx2,lx3) )
-    Phitop = 10 * np.random.randn(lx2, lx3)  # seed potential with random noise
+    Phitop = 1 * np.random.randn(lx2, lx3)  # seed potential with random noise
+    Phitop[0:9,:]=0.0
+    Phitop[-10:-1,:]=0.0
 
     # %% Write initial plasma state out to a file
     gemini3d.write.state(
@@ -68,7 +70,7 @@ def perturb_efield(cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str
     create_Efield(cfg, xg, dat, params)
 
     # create precipitation inputs
-    create_precip(cfg, xg, params)
+    # create_precip(cfg, xg, params)
 
 
 def init_profile(xg: dict[str, T.Any], dat: xarray.Dataset):
@@ -237,13 +239,13 @@ def create_Efield(cfg, xg, dat, params):
 
     # compute an initial conductivity and conductance for specifying background current
     #   coordinates needed for later derivatives and integrals to define FAC
-    _, _, _, SigP, SigH, _, _ = gemini3d.conductivity.conductivity_reconstruct(
-        cfg["time"][0], dat, cfg, xg
-    )
-    f = interp2d(xgmlat, xgmlon, SigP, kind="linear")
-    SigPi = f(E["mlon"], E["mlat"])
-    f = interp2d(xgmlat, xgmlon, SigH, kind="linear")
-    SigHi = f(E["mlat"], E["mlon"])
+    #_, _, _, SigP, SigH, _, _ = gemini3d.conductivity.conductivity_reconstruct(
+    #    cfg["time"][0], dat, cfg, xg
+    #)
+    #f = interp2d(xgmlat, xgmlon, SigP, kind="linear")
+    #SigPi = f(E["mlon"], E["mlat"])
+    #f = interp2d(xgmlat, xgmlon, SigH, kind="linear")
+    #SigHi = f(E["mlat"], E["mlon"])
 
     # %% CREATE DATA FOR BACKGROUND ELECTRIC FIELDS
     if "Exit" in cfg:
@@ -273,6 +275,7 @@ def create_Efield(cfg, xg, dat, params):
         vel3 = np.empty((llon, llat))
         for j in range(llat):
             vel3[:, j] = params["v0"] * np.tanh(x2i / params["ell"]) - params["vn"]
+            #vel3[:, j] = params["v0"] * np.tanh(x2i / params["ell"])
 
         vel3 = np.flipud(vel3)
 
@@ -283,12 +286,12 @@ def create_Efield(cfg, xg, dat, params):
         #   integrate them and produce a boundary condition.  *should* be equivalent
         E["Exit"][i, :] = -1 * E2slab
 
-        # INTEGRATE TO PRODUCE A POTENTIAL OVER GRID - then save the edge boundary conditions
-        DX2 = np.diff(x2i)
-        DX2 = np.append(DX2, DX2[-1])
-        Phislab = np.cumsum(E2slab * DX2, axis=0)  # use a forward difference
-        E["Vmaxx2ist"][i, :] = Phislab[-1, :]  # drive through BCs
-        E["Vminx2ist"][i, :] = Phislab[0, :]  # drive through BCs
+        # # INTEGRATE TO PRODUCE A POTENTIAL OVER GRID - then save the edge boundary conditions
+        # DX2 = np.diff(x2i)
+        # DX2 = np.append(DX2, DX2[-1])
+        # Phislab = np.cumsum(E2slab * DX2, axis=0)  # use a forward difference
+        # E["Vmaxx2ist"][i, :] = Phislab[-1, :]  # drive through BCs
+        # E["Vminx2ist"][i, :] = Phislab[0, :]  # drive through BCs
 
         # # Use FAC to enforce a smooth BG field, assume no E3, Cartesian, non-inverted for now
         # E["flagdirich"][i]=0
