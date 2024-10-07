@@ -26,11 +26,11 @@ glat=34.0
 glon=254.0
 gridflag=0
 flagsource=1
-grid_openparm=10.0
+grid_openparm=15.0
 nmf=5e11
 nme=2e11
-eqdir = '~/simulations/sdcard/NM_10t_May_Equil_old/'
-setup_functions = '.perturb'
+eqdir = '~/simulations/ssd/NM_10t_May_Equil/'
+!setup_functions = '.perturb'
 /
 
 &files
