@@ -27,8 +27,9 @@ import numpy as np
 os.environ["GEMINI_ROOT"]="/Users/zettergm/Projects/gemini3d/build/msis/"
 
 # read simulations data
-iframe=16
-direc="~/simulations/sdcard/STEVE2D_dist_test/"
+iframe=10
+#direc="~/simulations/sdcard/STEVE2D_reference/"
+direc="~/simulations/sdcard/STEVE2D_allNeu/"
 cfg=gemini3d.read.config(direc)
 xg=gemini3d.read.grid(direc)
 dat=gemini3d.read.frame(direc,cfg["time"][iframe])     # use frame 50
