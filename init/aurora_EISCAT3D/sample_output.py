@@ -13,7 +13,7 @@ from gemini3d.grid.convert import unitvecs_geographic
 
 # load some sample data (3D)
 #direc = "~/simulations/raid/tohoku20113D_lowres_3Dneu_f90/"
-direc = "~/simulations/ssd/EISCAT3D_DynaMIT_lowres/"
+direc = "~/simulations/ssd/EISCAT3D_DynaMIT_lowres_static/"
 cfg = read.config(direc)
 xg = read.grid(direc)
 parm="J1"
@@ -41,7 +41,8 @@ malti, mloni, mlati, parmmi = model2magcoords(xg, dat[parm], lalt, llon, llat)
 
 # make a simple magnetic plot of the output
 plt.figure()
-plt.pcolormesh(mlati,malti,parmmi[:,llon//3,:])
+plt.pcolormesh(mlati,malti,parmmi[:,int(llon/2.5),:])
+plt.colorbar()
 
 # ###############################################################################
 # # read in a vector quantity, rotate into geographic components and then grid
