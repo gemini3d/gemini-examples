@@ -13,11 +13,11 @@ from gemini3d.grid.convert import unitvecs_geographic
 
 # load some sample data (3D)
 #direc = "~/simulations/raid/tohoku20113D_lowres_3Dneu_f90/"
-direc = "~/simulations/ssd/EISCAT3D_DynaMIT/BingMM/"
+direc = "~/simulations/ssd/EISCAT3D_DynaMIT_lowres/"
 cfg = read.config(direc)
 xg = read.grid(direc)
 parm="J1"
-dat = read.frame(direc, cfg["time"][20])
+dat = read.frame(direc, cfg["time"][1])
 
 ###############################################################################
 # this plotting function will internally grid the data into slices and plot them

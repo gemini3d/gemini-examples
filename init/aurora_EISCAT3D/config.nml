@@ -19,9 +19,9 @@ flagoutput = 2      ! 1 - full parameter output
 &setup
 dtheta=24
 dphi=150
-lp=512
-lq=512
-lphi=128
+lp=128
+lq=256
+lphi=96
 altmin=80e3
 glat=66.22
 glon=-5.0
@@ -41,7 +41,7 @@ Efield_lonwidth=0.025
 Jtarg=1.5e-6            ! current density A/m**2
 Efield_llat=512
 Efield_llon=512
-Jtarg_function = "fac_SCW"
+Jtarg_function = "fac_SCW2"
 
 eq_dir = '~/simulations/ssd/aurora_EISCAT3D_eq_large'
 /
