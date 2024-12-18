@@ -93,6 +93,7 @@ def init_profile(xg: dict[str, T.Any], dat: xarray.Dataset) -> np.ndarray:
     for i in range(lsp):
         composition[i,:] = dat["ns"][i, :, ix2, ix3].values/neref
     
+    # fabricated Chapman layer; could be adjusted to work off of ionosonde, etc. data
     neprof=chapmana(xg["x1"][2:-2], 3e12/5, 450e3, 20e3)
 
     nsprof=np.zeros( (lsp,lx1) )

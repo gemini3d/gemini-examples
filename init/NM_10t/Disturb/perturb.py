@@ -19,6 +19,7 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     # Data from HF systems
     filename="fp_profile.txt"
     z,ne = readprofile(filename)
+    ne=ne*1.4
     
     # WARNING total hack; scale up the profile to compensate for decay during
     #   the "settling"/staging simulation

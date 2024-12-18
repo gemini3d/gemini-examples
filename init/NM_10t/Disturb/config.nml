@@ -19,16 +19,16 @@ flagoutput = 2      ! 1 - full output
 !dtheta=9.75
 dtheta=5.5
 dphi=9
-lp=384
-lq=384
-lphi=96
+lp=512
+lq=512
+lphi=5
 altmin=80e3
 glat=34.0
 glon=254.0
 gridflag=0
 flagsource=1
 grid_openparm=52.0
-eqdir = '~/simulations/sdcard/simulations_NM_figments/NM_10t_May_Equil/'
+eqdir = '~/simulations/sdcard/NM_10t_May_Equil/'
 setup_functions = '.perturb'
 /
 
