@@ -1,9 +1,20 @@
-# KHI_periodic_lowres example
+# KHI 2024 May storm ("Gannon Storm")
 
-This example simulates ionospheric Kelvin-Helmholtz instability.
+This example simulates ionospheric Kelvin-Helmholtz instability occurring in what appears to be the equatorward trough boundary in the TEC data.
 
 ## Running this example
 
-See the GDI_periodic_medres example README for details on how to set up the simulation.  This particular example is very similar as it does not require precipitation input; potential boundary condtions are required and set through a script contained in this directory.
+The configuration for this simulation uses a specified density profile which can be set using a Chapman profile or perhaps ionosonde data during the storm.  It further assumes classical KHI setup for the ionosphere (i.e. according to the linear theory outlined in Keskinen, 1988).  Parameters of the density profile and drift setup can be set in ```perturb.py```.  Once these have been set one can run:
 
-Initial density perturbations are set according to the formulation in Keskinen 1988 see model_setup_perturb.m - this script has several adjustable parameters that can be used to set the density variations across the shear.  The Efield_BCS.m script should be adjusted so that it uses the same input parameters so that the initial state represents an ionospheric equilibrium.
+```python
+import gemini3d.model
+gemini3d.model.setup("./config.nml","~/simulations/2024_May_Storm_KHI")
+```
+which will generate the input files for the simulation.  
+
+While either the full version of GEMINI or the density/potential only version can be run with this case, it makes the most sense to probably run with the density and potential solutions to avoid settling (i.e. unwanted transient flows) from whatever profile the user specifies:
+
+```bash
+mpirun -np 8 ./gemini.denspot.bin ~/simulations/2024_May_Storm_KHI
+```
+
