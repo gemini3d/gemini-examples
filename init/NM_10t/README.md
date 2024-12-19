@@ -14,3 +14,7 @@ The self-consistent setup requires generating an equilbrium state (```./Equil```
 ## Specified density simulation
 
 In this case, one can omit the "Staging" step since the density is fixed and chemistry disabled.  Setup requires generating an equilbrium state (```./Equil```), and then applied the specified density via ```Specified_ne```.  
+
+## Density profile
+
+The density profile is stored in plain text format in ```fp_profile.txt``` (as plasma frequency); ```perturb.py``` converts these into density and save them in a format amenable to initial conditions for GEMINI.  
