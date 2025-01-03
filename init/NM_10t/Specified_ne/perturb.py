@@ -30,19 +30,20 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     zmax=z.max()
     zgridmin=xg["alt"].min()
     zgridmax=xg["alt"].max()
-    zdatasample=np.linspace(zgridmin,zgridmax,512)
+    lsample=512
+    zdatasample=np.linspace(zgridmin,zgridmax,lsample)
     i=0
     nedatasample=np.zeros(zdatasample.shape)
     while zdatasample[i]<zmin:
         nedatasample[i]=1e-20
         i+=1
     imin=i
-    while zdatasample[i]<zmax:
+    while i<lsample and zdatasample[i]<zmax:
         i+=1
     imax=i
     nedatasample[imin:imax]= scipy.interp(zdatasample[imin:imax],z,ne[:])
        
-    for i in range(imax,zdatasample.size):
+    for i in range(imax,lsample):
         ne3=nedatasample[i-3]
         ne2=nedatasample[i-2]
         nedatasample[i]=nedatasample[i-1]*ne2/ne3

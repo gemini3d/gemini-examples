@@ -29,7 +29,7 @@ gridflag=0
 flagsource=1
 grid_openparm=52.0
 eqdir = '~/simulations/sdcard/NM_10t_May_Equil/'
-setup_functions = '.perturb'
+setup_functions = 'perturb'
 /
 
 &files
