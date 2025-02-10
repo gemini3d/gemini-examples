@@ -24,11 +24,9 @@ alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -25e-3
 
-eq_dir = '~/gemini/risr3d_eq/risr3d_eq'
-eq_archive = '~/gemini/risr3d_eq.zip'
-eq_url = 'https://zenodo.org/record/3980312/files/risr3d_eq.zip?download=1'
+eq_dir = '~/simulations/sdcard/GDI_eq'
 
-setup_functions = 'perturb_GDI', 'gemini3d.efield.Efield_BCs'
+setup_functions = 'perturb_GDI_planar', 'gemini3d.efield.Efield_BCs'
 /
 
 &flags
@@ -52,19 +50,17 @@ E0_dir = 'inputs/Efield/'
 flagJpar=.false.
 /
 
-! PhiWBG=0.05    !good for illustrating effects of precip -> damping
-! PhiWBG=1e-3
-
 &precip_BG
 PhiWBG=1e-3
 W0BG=3e3
+! PhiWBG=0.05    !good for illustrating effects of precip -> damping
+! PhiWBG=1e-3
 /
-
-! magcap=5.0    !good for showing damping due to magnetosphere...
 
 &capacitance
 flagcap=0       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
 magcap=0.0
+! magcap=5.0    !good for showing damping due to magnetosphere...
 /
 
 &milestone

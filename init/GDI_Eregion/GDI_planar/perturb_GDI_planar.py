@@ -7,7 +7,7 @@ import gemini3d.read
 import gemini3d.write
 
 
-def perturb_GDI(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
+def perturb_GDI_planar(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     """
     perturb plasma from initial_conditions file
     """
