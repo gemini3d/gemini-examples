@@ -43,12 +43,12 @@ def perturb_GDI_round(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     # enforce quasineutrality
 
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
-    ellx2 = 50e3    # gradient "scale length" for patch/blob
-    x2ctr = -150e3   # location of patch blob
+    ellx2 = 100e3    # gradient "scale length" for patch/blob
+    x2ctr = 0e3   # location of patch blob
     # x21 = -150e3  # location on one of the patch edges
     # x22 = 150e3  # other patch edge
     # ell = 20e3
-    nepatchfact = 3  # density increase factor over background
+    nepatchfact = 10  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):
@@ -80,14 +80,14 @@ def perturb_GDI_round(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)  # enforce quasineutrality
 
     # %% KILL OFF THE E-REGION WHICH WILL DAMP THE INSTABILITY (AND USUALLY ISN'T PRESENT IN PATCHES)
-    # x1ref = 200e3
-    # # where to start tapering down the density in altitude
-    # dx1 = 10e3
-    # taper = 0.5 + 0.5 * np.dict((x1 - x1ref) / dx1)
-    # for i in range(lsp - 1):
-    #     for ix3 in range(xg["lx"][2]):
-    #         for ix2 in range(xg["lx"][1]):
-    #             nsperturb[i, :, ix2, ix3] = 1e6 + nsperturb[i, :, ix2, ix3] * taper
+    x1ref = 200e3
+    # where to start tapering down the density in altitude
+    dx1 = 10e3
+    taper = 0.5 + 0.5 * np.tanh((x1 - x1ref) / dx1)
+    for i in range(lsp - 1):
+        for ix3 in range(xg["lx"][2]):
+            for ix2 in range(xg["lx"][1]):
+                nsperturb[i, :, ix2, ix3] = 1e6 + nsperturb[i, :, ix2, ix3] * taper
 
     nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)
     # enforce quasineutrality

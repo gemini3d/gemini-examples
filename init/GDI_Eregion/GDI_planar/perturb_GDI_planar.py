@@ -71,14 +71,14 @@ def perturb_GDI_planar(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)  # enforce quasineutrality
 
     # # %% KILL OFF THE E-REGION WHICH WILL DAMP THE INSTABILITY (AND USUALLY ISN'T PRESENT IN PATCHES)
-    # x1ref = 200e3
-    # # where to start tapering down the density in altitude
-    # dx1 = 10e3
-    # taper = 0.5 + 0.5 * np.tanh((x1 - x1ref) / dx1)
-    # for i in range(lsp - 1):
-    #     for ix3 in range(xg["lx"][2]):
-    #         for ix2 in range(xg["lx"][1]):
-    #             nsperturb[i, :, ix2, ix3] = 1e6 + nsperturb[i, :, ix2, ix3] * taper
+    x1ref = 200e3
+    # where to start tapering down the density in altitude
+    dx1 = 10e3
+    taper = 0.5 + 0.5 * np.tanh((x1 - x1ref) / dx1)
+    for i in range(lsp - 1):
+        for ix3 in range(xg["lx"][2]):
+            for ix2 in range(xg["lx"][1]):
+                nsperturb[i, :, ix2, ix3] = 1e6 + nsperturb[i, :, ix2, ix3] * taper
 
     nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)
     # enforce quasineutrality

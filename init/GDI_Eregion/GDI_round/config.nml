@@ -20,8 +20,10 @@ ydist = 1000e3
 lxp = 384
 !lyp = 344
 lyp = 100
-x2parms = 350e3,2.9e3,5e3,50e3
+x2parms = 200e3,2.9e3,5e3,50e3
 x3parms = 350e3,2.9e3,5e3,50e3
+!x2parms = 350e3,2.9e3,5e3,50e3
+!x3parms = 350e3,2.9e3,5e3,50e3
 !x2parms = 350e3,1.5e3,5e3,50e3
 !x3parms = 350e3,1.5e3,5e3,50e3
 Bincl = 90
@@ -72,10 +74,6 @@ magcap=0.0
 
 &milestone
 mcadence=4
-/
-
-&lagrangian
-flaglagrangian=.true.
 /
 
 &diamagnetic

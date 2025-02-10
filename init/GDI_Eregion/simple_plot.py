@@ -14,7 +14,7 @@ outdir="~/simulations/sdcard/GDI_round/"
 
 cfg=gemini3d.read.config(outdir)
 xg=gemini3d.read.grid(outdir)
-dat=gemini3d.read.frame(outdir,time=cfg["time"][0])     # e.g., reads frame 20
+dat=gemini3d.read.frame(outdir,time=cfg["time"][-1])     # e.g., reads frame 20
 
 x=xg["x2"][2:-2]    # remove ghost cells for convenience
 y=xg["x3"][2:-2]
