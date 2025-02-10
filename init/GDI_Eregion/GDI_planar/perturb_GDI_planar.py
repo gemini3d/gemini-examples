@@ -26,6 +26,7 @@ def perturb_GDI_planar(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     ix2 = xg["lx"][1] // 2
     ix3 = xg["lx"][2] // 2
 
+    # START WITH A UNIFORM REFERENCE PROFILE
     nsscale = np.zeros_like(ns)
     for i in range(lsp):
         nprof = ns[i, :, ix2, ix3]
@@ -41,9 +42,9 @@ def perturb_GDI_planar(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     # enforce quasineutrality
 
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
-    ell = 5e3  # gradient scale length for patch/blob
-    x21 = -85e3  # location on one of the patch edges
-    x22 = -45e3  # other patch edge
+    ell = 5e3         # gradient scale length for patch/blob
+    x21 = -85e3       # location on one of the patch edges
+    x22 = -45e3       # other patch edge
     nepatchfact = 10  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
@@ -69,15 +70,15 @@ def perturb_GDI_planar(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     # which can occur when noise is applied)
     nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)  # enforce quasineutrality
 
-    # %% KILL OFF THE E-REGION WHICH WILL DAMP THE INSTABILITY (AND USUALLY ISN'T PRESENT IN PATCHES)
-    x1ref = 200e3
-    # where to start tapering down the density in altitude
-    dx1 = 10e3
-    taper = 0.5 + 0.5 * np.tanh((x1 - x1ref) / dx1)
-    for i in range(lsp - 1):
-        for ix3 in range(xg["lx"][2]):
-            for ix2 in range(xg["lx"][1]):
-                nsperturb[i, :, ix2, ix3] = 1e6 + nsperturb[i, :, ix2, ix3] * taper
+    # # %% KILL OFF THE E-REGION WHICH WILL DAMP THE INSTABILITY (AND USUALLY ISN'T PRESENT IN PATCHES)
+    # x1ref = 200e3
+    # # where to start tapering down the density in altitude
+    # dx1 = 10e3
+    # taper = 0.5 + 0.5 * np.tanh((x1 - x1ref) / dx1)
+    # for i in range(lsp - 1):
+    #     for ix3 in range(xg["lx"][2]):
+    #         for ix2 in range(xg["lx"][1]):
+    #             nsperturb[i, :, ix2, ix3] = 1e6 + nsperturb[i, :, ix2, ix3] * taper
 
     nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)
     # enforce quasineutrality

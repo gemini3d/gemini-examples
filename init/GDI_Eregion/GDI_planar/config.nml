@@ -51,8 +51,8 @@ flagJpar=.false.
 /
 
 &precip_BG
-PhiWBG=1e-3
-W0BG=3e3
+PhiWBG=1e-3    ! total energy flux, mW/m2
+W0BG=3e3       ! characteristic energy
 ! PhiWBG=0.05    !good for illustrating effects of precip -> damping
 ! PhiWBG=1e-3
 /
