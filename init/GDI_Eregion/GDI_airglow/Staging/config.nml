@@ -1,0 +1,76 @@
+! this is a gradient drift instability simulation
+
+&base
+ymd = 2016,02,03              ! year, month, day
+UTsec0 = 16800.0              ! start time in UT seconds
+tdur = 600.0                  ! duration of simulation in seconds
+dtout = 100.0                 ! how often to do file output
+activ = 150.0,150.0,50.0      ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&setup
+glat = 75.6975
+glon = 265.1678
+xdist = 5800e3                ! eastward distance (meters), including a large low-res buffer for solvers
+ydist = 2950e3                ! northward distance (meters)
+lxp = 384
+!lyp = 344
+lyp = 100
+x2parms = 975e3,10e3,15e3,150e3
+x3parms = 975e3,10e3,15e3,150e3
+!x2parms = 350e3,0.74e3,25e3,50e3
+!x3parms = 350e3,0.74e3,25e3,50e3
+Bincl = 90
+alt_min = 80e3
+alt_max = 975e3
+alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
+Eyit = -33.5e-3
+eq_dir = '~/simulations/sdcard/GDI_airglow_eq/'
+setup_functions = '.perturb_file'
+/
+
+&flags
+potsolve = 0      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0
+flagoutput = 1
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&Jpar
+flagJpar=.false.
+/
+
+!&precip_BG
+!PhiWBG=1e-3
+!W0BG=3e3
+!/
+
+&precip_BG
+PhiWBG=0.0175
+W0BG=500.0
+/
+
+! magcap=5.0    !good for showing damping due to m'sphere...
+&capacitance
+flagcap=1       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
+magcap=0.0
+/
+
+&milestone
+mcadence=6
+/
+
+&lagrangian
+flaglagrangian=.false.
+/
+
+&diamagnetic
+flagdiamagnetic=.true.
+/
