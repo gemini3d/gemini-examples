@@ -1,0 +1,16 @@
+{
+  "matlab": {
+    "arch": "maci64",
+    "version": "9.14.0.2674353 (R2023a) Update 7"
+  },
+  "git": {
+    "version": "git version 2.39.3 (Apple Git-146)",
+    "remote": "https://github.com/gemini3d/mat_gemini.git",
+    "branch": "main",
+    "commit": "v5.6.0-91-ge4a490a",
+    "porcelain": "false"
+  },
+  "eq": {
+    "eq_dir": "/Users/vaggu/Work/Ph.D./LWS_ARCS/GEMINI/arcs_eq"
+  }
+}
