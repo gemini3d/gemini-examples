@@ -1,8 +1,8 @@
 &base
 ymd = 2017,3,2                    ! year, month, day
 UTsec0 = 27000.0                  !UTsec0:  start time in UT seconds
-tdur = 300.0                      !tdur:  duration of simulation in seconds
-dtout = 5.0                       !dtout: how often to do output
+tdur = 90.0                      !tdur:  duration of simulation in seconds
+dtout = 1                      !dtout: how often to do output
 activ = 76.5,79.3,31.5            !activ:  f107a,f107,Ap
 tcfl = 0.9                        !tcfl:  target cfl number
 Teinf = 1500.0                    !Teinf:  exospheric electron temperature
@@ -11,38 +11,60 @@ Teinf = 1500.0                    !Teinf:  exospheric electron temperature
 &setup
 glat = 65.8
 glon = 207.7
-xdist = 3400e3              ! eastward distance (meters)
+xdist = 340e3              ! eastward distance (meters)
 !ydist = 800e3               ! northward distance (meters)
-ydist = 1200e3               ! northward distance (meters)
+ydist = 120e3               ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 950e3             ! maximum altitude (meters)
+!alt_min = 80e3              ! minimum altitude (meters)
+!alt_max = 500e3             ! maximum altitude (meters)
 !alt_scale = 10e3, 4e3, 500e3, 150e3  ! altitude grid scales (meters)
 alt_scale = 10e3, 8e3, 500e3, 150e3 ! this is a high-resolution vertical grid
-x2parms = 400e3,18.8e3,50e3,100e3
-!x2parms = 1650e3,0.2375e3,10e3,5e3
+!alt_scale = 2.5e3, 2e3, 150e3, 120e3 ! this is a high-resolution vertical grid
+!x2parms = 400e3,18.8e3,50e3,110e3
+!x2parms = 1650e3,0.250e3,4.53e3,1e3
+!x3parms = 550e3,0.250e3,1.92e3,1e3
 !x3parms = 200e3,1.625e3,20e3,50e3
-x3parms = 400e3,1.625e3,18.5e3,50e3
-!x3parms = 550e3,0.25e3,10e3,5e3
+!x3parms = 400e3,1.625e3,18.5e3,50e3
+!x2parms = 1675e3,0.675e3,2.595e3,10e3
+!x3parms = 575e3,0.675e3,1.75e3,5e3
+!x2parms = 1650e3,0.6e3,2.935e3,8e3
+!x3parms = 550e3,0.6e3,2.26e3,5e3
+!x2parms = 1235e3,1e3,140e3,10e3
+!x3parms = 230e3,1e3,130e3,5e3
+!x2parms = 1650e3,0.25e3,2.73e3,7.5e3
+!x3parms = 550e3,0.25e3,1.735e3,7.5e3
+!x2parms = 160e3,2.4e3,2e3,1e3
+!x2parms = 160e3,1e3,2.4e3,1e3
+!x3parms = 50e3,0.78e3,1e3,1e3
+!x3parms = 50e3,2.1e3,2e3,1e3
+!x2parms = 160e3,0.05e3,2.06e3,1e3
+!x3parms = 50e3,0.05e3,1.2e3,1e3
+x2parms = 160e3,0.1e3,1.65e3,0.9e3
+x3parms = 50e3,0.1e3,0.475e3,0.9e3
 lxp = 128                   ! number of x-cells, will be ignored for nonuniform
 lyp = 144                   ! number of y-cells, will be ignored for nonuniform
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
-precip_latwidth = 0.025
-precip_lonwidth = 0.15
-Qprecip = 25
+precip_latwidth = 0.03
+precip_lonwidth = 0.3
+!precip_latwidth = 0.05
+!precip_lonwidth = 0.25
+Qprecip = 30
 Qprecip_background = 1
 E0precip = 2e3
+E0precip_background = 1e3
 Jtarg = 15e-6               ! A/m2
 Efield_lonwidth = 0.15
 Efield_latwidth = 0.025
-eqdir = '~/simulations/raid/arcs_eq_large/'
+eqdir = '~/Work/LWS_ARCS/GEMINI/arcs_eq/'
 setup_functions = 'Efield_BCs_angle_wide', 'particles_BCs_angle_wide'
 Eyit=25e-3
 /
 
 &flags
-potsolve = 1                                 !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
+potsolve = 0                               !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 0                             !flagperiodic:  periodic in x3 grid?
 flagoutput = 2                               !flagoutput
 /
@@ -54,12 +76,13 @@ indat_file = 'inputs/initial_conditions.h5'
 /
 
 &precip
-dtprec = 5.0
+!dtprec = 0.15
+dtprec = 90.0
 prec_dir = 'inputs/precip/'
 /
 
 &efield
-dtE0 = 10.0
+dtE0 = 90.0
 E0_dir = 'inputs/Efield/'
 /
 
