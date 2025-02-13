@@ -1,0 +1,53 @@
+
+&base
+ymd = 2011,3,11               ! year, month, day
+UTsec0 = 20783.0              ! start time in UT seconds
+tdur = 1200.0                  ! duration of simulation in seconds
+dtout = 60.0                  ! how often to do file output
+activ = 104.7,129.5,37.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 2      ! 1 - full output
+/
+
+&setup
+!dtheta=9.75
+dtheta=6
+dphi=15
+lp=64
+lq=1024
+lphi=64
+altmin=80e3
+glat=42.45
+glon=143.4
+gridflag=0
+flagsource=1
+grid_openparm=20.0
+eq_dir = '~/simulations/ssd/misty_eq'
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&neutral_perturb
+flagdneu = 1
+interptype = 5
+sourcemlat = 29.0667
+sourcemlon = 209.8501
+dtneu = 4.0
+dzn = 1000.0
+drhon = 1000.0
+source_dir = '~/simulations/ssd/tohoku_neutrals_h5/'
+/
+
+&milestone
+mcadence=10
+/
