@@ -1,0 +1,68 @@
+! this is a gradient drift instability simulation
+
+&base
+ymd = 2013,2,20               ! year, month, day
+UTsec0 = 18000.0              ! start time in UT seconds
+tdur = 360.0                  ! duration of simulation in seconds
+dtout = 10.0                  ! how often to do file output
+activ = 150.0,150.0,50.0      ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&setup
+glat = 75.6975
+glon = 265.1678
+xdist = 600e3             ! eastward distance (meters), including a large low-res buffer for solvers
+ydist = 50e3             ! northward distance (meters)
+lxp = 384
+lyp = 96
+x2parms = 200e3,0.5e3,9.5e3,10e3
+Bincl = 90
+alt_min = 80e3
+alt_max = 975e3
+alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
+Eyit = -25e-3
+
+eq_dir = '~/simulations/sdcard/GDI_eq'
+
+setup_functions = 'perturb_GDI_planar', 'gemini3d.efield.Efield_BCs'
+/
+
+&flags
+potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 1
+flagoutput = 2
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&efield
+dtE0 = 30.0
+E0_dir = 'inputs/Efield/'
+/
+
+&Jpar
+flagJpar=.false.
+/
+
+&precip_BG
+PhiWBG=1e-3    ! total energy flux, mW/m2
+W0BG=3e3       ! characteristic energy
+! PhiWBG=0.05    !good for illustrating effects of precip -> damping
+! PhiWBG=1e-3
+/
+
+&capacitance
+flagcap=0       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
+magcap=0.0
+! magcap=5.0    !good for showing damping due to magnetosphere...
+/
+
+&milestone
+mcadence=4
+/
