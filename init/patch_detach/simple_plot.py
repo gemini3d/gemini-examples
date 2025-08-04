@@ -10,11 +10,11 @@ import gemini3d.read
 import matplotlib.pyplot as plt
 import numpy as np
 
-outdir="~/simulations/ssd/patch_round/"
+outdir="~/simulations/ssd/patch_planar/"
 
 cfg=gemini3d.read.config(outdir)
 xg=gemini3d.read.grid(outdir)
-dat=gemini3d.read.frame(outdir,time=cfg["time"][1])     # e.g., reads frame 20
+dat=gemini3d.read.frame(outdir,time=cfg["time"][0])     # e.g., reads last frame
 
 x=xg["x2"][2:-2]    # remove ghost cells for convenience
 y=xg["x3"][2:-2]
