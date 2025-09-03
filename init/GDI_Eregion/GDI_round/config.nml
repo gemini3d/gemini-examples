@@ -3,7 +3,7 @@
 &base
 ymd = 2013,2,20               ! year, month, day
 UTsec0 = 18000.0              ! start time in UT seconds
-tdur = 900.0                  ! duration of simulation in seconds
+tdur = 1800.0                  ! duration of simulation in seconds
 dtout = 30.0                   ! how often to do file output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -11,24 +11,17 @@ Teinf = 1500.0                ! exospheric electron temperature
 /
 
 &setup
-glat = 75.6975
-glon = 265.1678
-!xdist = 1531e3                ! eastward distance (meters), including a large low-res buffer for solvers
-!ydist = 1531e3                ! northward distance (meters)
+glat = 74.72955
+glon = 265.09424
 xdist = 1000e3
 ydist = 1000e3
 lxp = 384
-!lyp = 344
 lyp = 100
 x2parms = 200e3,2.9e3,5e3,50e3
 x3parms = 350e3,2.9e3,5e3,50e3
-!x2parms = 350e3,2.9e3,5e3,50e3
-!x3parms = 350e3,2.9e3,5e3,50e3
-!x2parms = 350e3,1.5e3,5e3,50e3
-!x3parms = 350e3,1.5e3,5e3,50e3
 Bincl = 90
 alt_min = 80e3
-alt_max = 975e3
+alt_max = 950e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 !alt_scale = 10e3, 8e3, 500e3, 150e3
 Eyit = -45e-3
@@ -60,7 +53,7 @@ flagJpar=.false.
 /
 
 &precip_BG
-PhiWBG=1e-3
+PhiWBG=1e-6
 W0BG=3e3
 ! PhiWBG=0.05    !good for illustrating effects of precip -> damping
 ! PhiWBG=1e-3
