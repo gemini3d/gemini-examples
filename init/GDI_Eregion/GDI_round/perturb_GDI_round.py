@@ -44,7 +44,7 @@ def perturb_GDI_round(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
 
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
     ellx2 = 100e3    # gradient "scale length" for patch/blob
-    x2ctr = 0e3   # location of patch blob
+    x2ctr = -250e3   # location of patch blob
     # x21 = -150e3  # location on one of the patch edges
     # x22 = 150e3  # other patch edge
     # ell = 20e3

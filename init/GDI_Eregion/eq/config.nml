@@ -11,8 +11,8 @@ Teinf = 1500.0                ! exospheric electron temperature
 &setup
 glat = 74.72955
 glon = 265.09424
-xdist = 4e5             ! eastward distance (meters)
-ydist = 1.5e5             ! northward distance (meters)
+xdist = 1500e3             ! eastward distance (meters)
+ydist = 1500e3             ! northward distance (meters)
 lxp = 16
 lyp = 16
 Bincl = 90
