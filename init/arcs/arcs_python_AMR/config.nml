@@ -1,7 +1,7 @@
 &base
 ymd = 2017,3,2                    ! year, month, day
 UTsec0 = 27000.0                  !UTsec0:  start time in UT seconds
-tdur = 600.0                      !tdur:  duration of simulation in seconds
+tdur = 5400.0                      !tdur:  duration of simulation in seconds
 dtout = 30.0                       !dtout: how often to do output
 activ = 76.5,79.3,31.5            !activ:  f107a,f107,Ap
 tcfl = 0.9                        !tcfl:  target cfl number
@@ -29,26 +29,28 @@ precip_latwidth = 0.025
 precip_lonwidth = 0.15
 precip_llon = 1024
 precip_llat = 1024
-Qprecip = 25
-Qprecip_background = 1
+Qprecip = 50
+Qprecip_background = 1e-1
 E0precip = 2e3
 Qprecip_function = 'precip_shape'
 
-Jtarg = 5e-6               ! A/m2
-Efield_lonwidth = 0.15
-Efield_latwidth = 0.025
-Efield_llon = 1024
-Efield_llat = 1024
-Eyit=25e-3
-Jtarg_function = 'Jcurrent_gaussian_tanh'
+!Jtarg = 5e-6               ! A/m2
+!Efield_lonwidth = 0.15
+!Efield_latwidth = 0.025
+!Efield_llon = 1024
+!Efield_llat = 1024
+!Eyit=25e-3
+!Jtarg_function = 'Jcurrent_gaussian_tanh'
 eq_dir = '~/simulations/ssd/arcs_eq'
 
-setup_functions = 'gemini3d.efield.Efield_BCs', 'gemini3d.particles.particles_BCs'
+!setup_functions = 'gemini3d.efield.Efield_BCs', 'gemini3d.particles.particles_BCs'
+!setup_functions = 'gemini3d.particles.particles_BCs'
+setup_functions = 'precip_field_inputs'
 
 /
 
 &flags
-potsolve = 1                                 !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
+potsolve = 0                                 !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
 flagperiodic = 0                             !flagperiodic:  periodic in x3 grid?
 flagoutput = 2                               !flagoutput
 /
@@ -60,7 +62,7 @@ indat_file = 'inputs/initial_conditions.h5'
 /
 
 &precip
-dtprec = 5.0
+dtprec = 10.0
 prec_dir = 'inputs/precip/'
 /
 
@@ -78,3 +80,9 @@ mcadence=12
 !dtglow = 5.0
 !dtglowout = 60.0            ! how often to do Glow file output
 !/
+
+! (optional - off by default)
+&twoway_coupled
+flagtwoway=.true.        ! whether or not to compute momentum and energy rates back to neutrals
+/
+
