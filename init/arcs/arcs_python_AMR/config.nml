@@ -13,7 +13,7 @@ glat = 65.8
 glon = 207.7
 xdist = 3400e3              ! eastward distance (meters)
 !ydist = 800e3               ! northward distance (meters)
-ydist = 1200e3               ! northward distance (meters)
+ydist = 2400e3               ! northward distance (meters)
 alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 950e3             ! maximum altitude (meters)
 alt_scale = 10e3, 4e3, 500e3, 150e3  ! altitude grid scales (meters)
@@ -41,7 +41,7 @@ Qprecip_function = 'precip_shape'
 !Efield_llat = 1024
 !Eyit=25e-3
 !Jtarg_function = 'Jcurrent_gaussian_tanh'
-eq_dir = '~/simulations/ssd/arcs_eq'
+eq_dir = '~/simulations/sdcard/arcs_eq'
 
 !setup_functions = 'gemini3d.efield.Efield_BCs', 'gemini3d.particles.particles_BCs'
 !setup_functions = 'gemini3d.particles.particles_BCs'
