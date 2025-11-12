@@ -159,10 +159,10 @@ def Q_shape(pg, params, x2i, x3i):
     meanx2=x2i.mean()
     meanx3=x3i.mean()
     sigx2=1/5*(x2i.max()-x2i.min())
-    sigx3=1/120*(x3i.max()-x3i.min())
+    sigx3=1/40*(x3i.max()-x3i.min())
     displace = 3 * sigx3
     #meant=timesec.mean()
-    meant = 300
+    meant = 2700
     # t_sigma=1/8*(_times.min()+_times.max())
     sigt = 150
     
@@ -306,10 +306,10 @@ def Efield_shape(E, params, x2i, x3i):
     meanx2=x2i.mean()
     meanx3=x3i.mean()
     sigx2=1/5*(x2i.max()-x2i.min())
-    sigx3=1/120*(x3i.max()-x3i.min())
+    sigx3=1/40*(x3i.max()-x3i.min())
     displace = 3 * sigx3
     #meant=timesec.mean()
-    meant = 300
+    meant = 2700
     # t_sigma=1/8*(_times.min()+_times.max())
     sigt = 150
     

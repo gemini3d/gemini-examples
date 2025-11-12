@@ -25,7 +25,8 @@ Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
 nme = 2e11
 
-precip_latwidth = 0.025
+!precip_latwidth = 0.025
+precip_latwidth = 0.005
 precip_lonwidth = 0.15
 precip_llon = 1024
 precip_llat = 1024
