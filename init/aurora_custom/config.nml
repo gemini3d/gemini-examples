@@ -1,0 +1,79 @@
+&base
+ymd = 2017,3,2                    ! year, month, day
+UTsec0 = 27000.0                  !UTsec0:  start time in UT seconds
+tdur = 5400.0                      !tdur:  duration of simulation in seconds
+dtout = 30.0                       !dtout: how often to do output
+activ = 76.5,79.3,31.5            !activ:  f107a,f107,Ap
+tcfl = 0.9                        !tcfl:  target cfl number
+Teinf = 1500.0                    !Teinf:  exospheric electron temperature
+/
+
+&setup
+glat = 65.8
+glon = 207.7
+xdist = 3400e3              ! eastward distance (meters)
+!ydist = 800e3               ! northward distance (meters)
+ydist = 2400e3               ! northward distance (meters)
+alt_min = 80e3              ! minimum altitude (meters)
+alt_max = 950e3             ! maximum altitude (meters)
+alt_scale = 10e3, 4e3, 500e3, 150e3  ! altitude grid scales (meters)
+x2parms = 400e3,29e3,50e3,100e3
+x3parms = 400e3,15e3,25e3,100e3
+!x3parms = 400e3,5.5e3,18.5e3,50e3
+lxp = 128                   ! number of x-cells, will be ignored for nonuniform
+lyp = 144                   ! number of y-cells, will be ignored for nonuniform
+Bincl = 90                  ! geomagnetic inclination
+nmf = 5e11
+nme = 2e11
+
+!precip_latwidth = 0.025
+precip_latwidth = 0.005
+precip_lonwidth = 0.15
+precip_llon = 128
+precip_llat = 128
+Qprecip = 50
+Qprecip_background = 1e-1
+E0precip = 2e3
+
+eq_dir = '~/simulations/ssd_ext/arcs_eq'
+
+setup_functions = 'precip_field_inputs'
+/
+
+&flags
+potsolve = 0                                 !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0                             !flagperiodic:  periodic in x3 grid?
+flagoutput = 2                               !flagoutput
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&precip
+dtprec = 10.0
+prec_dir = 'inputs/precip/'
+/
+
+&efield
+dtE0 = 10.0
+E0_dir = 'inputs/Efield/'
+/
+
+&milestone
+mcadence=12
+/
+
+!! Uncomment these lines if you want GLOW to be used for the ionization rates
+!&glow
+!dtglow = 5.0
+!dtglowout = 60.0            ! how often to do Glow file output
+!/
+
+! (optional - off by default)
+&twoway_coupled
+flagtwoway=.true.        ! whether or not to compute momentum and energy rates back to neutrals
+/
+
