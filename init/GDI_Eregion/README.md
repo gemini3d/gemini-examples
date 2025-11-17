@@ -17,4 +17,4 @@ Example setup for the staging run is provided in the `GDI_planar` folder.  This 
 ## Perturbation
 Example setup for the perturbation run is provided in the `perturb` folder.  This includes both a config file and `perturb_add_noise.py`.  The perturbation file is specified in the config file.  Gaussian random noise is added across the simulation space, but the relative amplitude of the noise (usually set around 1%) can be adjusted in the python script.
 
-[Sample Output](sample_output.png)
+![Sample Output](sample_output.png)
