@@ -9,8 +9,10 @@ Created on Mon Feb 10 14:54:05 2025
 import gemini3d.read
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
-outdir="~/simulations/sdcard/GDI_round/"
+# Simulation directory listed as command line argument
+outdir = sys.argv[1]
 
 cfg=gemini3d.read.config(outdir)
 xg=gemini3d.read.grid(outdir)
@@ -29,3 +31,4 @@ plt.ylabel("y dist. (km)")
 plt.colorbar()
 #plt.ylabel(cb,"$n_e (m^{-3})$")
 plt.title("Sample GDI output Frame")
+plt.show()
