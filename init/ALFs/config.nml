@@ -2,10 +2,10 @@
 ymd = 2008,3,26               ! year, month, day
 UTsec0 = 12600.0              ! start time in UT seconds
 tdur = 3600.0                  ! duration of simulation in seconds
-dtout = 300.0                  ! how often to do output
+dtout = 30.0                  ! how often to do output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
-Teinf = 1500.0                ! exospheric electron temperature
+Teinf = 3000.0                ! exospheric electron temperature
 /
 
 &setup
@@ -26,14 +26,14 @@ alt_max = 950e3
 alt_scale = 10e3, 8e3, 500e3, 150e3
 eq_dir = "~/simulations/sdcard/arcs_eq"
 Efield_latwidth = 0.050
-Jtarg = 10e-6
+Jtarg = 2.5e-6
 Jtarg_function = "fac_said"
 Efield_llat = 1024
 /
 
 &flags
 potsolve = 1      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
-flagoutput = 2
+flagoutput = 0
 /
 
 &files
@@ -66,9 +66,9 @@ flagFBI = 2      ! Farley-Buneman Instability: 0 - no; 1 - Only anomalous heatin
 diffsolvetype = 1             ! type of diffusion solver to use:  1 - backward Euler; 2 - TRBDF2
 /
 
-&milestone
-mcadence = 4
-/
+!&milestone
+!mcadence = 4
+!/
 
 &evibcool
 flagevibcool=1
