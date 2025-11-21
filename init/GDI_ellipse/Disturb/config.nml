@@ -20,6 +20,8 @@ lxp = 384
 lyp = 100
 x2parms = 348e3,1.0e3,5e3,50e3
 x3parms = 357e3,1.0e3,5e3,50e3
+!x2parms = 348e3,5.0e3,20e3,50e3
+!x3parms = 357e3,5.0e3,20e3,50e3
 Bincl = 90
 alt_min = 80e3
 alt_max = 975e3
@@ -27,9 +29,10 @@ alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 !alt_scale = 10e3, 8e3, 500e3, 150e3
 Eyit = -33.5e-3
 
-eq_dir = '~/simulations/ssd_ext/risr3d_eq_large/'
+eq_dir = '~/simulations/ssd_ext/risr3d_eq_2/'
 
-setup_functions = 'perturb', 'gemini3d.model.Efield_BCs'
+!setup_functions = 'perturb', 'gemini3d.model.Efield_BCs'
+setup_functions = 'perturb_constL', 'gemini3d.model.Efield_BCs'
 /
 
 &flags
