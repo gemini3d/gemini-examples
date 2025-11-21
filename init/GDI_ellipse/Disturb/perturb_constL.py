@@ -96,9 +96,6 @@ def perturb_constL(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     nsperturb[-1, :, :, :] = nsperturb[:-1, :, :, :].sum(axis=0)
 
 
-    breakpoint()
-
-
     # %% WRITE OUT THE RESULTS TO the same file
     gemini3d.write.state(
         cfg["indat_file"],
