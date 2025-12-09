@@ -14,13 +14,17 @@ ymd=ymd0;
 UTsec=UTsec0;
 freal = 'single';
 
+altkm = [0:20:500, 600:100:900];
+
 %% Create data files
-for ii=0:1:96 % save for a day
+for ii=0:1:96% save for a day
 
     currenttimeDT = initialtimeDT + ii*seconds(dtneu);
 
     % Prepare background fields
-    out = prepareGEMINIbkgd(year(currenttimeDT),month(currenttimeDT),day(currenttimeDT),hour(currenttimeDT),minute(currenttimeDT));
+    out = prepareGEMINIbkgd(year(currenttimeDT),month(currenttimeDT), ...
+        day(currenttimeDT),hour(currenttimeDT),minute(currenttimeDT), ...
+        altkm);
 
     % Write data to file
     timevar=datetime([ymd,0,0,UTsec]);
@@ -50,7 +54,14 @@ stdlib.h5save(filename, '/lx2', size(out.O,2), "type", "int32")
 stdlib.h5save(filename, '/lx3', size(out.O,3), "type", "int32")
 
 % gridneut.h5 includes coordinates (alt, lon, lat)
-stdlib.h5save('dataneut/simgrid.h5', '/alt', out.alt3d.*1000, "type",  freal)
-stdlib.h5save('dataneut/simgrid.h5', '/glat', out.lat3d, "type",  freal)
-stdlib.h5save('dataneut/simgrid.h5', '/glon', out.lon3d, "type",  freal)
-
+alt=out.alt3d(:,1,1)*1e3;
+lon=squeeze(out.lon3d(1,:,1));
+lon=lon(:);
+lat=squeeze(out.lat3d(1,1,:));
+lat=lat(:);
+%stdlib.h5save('dataneut/simgrid.h5', '/alt', out.alt3d.*1000, "type",  freal)
+%stdlib.h5save('dataneut/simgrid.h5', '/glat', out.lat3d, "type",  freal)
+%stdlib.h5save('dataneut/simgrid.h5', '/glon', out.lon3d, "type",  freal)
+stdlib.h5save('dataneut/simgrid.h5', '/alt', alt, "type",  freal)
+stdlib.h5save('dataneut/simgrid.h5', '/lat', lat, "type",  freal)
+stdlib.h5save('dataneut/simgrid.h5', '/lon', lon, "type",  freal)

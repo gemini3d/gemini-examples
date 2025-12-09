@@ -1,8 +1,8 @@
 ! APR1 simulation
 
 &base
-ymd = 2025,7,28               ! year, month, day
-UTsec0 = 84292.0              ! start time in UT seconds
+ymd = 2022,12,19               ! year, month, day
+UTsec0 = 0000.0              ! start time in UT seconds
 tdur = 14400.0                  ! duration of simulation in seconds
 dtout = 900.0                  ! how often to do file output
 activ = 156.1,138,4 	 ! f107a,f107,Ap
@@ -30,7 +30,6 @@ gridflag=1
 !iscurv=true
 nmf = 5e11
 nme = 2e11
-!grid_openparm = 120.0
 /
 
 &files
@@ -53,11 +52,17 @@ flagEIA = .true.              ! toggles EIA calculation
 v0equator = 15.0              ! equatorial peak drift value
 /
 
-! (optional - default off) allow neutral background atmosphere to change during simulation
-&neutral_BG
-flagneuBG = .true.	 ! on or off
-dtneuBG = 600.0         ! how often to call MSIS and HWM (if applicable)
-msis_version = 0         ! 0 or 20; which MSIS version to use, MSIS00 or MSIS 2.0
+!! (optional - default off) allow neutral background atmosphere to change during simulation
+!&neutral_BG
+!flagneuBG = .true.	 ! on or off
+!dtneuBG = 600.0         ! how often to call MSIS and HWM (if applicable)
+!msis_version = 0         ! 0 or 20; which MSIS version to use, MSIS00 or MSIS 2.0
+!/
+
+! getting background neutral atmospheric info from a file
+&neutralBG_file
+dtneuBGfile = 900.0
+neutralBGdir = './inputs/neutralBG/'
 /
 
 ! (optional - default off) whether or not to do milestone outputs; only works with h5 file output
