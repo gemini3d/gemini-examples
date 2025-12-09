@@ -29,7 +29,7 @@ alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 !alt_scale = 10e3, 8e3, 500e3, 150e3
 Eyit = -33.5e-3
 
-eq_dir = '~/simulations/ssd_ext/risr3d_eq_2/'
+eq_dir = '~/simulations/ssd/risr3d_eq_2/'
 
 !setup_functions = 'perturb', 'gemini3d.model.Efield_BCs'
 setup_functions = 'perturb_constL', 'gemini3d.model.Efield_BCs'
