@@ -1,0 +1,77 @@
+! APR1 simulation
+
+&base
+ymd = 2022,12,19               ! year, month, day
+UTsec0 = 900.0              ! start time in UT seconds
+tdur = 14400.0                  ! duration of simulation in seconds
+dtout = 900.0                  ! how often to do file output
+activ = 156.1,138,4 	 ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 1      ! 1 - full output
+/
+
+&setup
+dtheta=22.5
+dphi=65
+lp=128
+lq=192
+lphi=16
+altmin=80e3
+glat=45.5
+glon=255.0
+gridflag=0
+grid_openparm=50
+!flagsource=1
+!iscurv=true
+nmf = 5e11
+nme = 2e11
+/
+
+&files
+file_format='h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&Jpar
+flagJpar=.false.     !parallel currents perhaps not meangingful in ESF simulation?
+/
+
+&gravdrift
+flaggravdrift=.false.
+/
+
+&EIA
+flagEIA = .true.              ! toggles EIA calculation
+v0equator = 15.0              ! equatorial peak drift value
+/
+
+!! (optional - default off) allow neutral background atmosphere to change during simulation
+!&neutral_BG
+!flagneuBG = .true.	 ! on or off
+!dtneuBG = 900.0         ! how often to call MSIS and HWM (if applicable)
+!msis_version = 0         ! 0 or 20; which MSIS version to use, MSIS00 or MSIS 2.0
+!/
+
+! getting background neutral atmospheric info from a file
+&neutralBG_file
+dtneuBGfile = 900.0
+neutralBGdir = './inputs/neutralBG/'
+/
+
+! (optional - default off) whether or not to do milestone outputs; only works with h5 file output
+&milestone
+mcadence=1                   ! number of outputs per milestone
+/
+
+! whether or not to compute magnetic pole location based on year (.false.=use default; .true.=compute based on year)
+&magpole
+flagmagpole=.true.
+/
