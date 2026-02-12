@@ -1,0 +1,54 @@
+! Equatorial spread F simulation example
+
+&base
+ymd = 2016,3,3               ! year, month, day
+UTsec0 = 4500.0              ! start time in UT seconds
+tdur = 86400.0                  ! duration of simulation in seconds
+dtout = 3600.0                  ! how often to do file output
+activ = 150.0,150.0,4.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 1    ! whether periodic
+flagoutput = 1      ! 1 - full output
+/
+
+&setup
+dtheta=5.75
+dphi=10
+lp=256
+lq=256
+lphi=24
+altmin=80e3
+glat=12
+glon=283.1
+gridflag=1
+flagsource=0
+nmf=5e11
+nme=2e11
+/
+
+&files
+file_format='h5'
+indat_size = '~/simulations/sdcard/ESF_eq_retry/inputs/simsize.h5'
+indat_grid = '~/simulations/sdcard/ESF_eq_retry/inputs/simgrid.h5'
+indat_file = '~/simulations/sdcard/ESF_eq_retry/inputs/initial_conditions.h5'
+/
+
+&Jpar
+flagJpar=.false.     !parallel currents perhaps not meangingful in ESF simulation?
+/
+
+&gravdrift
+flaggravdrift=.false.
+/
+
+! (optional - default off) control equatorial ionization anomaly
+&EIA
+flagEIA = .true.              ! toggles EIA calculation
+v0equator = 10.0              ! equatorial peak drift value
+/
+

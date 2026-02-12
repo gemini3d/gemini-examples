@@ -19,9 +19,12 @@ flagoutput = 2      ! 1 - full output
 &setup
 dtheta=3.5
 dphi=2.5
-lp=128
-lq=128
-lphi=132
+!lp=128
+!lq=128
+!lphi=132
+lp=512
+lq=256
+lphi=576
 altmin=80e3
 glat=8.35
 glon=283.1
@@ -51,3 +54,10 @@ flaggravdrift=.true.
 &milestone
 mcadence=5
 /
+
+! (optional - 0 by default) electron rotational and vibrational cooling
+&evibcool
+flagevibcool = 1
+/
+!! 1: use new model
+!! 0: use old model
