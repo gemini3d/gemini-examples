@@ -2,7 +2,7 @@
 
 &base
 ymd = 2016,3,3               ! year, month, day
-UTsec0 = 4500.0              ! start time in UT seconds
+UTsec0 = 18900.0              ! start time in UT seconds
 tdur = 86400.0                  ! duration of simulation in seconds
 dtout = 3600.0                  ! how often to do file output
 activ = 150.0,150.0,4.0       ! f107a,f107,Ap
@@ -18,9 +18,9 @@ flagoutput = 1      ! 1 - full output
 
 &setup
 dtheta=5.75
-dphi=10
-lp=256
-lq=256
+dphi=40
+lp=128
+lq=128
 lphi=24
 altmin=80e3
 glat=12
