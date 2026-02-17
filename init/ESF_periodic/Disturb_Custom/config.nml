@@ -1,0 +1,63 @@
+! Equatorial spread F simulation example
+
+&base
+ymd = 2016,3,3               ! year, month, day
+UTsec0 = 4500.0              ! start time in UT seconds
+tdur =  25200.0                  ! duration of simulation in seconds
+dtout = 600.0                  ! how often to do file output
+activ = 150.0,150.0,4.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 1        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 1    ! whether periodic
+flagoutput = 2      ! 1 - full output
+/
+
+&setup
+dtheta=3.5
+dphi=32
+!lp=128
+!lq=128
+!lphi=132
+lp=512
+lq=128
+lphi=576
+altmin=80e3
+glat=8.35
+glon=283.1
+gridflag=1
+flagsource=0
+
+eq_dir = '~/simulations/ssd_ext/sims_ESF/ESF_testing_minionization_dneu_0deg'
+
+!setup_functions = 'perturb_ESF'
+/
+
+&files
+file_format='h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&Jpar
+flagJpar=.false.     !parallel currents perhaps not meangingful in ESF simulation?
+/
+
+&gravdrift
+flaggravdrift=.true.
+/
+
+&milestone
+mcadence=5
+/
+
+! (optional - 0 by default) electron rotational and vibrational cooling
+&evibcool
+flagevibcool = 1
+/
+!! 1: use new model
+!! 0: use old model
