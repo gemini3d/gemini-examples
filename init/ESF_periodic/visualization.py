@@ -8,12 +8,12 @@ import gemini3d.read as read
 import matplotlib.pyplot as plt
 from gemini3d.grid.gridmodeldata import model2magcoords
 from pathlib import Path
-
+import numpy as np
 import argparse
 
-p = argparse.ArgumentParser()
-p.add_argument("direc", help="directory containing the simulation output")
-P = p.parse_args()
+#p = argparse.ArgumentParser()
+#p.add_argument("direc", help="directory containing the simulation output")
+#P = p.parse_args()
 
 plt.ioff()  # so matplotlib doesn't take over the entire computer :(
 # set some font sizes
@@ -30,54 +30,58 @@ plt.rc("figure", titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 # load some sample data (3D)
 
-direc = Path(P.direc).expanduser()
-plotdir = direc / "customplots"
-plotdir.mkdir(exist_ok=True)
-
-parmlbl = "ne"
-
+#direc = Path(P.direc).expanduser()
+#plotdir = direc / "customplots"
+#plotdir.mkdir(exist_ok=True)
+direc="./ESF_testing_postdneu/"
+plotdir="./ESF_testing_postdneu/customplots/"
 
 # read in simulation information grid,config
 cfg = read.config(direc)
 xg = read.grid(direc)
-parm = "ne"
+parms = ["ne","Te","Ti","v1","v2"]
 
-plt.subplots(1, 3, figsize=(11, 4.5), dpi=150)
+plt.subplots(1, 3, figsize=(16, 4.5), dpi=150)
 for it in range(0, len(cfg["time"])):
     dat = read.frame(direc, cfg["time"][it])
-
-    ###############################################################################
-    # produce gridded dataset arrays from model output for user
-    ###############################################################################
-    lalt = 192
-    llon = 192
-    llat = 192
-    print("Sampling:  ", cfg["time"][it])
-    malti, mloni, mlati, parmmi = model2magcoords(xg, dat[parm], lalt, llon, llat)
-
-    # quickly compare flows in model components vs. geographic as a meridional slice
-    plt.clf()
-    plt.subplot(1, 3, 1)
-    plt.pcolormesh(mlati, malti, parmmi[:, llon // 2, :])
-    plt.ylim(0, 1000e3)
-    plt.xlabel("mlat")
-    plt.ylabel("alt")
-    plt.title("$n_e$")
-    plt.colorbar()
-
-    plt.subplot(1, 3, 2)
-    plt.pcolormesh(mloni, malti, parmmi[:, :, llat // 2])
-    plt.ylim(0, 1000e3)
-    plt.xlabel("mlon")
-    plt.ylabel("alt")
-    plt.colorbar()
-    plt.title("$n_e$")
-
-    plt.subplot(1, 3, 3)
-    plt.pcolormesh(mloni, mlati, parmmi[lalt // 2, :, :].transpose())
-    plt.xlabel("mlon")
-    plt.ylabel("mlat")
-    plt.colorbar()
-    plt.title("$n_e$")
-
-    plt.savefig(plotdir / (parmlbl + str(cfg["time"][it]) + "s.png"))
+    for parm in parms:
+    
+        ###############################################################################
+        # produce gridded dataset arrays from model output for user
+        ###############################################################################
+        lalt = 384
+        llon = 384
+        llat = 128
+        print("Sampling:  ", cfg["time"][it], "parameter:  ",parm)
+        malti, mloni, mlati, parmmi = model2magcoords(xg, dat[parm], lalt, llon, llat)
+    
+        # log the ne
+        #if parm=="ne":
+        #    parmmi=np.log10(parmmi)
+    
+        # quickly compare flows in model components vs. geographic as a meridional slice
+        plt.clf()
+        plt.subplot(1, 3, 1)
+        plt.pcolormesh(mlati, malti, parmmi[:, llon // 2, :])
+        plt.ylim(0, 1000e3)
+        plt.xlabel("mlat")
+        plt.ylabel("alt")
+        plt.title(parm)
+        plt.colorbar()
+    
+        plt.subplot(1, 3, 2)
+        plt.pcolormesh(mloni, malti, parmmi[:, :, llat // 2])
+        plt.ylim(0, 1000e3)
+        plt.xlabel("mlon")
+        plt.ylabel("alt")
+        plt.colorbar()
+        plt.title(parm)
+    
+        plt.subplot(1, 3, 3)
+        plt.pcolormesh(mloni, mlati, parmmi[lalt // 2, :, :].transpose())
+        plt.xlabel("mlon")
+        plt.ylabel("mlat")
+        plt.colorbar()
+        plt.title(parm)
+    
+        plt.savefig(plotdir + (parm + str(cfg["time"][it]) + "s.png"))
