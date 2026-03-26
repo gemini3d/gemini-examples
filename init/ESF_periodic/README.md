@@ -11,6 +11,18 @@ These directories contain various configurations for different types of plasma b
 
 A basic script to plot the results from one of the Disturbance simulations in included:  ```./visualization.py```.
 
+# Usage
+
+A full realization of EPBs will usually consist of three separate simulation steps:
+
+1.  An equilbrium run from which a reference background state for subsequent simulations can be obtained
+2.  (optional) a staging simulation to apply perturbations and possible allow the system to settle any artificial transients, e.g. ```./Disturb_Dneu```
+3.  A "disturbance" simulation which applies seed structures and/or runs the simulation from a set state with seed perturbation already in it:
+    1.  a simple noise-like density perturbation, e.g. ```./Disturb_Noise```; this does not require a staging step.
+    2.  coherent band-limited forcing, e.g. ```./Disturb_Gaussian```; does not require a staging step.
+    3.  some kind of neutral atmospheric forcing, e.g. ```./Disturb_Custom```
+    
+
 # Caveats
 
-We have found in many cases that the code will achieve extremely low densities (< 1 per cubic meter) in regions where the bubbles are forming leading to runaway electron temperatures.  This can be avoided by including nighttime photoionization (e.g. scattered airglow) or enforcing a minimum density (~1000 per cubic meter).  
+We have found in many cases that the code will achieve extremely low densities (< 1 per cubic meter) in regions where the bubbles are forming leading to runaway electron temperatures.  This can be avoided by including nighttime photoionization (e.g. scattered airglow) or enforcing a minimum density (~1000 per cubic meter).  Nighttime photoionization is in development currently so setting a floor is the only option for now.  
