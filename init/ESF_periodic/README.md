@@ -15,7 +15,7 @@ A basic script to plot the results from one of the Disturbance simulations in in
 
 A full realization of EPBs will usually consist of three separate simulation steps:
 
-1.  An equilbrium run from which a reference background state for subsequent simulations can be obtained
+1.  An equilbrium run from which a reference background state for subsequent simulations can be obtained.  Probably the most important parameter here is the equatorial drift amplitude get in the config.nml file.  
 2.  (optional) a staging simulation to apply perturbations and possible allow the system to settle any artificial transients, e.g. ```./Disturb_Dneu```
 3.  A "disturbance" simulation which applies seed structures and/or runs the simulation from a set state with seed perturbation already in it:
     1.  a simple noise-like density perturbation, e.g. ```./Disturb_Noise```; this does not require a staging step.
