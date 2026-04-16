@@ -1,9 +1,9 @@
 ! APR1 simulation
 
 &base
-ymd = 2025,7,28               ! year, month, day
+ymd = 2025,7,29               ! year, month, day
 UTsec0 = 84292.0              ! start time in UT seconds
-tdur = 259200.0                  ! duration of simulation in seconds
+tdur = 14400.0                  ! duration of simulation in seconds
 dtout = 3600.0                  ! how often to do file output
 activ = 156.1,138,4 	 ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -17,8 +17,8 @@ flagoutput = 1      ! 1 - full output
 /
 
 &setup
-dtheta=20.0
-dphi=50
+dtheta=15.0
+dphi=40
 lp=256
 lq=448
 lphi=256
@@ -31,7 +31,7 @@ gridflag=1
 !nmf = 5e11
 !nme = 2e11
 
-eq_dir = '~/simulations/ssd_ext/kamchatka_eq/'
+eq_dir = '~/simulations/sdcard/kamchatka_eq/'
 /
 
 &files
@@ -69,4 +69,17 @@ mcadence=1                   ! number of outputs per milestone
 ! whether or not to compute magnetic pole location based on year (.false.=use default; .true.=compute based on year)
 &magpole
 flagmagpole=.true.
+/
+
+! (optional - default off) Include neutral atmospheric perturbation inputs from another model/dataset
+&neutral_perturb
+flagdneu = 1                       ! on/off for neutral perturbations:  0 - off; 1 - on
+interptype = 4                     ! how to treat the input neutral data:  1 - axisymmetric; 2 - Cartesian; 3 - 3D Cartesian
+sourcemlat = 29.2664             ! magnetic latitude of the source location
+sourcemlon = 259.8047            ! magnetic longitude of the source location
+dtneu = 120.0                        ! time step between neutral file inputs
+drhon = 16000                        ! neutral grid step size in the radial or y-direction (meridional)
+dzn = 4000                          ! neutral grid step, vertical
+dxn = 16000                          ! (only required if 3D) neutral grid step in x-direction (zonal)
+source_dir = 'inputs/neutrals'
 /
