@@ -17,21 +17,21 @@ flagoutput = 1      ! 1 - full output
 /
 
 &setup
-dtheta=15.0
-dphi=40
+dtheta=19.5
+dphi=42
 lp=256
 lq=448
 lphi=256
 altmin=80e3
-glat=42.5
-glon=192.5
+glat=38.5
+glon=196.5
 gridflag=1
 !flagsource=1
 !iscurv=true
 !nmf = 5e11
 !nme = 2e11
 
-eq_dir = '~/simulations/sdcard/kamchatka_eq/'
+eq_dir = '~/simulations/raid2/simulations_kamchatka/kamchatka_eq/'
 /
 
 &files
