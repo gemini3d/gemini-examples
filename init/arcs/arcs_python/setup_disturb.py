@@ -13,7 +13,7 @@ Created on Tue May 12 13:24:05 2026
 import gemini3d.model
 
 simdir="~/simulations/sdcard/arcs_python/"    # location on computer where the simulation data will be kept
-gemini3d.model.setup("./arcs_python/config.nml",simdir)
+gemini3d.model.setup("./config.nml",simdir)
 
 # Once complete one can run (from command line pwd gemini3d build directory):
 #  mpirun -np 4 ./gemini.bin <simdir>
