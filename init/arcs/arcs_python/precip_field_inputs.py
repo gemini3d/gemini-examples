@@ -122,7 +122,7 @@ def create_precip(cfg: dict[str, T.Any], xg: dict[str, T.Any], params: dict[str,
     ###########################################################################
     # INTERPOLATE COORDINATEs ONTO PROPOSED MLON GRID -- this is so the functions
     #    That set the precipitation and field values can use the native model
-    #    coordinates (x2,3) is so desired.  
+    #    coordinates (x2,3) if so desired.  
     ###########################################################################
     xgmlon = np.degrees(xg["phi"][0, :, 0])
     xgmlat = 90 - np.degrees(xg["theta"][0, 0, :])
