@@ -1,0 +1,40 @@
+&base
+ymd = 2026,11,1                  ! year, month, day
+UTsec0 = 79200.0                 ! UTsec0:  start time in UT seconds
+tdur = 86400.0                   ! tdur:  duration of simulation in seconds
+dtout = 1800.0                   ! dtout: how often to do output
+activ = 120.0,120.0,20.0         ! activ:  f107a,f107,Ap
+tcfl = 0.9                       ! tcfl:  target cfl number
+Teinf = 1500.0                   ! Teinf:  exospheric electron temperature
+/
+
+&flags
+potsolve = 0                             !potsolve:  how are we solving electrodynamics?   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0                         !flagperiodic:  periodic in x3 grid?
+flagoutput = 1                           !flagoutput
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&setup
+glat = 68.0                 ! geographic center of grid, latitude
+glon = 21.0                 ! geographic center longitude
+xdist = 4000e3              ! eastward distance (meters) spanned by grid
+ydist = 3000e3              ! northward distance (meters) spanned by grid
+alt_min = 80e3              ! minimum altitude (meters)
+alt_max = 1000e3            ! maximum altitude (meters)
+alt_scale = 13.75e3, 20e3, 200e3, 200e3  ! altitude grid scales (meters)
+lxp = 44                    ! number of x-cells
+lyp = 54                    ! number of y-cells
+Bincl = 90                  ! geomagnetic inclination
+nmf = 5e11
+nme = 2e11
+/
+
+&milestone
+mcadence=1
+/
