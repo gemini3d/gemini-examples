@@ -17,13 +17,13 @@ alt_min = 80e3
 alt_max = 600e3
 alt_scale = 20.2e3, 19.8e3, 350e3, 100e3
 lxp = 1
-lyp = 3
+lyp = 1
 Bincl = 90
 eq_dir = '//dartfs-hpc/rc/lab/L/LynchK/Jules/thesis/runs/fang2010_spectrum_tests/base'
 /
 
 &flags
-potsolve = 1
+potsolve = 0
 flagperiodic = 0
 flagoutput = 1
 /

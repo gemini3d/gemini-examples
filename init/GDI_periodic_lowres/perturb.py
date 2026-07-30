@@ -33,7 +33,8 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
                 nsscale[i, :, j, k] = nprof
 
     # %% SCALE EQ PROFILES UP TO SENSIBLE BACKGROUND CONDITIONS
-    scalefact = 2.75 * 6 / 8
+    #scalefact = 2.75 * 6 / 8
+    scalefact=1/10
     for i in range(lsp - 1):
         nsscale[i, :, :, :] = scalefact * nsscale[i, :, :, :]
     nsscale[-1, :, :, :] = nsscale[:-1, :, :, :].sum(axis=0)
@@ -43,7 +44,8 @@ def perturb(cfg: T.Dict[str, T.Any], xg: T.Dict[str, T.Any]):
     ell = 5e3  # gradient scale length for patch/blob
     x21 = -85e3  # location on one of the patch edges
     x22 = -45e3  # other patch edge
-    nepatchfact = 10  # density increase factor over background
+    #nepatchfact = 10  # density increase factor over background
+    nepatchfact = 3  # density increase factor over background
 
     nsperturb = np.zeros_like(ns)
     for i in range(lsp - 1):

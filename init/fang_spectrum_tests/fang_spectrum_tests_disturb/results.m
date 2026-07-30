@@ -1,6 +1,7 @@
 function results
 
-direc0 = '.';
+%direc0 = '.';
+direc0 = '/Users/zettergm/simulations/sdcard/spectrum_disturb/';
 try
     cfg = gemini3d.read.config(direc0);
     xg = gemini3d.grid.cartesian(cfg);

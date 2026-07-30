@@ -1,4 +1,4 @@
-function setup
+function setup_spectrum
 
 % NOTE: This program assumes you are running in an environment with standard
 % POSIX permissions OR, if you are on an NFS filesystem, that you have
@@ -7,8 +7,12 @@ function setup
 % on NFS4 ACL's see https://www.osc.edu/book/export/html/4523 (J. Griffin,
 % 8/9/2024)
 
-direc = '.';
-direc_eq = fullfile('..','fang2008_v_fang2010_eq');
+% MZ NOTE:  Need to copy all nml files to "direc" for this to work.
+
+basedir="/Users/zettergm/simulations/sdcard/";
+direc = basedir+"spectrum_disturb/";
+%direc_eq = fullfile('..','fang2008_v_fang2010_eq');
+direc_eq = basedir+"spectrum_eq/";
 try
     cfg = gemini3d.read.config(direc);
     xg = gemini3d.grid.cartesian(cfg);
@@ -31,8 +35,19 @@ itE0 = 0:dtE0:tdur;
 ltprec = length(itprec);
 ltE0 = length(itE0);
 
+% Define an inputdata grid that encompasses the points of the simulation
+% grid, must not be singleton in any dimension else GEMINI will interpret
+% incorrectly (source data size == 1 is a sentinel value).  
 mlon = squeeze(xg.phi(end,:,1))*180/pi;
+if (size(mlon,1)==1)
+  disp('Buffering mlon grid...');
+  mlon=[mlon-1,mlon,mlon+1];
+end
 mlat = 90-squeeze(xg.theta(end,1,:))*180/pi;
+if (size(mlat,1)==1)
+  disp('Buffering mlat grid...');
+  mlat=[mlat-1,mlat,mlat+1];
+end
 llon = length(mlon);
 llat = length(mlat);
 
@@ -73,11 +88,11 @@ for Qp = Qps
                 fullfile(direc_sim,'config.nml'),'f')
             copyfile(fullfile(direc,cfg_fn), ...
                 fullfile(direc_sim,'inputs','config.nml'),'f')
-            copyfile(fullfile(direc,direc_eq,'20150201_35850.000000.h5'), ...
+            copyfile(fullfile(direc_eq,'20150201_35850.000000.h5'), ...
                 fullfile(direc_sim,'inputs','initial_conditions.h5'),'f')
-            copyfile(fullfile(direc,direc_eq,'inputs','simgrid.h5'), ...
+            copyfile(fullfile(direc_eq,'inputs','simgrid.h5'), ...
                 fullfile(direc_sim,'inputs','simgrid.h5'),'f')
-            copyfile(fullfile(direc,direc_eq,'inputs','simsize.h5'), ...
+            copyfile(fullfile(direc_eq,'inputs','simsize.h5'), ...
                 fullfile(direc_sim,'inputs','simsize.h5'),'f')
             pg.Qit = ones(llon,llat,ltprec)*Qp;
             pg.E0it = ones(llon,llat,ltprec)*Ep;
