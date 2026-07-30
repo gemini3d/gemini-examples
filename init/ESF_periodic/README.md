@@ -25,4 +25,4 @@ A full realization of EPBs will usually consist of three separate simulation ste
 
 # Caveats
 
-We have found in many cases that the code will achieve extremely low densities (< 1 per cubic meter) in regions where the bubbles are forming leading to runaway electron temperatures.  This can be avoided by including nighttime photoionization (e.g. scattered airglow) or enforcing a minimum density (~1000 per cubic meter).  Nighttime photoionization is in development currently so setting a floor is the only option for now.  
+We have found in many cases that the code will achieve extremely low densities (< 1 per cubic meter) in regions where the bubbles are forming leading to runaway electron temperatures.  This can be avoided by including nighttime photoionization (e.g. scattered airglow) or enforcing a minimum density (~1000 per cubic meter).  Nighttime photoionization can also be enabled (scattering off of plasmasphere).  See Disturb_Gaussian example for how to set the config.nml file. 
