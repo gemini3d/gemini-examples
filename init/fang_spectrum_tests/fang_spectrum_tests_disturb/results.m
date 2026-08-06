@@ -1,7 +1,7 @@
-function results
+function ne_err_table_max=results
 
 %direc0 = '.';
-direc0 = '/Users/zettergm/simulations/sdcard/spectrum_disturb/';
+direc0 = '/Users/zettergm/simulations/sdcard/simulations_spectrumtest/spectrum_disturb/';
 try
     cfg = gemini3d.read.config(direc0);
     xg = gemini3d.grid.cartesian(cfg);
@@ -77,6 +77,7 @@ tlo = tiledlayout(2,2,'TileSpacing','tight','Padding','tight');
 title(tlo,'Electron density error from unaccel. Maxwellian spectra using Fang et al. (2008) vs. (2010) methods')
 colors = [[0,0,1];[0,1,0];[1,0.5,0];[1,0,0]];
 
+ne_err_table_max=0.0;
 for j = 1:4
     fprintf('%4.1f keV',ne(2*j+8*(i-1),2)/1e3)
     nexttile
@@ -85,8 +86,23 @@ for j = 1:4
     for i = 1:4
         ne2008 = ne(2*j-1 + 8*(i-1),4:end);
         ne2010 = ne(2*j   + 8*(i-1),4:end);
-        ne_err = 100*(ne2010-ne2008)./ne2010;
-        fprintf('\t| %5.1f%% %5.1f%% %5.1f%%',min(ne_err),max(ne_err),median(abs(ne_err)))
+%        ne_err = 100*(ne2010-ne2008)./ne2010;
+        ne_err = 100*(ne2010-ne2008)./ne2008;
+%        fprintf('\t| %5.1f%% %5.1f%% %5.1f%%',min(ne_err),max(ne_err),median(abs(ne_err)))
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Our "test statistic" here is the sqrt of the sum of the residuals
+        % divided by the number of points.  So in a sense an estimate of
+        % varation from true solution averaged over the entire profile.  
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        ne_abs_err=ne2010-ne2008;
+        ne_err_table=sqrt(sum(ne_abs_err.^2))/(numel(ne_abs_err));
+        ne_err_table=100*ne_err_table/max(ne2008);
+        if (ne_err_table>ne_err_table_max)
+            ne_err_table_max=ne_err_table;
+        end
+        fprintf('\t| %5.1f%% %5.1f%% %5.1f%%',min(ne_err),max(ne_err),ne_err_table);
+
         plot(ne_err,x1,'Color',colors(i,:),'DisplayName',sprintf('%.1f mW/m^2',ne((i-1)*8+1,1)))
     end
     fprintf('\n')
@@ -103,5 +119,11 @@ end
 
 saveas(gcf,fullfile(direc0,'fang2008_v_2010_err.png'))
 close all
+
+if (ne_err_table_max>5)
+   fprintf('FAILED:  %5.2f pct. error',ne_err_table_max);
+else
+   fprintf('PASSED:  %5.2f pct. error',ne_err_table_max);
+end
 
 end

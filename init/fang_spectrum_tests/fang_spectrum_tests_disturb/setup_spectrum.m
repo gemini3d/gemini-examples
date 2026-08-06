@@ -8,17 +8,23 @@ function setup_spectrum
 % 8/9/2024)
 
 % MZ NOTE:  Need to copy all nml files to "direc" for this to work.
+% MZ NOTE:  Need to set environment variable GEMINI_ROOT
+% MZ NOTE:  Need to run mat_gemini/setup.m
+% MZ NOTE:  We probably want to store the eq data and download it rather
+%              than regenerating every time.  
+% MZ NOTE:  input eq data here:  https://www.dropbox.com/scl/fi/j7gjlmi2ya1ys2ytl0tzu/spectrum_eq.zip?rlkey=tpky8bqshn2yuf0vvx5las98g&dl=0
 
-basedir="/Users/zettergm/simulations/sdcard/";
+basedir="/Users/zettergm/simulations/sdcard/simulations_spectrumtest/";
 direc = basedir+"spectrum_disturb/";
 %direc_eq = fullfile('..','fang2008_v_fang2010_eq');
 direc_eq = basedir+"spectrum_eq/";
-try
+%try
     cfg = gemini3d.read.config(direc);
     xg = gemini3d.grid.cartesian(cfg);
-catch
-    error('Please clone github.com/gemini3d/mat_gemini and add it to your path.')
-end 
+    
+%catch
+%    error('Please clone github.com/gemini3d/mat_gemini and add it to your path.')
+%end 
 
 Qps = [0.1, 1, 10, 100]; % mW/m^2
 Eps = [500,2000,10000,50000]; % eV

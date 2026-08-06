@@ -4,7 +4,7 @@ arguments
 end
 
 %direc0 = '.';
-direc0 = '/Users/zettergm/simulations/sdcard/spectrum_disturb/';
+direc0 = '/Users/zettergm/simulations/sdcard/simulations_spectrumtest/spectrum_disturb/';
 str_len = 108;
 hash_bar = [pad('',str_len,'both','#'),'\n'];
 

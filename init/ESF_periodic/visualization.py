@@ -33,13 +33,13 @@ plt.rc("figure", titlesize=BIGGER_SIZE)  # fontsize of the figure title
 #direc = Path(P.direc).expanduser()
 #plotdir = direc / "customplots"
 #plotdir.mkdir(exist_ok=True)
-direc="./ESF_testing_postdneu/"
-plotdir="./ESF_testing_postdneu/customplots/"
+direc="/Users/zettergm//simulations/sdcard/simulations_ESF/ESF_gaussian_nightQ"
+plotdir="/Users/zettergm//simulations/sdcard/simulations_ESF/ESF_gaussian_nightQ/customplots/"
 
 # read in simulation information grid,config
 cfg = read.config(direc)
 xg = read.grid(direc)
-parms = ["ne","Te","Ti","v1","v2"]
+parms = ["ne","Te","Ti","v1","v2","v3"]
 
 plt.subplots(1, 3, figsize=(16, 4.5), dpi=150)
 for it in range(0, len(cfg["time"])):
