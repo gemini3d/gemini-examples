@@ -84,8 +84,12 @@ for j = 1:4
     title(sprintf('Q = %.1f keV',ne(2*j+8*(i-1),2)/1e3))
     hold on
     for i = 1:4
-        ne2008 = ne(2*j-1 + 8*(i-1),4:end);
-        ne2010 = ne(2*j   + 8*(i-1),4:end);
+        ne2008 = 10.^ne(2*j-1 + 8*(i-1),4:end);
+        ne2010 = 10.^ne(2*j   + 8*(i-1),4:end);
+
+        % Force obvious failure state for testing
+%        ne2010 = 10.^ne(2*2   + 8*(3-2),4:end);       
+
 %        ne_err = 100*(ne2010-ne2008)./ne2010;
         ne_err = 100*(ne2010-ne2008)./ne2008;
 %        fprintf('\t| %5.1f%% %5.1f%% %5.1f%%',min(ne_err),max(ne_err),median(abs(ne_err)))
@@ -120,7 +124,7 @@ end
 saveas(gcf,fullfile(direc0,'fang2008_v_2010_err.png'))
 close all
 
-if (ne_err_table_max>5)
+if (ne_err_table_max>2.5)
    fprintf('FAILED:  %5.2f pct. error',ne_err_table_max);
 else
    fprintf('PASSED:  %5.2f pct. error',ne_err_table_max);
