@@ -9,7 +9,7 @@ Created on Wed Aug  5 13:57:47 2026
 import gemini3d.read
 import matplotlib.pyplot as plt
 
-direc="/Volumes/uSDCard1TB/simulations/Eq_ground/"
+direc="/Volumes/uSDCard1TB/simulations/simulations_ESF/ESF_gaussian_ground/"
 cfg=gemini3d.read.config(direc)
 xg=gemini3d.read.grid(direc)
 

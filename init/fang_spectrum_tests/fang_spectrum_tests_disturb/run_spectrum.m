@@ -1,4 +1,4 @@
-function run(gemini_bin)
+function run_spectrum(gemini_bin)
 arguments
     gemini_bin (1,1) string {mustBeFile}
 end
