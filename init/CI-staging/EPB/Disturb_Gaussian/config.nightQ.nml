@@ -3,7 +3,7 @@
 &base
 ymd = 2016,3,3               ! year, month, day
 UTsec0 = 4500.0              ! start time in UT seconds
-tdur =  10800.0                  ! duration of simulation in seconds
+tdur =  21600.0                  ! duration of simulation in seconds
 dtout = 600.0                  ! how often to do file output
 activ = 150.0,150.0,4.0       ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -22,13 +22,16 @@ dphi=2.5
 lp=128
 lq=128
 lphi=132
+!lp=512
+!lq=256
+!lphi=576
 altmin=80e3
 glat=8.35
 glon=283.1
 gridflag=1
 flagsource=0
 
-eq_dir = '~/simulations/sdcard/simulations_CI/ESF_eq/'
+eq_dir = '~/simulations/sdcard/ESF_eq/'
 
 setup_functions = 'perturb_ESF'
 /
@@ -52,11 +55,6 @@ flaggravdrift=.true.
 mcadence=5
 /
 
-! (optional - off by default) assume background current divergence free?
-&nodivJ0
-flagnodivJ0 = .true.
-/
-
 ! (optional - 0 by default) electron rotational and vibrational cooling
 &evibcool
 flagevibcool = 1
@@ -69,16 +67,4 @@ flagevibcool = 1
   flagnightQ=.true.    ! use newer photoionization calculation including nighttime Q
 /
 
-! (optional - default off) control equatorial ionization anomaly
-&EIA
-flagEIA = .true.              ! toggles EIA calculation
-v0equator = 10.0              ! equatorial peak drift value
-/
 
-! Set fill and min values for densities 
-!  (optional - defaults to reasonable values for most applications)
-&mindens_user
-  mindens_userval=1.0e3
-  mindensnull_userval=1.0e-20
-  mindensdiv_userval=1.0e-5
-/

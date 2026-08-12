@@ -22,7 +22,7 @@ def perturb_ESF(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
     mlon = np.rad2deg(xg["phi"])
     mlonmean = mlon.mean()
     mlatmean = 0.0
-    altmean = 300e3
+    altmean = 350e3
     sigmlon = 0.25
     sigmlat = 2.5
     sigalt = 15e3
@@ -32,7 +32,7 @@ def perturb_ESF(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
         * np.exp(-((mlat - mlatmean) ** 2) / 2 / sigmlat**2)
     )
     n1 = nsperturb[0, :, :, :]
-    n1perturb = n1 - shapefn * 0.25 * n1
+    n1perturb = n1 - shapefn * 0.5 * n1
     nsperturb[0, :, :, :] = n1perturb
     nsperturb = np.maximum(nsperturb, 1e4)
     # enforce a density floor (particularly need to pull out negative densities
