@@ -33,8 +33,12 @@ plt.rc("figure", titlesize=BIGGER_SIZE)  # fontsize of the figure title
 #direc = Path(P.direc).expanduser()
 #plotdir = direc / "customplots"
 #plotdir.mkdir(exist_ok=True)
-direc="/Users/zettergm//simulations/sdcard/simulations_ESF/Gaussian/ESF_periodic_ground_HWM/ESF_gaussian_ground/"
-plotdir="/Users/zettergm//simulations/sdcard/simulations_ESF/Gaussian/ESF_periodic_ground_HWM/ESF_gaussian_ground/customplots/"
+#direc="/Users/zettergm//simulations/sdcard/simulations_ESF/Gaussian/ESF_gaussian_ground_varHWM/"
+#plotdir="/Users/zettergm//simulations/sdcard/simulations_ESF/Gaussian/ESF_gaussian_ground_varHWM/customplots/"
+
+direc="/Users/zettergm//simulations/sdcard/simulations_ESF/Eq/Eq_ground_HWM/"
+plotdir="/Users/zettergm//simulations/sdcard/simulations_ESF/Eq/Eq_ground_HWM/customplots/"
+
 
 # read in simulation information grid,config
 cfg = read.config(direc)

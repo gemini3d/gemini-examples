@@ -1,7 +1,7 @@
 ! Equatorial spread F simulation example
 
 &base
-ymd = 2016,3,3               ! year, month, day
+ymd = 2016,3,2               ! year, month, day
 UTsec0 = 4500.0              ! start time in UT seconds
 tdur = 86400.0                  ! duration of simulation in seconds
 dtout = 3600.0                  ! how often to do file output
