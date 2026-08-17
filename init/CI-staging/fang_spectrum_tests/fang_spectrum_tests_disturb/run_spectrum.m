@@ -4,7 +4,8 @@ arguments
 end
 
 %direc0 = '.';
-direc0 = '/Users/zettergm/simulations/sdcard/simulations_spectrumtest/spectrum_disturb/';
+%direc0 = '/Users/zettergm/simulations/sdcard/simulations_spectrumtest/spectrum_disturb/';
+direc0="/Users/zettergm/simulations/ssd_ext/spectrumtest/spectrum_disturb";
 str_len = 108;
 hash_bar = [pad('',str_len,'both','#'),'\n'];
 
@@ -13,7 +14,7 @@ hash_bar = [pad('',str_len,'both','#'),'\n'];
 % flags = ["2008","2010"];
 Qps = [0.1, 1, 10, 100]; % mW/m^2
 Eps = [500,2000,10000,50000]; % eV
-flags = [2008,2010]; % Fang et al. (2008, 2010)
+flags = ["2008","2010","acc"]; % Fang et al. (2008, 2010)
 num_sims = length(Qps)*length(Eps)*length(flags);
 
 start0 = datetime;
@@ -25,7 +26,7 @@ for Ep = Eps
             start1 = datetime;
             dur_old = dur_avg;
             % sim_name = sprintf('fang%s_Qp=%s_Ep=%s',flag,Qp,Ep);
-            sim_name = sprintf('fang%i_Qp=%.0e_Ep=%.0e',flag,Qp,Ep);
+            sim_name = sprintf('fang%s_Qp=%.0e_Ep=%.0e',flag,Qp,Ep);
 
             fprintf(['\n',hash_bar])
             fprintf([pad(sprintf(' Name: %s ',sim_name),str_len,'both','#'),'\n'])

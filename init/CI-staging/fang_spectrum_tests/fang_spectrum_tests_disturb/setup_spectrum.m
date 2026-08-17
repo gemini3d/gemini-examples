@@ -10,25 +10,22 @@ function setup_spectrum
 % MZ NOTE:  Need to copy all nml files to "direc" for this to work.
 % MZ NOTE:  Need to set environment variable GEMINI_ROOT
 % MZ NOTE:  Need to run mat_gemini/setup.m
-% MZ NOTE:  We probably want to store the eq data and download it rather
-%              than regenerating every time.  
 % MZ NOTE:  input eq data here:  https://www.dropbox.com/scl/fi/j7gjlmi2ya1ys2ytl0tzu/spectrum_eq.zip?rlkey=tpky8bqshn2yuf0vvx5las98g&dl=0
 
-basedir="/Users/zettergm/simulations/sdcard/simulations_spectrumtest/";
+basedir="/Users/zettergm/simulations/ssd_ext/spectrumtest/";
 direc = basedir+"spectrum_disturb/";
 %direc_eq = fullfile('..','fang2008_v_fang2010_eq');
 direc_eq = basedir+"spectrum_eq/";
 %try
     cfg = gemini3d.read.config(direc);
     xg = gemini3d.grid.cartesian(cfg);
-    
 %catch
 %    error('Please clone github.com/gemini3d/mat_gemini and add it to your path.')
 %end 
 
 Qps = [0.1, 1, 10, 100]; % mW/m^2
 Eps = [500,2000,10000,50000]; % eV
-flags = [2008,2010]; % Fang et al. (2008, 2010)
+flags = ["2008","2010","acc"]; % Fang et al. (2008, 2010)
 
 %% prepare inputs
 ymd = cfg.ymd;
@@ -82,12 +79,12 @@ E.times = datetime(ymd) + seconds(UTsec0+itE0);
 for Qp = Qps
     for Ep = Eps
         for flag = flags
-            direc_sim = fullfile(direc, sprintf('fang%i_Qp=%.0e_Ep=%.0e',flag,Qp,Ep));
+            direc_sim = fullfile(direc, sprintf('fang%s_Qp=%.0e_Ep=%.0e',flag,Qp,Ep));
             if isfolder(direc_sim)
                 fprintf('Skipped %s\n',direc_sim)
                 continue
             end
-            cfg_fn = sprintf('config%i.nml',flag);
+            cfg_fn = sprintf('config%s.nml',flag);
             mkdir(direc_sim)
             mkdir(fullfile(direc_sim,'inputs'))
             copyfile(fullfile(direc,cfg_fn), ...
