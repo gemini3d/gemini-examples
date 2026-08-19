@@ -1,0 +1,65 @@
+! Equatorial spread F simulation example
+
+&base
+ymd = 2016,3,3               ! year, month, day
+UTsec0 = 4500.0              ! start time in UT seconds
+tdur = 43200.0                  ! duration of simulation in seconds
+dtout = 900.0                  ! how often to do file output
+activ = 150.0,150.0,4.0       ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&flags
+potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 1    ! whether periodic
+flagoutput = 1      ! 1 - full output
+/
+
+&setup
+dtheta=6.25
+dphi=10
+lp=256
+lq=256
+lphi=1
+altmin=80e3
+glat=12
+glon=283.1
+gridflag=1
+flagsource=0
+
+eqdir = '~/simulations/ssd_ext/CI/nightQ/Eq/'
+/
+
+&files
+file_format='h5'
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+! (optional - default off) allow neutral background atmosphere to change during simulation
+!&neutral_BG
+!flagneuBG = .true.       ! on or off
+!dtneuBG = 600.0          ! how often to call MSIS and HWM (if applicable)
+!msis_version = 0         ! 0 or 20; which MSIS version to use, MSIS00 or MSIS 2.1
+!/
+
+&Jpar
+flagJpar=.false.     !parallel currents perhaps not meangingful in ESF simulation?
+/
+
+&gravdrift
+flaggravdrift=.false.
+/
+
+! (optional - default off) control equatorial ionization anomaly
+&EIA
+flagEIA = .true.              ! toggles EIA calculation
+v0equator = 10.0              ! equatorial peak drift value
+/
+
+! (optional - off by default)
+&nightQ
+  flagnightQ=.true.    ! use newer photoionization calculation including nighttime Q
+/
