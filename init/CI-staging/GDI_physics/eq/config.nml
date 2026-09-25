@@ -1,0 +1,40 @@
+&base
+ymd = 2020,1,1               ! year, month, day
+UTsec0 = 61200.0              ! start time in UT seconds
+tdur = 43200.0                  ! duration of simulation in seconds
+dtout = 1800.0                  ! how often to do output
+activ = 150.0,150.0,50.0      ! f107a,f107,Ap
+tcfl = 0.9                    ! target cfl number
+Teinf = 1500.0                ! exospheric electron temperature
+/
+
+&setup
+glat = 74.72955
+glon = 265.09424
+xdist = 1500e3             ! eastward distance (meters)
+ydist = 40e3             ! northward distance (meters)
+lxp = 16
+lyp = 16
+Bincl = 90
+nmf = 5e11
+nme = 2e11
+alt_min = 80e3
+alt_max = 1000e3
+alt_scale = 50e3, 45e3, 400e3, 150e3
+/
+
+&flags
+potsolve = 0      ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagoutput = 1
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
+
+&precip_BG
+PhiWBG = 1e-6
+W0BG = 1e3
+/
