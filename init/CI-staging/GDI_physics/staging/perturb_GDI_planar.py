@@ -41,8 +41,8 @@ def perturb_GDI_planar(cfg: dict[str, T.Any], xg: dict[str, T.Any]):
 
     # %% GDI EXAMPLE (PERIODIC) INITIAL DENSITY STRUCTURE AND SEEDING
     ell = 100         # gradient scale length for patch/blob
-    x21 = -3e3       # location on one of the patch edges
-    x22 = -1e3       # other patch edge
+    x21 = -5e3       # location on one of the patch edges
+    x22 = -3e3       # other patch edge
     nepatchfact = 10   # density increase factor over background
     # Add patch to background
     expanded_x2 = np.expand_dims(x2, axis=(0,1,3))

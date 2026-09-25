@@ -13,9 +13,9 @@ Teinf = 1500.0                ! exospheric electron temperature
 &setup
 glat = 74.72955
 glon = 265.09424
-xdist = 10.24e3             ! eastward distance (meters), including a large low-res buffer for solvers
+xdist = 15.36e3             ! eastward distance (meters), including a large low-res buffer for solvers
 ydist = 2.e3             ! northward distance (meters), make sure ydist/lyp is similar resolution to what's used in x direction
-lxp = 256
+lxp = 384
 lyp = 48		! Make a multiple of number of processers (ie, 192)
 !x2parms = 50e3,2.5e3,9.5e3,10e3
 Bincl = 90
@@ -23,7 +23,7 @@ alt_min = 80e3
 alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3     ! super coarse along the field line
 
-eq_dir = '~/simulations/sdcard/GDI_KHI_eq/'    	! point to equilibrium simulation
+eq_dir = '~/simulations/sdcard/GDI_physics/eq/'    	! point to equilibrium simulation
 
 setup_functions = 'perturb_GDI_planar'
 /
