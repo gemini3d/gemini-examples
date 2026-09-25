@@ -3,7 +3,7 @@
 &base
 ymd = 2020,1,2               ! year, month, day
 UTsec0 = 18000.0              ! start time in UT seconds
-tdur = 12.0                  ! duration of simulation in seconds
+tdur = 20.0                  ! duration of simulation in seconds
 dtout = 1.0                  ! how often to do file output
 activ = 150.0,150.0,50.0      ! f107a,f107,Ap
 tcfl = 0.9                    ! target cfl number
@@ -13,9 +13,9 @@ Teinf = 1500.0                ! exospheric electron temperature
 &setup
 glat = 74.72955
 glon = 265.09424
-xdist = 10.24e3             ! eastward distance (meters), including a large low-res buffer for solvers
+xdist = 15.36e3             ! eastward distance (meters), including a large low-res buffer for solvers
 ydist = 2.e3             ! northward distance (meters), make sure ydist/lyp is similar resolution to what's used in x direction
-lxp = 512
+lxp = 768
 lyp = 96		! Make a multiple of number of processers (ie, 192)
 !x2parms = 50e3,1.e3,9.5e3,10e3
 Bincl = 90
@@ -24,7 +24,7 @@ alt_max = 975e3
 alt_scale = 50e3, 45e3, 400e3, 150e3 ! super coarse along the field line
 Eyit = -20e-3
 
-eq_dir = '~/simulations/sdcard/GDI_staging'	! point to equilibrium simulation
+eq_dir = '~/simulations/sdcard/GDI_physics/staging'	! point to equilibrium simulation
 
 setup_functions = 'perturb_add_noise', 'gemini3d.efield.Efield_BCs'
 /
@@ -58,8 +58,8 @@ W0BG=1e3       ! characteristic energy
 /
 
 &capacitance
-flagcap=2       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
-magcap=5.0
+flagcap=1       !use inertial capacitance? 0 - set all to zero, 1 - use ionosphere to compute, 2 - add a magnetospheric part
+magcap=0.0
 /
 
 &milestone
