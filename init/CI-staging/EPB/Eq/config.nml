@@ -59,6 +59,11 @@ flagEIA = .true.              ! toggles EIA calculation
 v0equator = 10.0              ! equatorial peak drift value
 /
 
+! (optional - off by default)
+&nightQ
+  flagnightQ=.true.    ! use newer photoionization calculation including nighttime Q
+/
+
 ! Set fill and min values for densities
 !  (optional - defaults to reasonable values for most applications)
 &mindens_user
